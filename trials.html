@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clinical Trials — Tinnitus Atlas</title>
+<meta name="description" content="Tinnitus clinical trials worth watching: recruiting, active and completed studies with phases, sponsors and completion dates.">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="trials">
+<a class="skip-link" href="#content">Skip to content</a>
+<main id="content" class="wrap">
+  <section class="hero" style="padding-bottom:0">
+    <h1>Clinical trials</h1>
+    <p class="lead">The studies that could change tinnitus treatment, with status and estimated completion dates
+    from ClinicalTrials.gov. Only verifiable dates are shown.</p>
+  </section>
+  <div class="searchbar" role="search"><span aria-hidden="true">🔎</span>
+    <input id="trsearch" type="search" placeholder="Search trials, sponsors, NCT numbers…" aria-label="Search trials"></div>
+  <div class="chips" id="trial-chips" role="group" aria-label="Filter trials">
+    <button class="chip" data-k="status" data-v="recruit">Recruiting</button>
+    <button class="chip" data-k="status" data-v="active">Active</button>
+    <button class="chip" data-k="status" data-v="complete">Completed</button>
+    <button class="chip" data-k="phase" data-v="2">Phase 2</button>
+    <button class="chip" data-k="phase" data-v="3">Phase 3</button>
+  </div>
+  <div id="trlist" class="grid grid-2" style="margin-top:6px"></div>
+</main>
+<script src="js/app.js"></script>
+</body>
+</html>

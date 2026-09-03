@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About & Methodology — Tinnitus Atlas</title>
+<meta name="description" content="How Tinnitus Atlas evaluates evidence: tiers, scores, source hierarchy, the human review process, and the full medical disclaimer.">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="about">
+<a class="skip-link" href="#content">Skip to content</a>
+<main id="content" class="wrap prose">
+  <section class="hero" style="padding-bottom:0">
+    <h1>About Tinnitus Atlas</h1>
+    <p class="lead">A continuously updated map of the tinnitus treatment landscape. Not a blog, not a store,
+    not affiliated with any treatment — an attempt to answer one question honestly:
+    <em>what does the best current evidence actually tell us about tinnitus treatment, and what is changing?</em></p>
+    <p class="small muted" id="about-meta"></p>
+  </section>
+
+  <h2>The one distinction that matters most</h2>
+  <p><strong>🔉 Loudness</strong> means the tinnitus percept itself became quieter or less present —
+  measured with psychoacoustic loudness matching or loudness ratings.
+  <strong>🧠 Distress</strong> means the person's reaction improved — lower THI or TFI questionnaire scores,
+  better sleep, less anxiety, better quality of life — while the sound may be unchanged.
+  Most treatments with good evidence improve distress, not loudness. We show both, separately, everywhere,
+  and never present a distress improvement as if the sound got quieter.</p>
+
+  <h2>Evidence tiers</h2>
+  <ul>
+    <li><strong style="color:var(--c-strong)">Tier 1 — Strongest current evidence.</strong> Quality trials, meaningful benefit, reproducibility, safety, independent research, availability.</li>
+    <li><strong style="color:var(--c-promising)">Tier 2 — Promising.</strong> Meaningful human results with limitations: small trials, limited replication, manufacturer funding, short follow-up.</li>
+    <li><strong style="color:var(--c-emerging)">Tier 3 — Experimental / emerging.</strong> Interesting mechanism or early evidence, insufficient proof.</li>
+    <li><strong style="color:var(--c-watch)">Tier 4 — Symptom management / coping.</strong> Improves distress, sleep or quality of life with limited evidence of loudness change.</li>
+    <li><strong style="color:var(--c-weak)">Tier 5 — Weak or unsupported.</strong> Poor-quality or contradictory evidence, failed trials, or heavy marketing with weak science.</li>
+  </ul>
+
+  <h2>Evidence score (1–5)</h2>
+  <p>Scored from study quality, size, randomization, blinding, sham/placebo control, independent replication,
+  clinical significance, follow-up length, safety, conflicts of interest and regulatory evidence.
+  The reasoning behind every score is stored and shown on the treatment page, and score changes are
+  logged in each treatment's change history with the reason.</p>
+
+  <h2>Source hierarchy</h2>
+  <p>When the same development appears in many places we rank credibility roughly as: regulatory record /
+  original trial → peer-reviewed original research → systematic review / meta-analysis → university or hospital
+  publication → trial registry → professional medical organization → reputable medical journalism → company
+  press release → general media → blogs and testimonials. A lower source never overrides stronger primary evidence,
+  and marketing claims are always kept separate from research evidence.</p>
+
+  <h2>Skepticism, both ways</h2>
+  <p>We actively flag: marketing beyond the published evidence, manufacturer-sponsored studies, missing sham
+  controls, self-report-only results, small samples, short follow-up, subgroup-only effects, high dropout,
+  and press releases stronger than the papers behind them. We also avoid dismissing a treatment merely because
+  it is new. Failed and negative trials are shown prominently — they are information, not embarrassments.</p>
+
+  <h2>How updates happen</h2>
+  <p>A weekly automated scan checks PubMed, ClinicalTrials.gov and regulatory sources for new tinnitus research.
+  Every candidate finding goes into a human review queue with the proposed change, the reasoning, and the
+  supporting and conflicting studies. <strong>Nothing publishes automatically.</strong> Approved changes appear
+  in the weekly report and in each treatment's change history.</p>
+
+  <h2 id="disclaimer">Medical disclaimer</h2>
+  <div class="notice" style="border-color:var(--line);background:var(--surface-2)">
+    <p style="margin-top:0">Tinnitus Atlas is an educational and scientific information resource. It:</p>
+    <ul>
+      <li>does <strong>not</strong> diagnose tinnitus or any medical condition;</li>
+      <li>does <strong>not</strong> provide personalized medical advice;</li>
+      <li>does <strong>not</strong> replace an ENT physician, audiologist, or other qualified professional —
+          if you have tinnitus, especially new, pulsatile or one-sided tinnitus, see a clinician;</li>
+      <li>ranks treatments as an <strong>evaluation of available evidence</strong>, which can change as science evolves;</li>
+      <li>cannot predict individual results — tinnitus subtypes differ and individual responses differ.</li>
+    </ul>
+    <p style="margin-bottom:0">Never start, stop or change a treatment based on this site without professional advice.</p>
+  </div>
+
+  <h2>Transparency</h2>
+  <p>Every treatment page shows: last reviewed date, evidence-included-through date, number of studies,
+  evidence score with reasoning, a confidence level, and its full change history. Facts we could not verify
+  against a primary source are marked low-confidence rather than guessed.</p>
+</main>
+<script src="js/app.js"></script>
+</body>
+</html>
