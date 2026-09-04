@@ -271,3 +271,9 @@ a.drow{color:var(--text)} a.drow:hover{text-decoration:none;background:var(--sur
 .week-item{border-left:3px solid var(--w-c,var(--c-promising));padding:2px 0 2px 12px;margin:12px 0}
 .week-item .t{font-weight:600}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* crawlable breadcrumbs + static footer links (footer-links is folded into the JS footer when app.js runs) */
+.crumbs{color:var(--muted)}
+.crumbs a{color:var(--c-promising);text-decoration:none}
+.footer-links{border-top:1px solid var(--line);margin-top:40px;padding:18px 0 90px;color:var(--muted)}
+.footer-links a{color:var(--c-promising);text-decoration:none}

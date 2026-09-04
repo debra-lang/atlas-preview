@@ -1,0 +1,9 @@
+# Tinnitus Evidence — PRODUCTION robots.txt
+# Deploy as robots.txt ONLY as the final launch action, after the scientific launch gate
+# (production AI benchmark) and the SEO gate both pass.
+User-agent: *
+Disallow: /admin.html
+Disallow: /preview.html
+Allow: /
+
+Sitemap: https://tinnitusevidence.com/sitemap.xml

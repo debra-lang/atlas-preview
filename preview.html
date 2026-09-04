@@ -1,4 +1,5 @@
 <meta charset="utf-8">
+<meta name="robots" content="noindex">
 <title>Tinnitus Evidence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -276,6 +277,12 @@ a.drow{color:var(--text)} a.drow:hover{text-decoration:none;background:var(--sur
 .week-item{border-left:3px solid var(--w-c,var(--c-promising));padding:2px 0 2px 12px;margin:12px 0}
 .week-item .t{font-weight:600}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* crawlable breadcrumbs + static footer links (footer-links is folded into the JS footer when app.js runs) */
+.crumbs{color:var(--muted)}
+.crumbs a{color:var(--c-promising);text-decoration:none}
+.footer-links{border-top:1px solid var(--line);margin-top:40px;padding:18px 0 90px;color:var(--muted)}
+.footer-links a{color:var(--c-promising);text-decoration:none}
 
 </style>
 <div id="app"></div>
@@ -634,6 +641,25 @@ a.drow{color:var(--text)} a.drow:hover{text-decoration:none;background:var(--sur
     </ul>
     <p style="margin-bottom:0">Never start, stop or change a treatment based on this site without professional advice.</p>
   </div>
+
+  <h2 id="corrections">Corrections &amp; editorial integrity</h2>
+  <p>Evidence changes, and so do we — visibly. Our trust model:</p>
+  <ul>
+    <li><strong>Corrections are made and shown, not hidden.</strong> When a factual error is found — by our own
+    audits or by a reader — the record is corrected and the change is logged in that record's public history with
+    what changed, the source, and why.</li>
+    <li><strong>Retractions and errata are monitored.</strong> Every cited paper is re-checked monthly against
+    PubMed and Crossref; a detected notice is flagged visibly on the study record and reviewed for evidence impact.</li>
+    <li><strong>Material evidence changes are verified before ratings change.</strong> New findings that could change
+    a score, tier, ranking or safety assessment are held for verification — the published assessment stands unchanged
+    until the review completes, and the change (or the decision not to change) is documented.</li>
+    <li><strong>Ranking changes are documented</strong> in the ranking history with reasons, and ranking uncertainty
+    is disclosed rather than smoothed over.</li>
+    <li><strong>Uncertainty is retained.</strong> "Not yet assessed," "conflicting results" and "unable to verify"
+    are honest states we display, never gaps we paper over.</li>
+  </ul>
+  <p class="small muted">Spotted an error? The fastest route is the correction process above — every claim on this
+  site links to its primary source so you can check us.</p>
 
   <h2>Transparency</h2>
   <p>Every treatment page shows: last reviewed date, evidence-included-through date, number of studies,
@@ -1168,7 +1194,7 @@ window.__TA_DATA__ = {"meta":{"name":"Tinnitus Evidence","tagline":"What does th
   const NAV_MORE = [['search.html', 'Search'], ['profile.html', 'My Profile'], ['compare.html', 'Compare'], ['institutions.html', 'Institutions'], ['about.html', 'About']];
 
   function chrome() {
-    $$('.topbar, .bottomnav, .footer').forEach(el => el.remove()); // idempotent (single-file router re-runs it)
+    $$('.topbar, .bottomnav, .footer, .footer-links').forEach(el => el.remove()); // idempotent (static footer-links block is folded into the JS footer below)
     const brand = (DB && DB.meta && DB.meta.name) || 'Tinnitus Atlas';
     // keep the brand configurable: page titles follow data/meta.json
     if (DB && document.title.includes('Tinnitus Atlas')) {
@@ -1203,6 +1229,10 @@ window.__TA_DATA__ = {"meta":{"name":"Tinnitus Evidence","tagline":"What does th
       tinnitus, does not provide personalized medical advice, and does not replace an ENT physician, audiologist, or
       other qualified professional. Treatment rankings reflect our evaluation of available evidence; scientific
       understanding changes and individual results differ. <a href="about.html#disclaimer">Full disclaimer & methodology</a>.</p>
+      <p class="small"><a href="treatments/">Tinnitus treatments</a> · <a href="trials/">Clinical trials</a> ·
+      <a href="research/">Research records</a> · <a href="guides/tinnitus-treatments/">Strongest evidence</a> ·
+      <a href="guides/tinnitus-loudness-vs-distress/">Loudness vs distress</a> ·
+      <a href="about.html#limitations">Research limitations</a> · <a href="about.html#corrections">Corrections &amp; editorial integrity</a></p>
       <p class="small" id="foot-meta"></p></div>`;
     document.body.append(foot);
   }
@@ -1422,7 +1452,13 @@ window.__TA_DATA__ = {"meta":{"name":"Tinnitus Evidence","tagline":"What does th
     const t = DB.tById[qs('id')];
     const root = $('#tdetail');
     if (!t) { root.innerHTML = '<div class="empty">Treatment not found. <a href="treatments.html">Browse all treatments</a></div>'; return; }
-    document.title = t.name + ' — ' + ((DB.meta && DB.meta.name) || 'Tinnitus Atlas');
+    document.title = (t.name.toLowerCase().includes('tinnitus') ? t.name + ': Research & Evidence' : t.name + ' for Tinnitus: Research & Evidence') + ' | ' + ((DB.meta && DB.meta.name) || 'Tinnitus Evidence');
+    // canonicalize the query-string view onto the static crawlable page for this treatment
+    let canon = document.querySelector('link[rel="canonical"]');
+    if (!canon) { canon = document.createElement('link'); canon.rel = 'canonical'; document.head.appendChild(canon); }
+    canon.href = 'https://tinnitusevidence.com/treatments/' + t.id + '/';
+    const md = document.querySelector('meta[name="description"]');
+    if (md && t.oneLiner) md.content = ('Current evidence for ' + t.name + ' and tinnitus: ' + t.oneLiner).slice(0, 300);
     const cat = DB.catById[t.category] || {};
     const rEntry = DB.rankings.top.find(r => r.id === t.id);
     const rank = (rEntry || {}).rank;

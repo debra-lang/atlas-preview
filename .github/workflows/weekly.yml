@@ -62,11 +62,15 @@ jobs:
               -out data/review-queue/held.json.enc -pass env:STATE_KEY
           fi
           rm -f data/review-queue/held.json
+      - name: Regenerate SEO static pages + regression checks
+        run: |
+          python tools/build_seo.py
+          python tools/check_seo.py
       - name: Commit results and redeploy site
         run: |
           git config user.name "tinnitus-evidence-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A data engine
+          git add -A data engine treatments trials research guides sitemap.xml
           if git diff --cached --quiet; then
             echo "No changes to commit (quiet cycle)."
           else

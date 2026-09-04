@@ -303,7 +303,7 @@
   const NAV_MORE = [['search.html', 'Search'], ['profile.html', 'My Profile'], ['compare.html', 'Compare'], ['institutions.html', 'Institutions'], ['about.html', 'About']];
 
   function chrome() {
-    $$('.topbar, .bottomnav, .footer').forEach(el => el.remove()); // idempotent (single-file router re-runs it)
+    $$('.topbar, .bottomnav, .footer, .footer-links').forEach(el => el.remove()); // idempotent (static footer-links block is folded into the JS footer below)
     const brand = (DB && DB.meta && DB.meta.name) || 'Tinnitus Atlas';
     // keep the brand configurable: page titles follow data/meta.json
     if (DB && document.title.includes('Tinnitus Atlas')) {
@@ -338,6 +338,10 @@
       tinnitus, does not provide personalized medical advice, and does not replace an ENT physician, audiologist, or
       other qualified professional. Treatment rankings reflect our evaluation of available evidence; scientific
       understanding changes and individual results differ. <a href="about.html#disclaimer">Full disclaimer & methodology</a>.</p>
+      <p class="small"><a href="treatments/">Tinnitus treatments</a> · <a href="trials/">Clinical trials</a> ·
+      <a href="research/">Research records</a> · <a href="guides/tinnitus-treatments/">Strongest evidence</a> ·
+      <a href="guides/tinnitus-loudness-vs-distress/">Loudness vs distress</a> ·
+      <a href="about.html#limitations">Research limitations</a> · <a href="about.html#corrections">Corrections &amp; editorial integrity</a></p>
       <p class="small" id="foot-meta"></p></div>`;
     document.body.append(foot);
   }
@@ -557,7 +561,13 @@
     const t = DB.tById[qs('id')];
     const root = $('#tdetail');
     if (!t) { root.innerHTML = '<div class="empty">Treatment not found. <a href="treatments.html">Browse all treatments</a></div>'; return; }
-    document.title = t.name + ' — ' + ((DB.meta && DB.meta.name) || 'Tinnitus Atlas');
+    document.title = (t.name.toLowerCase().includes('tinnitus') ? t.name + ': Research & Evidence' : t.name + ' for Tinnitus: Research & Evidence') + ' | ' + ((DB.meta && DB.meta.name) || 'Tinnitus Evidence');
+    // canonicalize the query-string view onto the static crawlable page for this treatment
+    let canon = document.querySelector('link[rel="canonical"]');
+    if (!canon) { canon = document.createElement('link'); canon.rel = 'canonical'; document.head.appendChild(canon); }
+    canon.href = 'https://tinnitusevidence.com/treatments/' + t.id + '/';
+    const md = document.querySelector('meta[name="description"]');
+    if (md && t.oneLiner) md.content = ('Current evidence for ' + t.name + ' and tinnitus: ' + t.oneLiner).slice(0, 300);
     const cat = DB.catById[t.category] || {};
     const rEntry = DB.rankings.top.find(r => r.id === t.id);
     const rank = (rEntry || {}).rank;
