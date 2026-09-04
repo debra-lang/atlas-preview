@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.tmp
+# internal review material: plaintext held queue must NEVER be committed (only held.json.enc)
+data/review-queue/held.json
+engine/last-run.log

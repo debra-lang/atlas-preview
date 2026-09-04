@@ -1,19 +1,21 @@
-# Tinnitus Evidence — production weekly research cycle.
-# Runs entirely on GitHub infrastructure: no local machine required.
+# Tinnitus Evidence — production weekly research cycle (serverless).
 #
-# scan -> AI evaluation (ANTHROPIC_API_KEY from repo Secrets; never in code) -> verification
-# -> routine updates publish automatically -> consequential changes HELD (public ratings never
-# auto-change) -> site redeploys via GitHub Pages.
+# scan -> AI evaluation (ANTHROPIC_API_KEY from Secrets) -> verification -> routine publish
+# -> consequential changes HELD -> bot commit -> GitHub Pages redeploy.
 #
-# A failed run changes nothing (all public-data writes in weekly_cycle.py are atomic) and shows
-# up as a failed Actions run (GitHub emails the repo owner by default).
+# PRIVACY (public repo): the held-changes queue contains unpublished internal review material
+# (raw AI proposed-change reports). It is stored ONLY encrypted (held.json.enc, AES-256, key =
+# STATE_KEY repo secret); the plaintext never gets committed, and the job refuses to run/commit
+# if held items exist without the key. The awaiting-evaluation queue is public-safe by
+# construction: it holds only bibliographic metadata, never evaluation output (evaluated items
+# are routed out of it in the same run).
 name: Weekly research cycle
 on:
   schedule:
-    - cron: "0 6 * * 1"          # Mondays 06:00 UTC
-  workflow_dispatch: {}           # manual trigger from the Actions tab
+    - cron: "0 14 * * 1"          # Mondays 14:00 UTC ≈ 06:00 Pacific (PDT; 07:00 during PST)
+  workflow_dispatch: {}
   push:
-    paths: [".github/workflows/weekly.yml"]   # self-test on workflow changes (bot data commits don't match)
+    paths: [".github/workflows/weekly.yml"]   # self-test on workflow changes only
 concurrency:
   group: weekly-cycle
   cancel-in-progress: false
@@ -29,10 +31,36 @@ jobs:
           python-version: "3.12"
       - name: Install evaluator SDK
         run: pip install anthropic
+      - name: Restore private held-state
+        env:
+          STATE_KEY: ${{ secrets.STATE_KEY }}
+        run: |
+          if [ -f data/review-queue/held.json.enc ]; then
+            if [ -z "$STATE_KEY" ]; then
+              echo "::error::held.json.enc exists but the STATE_KEY secret is missing — cannot process holds safely."
+              exit 1
+            fi
+            openssl enc -d -aes-256-cbc -pbkdf2 -in data/review-queue/held.json.enc \
+              -out data/review-queue/held.json -pass env:STATE_KEY
+          fi
       - name: Run weekly cycle
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python engine/weekly_cycle.py
+      - name: Protect private held-state (never commit plaintext)
+        env:
+          STATE_KEY: ${{ secrets.STATE_KEY }}
+        run: |
+          ITEMS=$(python -c "import json;print(len(json.load(open('data/review-queue/held.json'))['items']))" 2>/dev/null || echo 0)
+          if [ "$ITEMS" != "0" ]; then
+            if [ -z "$STATE_KEY" ]; then
+              echo "::error::$ITEMS held item(s) exist but STATE_KEY secret is not set — refusing to commit internal review material to a public repo. Add the STATE_KEY secret and re-run; nothing was published or lost (source items remain in the committed queue)."
+              exit 1
+            fi
+            openssl enc -aes-256-cbc -pbkdf2 -salt -in data/review-queue/held.json \
+              -out data/review-queue/held.json.enc -pass env:STATE_KEY
+          fi
+          rm -f data/review-queue/held.json
       - name: Commit results and redeploy site
         run: |
           git config user.name "tinnitus-evidence-bot"
@@ -45,5 +73,3 @@ jobs:
             git push origin main
           fi
           git push -f origin main:gh-pages   # GitHub Pages serves gh-pages
-
-# rev 2: credential pre-flight + verified-only feeds

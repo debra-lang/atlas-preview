@@ -33,7 +33,7 @@ sys.path.insert(0, str(ENGINE))
 import weekly_scan  # noqa: E402  (scan_pubmed / scan_ctgov / scan_feeds)
 import evaluate_queue  # noqa: E402
 
-SCHEDULE_TEXT = "Every Monday 06:00 UTC via GitHub Actions (.github/workflows/weekly.yml in the production repo); local Task Scheduler task disabled"
+SCHEDULE_TEXT = "Every Monday 14:00 UTC (≈06:00 Pacific) via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled"
 TRUSTED_DOMAINS = (
     "pubmed.ncbi.nlm.nih.gov", "ncbi.nlm.nih.gov", "clinicaltrials.gov", "fda.gov",
     "accessdata.fda.gov", "nih.gov", "nidcd.nih.gov", "cochranelibrary.com", "cochrane.org",
@@ -45,9 +45,10 @@ COMPANY_HINTS = ("businesswire", "prnewswire", "globenewswire", "press-release",
 
 
 def next_monday_6am():
-    now = datetime.now()
+    from datetime import timezone
+    now = datetime.now(timezone.utc)
     d = now + timedelta(days=((7 - now.weekday()) % 7) or 7)
-    return d.replace(hour=6, minute=0, second=0, microsecond=0).isoformat(timespec="minutes")
+    return d.replace(hour=14, minute=0, second=0, microsecond=0).strftime("%Y-%m-%dT%H:%M UTC")
 
 
 class Cycle:
