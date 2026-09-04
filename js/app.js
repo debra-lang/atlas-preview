@@ -138,19 +138,19 @@
      (hatched, NOT zero — unknown is not the same as weak). No invented percentages. */
   const SEG = { strong: 4, moderate: 3, limited: 2, weak: 1, none: 0 };
   const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
-  function segbar(n, na) {
+  function segbar(n, na, total) {
+    total = total || 4; // evidence quality uses 5 (one segment per score point); qualitative dims use 4
     let s = '';
-    for (let i = 1; i <= 4; i++) s += `<i class="${!na && i <= n ? 'on' : ''}"></i>`;
+    for (let i = 1; i <= total; i++) s += `<i class="${!na && i <= n ? 'on' : ''}"></i>`;
     return `<span class="segbar${na ? ' na' : ''}" aria-hidden="true">${s}</span>`;
   }
   function epDims(t) {
     const availW = availWord(t);
     const availSeg = { 'Available': 4, 'Limited availability': 3, 'Clinical trials / research only': 1, 'Not yet available': 0 }[availW] ?? 0;
     const lv = o => ({ segs: SEG[o.level] ?? 0, word: LV_LABELS[o.level] || cap(o.level), na: false });
-    const q4 = Math.min(4, t.evidenceScore); // 5/5 renders full bar; label keeps the /5 truth
     return [
-      { label: 'Evidence quality', segs: q4, word: `${EVIDENCE_WORDS[t.evidenceScore]} (${t.evidenceScore}/5)`, na: false,
-        def: 'How strong and rigorous is the underlying clinical evidence?' },
+      { label: 'Evidence quality', segs: t.evidenceScore, total: 5, word: `${EVIDENCE_WORDS[t.evidenceScore]} (${t.evidenceScore}/5)`, na: false,
+        def: 'How strong and rigorous is the underlying clinical evidence? (5 segments — one per point of the 1–5 evidence score, so 4/5 and 5/5 look different.)' },
       { label: 'Replication', segs: SEG[t.replication] ?? 0, word: t.replication ? cap(t.replication) : 'Not yet assessed', na: t.replication == null,
         def: 'Have the positive findings been reproduced in independent or multiple studies?' },
       { label: 'Loudness evidence', ...lv(t.loudness),
@@ -166,12 +166,13 @@
   function evidenceProfile(t) {
     const dims = epDims(t);
     return `<div class="eprofile"><div class="k">Evidence profile</div>
-      ${dims.map(d => `<div class="eprow"><span class="lab">${esc(d.label)}</span>${segbar(d.segs, d.na)}
+      ${dims.map(d => `<div class="eprow"><span class="lab">${esc(d.label)}</span>${segbar(d.segs, d.na, d.total)}
         <span class="val">${esc(d.word)}</span></div>`).join('')}
       <details><summary>What does each bar mean?</summary>
         <ul class="small">${dims.map(d => `<li><strong>${esc(d.label)}:</strong> ${esc(d.def)}</li>`).join('')}
-        <li class="muted">Bars show qualitative categories from the reviewed database (Strong=4 segments · Moderate=3 ·
-        Limited=2 · Weak=1 · None=0). A hatched bar means "not yet assessed" — unknown is not the same as weak.
+        <li class="muted">Evidence quality shows the 1–5 score directly (one segment per point). The other bars show
+        qualitative categories from the reviewed database (Strong=4 segments · Moderate=3 · Limited=2 · Weak=1 · None=0).
+        A hatched bar means "not yet assessed" — unknown is not the same as weak.
         No percentages are shown because tinnitus studies measure different outcomes; a single "effectiveness %"
         would be scientifically misleading.</li></ul>
       </details></div>`;
@@ -716,7 +717,7 @@
       const av = t => t.availability || {};
       const row = (label, fn) => `<tr><td>${label}</td>${list.map(t => `<td>${fn(t)}</td>`).join('')}</tr>`;
       const dimRow = i => `<tr><td>${esc(epDims(list[0])[i].label)}</td>${list.map(t => { const d = epDims(t)[i];
-        return `<td>${segbar(d.segs, d.na)}<div class="small" style="font-weight:600;margin-top:3px">${esc(d.word)}</div></td>`; }).join('')}</tr>`;
+        return `<td>${segbar(d.segs, d.na, d.total)}<div class="small" style="font-weight:600;margin-top:3px">${esc(d.word)}</div></td>`; }).join('')}</tr>`;
       out.innerHTML = `<div class="cmp-scroll"><table class="cmp">
         <thead><tr><th></th>${list.map(t => `<th><a href="treatment.html?id=${esc(t.id)}">${esc(t.name)}</a></th>`).join('')}</tr></thead>
         <tbody>
