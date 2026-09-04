@@ -231,6 +231,8 @@ table.cmp thead th{font-family:var(--font-display)}
 .segbar i{flex:1;border-radius:3px;background:var(--surface-2);border:1px solid var(--line)}
 .segbar i.on{background:var(--seg-c,var(--c-promising));border-color:transparent}
 .segbar.na i{background:repeating-linear-gradient(45deg,var(--surface-2),var(--surface-2) 3px,var(--line) 3px,var(--line) 5px)}
+/* Conflicting replication: its own state (amber stripes), never a level on the positive scale */
+.segbar.conflict i.cf{background:repeating-linear-gradient(135deg,var(--c-watch),var(--c-watch) 3px,var(--surface-2) 3px,var(--surface-2) 6px);border-color:var(--c-watch);opacity:.85}
 .eprofile details{margin-top:8px}
 .eprofile summary{cursor:pointer;font-size:.82rem;color:var(--c-promising);font-weight:600}
 

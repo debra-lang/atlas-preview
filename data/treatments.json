@@ -52,7 +52,12 @@
       "fuller-2020-cochrane",
       "uniti-2025",
       "beukes-2022-icbt",
-      "mazurek-2025-overview"
+      "mazurek-2025-overview",
+      "cima-2012",
+      "guideline-aaohns-2014",
+      "guideline-nice-ng155",
+      "guideline-eu-2019",
+      "juris-2014-hyperacusis-cbt"
     ],
     "timeline": [
       {
@@ -84,6 +89,16 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 1, evidence score 4/5",
         "reason": "Largest controlled evidence base in the field; benefit limited to distress, hence not 5/5."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'strong' → 'strong-independent' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Study records added: cima-2012, guideline-aaohns-2014, guideline-nice-ng155, guideline-eu-2019, juris-2014-hyperacusis-cbt.",
+        "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
       }
     ],
     "scoreRationale": "28 RCTs and consistent replication earn a 4/5 — held back from 5/5 because certainty is mostly low, follow-up is short, and the benefit is confined to distress, not the percept.",
@@ -93,8 +108,10 @@
     "subtypeTags": [
       "general"
     ],
-    "replication": "strong",
-    "safetyLevel": "strong"
+    "replication": "strong-independent",
+    "safetyLevel": "strong",
+    "replicationNote": "Positive findings reproduced by many independent groups worldwide (Cochrane 2020: 27 trials).",
+    "independence": "primarily-independent"
   },
   {
     "id": "shore-bimodal",
@@ -184,6 +201,16 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 2, evidence score 3/5",
         "reason": "Uniquely strong loudness evidence, but single-center, subtype-limited, and unreplicated."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'limited' → 'same-group' (new 5-category independent-replication semantics); independence: 'mixed' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "safetyLevel: 'strong' → 'moderate'",
+        "reason": "Audit: total human safety exposure is ~120 participants for ≤12 weeks — too small a base for the top safety label, even with no serious adverse events reported."
       }
     ],
     "scoreRationale": "A rigorous NIH-funded double-blind crossover with percept-level benefit earns a 3/5; independent replication, a pivotal trial, and regulatory progress would raise it.",
@@ -195,8 +222,11 @@
     ],
     "narrowPopulation": true,
     "narrowNote": "Studied ONLY in somatic tinnitus — people who can change their tinnitus by moving the jaw or neck — with normal-to-moderate hearing loss.",
-    "replication": "limited",
-    "safetyLevel": "strong"
+    "replication": "same-group",
+    "safetyLevel": "moderate",
+    "replicationNote": "Both trials come from the inventor's own lab (Univ. of Michigan/Auricle); no independent replication yet.",
+    "independence": "mixed",
+    "independenceNote": "Trials were NIH-funded, but run by the device inventors, who co-founded the company commercializing it (Auricle)."
   },
   {
     "id": "lenire",
@@ -298,6 +328,11 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 2, evidence score 3/5",
         "reason": "Large trials and FDA De Novo authorization, offset by absent placebo controls and universal manufacturer funding."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'limited' → 'same-group' (new 5-category independent-replication semantics); independence: 'primarily-sponsor' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "Three large trials, regulatory authorization and real-world consistency earn 3/5 — capped there because no sham-controlled arm exists, the pivotal full-cohort endpoint was missed (severe-subgroup benefit only), and there is no independent replication.",
@@ -307,8 +342,11 @@
     "subtypeTags": [
       "general"
     ],
-    "replication": "limited",
-    "safetyLevel": "strong"
+    "replication": "same-group",
+    "safetyLevel": "strong",
+    "replicationNote": "TENT-A1/A2/A3 and the real-world cohort are all sponsor-run (Neuromod); no independent replication.",
+    "independence": "primarily-sponsor",
+    "independenceNote": "Every efficacy trial to date was funded and run by Neuromod Devices; a key author is Neuromod's CSO."
   },
   {
     "id": "digital-cbt",
@@ -326,7 +364,7 @@
     },
     "distress": {
       "level": "strong",
-      "summary": "Kalmeda RCT N=187: d=1.1 (vs delayed treatment — inflates vs sham designs). Japan 2026 double-blind sham-app RCT: THI −20.4 between groups at week 16. Oto RCT: between-group 16 TFI points at 6 months (unblinded, waitlist). iCBT: d=0.46."
+      "summary": "Kalmeda RCT N=187: d=1.1 (vs delayed treatment — inflates vs sham designs). Japan 2026 double-blind sham-app RCT: THI −20.4 between groups at week 16. Oto RCT: between-group 9 TFI points at 6 months, 95% CI [2, 16] (unblinded, waitlist). iCBT: d=0.46."
     },
     "regulatory": {
       "status": "Varies by product",
@@ -362,7 +400,9 @@
       "kalmeda-2023",
       "kyorin-2026-app",
       "oto-flinders-2025",
-      "beukes-2022-icbt"
+      "beukes-2022-icbt",
+      "mindear-2024",
+      "guideline-nice-ng155"
     ],
     "timeline": [
       {
@@ -394,6 +434,21 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 2, evidence score 3/5",
         "reason": "Multiple positive RCTs including one sham-controlled; heterogeneous products and some industry sponsorship."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Corrected Oto RCT figure in distress summary: 16 → 9 TFI points between groups at 6 months (CI [2, 16]).",
+        "reason": "Audit correction M1, verified against the publication; does not change the digital-CBT evidence score (rating rests on Kalmeda + sham-controlled Kyorin + iCBT, and the corrected Oto effect remains positive and significant)."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'moderate' → 'limited-independent' (new 5-category independent-replication semantics); independence: 'mixed' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Study records added: mindear-2024, guideline-nice-ng155.",
+        "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
       }
     ],
     "scoreRationale": "Multiple independent RCT wins and a first sham-controlled success earn 3/5; the category is heterogeneous — the score applies to the tested products, not to app stores at large.",
@@ -403,8 +458,11 @@
     "subtypeTags": [
       "general"
     ],
-    "replication": "moderate",
-    "safetyLevel": "strong"
+    "replication": "limited-independent",
+    "safetyLevel": "strong",
+    "replicationNote": "Positive results across several independent products/groups (Kalmeda, Kyorin, Oto, iCBT), each product mostly single-trial.",
+    "independence": "mixed",
+    "independenceNote": "Some trials manufacturer-involved (Kalmeda, Kyorin, Oto co-funding); iCBT research largely independent."
   },
   {
     "id": "cochlear-implants",
@@ -489,6 +547,11 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 2, evidence score 3/5",
         "reason": "Consistent observational percept-level benefit in a restricted population; no RCT evidence for tinnitus as an indication."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'strong' → 'strong-independent' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "Large consistent observational literature with genuine loudness effects earns 3/5; capped because the data are non-randomized and apply only to implant candidates.",
@@ -501,8 +564,10 @@
     ],
     "narrowPopulation": true,
     "narrowNote": "Applies ONLY to people who qualify for a cochlear implant because of severe-to-profound hearing loss. Nobody is implanted for tinnitus alone.",
-    "replication": "strong",
-    "safetyLevel": "moderate"
+    "replication": "strong-independent",
+    "safetyLevel": "moderate",
+    "replicationNote": "Tinnitus improvement after CI reproduced across many independent centers and meta-analyses.",
+    "independence": "primarily-independent"
   },
   {
     "id": "hearing-aids",
@@ -553,7 +618,11 @@
     "conflicts": "",
     "studies": [
       "uniti-2025",
-      "sereda-2018-cochrane"
+      "sereda-2018-cochrane",
+      "hoare-2014-cochrane-ha",
+      "guideline-aaohns-2014",
+      "guideline-nice-ng155",
+      "guideline-eu-2019"
     ],
     "timeline": [
       {
@@ -581,17 +650,29 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 2, evidence score 3/5",
         "reason": "Guideline support plus UNITI head-to-head data, against a weak Cochrane base."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'moderate' → 'limited-independent' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Study records added: hoare-2014-cochrane-ha, guideline-aaohns-2014, guideline-nice-ng155, guideline-eu-2019.",
+        "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
       }
     ],
-    "scoreRationale": "Guideline recommendation and the UNITI head-to-head result earn 3/5; a trial isolating the tinnitus effect from the hearing benefit would settle it.",
+    "scoreRationale": "Guideline recommendation and the UNITI head-to-head result earn 3/5; a trial isolating the tinnitus effect from the hearing benefit would settle it. Amplification-SPECIFIC randomized evidence is thin: Cochrane CD010151 found one RCT (N=91) and concluded there is no evidence to support or refute hearing aids as a routine tinnitus intervention; the rating rests on guideline consensus (all three major guidelines recommend aids with hearing loss), UNITI results and observational data.",
     "lastReviewed": "2026-09-03",
     "evidenceThrough": "2026-09-03",
     "confidence": "high",
     "subtypeTags": [
       "hearing-loss"
     ],
-    "replication": "moderate",
-    "safetyLevel": "strong"
+    "replication": "limited-independent",
+    "safetyLevel": "strong",
+    "replicationNote": "Benefit signals from independent groups (UNITI, observational), but few amplification-specific RCTs.",
+    "independence": "primarily-independent"
   },
   {
     "id": "cbt-i",
@@ -661,6 +742,11 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 2, evidence score 3/5",
         "reason": "One strong RCT in a high-prevalence problem; needs replication."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'limited' → 'none' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "One well-run RCT with sustained effects earns 3/5; multicenter replication would raise it.",
@@ -670,8 +756,10 @@
     "subtypeTags": [
       "general"
     ],
-    "replication": "limited",
-    "safetyLevel": "strong"
+    "replication": "none",
+    "safetyLevel": "strong",
+    "replicationNote": "Single positive RCT (Marks 2023); no replication attempt yet.",
+    "independence": "primarily-independent"
   },
   {
     "id": "act",
@@ -745,6 +833,11 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 2, evidence score 3/5",
         "reason": "Consistent RCT wins but small evidence base."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'moderate' → 'same-group' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "Meaningful pooled effect from randomized trials earns 3/5; the pooled N of ~100 keeps it from 4.",
@@ -754,8 +847,10 @@
     "subtypeTags": [
       "general"
     ],
-    "replication": "moderate",
-    "safetyLevel": "strong"
+    "replication": "same-group",
+    "safetyLevel": "strong",
+    "replicationNote": "Positive trials cluster in one research lineage (Hesser/Andersson network); meta-analysis pools largely that cluster.",
+    "independence": "primarily-independent"
   },
   {
     "id": "mbct",
@@ -828,6 +923,11 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 2, evidence score 3/5",
         "reason": "Beat an active control with persistence — rare in this field — but limited replication."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'limited' → 'limited-independent' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "Beating an active control with 6-month persistence earns 3/5; multicenter replication would raise it.",
@@ -837,8 +937,10 @@
     "subtypeTags": [
       "general"
     ],
-    "replication": "limited",
-    "safetyLevel": "strong"
+    "replication": "limited-independent",
+    "safetyLevel": "strong",
+    "replicationNote": "McKenna 2017 plus smaller independent mindfulness trials; limited.",
+    "independence": "primarily-independent"
   },
   {
     "id": "spi-1005",
@@ -919,6 +1021,11 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 3, evidence score 2/5",
         "reason": "Late-stage program but tinnitus evidence is unblinded and unpublished."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "independence: 'primarily-sponsor' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "A Phase 3 program with BTD earns 2/5 for tinnitus specifically: the tinnitus outcomes are open-label, company-reported, and in a Meniere's population. The ongoing Phase 3 (NCT06859788) is open-label single-group — it cannot produce controlled tinnitus evidence.",
@@ -931,7 +1038,8 @@
     "narrowPopulation": true,
     "narrowNote": "Studied ONLY in Meniere's disease. There is no trial of this drug in ordinary tinnitus.",
     "replication": "none",
-    "safetyLevel": "limited"
+    "safetyLevel": "limited",
+    "independence": "primarily-sponsor"
   },
   {
     "id": "trtl-913",
@@ -998,6 +1106,11 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 3, evidence score 1/5",
         "reason": "Credible mechanism and funding; no human evidence."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "independence: 'unclear' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "Score 1/5: nothing but mechanism and money so far — which is exactly what the ranking rules say cannot earn a high score.",
@@ -1008,7 +1121,8 @@
       "general"
     ],
     "replication": "none",
-    "safetyLevel": null
+    "safetyLevel": null,
+    "independence": "unclear"
   },
   {
     "id": "somatic-physio",
@@ -1056,7 +1170,8 @@
     ],
     "conflicts": "",
     "studies": [
-      "physio-2022-somatic"
+      "physio-2022-somatic",
+      "michiels-2016-cervical"
     ],
     "extraSources": [
       {
@@ -1094,6 +1209,16 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 3, evidence score 2/5",
         "reason": "Mechanistically grounded with controlled but small evidence."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'limited' → 'limited-independent' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Study records added: michiels-2016-cervical.",
+        "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
       }
     ],
     "scoreRationale": "Real percept modulation and positive controlled studies earn 2/5; a proper multicenter RCT would move it.",
@@ -1103,8 +1228,10 @@
     "subtypeTags": [
       "somatic"
     ],
-    "replication": "limited",
-    "safetyLevel": "moderate"
+    "replication": "limited-independent",
+    "safetyLevel": "moderate",
+    "replicationNote": "Independent groups (Michiels, Eladl) report benefit in somatic subgroups; small trials.",
+    "independence": "primarily-independent"
   },
   {
     "id": "sound-therapy",
@@ -1155,7 +1282,11 @@
     "conflicts": "",
     "studies": [
       "sereda-2018-cochrane",
-      "trtt-2019"
+      "trtt-2019",
+      "most-2025",
+      "guideline-aaohns-2014",
+      "guideline-nice-ng155",
+      "guideline-eu-2019"
     ],
     "timeline": [
       {
@@ -1183,9 +1314,29 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 4, evidence score 2/5",
         "reason": "Safe and widely valued; unproven vs placebo."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'limited' → 'conflicting' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Marked 'Evidence rating under re-evaluation' (DFCRS N=440 RCT under formal review).",
+        "reason": "New evidence of a magnitude that could change the rating; per platform policy the public rating is never auto-changed — it is flagged while under review."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Study records added: most-2025, guideline-aaohns-2014, guideline-nice-ng155, guideline-eu-2019.",
+        "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Formal re-evaluation completed for the MOST/DFCRS N=440 double-blind RCT: evidence score UNCHANGED at 2/5; 'under re-evaluation' flag cleared.",
+        "reason": "The trial is the largest and best-blinded sound-therapy RCT but compares four ACTIVE sounds with no placebo arm; the customized-arm advantage (~4 THI points vs unmodified music) is statistically significant yet small and unadjusted for multiplicity, and the authors state placebo effects cannot be excluded. Size alone does not raise a rating."
       }
     ],
-    "scoreRationale": "Ubiquitous and safe but never separated from placebo in quality trials: 2/5, Tier 4 (coping/symptom management).",
+    "scoreRationale": "Score 2/5 CONFIRMED after formal re-evaluation of the MOST trial (N=440, the largest double-blind sound-therapy RCT, eClinicalMedicine 2025): all four active sound arms improved similarly; the customized (DFCRS) arm beat unmodified music by only ~4 THI points (statistically significant, clinically small, no multiplicity adjustment) and the trial has no no-sound arm, so placebo effects cannot be excluded — the authors say so themselves. This is consistent with Cochrane 2018 (no strong evidence) and the guideline split (AAO-HNSF: option; NICE/EU: research-only; German S3: against sound generators). A large trial does not raise a rating by size alone; what it shows is modest, possibly non-specific benefit.",
     "lastReviewed": "2026-09-03",
     "evidenceThrough": "2026-09-03",
     "confidence": "high",
@@ -1196,8 +1347,10 @@
       "label": "Explore masking and personalized sound",
       "feature": "sound therapy"
     },
-    "replication": "limited",
-    "safetyLevel": "strong"
+    "replication": "conflicting",
+    "safetyLevel": "strong",
+    "replicationNote": "Results discordant across independent trials; Cochrane 2018 found no strong evidence. The MOST trial (N=440, double-blind, 2025) found all active sound arms improved similarly, with a small advantage for customized modulation and no placebo arm — formally reviewed 2026-09-04, rating unchanged.",
+    "independence": "primarily-independent"
   },
   {
     "id": "trt",
@@ -1273,6 +1426,11 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 4, evidence score 2/5",
         "reason": "Counseling component works; the distinctive TRT elements failed their definitive test."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'limited' → 'conflicting' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "Its own definitive trial found no advantage over standard care: 2/5, Tier 4.",
@@ -1282,8 +1440,10 @@
     "subtypeTags": [
       "general"
     ],
-    "replication": "limited",
-    "safetyLevel": "strong"
+    "replication": "conflicting",
+    "safetyLevel": "strong",
+    "replicationNote": "Earlier positive reports vs the large NIH TRTT (2019), where TRT did not beat standard care.",
+    "independence": "primarily-independent"
   },
   {
     "id": "rtms",
@@ -1333,7 +1493,10 @@
     ],
     "conflicts": "",
     "studies": [
-      "rtms-meta-2025"
+      "rtms-meta-2025",
+      "folmer-2015-rtms",
+      "landgrebe-2017-rtms",
+      "guideline-aaohns-2014"
     ],
     "timeline": [
       {
@@ -1366,6 +1529,16 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 3, evidence score 2/5",
         "reason": "Real but small, non-durable effects."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'strong' → 'conflicting' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Study records added: folmer-2015-rtms, landgrebe-2017-rtms, guideline-aaohns-2014.",
+        "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
       }
     ],
     "scoreRationale": "Many RCTs but small effects at/below clinical meaningfulness, disputed durability, and guideline advice against routine use: 2/5.",
@@ -1375,8 +1548,10 @@
     "subtypeTags": [
       "general"
     ],
-    "replication": "strong",
-    "safetyLevel": "moderate"
+    "replication": "conflicting",
+    "safetyLevel": "moderate",
+    "replicationNote": "Independent replication attempted and discordant: Folmer 2015 positive vs Landgrebe 2017 multicenter negative; metas driven by heterogeneous small trials.",
+    "independence": "primarily-independent"
   },
   {
     "id": "tdcs",
@@ -1449,6 +1624,11 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 3, evidence score 2/5",
         "reason": "Mixed, low-certainty evidence."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'limited' → 'conflicting' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "Small effects in heterogeneous trials: 2/5.",
@@ -1458,8 +1638,10 @@
     "subtypeTags": [
       "general"
     ],
-    "replication": "limited",
-    "safetyLevel": "strong"
+    "replication": "conflicting",
+    "safetyLevel": "strong",
+    "replicationNote": "Independent trials and metas disagree by protocol/site; no consistent reproducible effect.",
+    "independence": "primarily-independent"
   },
   {
     "id": "vns-paired",
@@ -1534,6 +1716,11 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 3, evidence score 2/5",
         "reason": "Positive pilot, dormant program."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "independence: 'primarily-sponsor' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "A single positive pilot with no follow-through: 2/5, dormant.",
@@ -1544,7 +1731,8 @@
       "general"
     ],
     "replication": "none",
-    "safetyLevel": "limited"
+    "safetyLevel": "limited",
+    "independence": "primarily-sponsor"
   },
   {
     "id": "neosensory-duo",
@@ -1618,6 +1806,11 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 3, evidence score 1/5",
         "reason": "One unblinded company study."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "independence: 'primarily-sponsor' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "Marketing currently exceeds evidence: 1/5 until independent controlled data exist.",
@@ -1628,7 +1821,9 @@
       "general"
     ],
     "replication": "none",
-    "safetyLevel": "strong"
+    "safetyLevel": "strong",
+    "replicationNote": "Single company-run trial; no replication.",
+    "independence": "primarily-sponsor"
   },
   {
     "id": "acoustic-cr",
@@ -1703,6 +1898,11 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 5, evidence score 1/5",
         "reason": "Failed confirmatory trial."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'none' → 'conflicting' (new 5-category independent-replication semantics); independence: 'mixed' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "The definitive test failed: 1/5, Tier 5.",
@@ -1712,8 +1912,11 @@
     "subtypeTags": [
       "general"
     ],
-    "replication": "none",
-    "safetyLevel": "strong"
+    "replication": "conflicting",
+    "safetyLevel": "strong",
+    "replicationNote": "Original manufacturer-linked positive trials vs an independent null trial (2022).",
+    "independence": "mixed",
+    "independenceNote": "The POSITIVE evidence is manufacturer-linked; the independent trial was null."
   },
   {
     "id": "notched-sound",
@@ -1763,7 +1966,9 @@
     ],
     "conflicts": "",
     "studies": [
-      "atipas-2021-notched"
+      "atipas-2021-notched",
+      "okamoto-2010-notched",
+      "stein-2016-tmnmt"
     ],
     "timeline": [
       {
@@ -1792,6 +1997,16 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 3, evidence score 2/5",
         "reason": "Mixed results; small possible loudness effect."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'limited' → 'conflicting' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Study records added: okamoto-2010-notched, stein-2016-tmnmt.",
+        "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
       }
     ],
     "scoreRationale": "A plausible mechanism with mixed trials: 2/5.",
@@ -1805,8 +2020,10 @@
       "label": "Explore Personalized Notched Sound",
       "feature": "notched sound"
     },
-    "replication": "limited",
-    "safetyLevel": "strong"
+    "replication": "conflicting",
+    "safetyLevel": "strong",
+    "replicationNote": "Okamoto 2010 positive proof-of-concept vs later independent negative/negative-leaning RCTs (Atipas 2021, Stein 2016).",
+    "independence": "primarily-independent"
   },
   {
     "id": "combo-aids-fractal",
@@ -1882,6 +2099,11 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 4, evidence score 2/5",
         "reason": "Reasonable option inside hearing-aid care; unproven add-on value."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'none' → 'same-group' (new 5-category independent-replication semantics); independence: 'primarily-sponsor' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "The hearing-aid core is sound; the tinnitus-specific claims are manufacturer-backed only: 2/5.",
@@ -1891,8 +2113,10 @@
     "subtypeTags": [
       "hearing-loss"
     ],
-    "replication": "none",
-    "safetyLevel": "strong"
+    "replication": "same-group",
+    "safetyLevel": "strong",
+    "replicationNote": "Supporting studies are manufacturer-affiliated (same commercial research network).",
+    "independence": "primarily-sponsor"
   },
   {
     "id": "truesilence",
@@ -1971,6 +2195,11 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 3, evidence score 2/5",
         "reason": "Promising research lineage, product-stage evidence pending."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "independence: 'primarily-sponsor' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "Respected research lineage with one supportive RCT for the prototype: 2/5 pending product-level trials.",
@@ -1981,7 +2210,8 @@
       "general"
     ],
     "replication": "none",
-    "safetyLevel": "strong"
+    "safetyLevel": "strong",
+    "independence": "primarily-sponsor"
   },
   {
     "id": "intratympanic",
@@ -2063,6 +2293,11 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 5, evidence score 1/5",
         "reason": "Repeated controlled failures."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "independence: 'primarily-sponsor' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "The best-controlled data in the field are negative: 1/5, Tier 5.",
@@ -2074,7 +2309,9 @@
       "sudden-hl"
     ],
     "replication": "none",
-    "safetyLevel": "limited"
+    "safetyLevel": "limited",
+    "replicationNote": "Positive early signals not reproduced; Phase 3 program failed.",
+    "independence": "primarily-sponsor"
   },
   {
     "id": "off-label-drugs",
@@ -2123,7 +2360,12 @@
     "studies": [
       "bmj-nma-2025",
       "cochrane-betahistine-2018",
-      "quiet1-aut00063"
+      "quiet1-aut00063",
+      "cochrane-antidepressants-2012",
+      "neramexane-program",
+      "piccirillo-2007-gabapentin",
+      "hoekstra-2011-anticonvulsants",
+      "guideline-aaohns-2014"
     ],
     "timeline": [
       {
@@ -2155,6 +2397,16 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 5, evidence score 1/5",
         "reason": "Systematic reviews consistently negative for tinnitus-specific benefit."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Study records added: cochrane-antidepressants-2012, neramexane-program, piccirillo-2007-gabapentin, hoekstra-2011-anticonvulsants, guideline-aaohns-2014.",
+        "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
       }
     ],
     "scoreRationale": "Half a century of trials without a single confirmatory win: 1/5 for tinnitus itself (comorbidity treatment is a separate, legitimate decision).",
@@ -2165,7 +2417,8 @@
       "general"
     ],
     "replication": "none",
-    "safetyLevel": "limited"
+    "safetyLevel": "limited",
+    "independence": "primarily-independent"
   },
   {
     "id": "supplements",
@@ -2211,7 +2464,9 @@
     "conflicts": "Supplement-industry-funded studies are common in this space.",
     "studies": [
       "cochrane-ginkgo-2022",
-      "cochrane-zinc-2016"
+      "cochrane-zinc-2016",
+      "hurtuk-2011-melatonin",
+      "guideline-aaohns-2014"
     ],
     "timeline": [
       {
@@ -2229,6 +2484,16 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 5, evidence score 1/5",
         "reason": "Cochrane-level negative evidence."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "independence: 'mixed' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Study records added: hurtuk-2011-melatonin, guideline-aaohns-2014.",
+        "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
       }
     ],
     "scoreRationale": "Multiple Cochrane reviews found nothing: 1/5, Tier 5 — the clearest marketing-vs-evidence gap on the site.",
@@ -2239,7 +2504,9 @@
       "general"
     ],
     "replication": "none",
-    "safetyLevel": "moderate"
+    "safetyLevel": "moderate",
+    "independence": "mixed",
+    "independenceNote": "Supplement-industry funding common in positive studies; rigorous independent reviews are negative."
   },
   {
     "id": "regenerative",
@@ -2286,7 +2553,10 @@
       "Whether restoring input reverses established central tinnitus is an open question"
     ],
     "conflicts": "",
-    "studies": [],
+    "studies": [
+      "fx322-2023",
+      "cilcare-cil001"
+    ],
     "extraSources": [
       {
         "title": "Regeneron — DB-OTO CHORD results (NEJM 2025)",
@@ -2327,6 +2597,16 @@
         "date": "2026-09-03",
         "change": "Initial rating: Tier 3, evidence score 1/5",
         "reason": "Platform succeeding in adjacent indications; zero tinnitus data."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "independence: 'primarily-sponsor' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Study records added: fx322-2023, cilcare-cil001.",
+        "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
       }
     ],
     "scoreRationale": "Scored for tinnitus specifically: 1/5 (no data), Tier 3 as a legitimate emerging field to watch.",
@@ -2337,7 +2617,8 @@
       "hearing-loss"
     ],
     "replication": "none",
-    "safetyLevel": null
+    "safetyLevel": null,
+    "independence": "primarily-sponsor"
   },
   {
     "id": "venous-stenting",
@@ -2381,7 +2662,8 @@
     "limitations": [
       "Observational evidence only — no RCT yet",
       "Applies to one imaging-confirmed cause, not pulsatile tinnitus generally",
-      "Any new pulsatile tinnitus needs medical evaluation first — some causes are dangerous"
+      "Any new pulsatile tinnitus needs medical evaluation first — some causes are dangerous",
+      "A surgical alternative exists for sinus-wall anomalies: sigmoid sinus wall reconstruction (see its own page)"
     ],
     "conflicts": "",
     "studies": [
@@ -2414,6 +2696,16 @@
         "date": "2026-09-03",
         "change": "Added in Phase 2 audit: Tier 2, evidence score 3/5",
         "reason": "Closes the platform's subjective-only blind spot; strong observational resolution rates in a defined subgroup."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'strong' → 'strong-independent' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Cross-reference added to sigmoid sinus wall reconstruction (new entry).",
+        "reason": "Audit: the surgical alternative was previously undocumented."
       }
     ],
     "scoreRationale": "Consistent ~90% resolution across 28 observational studies earns 3/5; no RCT and strict subgroup applicability cap it there.",
@@ -2425,8 +2717,92 @@
     ],
     "narrowPopulation": true,
     "narrowNote": "Studied ONLY in pulsatile tinnitus with an imaging-confirmed venous sinus narrowing. Pulsatile tinnitus means a rhythmic whooshing in time with your heartbeat — if your tinnitus is a steady tone or hiss, this page is not about your tinnitus, and the ~90% resolution rates do not apply.",
-    "replication": "strong",
-    "safetyLevel": "limited"
+    "replication": "strong-independent",
+    "safetyLevel": "limited",
+    "replicationNote": "Consistent improvement reported across many independent surgical centers (pooled 28 studies) — but uncontrolled designs.",
+    "independence": "primarily-independent"
+  },
+  {
+    "id": "sswr",
+    "name": "Sigmoid sinus wall reconstruction (pulsatile tinnitus)",
+    "category": "vascular",
+    "tier": 3,
+    "evidenceScore": 2,
+    "scoreRationale": "Uncontrolled surgical case series only (no RCT, no comparative trial vs stenting): pooled complete resolution 77.6% in a systematic review, 97.3% short-term / 83.8% at 5+ years in the longest cohort — but with 9.3% significant complications, 13.5% recurrence, and new intracranial-hypertension diagnoses in 8.6%. Resolution rates drop (to ~65% in one cohort) under stricter outcome definitions. High apparent effect in a narrow, imaging-confirmed subgroup; low certainty by design.",
+    "oneLiner": "Surgical repair of a defect in the bony wall of the sigmoid sinus — an alternative to stenting for one specific, imaging-confirmed cause of pulsatile tinnitus.",
+    "whatItIs": "For PULSATILE tinnitus caused by a sigmoid sinus wall anomaly (dehiscence or diverticulum seen on imaging), a surgeon rebuilds the bony wall between the venous sinus and the ear, blocking transmission of the blood-flow sound. It treats the same family of vascular causes as venous sinus stenting, from the outside rather than inside the vein.",
+    "howItWorks": "A defect in the bone over the sigmoid sinus lets normal (or turbulent) venous flow be heard. Reconstructing the wall restores the acoustic barrier — cause-directed treatment for one specific anatomy, not tinnitus generally.",
+    "mechanism": "Restoring the bony acoustic barrier over the sigmoid sinus",
+    "loudness": {
+      "level": "moderate",
+      "summary": "Uncontrolled series report elimination of the pulsatile sound in most correctly selected patients (pooled 77.6% complete resolution; 83.8% durable at 5+ years in the longest cohort; ~65% under stricter definitions). Rated moderate, not strong: no controlled data, and outcome definitions vary widely."
+    },
+    "distress": {
+      "level": "limited",
+      "summary": "Distress typically resolves with the sound, but series rarely measure THI/TFI systematically."
+    },
+    "regulatory": {
+      "status": "Surgical procedure (no device approval applicable)",
+      "detail": "Standard otologic/neurosurgical techniques; no dedicated device.",
+      "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/38515373/"
+    },
+    "availability": {
+      "usa": "Tertiary otology/neurotology centers after full imaging workup",
+      "europe": "Same",
+      "other": "Major centers",
+      "prescription": true,
+      "cost": "Surgical-procedure costs; often covered when medically indicated",
+      "availableNow": true
+    },
+    "developer": "—",
+    "researchers": [],
+    "subtypes": [
+      "pulsatile tinnitus with imaging-confirmed sigmoid sinus wall anomaly ONLY"
+    ],
+    "subtypeTags": [
+      "pulsatile"
+    ],
+    "narrowPopulation": true,
+    "narrowNote": "Applies ONLY to pulsatile tinnitus with an imaging-confirmed sigmoid sinus wall anomaly (dehiscence/diverticulum) — a small fraction of the ~4% of tinnitus that is pulsatile. It is irrelevant to ordinary (non-pulsatile) tinnitus. Any NEW pulsatile tinnitus needs medical evaluation first: some causes are dangerous.",
+    "safety": "Real surgical risks: significant complications in 9.3% of pooled cases; intracranial hypertension/papilledema can emerge after reconstruction (new IIH diagnosed in 8.6% of the long-term cohort; some patients later needed venous stenting); recurrence 13.5%.",
+    "safetyLevel": "limited",
+    "replication": "limited-independent",
+    "replicationNote": "Consistent high resolution rates across several independent surgical centers — but every series is uncontrolled, so what replicates is the case-series pattern, not a controlled effect.",
+    "independence": "primarily-independent",
+    "bestSuitedFor": "Pulsatile tinnitus with a confirmed sigmoid sinus wall anomaly — see a physician for imaging; never assume",
+    "bestResult": "77.6% pooled complete resolution (SR); 83.8% durable success at 5+ years (longest cohort)",
+    "limitations": [
+      "Case series only — no randomized or controlled data",
+      "Outcome definitions vary; stricter criteria give lower success rates (~65%)",
+      "Post-operative intracranial hypertension is a real, under-appreciated risk",
+      "Applies to one imaging-confirmed anatomy, not pulsatile tinnitus generally"
+    ],
+    "conflicts": "",
+    "studies": [
+      "sswr-evidence-2024"
+    ],
+    "timeline": [
+      {
+        "year": 2024,
+        "event": "Systematic review pools surgical outcomes: 77.6% complete resolution, 9.3% significant complications."
+      },
+      {
+        "year": 2024,
+        "event": "Longest follow-up cohort: 83.8% success at 5+ years; new intracranial hypertension in 8.6%."
+      }
+    ],
+    "latest": [],
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Treatment added (tier 3, evidence 2/5).",
+        "reason": "Audit finding: the surgical alternative to venous stenting was absent from the database. Added with verified pooled outcomes (see audit-improvement/acquisition-report.md) and a prominent narrow-population warning."
+      }
+    ],
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
+    "confidence": "moderate",
+    "studyCount": 1
   },
   {
     "id": "tavns",
@@ -2498,6 +2874,11 @@
         "date": "2026-09-03",
         "change": "Added in Phase 2 audit: Tier 3, evidence score 2/5",
         "reason": "Completes the VNS/bimodal family; users conflate it with Lenire and implanted VNS."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'none' → 'limited-independent' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "Plausible mechanism, pilots only: 2/5 pending the running double-blind RCT.",
@@ -2507,8 +2888,10 @@
     "subtypeTags": [
       "general"
     ],
-    "replication": "none",
-    "safetyLevel": "strong"
+    "replication": "limited-independent",
+    "safetyLevel": "strong",
+    "replicationNote": "Small pilots from different groups; pooled effect of low clinical relevance.",
+    "independence": "primarily-independent"
   },
   {
     "id": "levo",
@@ -2585,6 +2968,11 @@
         "date": "2026-09-03",
         "change": "Added in Phase 2 audit: Tier 3, evidence score 2/5",
         "reason": "FDA-cleared, VA-distributed, clinic-encountered product users will search for."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "independence: 'primarily-sponsor' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "One small sponsor-linked RCT behind a cleared device: 2/5.",
@@ -2595,7 +2983,9 @@
       "general"
     ],
     "replication": "none",
-    "safetyLevel": "strong"
+    "safetyLevel": "strong",
+    "replicationNote": "Single sponsor-linked RCT; no replication.",
+    "independence": "primarily-sponsor"
   },
   {
     "id": "tus",
@@ -2668,6 +3058,11 @@
         "date": "2026-09-03",
         "change": "Added in Phase 2 audit: Tier 3, evidence score 1/5",
         "reason": "Most community-watched emerging program of 2026; listed with explicit no-human-data flag."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "1/5 — no human data; listed because the engaged tinnitus community actively follows it.",
@@ -2678,7 +3073,8 @@
       "general"
     ],
     "replication": "none",
-    "safetyLevel": null
+    "safetyLevel": null,
+    "independence": "primarily-independent"
   },
   {
     "id": "neurofeedback",
@@ -2743,6 +3139,11 @@
         "date": "2026-09-03",
         "change": "Added in Phase 2 audit: Tier 4, evidence score 2/5",
         "reason": "Sold by clinics; evidence says coping-level, non-specific benefit."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'limited' → 'conflicting' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "Real but non-specific benefit, best explained by its CBT/relaxation content: 2/5, Tier 4.",
@@ -2752,8 +3153,10 @@
     "subtypeTags": [
       "general"
     ],
-    "replication": "limited",
-    "safetyLevel": "strong"
+    "replication": "conflicting",
+    "safetyLevel": "strong",
+    "replicationNote": "Positive reports vs the 2023 opposite-protocols RCT showing equal, non-specific effects.",
+    "independence": "primarily-independent"
   },
   {
     "id": "acupuncture",
@@ -2799,7 +3202,8 @@
     "conflicts": "",
     "studies": [
       "acupuncture-sr-2020",
-      "acupuncture-umbrella-2022"
+      "acupuncture-umbrella-2022",
+      "guideline-aaohns-2014"
     ],
     "timeline": [
       {
@@ -2817,6 +3221,16 @@
         "date": "2026-09-03",
         "change": "Added in Phase 2 audit: Tier 5, evidence score 2/5",
         "reason": "The platform's most conspicuous completeness gap — most-searched complementary treatment."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'limited' → 'conflicting' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Study records added: guideline-aaohns-2014.",
+        "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
       }
     ],
     "scoreRationale": "Many trials exist (hence 2 not 1), but quality-weighted evidence is null: Tier 5.",
@@ -2826,8 +3240,10 @@
     "subtypeTags": [
       "general"
     ],
-    "replication": "limited",
-    "safetyLevel": "moderate"
+    "replication": "conflicting",
+    "safetyLevel": "moderate",
+    "replicationNote": "Many positive low-quality trials vs null primary outcomes in rigorous reviews; umbrella review rates all reviews low quality.",
+    "independence": "primarily-independent"
   },
   {
     "id": "hbot",
@@ -2888,6 +3304,11 @@
         "date": "2026-09-03",
         "change": "Added in Phase 2 audit: Tier 5, evidence score 2/5",
         "reason": "Marketed by clinics; clean Cochrane-level negative verdict users need."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "Cochrane-reviewed and unsupported for chronic tinnitus: Tier 5.",
@@ -2898,7 +3319,8 @@
       "general"
     ],
     "replication": "none",
-    "safetyLevel": "moderate"
+    "safetyLevel": "moderate",
+    "independence": "primarily-independent"
   },
   {
     "id": "lllt",
@@ -2957,6 +3379,11 @@
         "date": "2026-09-03",
         "change": "Added in Phase 2 audit: Tier 5, evidence score 2/5",
         "reason": "DTC hardware sold today against a null meta-analysis."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'none' → 'conflicting' (new 5-category independent-replication semantics); independence: 'mixed' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "Meta-analytically null with sequential analysis saying it's settled: Tier 5.",
@@ -2966,8 +3393,11 @@
     "subtypeTags": [
       "general"
     ],
-    "replication": "none",
-    "safetyLevel": "strong"
+    "replication": "conflicting",
+    "safetyLevel": "strong",
+    "replicationNote": "Vendor-affiliated positive trials vs independent meta-analysis finding no benefit.",
+    "independence": "mixed",
+    "independenceNote": "Positive trials often vendor-affiliated; the null meta-analysis is independent."
   },
   {
     "id": "cannabis-cbd",
@@ -3029,6 +3459,11 @@
         "date": "2026-09-03",
         "change": "Added in Phase 2 audit: Tier 5, evidence score 1/5",
         "reason": "Massive marketing, zero trials, plausible harm signal."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "independence: 'unclear' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "No human evidence and a signal in the wrong direction: 1/5, Tier 5.",
@@ -3039,7 +3474,8 @@
       "general"
     ],
     "replication": "none",
-    "safetyLevel": "limited"
+    "safetyLevel": "limited",
+    "independence": "unclear"
   },
   {
     "id": "hypnotherapy",
@@ -3096,6 +3532,11 @@
         "date": "2026-09-03",
         "change": "Added in Phase 2 audit: Tier 5, evidence score 1/5",
         "reason": "Commercially offered with no supporting evidence."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "independence: 'primarily-independent' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
     "scoreRationale": "No usable evidence: 1/5, Tier 5.",
@@ -3106,7 +3547,8 @@
       "general"
     ],
     "replication": "none",
-    "safetyLevel": "strong"
+    "safetyLevel": "strong",
+    "independence": "primarily-independent"
   },
   {
     "id": "neuromonics",
@@ -3151,7 +3593,9 @@
       "Company effectively gone"
     ],
     "conflicts": "All supporting evidence was company-run.",
-    "studies": [],
+    "studies": [
+      "davis-2007-neuromonics"
+    ],
     "extraSources": [
       {
         "title": "Tinnitus UK — Neuromonics evidence and availability status (2024)",
@@ -3178,6 +3622,16 @@
         "date": "2026-09-03",
         "change": "Added in Phase 2 audit: Tier 5, evidence score 2/5",
         "reason": "Historical status entry preventing wasted money; also documents that 510(k)-cleared tinnitus maskers predate Lenire."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "replication: 'none' → 'same-group' (new 5-category independent-replication semantics); independence: 'primarily-sponsor' (new evidence-independence field)",
+        "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Study records added: davis-2007-neuromonics.",
+        "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
       }
     ],
     "scoreRationale": "Weak sponsor-only evidence and a defunct delivery network: Tier 5.",
@@ -3187,7 +3641,9 @@
     "subtypeTags": [
       "general"
     ],
-    "replication": "none",
-    "safetyLevel": "strong"
+    "replication": "same-group",
+    "safetyLevel": "strong",
+    "replicationNote": "All supporting evidence company-run (Davis et al.); no independent replication.",
+    "independence": "primarily-sponsor"
   }
 ]

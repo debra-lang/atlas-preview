@@ -76,3 +76,27 @@ safety signal, company PR, untrusted source, failed feed, trial status change, q
 
 `pip install anthropic` and set `ANTHROPIC_API_KEY` (user environment variable) — until then the
 cycle runs all deterministic steps and holds new items as "awaiting evaluation".
+
+## Research-quality hardening (added 2026-09-04)
+
+- **check_retractions.py** — monthly (auto inside the weekly cycle when ≥27 days since last run;
+  state in `retraction-state.json`): re-queries every PMID/DOI cited by `data/studies.json` for
+  retraction / partial retraction / expression-of-concern / erratum notices (PubMed
+  CommentsCorrections + PublicationType; Crossref update metadata for DOI-only records) and
+  back-links findings to the citing study records and treatments. Findings → Class B holds;
+  retraction/EoC also stamps a factual `integrityNotice` on the study record (visible on the
+  site; no rating changes). Standalone: `python engine/check_retractions.py` or
+  `--test-pmid 36081433` (known-retracted historical test — must print DETECTED).
+- **Relevance categories** — the evaluator returns `relevanceCategory` 1–6; the router drops 5–6
+  (incidental/false positive — never in the public feed) and archives 3–4 to
+  `data/review-queue/archive.json` (metadata only; raw AI evaluations never enter the public
+  repo). 1–2 follow normal Class A/B routing.
+- **Discovery additions** — PubMed MeSH OR tiab; CTgov condition+full-text union; openFDA
+  510(k)/PMA/MAUDE for product codes KLW/QVN; Google News company-wire watch
+  (`intelligenceOnly` items can only publish labeled "Company-reported development"); guideline
+  page-hash watchers (AAO-HNSF, NICE) in `sources.json → pages` (state: `page-hashes.json`).
+- **run_benchmark.py** — LAUNCH GATE: runs the frozen Baseline-V1 8-case gold benchmark against
+  the production evaluator (same RULES/EVAL_FIELDS/model). Run once `ANTHROPIC_API_KEY` exists,
+  BEFORE the first auto-published evaluated batch. Exit 0 = pass; 1 = material failure (HOLD
+  launch); report in `engine/benchmark-report.json`. The cases and pass criteria are frozen in
+  `audit-baseline-v1/benchmark.md` — never edit them to make results look better.

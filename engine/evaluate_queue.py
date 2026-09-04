@@ -23,6 +23,7 @@ LIMIT = int(sys.argv[sys.argv.index("--limit") + 1]) if "--limit" in sys.argv el
 
 EVAL_FIELDS = """{
   "whatIsNew": "one or two sentences: what is genuinely new here (or 'nothing new' if it recycles known results)",
+  "relevanceCategory": "1-6 integer. 1 = direct tinnitus TREATMENT evidence (trial/review of a treatment for tinnitus). 2 = tinnitus-specific science (mechanism, measurement, epidemiology OF TINNITUS itself). 3 = treatment evidence where tinnitus is a SECONDARY outcome of another condition's treatment. 4 = adjacent-condition evidence with real tinnitus relevance (hyperacusis, Menière, SSNHL, pulsatile-tinnitus vascular work). 5 = tinnitus merely INCIDENTAL (a symptom mention inside an unrelated study). 6 = irrelevant / false positive. Categories 5-6 never reach the public feed; 3-4 are archived as context, never treated as treatment evidence.",
   "notRelevant": false,
   "affectedTreatment": "treatment id from the provided list, or 'none' or 'new-treatment-candidate'",
   "studyType": "RCT | crossover RCT | cohort | chart review | meta-analysis | registry update | press release | regulatory record | other",
@@ -70,7 +71,9 @@ RULES = """You evaluate new tinnitus research for an evidence platform. Rules:
 - Evidence scores (1-5) reflect: study quality, size, randomization, blinding, sham control,
   independent replication, clinical significance, follow-up, safety, COI, regulatory evidence.
 - Be skeptical but not dismissive; failed/negative results are important information.
-- If the item duplicates a study already in the database (same trial reported elsewhere), say so."""
+- If the item duplicates a study already in the database (same trial reported elsewhere), say so.
+- Items marked intelligenceOnly (news-wire watch) are INTELLIGENCE, not evidence: they can only
+  ever publish as labeled company-reported developments and never strengthen any rating."""
 
 
 def fetch_context(item):

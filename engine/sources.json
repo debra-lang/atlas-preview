@@ -24,6 +24,20 @@
     "EMA news": "404 — URL rotted; re-add with a verified URL if EMA coverage is needed",
     "American Tinnitus Association news": "403 bot-blocked"
   },
+  "newsIntel": [
+    { "name": "Neuromod / Lenire", "query": "\"Neuromod Devices\" OR Lenire tinnitus", "filter": ["lenire", "neuromod", "tinnitus"] },
+    { "name": "Auricle / Shore device", "query": "Auricle tinnitus device OR \"Susan Shore\" tinnitus", "filter": ["tinnitus"] },
+    { "name": "Sound Pharmaceuticals SPI-1005", "query": "\"Sound Pharmaceuticals\" OR SPI-1005 tinnitus", "filter": ["spi-1005", "sound pharmaceuticals", "ebselen", "tinnitus"] },
+    { "name": "Cilcare", "query": "Cilcare tinnitus", "filter": ["cilcare"] },
+    { "name": "Oto Health / DEFINE trial", "query": "\"Oto Health\" tinnitus app trial", "filter": ["tinnitus"] },
+    { "name": "Tinnitus trial toplines", "query": "tinnitus \"phase 2\" OR \"phase 3\" OR topline results", "filter": ["tinnitus"] }
+  ],
+  "newsIntelNote": "Google News RSS company-wire watch. Items carry intelligenceOnly=true: NEVER treated as evidence; publishable only as labeled 'Company-reported development' after verification. Audit fix: OTO-313 and STOPMD-3 toplines surfaced on wires months before any paper.",
+  "pages": [
+    { "name": "AAO-HNSF Clinical Practice Guideline: Tinnitus", "url": "https://www.entnet.org/quality-practice/quality-products/clinical-practice-guidelines/tinnitus/" },
+    { "name": "NICE NG155 Tinnitus: assessment and management", "url": "https://www.nice.org.uk/guidance/ng155" }
+  ],
+  "pagesNote": "Content-hash watch only — a change emits a 'review this page' queue item; the page is never parsed for meaning. Audit fix: guideline updates (NICE NG155-class events) previously had no detection path.",
   "notes": [
     "Company announcements: deliberately NOT watched as feeds; they surface via the sources above or manual adds, and are always labeled company-reported by the evaluator.",
     "Feed failures are per-feed warnings, never fatal; fix or replace URLs here.",

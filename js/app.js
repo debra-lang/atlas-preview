@@ -139,12 +139,24 @@
      strong=4 · moderate=3 · limited=2 · weak=1 · none=0 · missing field = "Not yet assessed"
      (hatched, NOT zero — unknown is not the same as weak). No invented percentages. */
   const SEG = { strong: 4, moderate: 3, limited: 2, weak: 1, none: 0 };
+  /* Replication uses its own 5-category semantics (independent reproduction of POSITIVE findings).
+     'conflicting' = replication was attempted and results disagree — rendered as its own state,
+     never forced onto the positive 0–4 scale. Legacy values (strong/moderate/limited) map via SEG. */
+  const REP_SEG = { 'strong-independent': 4, 'limited-independent': 2, 'same-group': 1, none: 0 };
+  const REP_LABELS = {
+    'strong-independent': 'Strong independent', 'limited-independent': 'Limited independent',
+    'same-group': 'Same group/sponsor only', none: 'None yet', conflicting: 'Conflicting results'
+  };
+  const IND_LABELS = {
+    'primarily-independent': 'Primarily independent', mixed: 'Mixed',
+    'primarily-sponsor': 'Primarily sponsor-supported', unclear: 'Independence unclear'
+  };
   const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
-  function segbar(n, na, total) {
+  function segbar(n, na, total, cf) {
     total = total || 4; // evidence quality uses 5 (one segment per score point); qualitative dims use 4
     let s = '';
-    for (let i = 1; i <= total; i++) s += `<i class="${!na && i <= n ? 'on' : ''}"></i>`;
-    return `<span class="segbar${na ? ' na' : ''}" aria-hidden="true">${s}</span>`;
+    for (let i = 1; i <= total; i++) s += `<i class="${cf ? 'cf' : (!na && i <= n ? 'on' : '')}"></i>`;
+    return `<span class="segbar${na ? ' na' : ''}${cf ? ' conflict' : ''}" aria-hidden="true">${s}</span>`;
   }
   function epDims(t) {
     const availW = availWord(t);
@@ -153,8 +165,10 @@
     return [
       { label: 'Evidence quality', segs: t.evidenceScore, total: 5, word: `${EVIDENCE_WORDS[t.evidenceScore]} (${t.evidenceScore}/5)`, na: false,
         def: 'How strong and rigorous is the underlying clinical evidence? (5 segments — one per point of the 1–5 evidence score, so 4/5 and 5/5 look different.)' },
-      { label: 'Replication', segs: SEG[t.replication] ?? 0, word: t.replication ? cap(t.replication) : 'Not yet assessed', na: t.replication == null,
-        def: 'Have the positive findings been reproduced in independent or multiple studies?' },
+      { label: 'Replication', segs: REP_SEG[t.replication] ?? SEG[t.replication] ?? 0,
+        word: t.replication ? (REP_LABELS[t.replication] || cap(t.replication)) : 'Not yet assessed',
+        na: t.replication == null, cf: t.replication === 'conflicting',
+        def: 'Have INDEPENDENT groups reproduced the positive findings? Repeats by the same lab or sponsor count as "Same group/sponsor only". "Conflicting results" means replication was attempted and independent results disagree — shown as its own state, not a strength level.' },
       { label: 'Loudness evidence', ...lv(t.loudness),
         def: 'Is there evidence the tinnitus sound itself became quieter?' },
       { label: 'Distress evidence', ...lv(t.distress),
@@ -167,14 +181,23 @@
   }
   function evidenceProfile(t) {
     const dims = epDims(t);
+    const ind = t.independence ? `<div class="eprow"><span class="lab">Independence</span><span class="segbar" style="visibility:hidden" aria-hidden="true"></span>
+        <span class="val">${esc(IND_LABELS[t.independence] || cap(t.independence))}</span></div>` : '';
+    const notes = [t.replicationNote && 'Replication: ' + t.replicationNote, t.independenceNote && 'Independence: ' + t.independenceNote].filter(Boolean);
     return `<div class="eprofile"><div class="k">Evidence profile</div>
-      ${dims.map(d => `<div class="eprow"><span class="lab">${esc(d.label)}</span>${segbar(d.segs, d.na, d.total)}
+      ${dims.map(d => `<div class="eprow"><span class="lab">${esc(d.label)}</span>${segbar(d.segs, d.na, d.total, d.cf)}
         <span class="val">${esc(d.word)}</span></div>`).join('')}
+      ${ind}
+      ${notes.length ? `<p class="small muted" style="margin:6px 0 0">${notes.map(esc).join('<br>')}</p>` : ''}
       <details><summary>What does each bar mean?</summary>
         <ul class="small">${dims.map(d => `<li><strong>${esc(d.label)}:</strong> ${esc(d.def)}</li>`).join('')}
         <li class="muted">Evidence quality shows the 1–5 score directly (one segment per point). The other bars show
         qualitative categories from the reviewed database (Strong=4 segments · Moderate=3 · Limited=2 · Weak=1 · None=0).
-        A hatched bar means "not yet assessed" — unknown is not the same as weak.
+        A hatched bar means "not yet assessed" — unknown is not the same as weak. An amber striped Replication bar means
+        "Conflicting results" — independent studies disagree, which is different from both weak and none.
+        <strong>Independence</strong> states who produced the evidence: primarily independent researchers, a mix, or
+        primarily the treatment's own sponsor — it does not change the scores, but it tells you how much rests on
+        parties with a commercial stake.
         No percentages are shown because tinnitus studies measure different outcomes; a single "effectiveness %"
         would be scientifically misleading.</li></ul>
       </details></div>`;
@@ -331,10 +354,12 @@
     $('#stat-updated').textContent = fmtDate(meta.lastFullReview);
 
     // Top 10 (with "Why this ranking?" expanders)
-    $('#top10').innerHTML = rankings.top.map(r => {
-      const t = DB.tById[r.id]; if (!t) return '';
-      return rankedCard(t, r);
-    }).join('');
+    $('#top10').innerHTML =
+      (rankings.uncertaintyNote ? `<div class="notice" style="grid-column:1/-1;margin:0 0 4px">ℹ️ <strong>How solid is this order?</strong> ${esc(rankings.uncertaintyNote)}</div>` : '') +
+      rankings.top.map(r => {
+        const t = DB.tById[r.id]; if (!t) return '';
+        return rankedCard(t, r);
+      }).join('');
 
     // Available now
     const avail = treatments.filter(t => t.availability && t.availability.availableNow && t.tier <= 4 && t.evidenceScore >= 3)
@@ -400,6 +425,7 @@
         ${row('Distress evidence', d.distress || (t && t.distress.summary))}
         ${row('Availability', d.availability)}
         ${row('Main uncertainty', d.uncertainty)}
+        ${row('Ranking stability', r.stabilityNote)}
         ${row('What could change this ranking', r.couldChange)}
       </ul></details>`;
   }
@@ -409,6 +435,7 @@
     return `<div class="card tcard" style="--cat-c:${esc(cat.color || '#888')}">
       <span class="rank">#${r.rank}</span>
       <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span>
+      ${r.stability ? `<span class="badge ${r.stability === 'weighting-sensitive' ? 'b-watch' : 'b-strong'}" style="margin-left:4px" title="${esc(r.stabilityNote || '')}">${r.stability === 'weighting-sensitive' ? 'Weighting-sensitive' : 'Stable rank'}</span>` : ''}
       <h3>${updatedRecently(t) ? '<span class="updated-dot" title="Updated recently"></span>' : ''}<a href="treatment.html?id=${esc(t.id)}" style="color:inherit">${esc(t.name)}</a></h3>
       <p class="one">${esc(t.oneLiner)}</p>
       ${duo(t, true)}
@@ -559,6 +586,8 @@
       <h1 style="margin:.2em 0 .3em">${esc(t.name)}</h1>
       <p class="muted" style="max-width:46em">${esc(t.oneLiner)}</p>
       ${t.narrowPopulation ? `<div class="narrow-note">🎯 <strong>Applies only to a specific diagnosed tinnitus population.</strong> ${esc(t.narrowNote || '')}</div>` : ''}
+      ${t.underReevaluation ? `<div class="notice" style="margin:10px 0">🔎 <strong>Evidence rating under re-evaluation${t.underReevaluation.since ? ' since ' + fmtDate(t.underReevaluation.since) : ''}.</strong>
+        ${esc(t.underReevaluation.reason || '')} The rating shown is the current published assessment; it changes only when the review completes.</div>` : ''}
       ${plainBlock(t)}
       ${evidenceProfile(t)}
       ${profileRelevance(t)}
@@ -693,6 +722,7 @@
     if (!s) return '';
     const res = s.results || {};
     return `<div class="study">
+      ${s.integrityNotice ? `<div class="notice" style="margin-bottom:6px">⚠️ <strong>Research-integrity notice (${esc(s.integrityNotice.severity.replace(/-/g, ' '))}).</strong> ${esc(s.integrityNotice.text)}</div>` : ''}
       <div class="t">${esc(s.title)}</div>
       <div class="meta">${esc(s.authors)} · ${esc(s.journal)} · ${esc(s.year)}
         ${s.n ? ` · N=${esc(s.n)}` : ''}${s.design ? ` · ${esc(s.design)}` : ''}</div>

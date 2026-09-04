@@ -16,7 +16,9 @@
         "uncertainty": "Whether benefits persist long-term after therapy ends (few 6–12-month follow-ups)."
       },
       "couldChange": "Would drop only if a treatment shows durable loudness reduction in large independent RCTs; could rise in absolute impact as digital delivery widens access.",
-      "whyPlain": "Most-tested treatment in the field + recommended by medical guidelines + available now. Helps how much tinnitus bothers you, not the volume."
+      "whyPlain": "Most-tested treatment in the field + recommended by medical guidelines + available now. Helps how much tinnitus bothers you, not the volume.",
+      "stability": "stable-top",
+      "stabilityNote": "Ranked #1 in five of six weighting schemes; drops (to ~#4) only if loudness reduction alone is weighted."
     },
     {
       "rank": 2,
@@ -33,7 +35,9 @@
         "uncertainty": "How much of the effect is placebo/natural course — unanswerable without a sham-controlled trial."
       },
       "couldChange": "An independent sham-controlled RCT confirming benefit would cement it; failure to separate from sound therapy in independent hands would drop it.",
-      "whyPlain": "Replicated clinical results + FDA authorization + currently available. Caveat: every study was company-funded, none had a placebo group."
+      "whyPlain": "Replicated clinical results + FDA authorization + currently available. Caveat: every study was company-funded, none had a placebo group.",
+      "stability": "weighting-sensitive",
+      "stabilityNote": "Falls up to 8 places if conflict-of-interest weighting is applied (all efficacy evidence is sponsor-run) and ~6 under strict quality weighting. Its position also reflects real-world availability (FDA De Novo authorization, clinics operating) — availability is part of 'promising', but readers should know the science pillar is sponsor-dependent."
     },
     {
       "rank": 3,
@@ -50,7 +54,9 @@
         "uncertainty": "Whether it ever reaches a pivotal trial, and whether results generalize beyond somatic tinnitus."
       },
       "couldChange": "A registered pivotal trial or FDA submission would push it up; continued company silence or a failed replication would drop it further.",
-      "whyPlain": "Strongest evidence that anything can make tinnitus QUIETER — but one lab, one study, and you can't get it anywhere."
+      "whyPlain": "Strongest evidence that anything can make tinnitus QUIETER — but one lab, one study, and you can't get it anywhere.",
+      "stability": "weighting-sensitive",
+      "stabilityNote": "Falls ~6 places under conflict-of-interest weighting (inventor-led trials) and ~5 under replication weighting (no independent replication yet)."
     },
     {
       "rank": 4,
@@ -67,7 +73,9 @@
         "uncertainty": "The unpublished DEFINE trial (app vs human therapist) will show whether apps can substitute for clinicians."
       },
       "couldChange": "Peer-reviewed publication of the DEFINE non-inferiority trial could push it up; failed replications would trim it.",
-      "whyPlain": "Proven therapy delivered by phone. Multiple trials, one against a convincing fake app. Available today, often cheap."
+      "whyPlain": "Proven therapy delivered by phone. Multiple trials, one against a convincing fake app. Available today, often cheap.",
+      "stability": "stable",
+      "stabilityNote": "Robust across all six weighting schemes tested."
     },
     {
       "rank": 5,
@@ -84,7 +92,9 @@
         "uncertainty": "Who improves vs who worsens, and durability over years."
       },
       "couldChange": "Applies only to implant candidates; better prediction of who improves (and who worsens) would strengthen its position.",
-      "whyPlain": "Often genuinely quiets tinnitus — but only for people who already qualify for an implant due to severe hearing loss."
+      "whyPlain": "Often genuinely quiets tinnitus — but only for people who already qualify for an implant due to severe hearing loss.",
+      "stability": "weighting-sensitive",
+      "stabilityNote": "Moves up ~4 places if loudness outcomes are weighted, down ~4 under strict trial-quality weighting (evidence is observational/meta-analytic, not randomized for tinnitus)."
     },
     {
       "rank": 6,
@@ -101,7 +111,9 @@
         "uncertainty": "How much is tinnitus-specific vs simply hearing better."
       },
       "couldChange": "A well-controlled trial isolating the tinnitus effect from the hearing benefit would settle the score either way.",
-      "whyPlain": "If you have hearing loss, treating it is one of the most effective moves — guideline-recommended and easy to access."
+      "whyPlain": "If you have hearing loss, treating it is one of the most effective moves — guideline-recommended and easy to access.",
+      "stability": "weighting-sensitive",
+      "stabilityNote": "Falls ~4 places under strict quality weighting — amplification-specific RCT evidence is thin."
     },
     {
       "rank": 7,
@@ -118,7 +130,9 @@
         "uncertainty": "Whether results generalize beyond the single UK center."
       },
       "couldChange": "Replication outside the single UK center would raise confidence.",
-      "whyPlain": "If tinnitus wrecks your sleep, treating the insomnia works — one strong trial against real alternatives."
+      "whyPlain": "If tinnitus wrecks your sleep, treating the insomnia works — one strong trial against real alternatives.",
+      "stability": "stable",
+      "stabilityNote": "Robust across all six weighting schemes tested."
     },
     {
       "rank": 8,
@@ -135,7 +149,9 @@
         "uncertainty": "Performance against active controls and at scale."
       },
       "couldChange": "Larger independent trials; currently ~100 pooled participants.",
-      "whyPlain": "A proven CBT relative built on acceptance instead of struggle. Fewer studies, consistent results."
+      "whyPlain": "A proven CBT relative built on acceptance instead of struggle. Fewer studies, consistent results.",
+      "stability": "weighting-sensitive",
+      "stabilityNote": "Rises ~3 places under durability weighting; replication is largely one research network."
     },
     {
       "rank": 9,
@@ -152,7 +168,9 @@
         "uncertainty": "Whether the effect survives online delivery and non-specialist settings."
       },
       "couldChange": "Multicenter replication; results are from specialist psychology settings.",
-      "whyPlain": "Best-tested mindfulness approach — outperformed a genuine comparison treatment (not just a waiting list), and the benefit lasted six months."
+      "whyPlain": "Best-tested mindfulness approach — outperformed a genuine comparison treatment (not just a waiting list), and the benefit lasted six months.",
+      "stability": "weighting-sensitive",
+      "stabilityNote": "Rises ~4 places under durability weighting; small evidence base."
     },
     {
       "rank": 10,
@@ -169,7 +187,9 @@
         "uncertainty": "Whether navigated/personalized targeting (trials now recruiting) fixes the durability problem."
       },
       "couldChange": "A navigated-rTMS trial with durable 6-month benefit would move it up; another null durability meta would drop it out.",
-      "whyPlain": "Magnetic brain stimulation — tested against a fake version of the device more than anything else here. Real short-term relief in trials, but small, possibly temporary, and not routine doctor-recommended care."
+      "whyPlain": "Magnetic brain stimulation — tested against a fake version of the device more than anything else here. Real short-term relief in trials, but small, possibly temporary, and not routine doctor-recommended care.",
+      "stability": "weighting-sensitive",
+      "stabilityNote": "Rises up to 7 places under quality/replication weighting (many sham-controlled trials exist) — but held back here because independent results conflict (Folmer positive vs Landgrebe negative) and effects fade; trial VOLUME is not the same as durable, consistent benefit."
     }
   ],
   "history": [
@@ -284,6 +304,29 @@
           "evidenceScore": 2
         }
       ]
+    },
+    {
+      "date": "2026-09-04",
+      "note": "No rank order changes. Added ranking-uncertainty communication: stability labels from a six-scheme weighting stress test, a page-level uncertainty note, and a documented exclusion rationale for venous sinus stenting.",
+      "top": [
+        "cbt",
+        "lenire",
+        "shore-bimodal",
+        "digital-cbt",
+        "cochlear-implants",
+        "hearing-aids",
+        "cbt-i",
+        "act",
+        "mbct",
+        "rtms"
+      ]
+    }
+  ],
+  "uncertaintyNote": "Rankings depend on how evidence dimensions are weighted. In our stress test of six reasonable weighting schemes, only two positions were fully stable (digital CBT programs and CBT for insomnia); CBT ranked #1 in five of six schemes. Positions marked 'weighting-sensitive' can move several places under defensible alternative weightings — treat the order as a guide, not a verdict.",
+  "exclusions": [
+    {
+      "id": "venous-stenting",
+      "note": "Venous sinus stenting scores strongly on several evidence dimensions but is excluded from this Top-10 because it applies only to a specific vascular subtype of pulsatile tinnitus (venous sinus stenosis), requires an invasive procedure with real complication risk, and its evidence is uncontrolled case series — a general most-promising list would mislead the overwhelming majority of readers, whose tinnitus is not of this type. It is covered fully on its own page."
     }
   ]
 }

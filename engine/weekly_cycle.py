@@ -105,8 +105,12 @@ class Cycle:
         existing = {it["id"] for it in queue["items"]}
         new = []
         scanners = fixtures if fixtures is not None else [
-            ("PubMed", weekly_scan.scan_pubmed), ("ClinicalTrials.gov", weekly_scan.scan_ctgov),
-            ("Watched feeds (FDA, NIH/NIDCD, journals, EMA…)", weekly_scan.scan_feeds)]
+            ("PubMed (title/abstract + MeSH)", weekly_scan.scan_pubmed),
+            ("ClinicalTrials.gov (condition + full-text)", weekly_scan.scan_ctgov),
+            ("Watched feeds (FDA press, NIH, journals)", weekly_scan.scan_feeds),
+            ("FDA databases (510k/PMA/MAUDE — openFDA)", weekly_scan.scan_fda),
+            ("News-wire intelligence (labeled, never evidence)", weekly_scan.scan_news_intel),
+            ("Guideline page watcher (AAO-HNSF, NICE)", weekly_scan.scan_pages)]
         for name, fn in scanners:
             src = {"name": name, "checked": True, "count": 0, "error": None}
             try:
@@ -181,6 +185,63 @@ class Cycle:
                        "changesAssessment": "No — trial status only."},
         } for tr, old, new in changed]
 
+    def retraction_check(self, held):
+        """Monthly retraction/erratum/expression-of-concern back-check over every CITED
+        PMID/DOI in studies.json (fixes the audit's grade-D retraction resilience: nothing
+        previously linked notices back to cited records). Findings are CLASS B — held for
+        review; the public assessment stays unchanged. For retraction/EoC severities the
+        study record gets a visible factual integrity flag (like registry-verified trial
+        status, this states a documented fact — it changes no rating)."""
+        import check_retractions as cr
+        if self.simulate or not cr.due(self.root / "engine" / "retraction-state.json"):
+            return
+        try:
+            data = self.load("data/studies.json", [])
+            slist = data["studies"] if isinstance(data, dict) else data
+            findings = cr.run(slist, self.root / "engine" / "retraction-state.json")
+        except Exception as e:
+            self.status["errors"].append(f"retraction check failed: {e}")
+            return
+        self.status["retractionFindings"] = len(findings)
+        if not findings:
+            self.log(step="retraction-check", result="no notices found for any cited PMID/DOI",
+                     published=False, held=False)
+            return
+        flagged = False
+        smap = {s["id"]: s for s in slist}
+        for f in findings:
+            already = any(h.get("item", {}).get("id") == "retraction-" + f["identifier"]
+                          for h in held["items"])
+            if not already:
+                held["items"].insert(0, {
+                    "heldAt": datetime.now().isoformat(timespec="seconds"),
+                    "reason": f"{f['severity']} notice detected for cited {f['identifier']} — "
+                              f"affects study record(s) {', '.join(f['studyIds'])}; evidence impact needs review",
+                    "item": {"id": "retraction-" + f["identifier"], "kind": "integrity",
+                             "title": f"Research-integrity notice: {f['severity']} for {f['identifier']}",
+                             "source": f["source"], "url": "", "notices": f["notices"]},
+                    "proposedChange": {"scoreChange": None, "rankChange": None, "safetySignal": False,
+                                       "direction": "weakens",
+                                       "adminSummary": "A " + f["severity"] + " notice exists for a cited paper. "
+                                       "Review whether any treatment rating rests on it."},
+                    "resolution": "unresolved — public assessment unchanged"})
+                self.status["held"] += 1
+            self.log(step="retraction-check", identifier=f["identifier"], severity=f["severity"],
+                     studyIds=f["studyIds"], notices=f["notices"], published=False, held=True)
+            if f["severity"] in ("retracted", "partially-retracted", "expression-of-concern"):
+                for sid in f["studyIds"]:
+                    s = smap.get(sid)
+                    if s and not s.get("integrityNotice"):
+                        s["integrityNotice"] = {
+                            "severity": f["severity"], "detected": date.today().isoformat(),
+                            "text": "A " + f["severity"].replace("-", " ") + " notice has been "
+                            "detected for this publication. The evidence impact is under review; "
+                            "treat this study's results with caution.",
+                            "notices": f["notices"]}
+                        flagged = True
+        if flagged:
+            self.stage("data/studies.json", data)
+
     # ---------- verification gates (deterministic) ----------
     def published_register(self):
         reg = self.load("engine/published_ids.json", None)
@@ -207,9 +268,29 @@ class Cycle:
             return "dup", f"re-reports existing study record '{ev['duplicateOf']}'"
         if ev.get("notRelevant") or ev.get("affectedTreatment") == "none" and ev.get("importance") is None:
             return "irrelevant", "not relevant to tinnitus evidence"
+        rc = ev.get("relevanceCategory")
+        try:
+            rc = int(rc)
+        except (TypeError, ValueError):
+            rc = None
+        if rc in (5, 6):  # incidental mention / false positive — never reaches the public feed
+            return "irrelevant", f"relevance category {rc} (incidental/false-positive) — excluded from the public feed"
+        if rc in (3, 4):  # secondary-outcome or adjacent-condition context — archived, never treatment evidence
+            return "archive", f"relevance category {rc} (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence"
         url = item.get("url", "")
         host = urllib.parse.urlparse(url).netloc.lower()
         trusted = any(host == d or host.endswith("." + d) for d in TRUSTED_DOMAINS)
+        if item.get("intelligenceOnly"):
+            # news-wire watch: intelligence, never evidence. Publishable ONLY as a labeled
+            # company-reported development; anything major or unverified is held.
+            ev2 = ev
+            verified2 = ev2.get("factuallyVerified") and ev2.get("confidence") in ("moderate", "high")
+            major2 = (ev2.get("changeClass") == "major" or ev2.get("proposedScoreChange")
+                      or ev2.get("proposedRankChange") or ev2.get("safetySignal"))
+            if verified2 and not major2:
+                ev2["regulatorySource"] = "company announcement"  # forces the label in weekly_item
+                return "publish", "news-wire intelligence — publishes labeled 'Company-reported development'; never treated as evidence"
+            return "hold", "news-wire intelligence not sufficiently verified (or possibly major) — held"
         has_id = bool(re.search(r"pubmed-\d+|NCT\d{8}", item.get("id", "") + " " + url))
         major = (ev.get("changeClass") == "major" or ev.get("proposedScoreChange")
                  or ev.get("proposedRankChange") or ev.get("safetySignal"))
@@ -278,6 +359,7 @@ class Cycle:
         register = self.published_register()
         study_ids = {s["id"] for s in self.load("data/studies.json", [])}
         held = self.load("data/review-queue/held.json", {"items": []})
+        self.retraction_check(held)  # monthly; findings go to held (Class B) — ratings untouched
         publish, remaining = list(trial_items), []
         for item in queue["items"]:
             r, reason = self.route(item, register, study_ids)
@@ -290,6 +372,17 @@ class Cycle:
                 self.status["rejectedDuplicates"] += 1
             elif r == "irrelevant":
                 self.status["rejectedIrrelevant"] += 1
+            elif r == "archive":
+                # context material (secondary-outcome / adjacent-condition): preserved, never in
+                # the public feed, never treatment evidence. Raw AI evaluation output is NOT
+                # stored here (the archive file is public in the repo) — metadata + category only.
+                self.status["archived"] = self.status.get("archived", 0) + 1
+                archive = self.staged.get("data/review-queue/archive.json") or self.load("data/review-queue/archive.json", {"items": []})
+                archive["items"].insert(0, {
+                    "archivedAt": datetime.now().isoformat(timespec="seconds"), "reason": reason,
+                    "relevanceCategory": ev.get("relevanceCategory"),
+                    "item": {k: item.get(k) for k in ("id", "kind", "title", "source", "date", "url")}})
+                self.stage("data/review-queue/archive.json", archive)
             elif r == "awaiting-eval":
                 self.status["heldAwaitingEvaluation"] += 1
                 remaining.append(item)
