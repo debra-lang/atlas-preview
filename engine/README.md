@@ -100,3 +100,12 @@ cycle runs all deterministic steps and holds new items as "awaiting evaluation".
   BEFORE the first auto-published evaluated batch. Exit 0 = pass; 1 = material failure (HOLD
   launch); report in `engine/benchmark-report.json`. The cases and pass criteria are frozen in
   `audit-baseline-v1/benchmark.md` — never edit them to make results look better.
+
+## Missed-run / failure behavior (documented)
+
+GitHub Actions cron does NOT backfill missed schedules: if a Monday run is skipped (outage) or fails,
+nothing publishes, `lastSuccess` keeps its old date (never faked), GitHub emails the owner about the
+failed run, and the NEXT Monday's run automatically covers the gap for PubMed (EDAT window) while
+ClinicalTrials/feeds items surface on their next update. A run can also be started manually any time
+via workflow_dispatch. The monthly retraction check self-schedules by elapsed time (>=27 days since
+`retraction-state.json` lastRun), so a missed week never skips a month.
