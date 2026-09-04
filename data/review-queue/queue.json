@@ -1,6 +1,18 @@
 {
-  "lastScan": "2026-09-03",
+  "lastScan": "2026-09-04",
   "items": [
+    {
+      "id": "pubmed-42691614",
+      "kind": "study",
+      "title": "Health-Related Quality-of-Life Profiles in Adults With Tinnitus.",
+      "source": "American journal of audiology",
+      "date": "2026 Sep 3",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42691614/",
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    },
     {
       "id": "pubmed-42690037",
       "kind": "study",

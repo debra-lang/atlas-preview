@@ -1,12 +1,12 @@
 {
-  "schedule": "Every Monday 06:00 local time (Windows Task Scheduler task: TinnitusEvidenceWeekly)",
+  "schedule": "Every Monday 06:00 UTC via GitHub Actions (.github/workflows/weekly.yml in the production repo); local Task Scheduler task disabled",
   "nextScheduled": "2026-09-07T06:00",
-  "lastAttempt": "2026-09-03T20:14:01",
+  "lastAttempt": "2026-09-04T03:42:28",
   "sources": [
     {
       "name": "PubMed",
       "checked": true,
-      "count": 30,
+      "count": 21,
       "error": null
     },
     {
@@ -22,17 +22,17 @@
       "error": null
     }
   ],
-  "examined": 34,
-  "newItems": 34,
+  "examined": 25,
+  "newItems": 1,
   "published": 0,
-  "rejectedDuplicates": 1,
+  "rejectedDuplicates": 0,
   "rejectedIrrelevant": 0,
   "held": 0,
   "publishedUnderEvaluation": 0,
-  "heldAwaitingEvaluation": 33,
+  "heldAwaitingEvaluation": 34,
   "trialStatusUpdates": 0,
   "errors": [
-    "AI evaluation skipped: anthropic package not installed (pip install anthropic)"
+    "AI evaluation skipped: ANTHROPIC_API_KEY not set (add it to GitHub repo Secrets)"
   ],
-  "lastSuccess": "2026-09-03T20:14:01"
+  "lastSuccess": "2026-09-04T03:42:28"
 }

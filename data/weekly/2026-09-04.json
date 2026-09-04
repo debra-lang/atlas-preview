@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-04",
+  "title": "Automated weekly scan — 1 update(s)",
+  "automated": true,
+  "items": [
+    {
+      "kind": "news",
+      "treatment": "",
+      "importance": "Does Not Change Current Evidence",
+      "title": "No evidence-changing tinnitus research identified in this week's scan",
+      "whyMatters": "Quiet weeks happen. The sources below were checked; nothing met the bar for a meaningful update, and we would rather say so than manufacture a story.",
+      "summary": "Sources checked: PubMed, ClinicalTrials.gov, Watched feeds (FDA, NIH/NIDCD, journals, EMA…).",
+      "url": "",
+      "detail": {
+        "changesAssessment": "No."
+      }
+    }
+  ]
+}
