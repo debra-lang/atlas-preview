@@ -220,6 +220,41 @@ table.cmp thead th{font-family:var(--font-display)}
   border:1px solid var(--line);border-radius:6px;padding:2px 7px;color:var(--muted);min-width:78px;text-align:center}
 .followbtn{font-size:.8rem;padding:5px 12px}
 
+/* ---------- Phase 4: evidence visuals (no chart library — CSS marks) ---------- */
+.eprofile{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);
+  padding:14px 16px;margin:14px 0;box-shadow:var(--shadow)}
+.eprofile .k{font-size:.68rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.eprow{display:grid;grid-template-columns:minmax(96px,132px) 1fr minmax(74px,auto);gap:10px;align-items:center;padding:5px 0}
+.eprow .lab{font-size:.83rem;color:var(--text)}
+.eprow .val{font-size:.8rem;font-weight:600;color:var(--muted);text-align:right;white-space:nowrap}
+.segbar{display:flex;gap:2px;height:10px;max-width:300px}
+.segbar i{flex:1;border-radius:3px;background:var(--surface-2);border:1px solid var(--line)}
+.segbar i.on{background:var(--seg-c,var(--c-promising));border-color:transparent}
+.segbar.na i{background:repeating-linear-gradient(45deg,var(--surface-2),var(--surface-2) 3px,var(--line) 3px,var(--line) 5px)}
+.eprofile details{margin-top:8px}
+.eprofile summary{cursor:pointer;font-size:.82rem;color:var(--c-promising);font-weight:600}
+
+/* homepage distribution + generic count bars */
+.dchart{display:grid;gap:8px;margin:10px 0}
+.drow{display:grid;grid-template-columns:minmax(120px,190px) 1fr auto;gap:10px;align-items:center}
+.drow .lab{font-size:.86rem}
+.drow .n{font-size:.86rem;font-weight:700;font-variant-numeric:tabular-nums;min-width:2ch;text-align:right}
+.dbar{height:14px;border-radius:4px;background:var(--surface-2);overflow:hidden}
+.dbar i{display:block;height:100%;border-radius:4px;background:var(--d-c,var(--c-promising));min-width:3px}
+a.drow{color:var(--text)} a.drow:hover{text-decoration:none;background:var(--surface-2);border-radius:8px}
+
+/* timeline event types (presentation-only classification) */
+.timeline li::before{background:var(--tl-c,var(--grad-brand))}
+.tl-regulatory{--tl-c:var(--c-strong)} .tl-negative{--tl-c:var(--c-weak)}
+.tl-study{--tl-c:var(--c-promising)} .tl-commercial{--tl-c:var(--c-emerging)} .tl-assessment{--tl-c:var(--c-watch)}
+.tl-key{display:flex;flex-wrap:wrap;gap:10px;font-size:.74rem;color:var(--muted);margin:4px 0 8px}
+.tl-key i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;vertical-align:middle}
+
+/* ranking history strip */
+.rankhist{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+.rankhist .step{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:4px 10px;font-size:.83rem;font-variant-numeric:tabular-nums}
+.rankhist .arrow{color:var(--muted)}
+
 /* ---------- misc ---------- */
 .notice{border:1px solid var(--c-watch-line);background:var(--c-watch-bg);color:var(--text);border-radius:var(--r-sm);padding:11px 14px;font-size:.88rem}
 .footer{margin-top:40px;border-top:1px solid var(--line);padding:24px 0 30px;color:var(--muted);font-size:.85rem}

@@ -92,7 +92,9 @@
     "confidence": "high",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "strong",
+    "safetyLevel": "strong"
   },
   {
     "id": "shore-bimodal",
@@ -192,7 +194,9 @@
       "somatic"
     ],
     "narrowPopulation": true,
-    "narrowNote": "Studied ONLY in somatic tinnitus — people who can change their tinnitus by moving the jaw or neck — with normal-to-moderate hearing loss."
+    "narrowNote": "Studied ONLY in somatic tinnitus — people who can change their tinnitus by moving the jaw or neck — with normal-to-moderate hearing loss.",
+    "replication": "limited",
+    "safetyLevel": "strong"
   },
   {
     "id": "lenire",
@@ -302,7 +306,9 @@
     "confidence": "high",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "limited",
+    "safetyLevel": "strong"
   },
   {
     "id": "digital-cbt",
@@ -396,7 +402,9 @@
     "confidence": "high",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "moderate",
+    "safetyLevel": "strong"
   },
   {
     "id": "cochlear-implants",
@@ -487,7 +495,9 @@
       "ci-candidate"
     ],
     "narrowPopulation": true,
-    "narrowNote": "Applies ONLY to people who qualify for a cochlear implant because of severe-to-profound hearing loss. Nobody is implanted for tinnitus alone."
+    "narrowNote": "Applies ONLY to people who qualify for a cochlear implant because of severe-to-profound hearing loss. Nobody is implanted for tinnitus alone.",
+    "replication": "strong",
+    "safetyLevel": "moderate"
   },
   {
     "id": "hearing-aids",
@@ -574,7 +584,9 @@
     "confidence": "high",
     "subtypeTags": [
       "hearing-loss"
-    ]
+    ],
+    "replication": "moderate",
+    "safetyLevel": "strong"
   },
   {
     "id": "cbt-i",
@@ -652,7 +664,9 @@
     "confidence": "moderate",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "limited",
+    "safetyLevel": "strong"
   },
   {
     "id": "act",
@@ -734,7 +748,9 @@
     "confidence": "moderate",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "moderate",
+    "safetyLevel": "strong"
   },
   {
     "id": "mbct",
@@ -815,7 +831,9 @@
     "confidence": "moderate",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "limited",
+    "safetyLevel": "strong"
   },
   {
     "id": "spi-1005",
@@ -906,7 +924,9 @@
       "meniere"
     ],
     "narrowPopulation": true,
-    "narrowNote": "Studied ONLY in Meniere's disease. There is no trial of this drug in ordinary tinnitus."
+    "narrowNote": "Studied ONLY in Meniere's disease. There is no trial of this drug in ordinary tinnitus.",
+    "replication": "none",
+    "safetyLevel": "limited"
   },
   {
     "id": "trtl-913",
@@ -981,7 +1001,9 @@
     "confidence": "high",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": null
   },
   {
     "id": "somatic-physio",
@@ -1075,7 +1097,9 @@
     "confidence": "moderate",
     "subtypeTags": [
       "somatic"
-    ]
+    ],
+    "replication": "limited",
+    "safetyLevel": "moderate"
   },
   {
     "id": "sound-therapy",
@@ -1166,7 +1190,9 @@
     "fmqs": {
       "label": "Explore masking and personalized sound",
       "feature": "sound therapy"
-    }
+    },
+    "replication": "limited",
+    "safetyLevel": "strong"
   },
   {
     "id": "trt",
@@ -1250,7 +1276,9 @@
     "confidence": "high",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "limited",
+    "safetyLevel": "strong"
   },
   {
     "id": "rtms",
@@ -1341,7 +1369,9 @@
     "confidence": "high",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "strong",
+    "safetyLevel": "moderate"
   },
   {
     "id": "tdcs",
@@ -1422,7 +1452,9 @@
     "confidence": "moderate",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "limited",
+    "safetyLevel": "strong"
   },
   {
     "id": "vns-paired",
@@ -1505,7 +1537,9 @@
     "confidence": "moderate",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": "limited"
   },
   {
     "id": "neosensory-duo",
@@ -1587,7 +1621,9 @@
     "confidence": "moderate",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": "strong"
   },
   {
     "id": "acoustic-cr",
@@ -1670,7 +1706,9 @@
     "confidence": "high",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": "strong"
   },
   {
     "id": "notched-sound",
@@ -1761,7 +1799,9 @@
     "fmqs": {
       "label": "Explore Personalized Notched Sound",
       "feature": "notched sound"
-    }
+    },
+    "replication": "limited",
+    "safetyLevel": "strong"
   },
   {
     "id": "combo-aids-fractal",
@@ -1845,7 +1885,9 @@
     "confidence": "moderate",
     "subtypeTags": [
       "hearing-loss"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": "strong"
   },
   {
     "id": "truesilence",
@@ -1932,7 +1974,9 @@
     "confidence": "moderate",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": "strong"
   },
   {
     "id": "intratympanic",
@@ -2023,7 +2067,9 @@
     "subtypeTags": [
       "general",
       "sudden-hl"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": "limited"
   },
   {
     "id": "off-label-drugs",
@@ -2112,7 +2158,9 @@
     "confidence": "high",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": "limited"
   },
   {
     "id": "supplements",
@@ -2184,7 +2232,9 @@
     "confidence": "high",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": "moderate"
   },
   {
     "id": "regenerative",
@@ -2280,7 +2330,9 @@
     "confidence": "high",
     "subtypeTags": [
       "hearing-loss"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": null
   },
   {
     "id": "venous-stenting",
@@ -2362,7 +2414,9 @@
       "pulsatile"
     ],
     "narrowPopulation": true,
-    "narrowNote": "Studied ONLY in pulsatile tinnitus with an imaging-confirmed venous sinus narrowing. Pulsatile tinnitus means a rhythmic whooshing in time with your heartbeat — if your tinnitus is a steady tone or hiss, this page is not about your tinnitus, and the ~90% resolution rates do not apply."
+    "narrowNote": "Studied ONLY in pulsatile tinnitus with an imaging-confirmed venous sinus narrowing. Pulsatile tinnitus means a rhythmic whooshing in time with your heartbeat — if your tinnitus is a steady tone or hiss, this page is not about your tinnitus, and the ~90% resolution rates do not apply.",
+    "replication": "strong",
+    "safetyLevel": "limited"
   },
   {
     "id": "tavns",
@@ -2437,7 +2491,9 @@
     "confidence": "moderate",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": "strong"
   },
   {
     "id": "levo",
@@ -2522,7 +2578,9 @@
     "confidence": "moderate",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": "strong"
   },
   {
     "id": "tus",
@@ -2603,7 +2661,9 @@
     "confidence": "high",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": null
   },
   {
     "id": "neurofeedback",
@@ -2676,7 +2736,9 @@
     "confidence": "moderate",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "limited",
+    "safetyLevel": "strong"
   },
   {
     "id": "acupuncture",
@@ -2748,7 +2810,9 @@
     "confidence": "high",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "limited",
+    "safetyLevel": "moderate"
   },
   {
     "id": "hbot",
@@ -2817,7 +2881,9 @@
     "confidence": "high",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": "moderate"
   },
   {
     "id": "lllt",
@@ -2884,7 +2950,9 @@
     "confidence": "high",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": "strong"
   },
   {
     "id": "cannabis-cbd",
@@ -2954,7 +3022,9 @@
     "confidence": "high",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": "limited"
   },
   {
     "id": "hypnotherapy",
@@ -3019,7 +3089,9 @@
     "confidence": "high",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": "strong"
   },
   {
     "id": "neuromonics",
@@ -3099,6 +3171,8 @@
     "confidence": "moderate",
     "subtypeTags": [
       "general"
-    ]
+    ],
+    "replication": "none",
+    "safetyLevel": "strong"
   }
 ]

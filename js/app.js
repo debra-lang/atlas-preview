@@ -132,6 +132,75 @@
     const s = (t.subtypes || []).filter(Boolean);
     return s.length ? 'Studied primarily in people with ' + s.join('; ') : 'Studied in broad or unspecified tinnitus populations';
   }
+  /* ---------- Evidence Profile visuals (no chart library; CSS marks only) ----------
+     Mapping (documented in ARCHITECTURE.md + About): qualitative → 0–4 segments.
+     strong=4 · moderate=3 · limited=2 · weak=1 · none=0 · missing field = "Not yet assessed"
+     (hatched, NOT zero — unknown is not the same as weak). No invented percentages. */
+  const SEG = { strong: 4, moderate: 3, limited: 2, weak: 1, none: 0 };
+  const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+  function segbar(n, na) {
+    let s = '';
+    for (let i = 1; i <= 4; i++) s += `<i class="${!na && i <= n ? 'on' : ''}"></i>`;
+    return `<span class="segbar${na ? ' na' : ''}" aria-hidden="true">${s}</span>`;
+  }
+  function epDims(t) {
+    const availW = availWord(t);
+    const availSeg = { 'Available': 4, 'Limited availability': 3, 'Clinical trials / research only': 1, 'Not yet available': 0 }[availW] ?? 0;
+    const lv = o => ({ segs: SEG[o.level] ?? 0, word: LV_LABELS[o.level] || cap(o.level), na: false });
+    const q4 = Math.min(4, t.evidenceScore); // 5/5 renders full bar; label keeps the /5 truth
+    return [
+      { label: 'Evidence quality', segs: q4, word: `${EVIDENCE_WORDS[t.evidenceScore]} (${t.evidenceScore}/5)`, na: false,
+        def: 'How strong and rigorous is the underlying clinical evidence?' },
+      { label: 'Replication', segs: SEG[t.replication] ?? 0, word: t.replication ? cap(t.replication) : 'Not yet assessed', na: t.replication == null,
+        def: 'Have the positive findings been reproduced in independent or multiple studies?' },
+      { label: 'Loudness evidence', ...lv(t.loudness),
+        def: 'Is there evidence the tinnitus sound itself became quieter?' },
+      { label: 'Distress evidence', ...lv(t.distress),
+        def: 'Is there evidence tinnitus became less bothersome or quality of life improved?' },
+      { label: 'Safety', segs: SEG[t.safetyLevel] ?? 0, word: t.safetyLevel ? cap(t.safetyLevel) : 'Not yet assessed', na: t.safetyLevel == null,
+        def: 'What does current evidence show about tolerability and known risks?' },
+      { label: 'Availability', segs: availSeg, word: availW, na: false,
+        def: 'Can patients realistically access this today?' }
+    ];
+  }
+  function evidenceProfile(t) {
+    const dims = epDims(t);
+    return `<div class="eprofile"><div class="k">Evidence profile</div>
+      ${dims.map(d => `<div class="eprow"><span class="lab">${esc(d.label)}</span>${segbar(d.segs, d.na)}
+        <span class="val">${esc(d.word)}</span></div>`).join('')}
+      <details><summary>What does each bar mean?</summary>
+        <ul class="small">${dims.map(d => `<li><strong>${esc(d.label)}:</strong> ${esc(d.def)}</li>`).join('')}
+        <li class="muted">Bars show qualitative categories from the reviewed database (Strong=4 segments · Moderate=3 ·
+        Limited=2 · Weak=1 · None=0). A hatched bar means "not yet assessed" — unknown is not the same as weak.
+        No percentages are shown because tinnitus studies measure different outcomes; a single "effectiveness %"
+        would be scientifically misleading.</li></ul>
+      </details></div>`;
+  }
+  function countBars(rows, opts) { // rows: [{label, n, color?, href?}] — single-hue magnitude bars + always-on labels
+    const max = Math.max(1, ...rows.map(r => r.n));
+    return `<div class="dchart" role="img" aria-label="${esc(opts && opts.aria || 'Counts')}: ${rows.map(r => r.label + ' ' + r.n).join(', ')}">
+      ${rows.map(r => {
+        const inner = `<span class="lab">${esc(r.label)}</span>
+          <span class="dbar"><i style="width:${(r.n / max * 100).toFixed(1)}%${r.color ? ';--d-c:' + r.color : ''}"></i></span>
+          <span class="n">${r.n}</span>`;
+        return r.href ? `<a class="drow" href="${esc(r.href)}">${inner}</a>` : `<div class="drow">${inner}</div>`;
+      }).join('')}</div>`;
+  }
+  function timelineClass(ev) { // presentation-only keyword classification — never alters evidence data
+    const s = ev.toLowerCase();
+    if (/fail|miss|null|negative|discontinu|dissolv|terminat|no benefit|not achieved|silen|refut/.test(s)) return 'tl-negative';
+    if (/fda|cleared|authoriz|de novo|ce mark|approval|designation|diga|regulat/.test(s)) return 'tl-regulatory';
+    if (/launch|commercial|spinout|spin|startup|marketing/.test(s)) return 'tl-commercial';
+    if (/rating|rank|tier|audit|assessment/.test(s)) return 'tl-assessment';
+    return 'tl-study';
+  }
+  const TL_KEY = `<div class="tl-key">
+    <span><i style="background:var(--c-promising)"></i>Study</span>
+    <span><i style="background:var(--c-strong)"></i>Regulatory</span>
+    <span><i style="background:var(--c-weak)"></i>Negative / setback</span>
+    <span><i style="background:var(--c-emerging)"></i>Commercial</span>
+    <span><i style="background:var(--c-watch)"></i>Our assessment</span></div>`;
+
   function regExplain(status) {
     const s = (status || '').toLowerCase();
     if (s.includes('de novo')) return 'De Novo authorized = the FDA reviewed it as a brand-new device type and allowed marketing. Stronger than "cleared", weaker than full "approval".';
@@ -279,6 +348,25 @@
     // Coming soon
     const coming = trials.filter(t => t.watch).slice(0, 4);
     $('#coming').innerHTML = coming.map(trialCard).join('');
+
+    // Where the evidence stands (auto-computed distribution; semantic ordinal colors + always-on labels)
+    const stand = $('#evstand');
+    if (stand) {
+      const g = s => treatments.filter(t => s(t.evidenceScore)).length;
+      const loudN = treatments.filter(t => ['moderate', 'strong'].includes(t.loudness.level)).length;
+      const distN = treatments.filter(t => ['moderate', 'strong'].includes(t.distress.level)).length;
+      const bothN = treatments.filter(t => ['moderate', 'strong'].includes(t.loudness.level) && ['moderate', 'strong'].includes(t.distress.level)).length;
+      stand.innerHTML = countBars([
+        { label: 'Strong evidence (4–5/5)', n: g(s => s >= 4), color: 'var(--c-strong)' },
+        { label: 'Moderate evidence (3/5)', n: g(s => s === 3), color: 'var(--c-promising)' },
+        { label: 'Limited evidence (2/5)', n: g(s => s === 2), color: 'var(--c-watch)' },
+        { label: 'Weak / unsupported (1/5)', n: g(s => s === 1), color: 'var(--c-weak)' }
+      ], { aria: 'Treatments by evidence strength' }) +
+      `<p class="small muted" style="margin:10px 0 0">Of ${treatments.length} tracked treatments,
+        <a href="treatments.html?flag=loud">${loudN} have at least moderate evidence for the sound itself</a>,
+        <a href="treatments.html?flag=distress">${distN} for being less bothered</a> — and only ${bothN} for both.
+        Counts update automatically as evidence classifications change through human review.</p>`;
+    }
 
     // What hasn't worked (Tier 5, still marketed/available — the ones people spend money on)
     const neg = treatments.filter(t => t.tier === 5 && t.availability && t.availability.availableNow)
@@ -455,12 +543,14 @@
       <p class="muted" style="max-width:46em">${esc(t.oneLiner)}</p>
       ${t.narrowPopulation ? `<div class="narrow-note">🎯 <strong>Applies only to a specific diagnosed tinnitus population.</strong> ${esc(t.narrowNote || '')}</div>` : ''}
       ${plainBlock(t)}
+      ${evidenceProfile(t)}
       ${profileRelevance(t)}
       <p><button class="btn watch-btn" type="button" id="watch" aria-pressed="${wlHas('treatments', t.id)}">⭐ <span>${wlHas('treatments', t.id) ? 'On your watchlist' : 'Add to watchlist'}</span></button>
       <a class="btn" href="compare.html?ids=${esc(t.id)}">⚖ Compare</a></p>
 
       ${prevNote}
       ${rEntry ? whyRankingBlock(rEntry, t) : ''}
+      ${rankHistory(t)}
       <div class="snapshot" style="margin:16px 0">
         <div class="cell"><div class="k">Evidence score</div><div class="v">${emeter(t.evidenceScore)}</div></div>
         <div class="cell"><div class="k">Tier</div><div class="v">${tierBadge(t.tier)}</div></div>
@@ -507,7 +597,7 @@
           ${t.regulatory.sourceUrl ? ` <a href="${esc(t.regulatory.sourceUrl)}" rel="noopener" target="_blank">Source ↗</a>` : ''}</p>
         ${fmqsBox(t)}
 
-        ${(t.timeline || []).length ? `<h2>Research timeline</h2><ul class="timeline">${t.timeline.map(ev => `<li><b>${esc(ev.year)}</b> — ${esc(ev.event)}</li>`).join('')}</ul>` : ''}
+        ${(t.timeline || []).length ? `<h2>Research timeline</h2>${TL_KEY}<ul class="timeline">${t.timeline.map(ev => `<li class="${timelineClass(ev.event)}"><b>${esc(ev.year)}</b> — ${esc(ev.event)}</li>`).join('')}</ul>` : ''}
 
         ${(t.latest || []).length ? `<h2>Latest developments</h2>${t.latest.map(l =>
           `<div class="week-item"><div class="t">${fmtDate(l.date)}</div><div class="small">${esc(l.text)}
@@ -557,6 +647,18 @@
       people who share some characteristics with your Tinnitus Profile — specifically
       ${matches.map(m => esc(CHAR_NAMES[m] || m)).join(' and ')}. That makes the research more relevant to read,
       not a recommendation that it will work for you.</div>`;
+  }
+
+  function rankHistory(t) {
+    const hist = (DB.rankings.history || []).map(h => {
+      const s = (h.snapshot || []).find(x => x.id === t.id);
+      return s ? { date: h.date, rank: s.rank } : null;
+    }).filter(Boolean);
+    if (hist.length < 2) return '';
+    return `<div><div class="k small muted" style="text-transform:uppercase;font-weight:700;letter-spacing:.06em">Ranking history</div>
+      <div class="rankhist">${hist.map((h, i) => `${i ? '<span class="arrow" aria-hidden="true">→</span>' : ''}<span class="step">${fmtDate(h.date)}: #${h.rank}</span>`).join('')}</div>
+      <p class="small muted" style="margin-top:2px">The rank is our platform's assessment weighing ten factors (evidence, replication, availability…) —
+      rank movement reflects that assessment, not a measurement that the treatment itself got better or worse.</p></div>`;
   }
 
   function fmqsBox(t) {
@@ -613,9 +715,13 @@
       if (list.length < 2) { out.innerHTML = '<div class="empty">Pick 2–4 treatments above to compare them side by side.</div>'; return; }
       const av = t => t.availability || {};
       const row = (label, fn) => `<tr><td>${label}</td>${list.map(t => `<td>${fn(t)}</td>`).join('')}</tr>`;
+      const dimRow = i => `<tr><td>${esc(epDims(list[0])[i].label)}</td>${list.map(t => { const d = epDims(t)[i];
+        return `<td>${segbar(d.segs, d.na)}<div class="small" style="font-weight:600;margin-top:3px">${esc(d.word)}</div></td>`; }).join('')}</tr>`;
       out.innerHTML = `<div class="cmp-scroll"><table class="cmp">
         <thead><tr><th></th>${list.map(t => `<th><a href="treatment.html?id=${esc(t.id)}">${esc(t.name)}</a></th>`).join('')}</tr></thead>
         <tbody>
+        <tr><td style="font-weight:700">Evidence profile</td>${list.map(() => '<td></td>').join('')}</tr>
+        ${[0, 1, 2, 3, 4, 5].map(dimRow).join('')}
         ${row('Evidence score', t => emeter(t.evidenceScore))}
         ${row('Tier', t => tierBadge(t.tier))}
         ${row('Category', t => esc((DB.catById[t.category] || {}).name || ''))}
@@ -648,6 +754,19 @@
     const countries = [...new Set(DB.trials.map(t => t.country).filter(Boolean))].sort();
     chipsEl.insertAdjacentHTML('beforeend',
       countries.map(c => `<button class="chip" data-k="country" data-v="${esc(c)}">📍 ${esc(c)}</button>`).join(''));
+    const chart = $('#trchart');
+    if (chart) {
+      const bucket = s => /stale/i.test(s) ? 'Stale registration (needs re-check)'
+        : /not yet|registered/i.test(s) ? 'Registered / not yet recruiting'
+        : /recruit/i.test(s) ? 'Recruiting'
+        : /active|ongoing/i.test(s) ? 'Active, not recruiting'
+        : /complete/i.test(s) ? 'Completed' : 'Other';
+      const counts = {};
+      DB.trials.forEach(t => { const b = bucket(t.status); counts[b] = (counts[b] || 0) + 1; });
+      const order = ['Recruiting', 'Active, not recruiting', 'Registered / not yet recruiting', 'Stale registration (needs re-check)', 'Completed', 'Other'];
+      chart.innerHTML = `<div class="k small muted" style="text-transform:uppercase;font-weight:700;letter-spacing:.06em">The ${DB.trials.length} trials we watch, by status</div>` +
+        countBars(order.filter(k => counts[k]).map(k => ({ label: k, n: counts[k] })), { aria: 'Watched trials by status' });
+    }
     const nearNote = $('#near-note');
     if (nearNote) nearNote.innerHTML = `Country shows the lead sponsor/site. For a full location search near you, use
       <a href="https://clinicaltrials.gov/search?cond=tinnitus" rel="noopener" target="_blank">ClinicalTrials.gov's tinnitus search ↗</a>
@@ -688,8 +807,15 @@
   PAGES.research = function () {
     const file = qs('week');
     const renderReport = rep => {
+      const impCounts = {};
+      rep.items.forEach(it => { if (it.importance) impCounts[it.importance] = (impCounts[it.importance] || 0) + 1; });
+      const impOrder = ['Potentially Important', 'Interesting but Early', 'Confirms Previous Evidence', 'Negative Result', 'Does Not Change Current Evidence'];
       $('#rep').innerHTML = `
         <h2 style="margin-top:10px">Week of ${fmtDate(rep.date)}</h2>
+        ${Object.keys(impCounts).length ? `<div class="card" style="margin-bottom:14px">
+          <div class="k small muted" style="text-transform:uppercase;font-weight:700;letter-spacing:.06em">This edition's ${rep.items.length} updates, by importance</div>
+          ${countBars(impOrder.filter(k => impCounts[k]).map(k => ({ label: k, n: impCounts[k] })), { aria: 'Updates by importance' })}
+          <p class="small muted" style="margin:8px 0 0">Classifications are assigned during human review, never automatically. An activity-over-time view will appear as the weekly archive grows.</p></div>` : ''}
         ${rep.headline ? `<div class="card" style="border-left:4px solid var(--c-promising)"><div class="k small muted" style="text-transform:uppercase;font-weight:700;letter-spacing:.06em">Most important this week</div>
           <h3>${esc(rep.headline.title)}</h3><p class="small">${esc(rep.headline.summary)}</p>
           ${rep.headline.url ? `<a class="small" href="${esc(rep.headline.url)}" rel="noopener" target="_blank">Source ↗</a>` : ''}</div>` : ''}
@@ -782,8 +908,23 @@
       const tags = profileTags(p);
       const relevant = DB.treatments.filter(t => (t.subtypeTags || []).some(x => tags.includes(x)))
         .sort((a, b) => a.tier - b.tier || b.evidenceScore - a.evidenceScore);
+      const DOMAINS = [
+        ['hearing-loss', 'Hearing-loss related research'], ['somatic', 'Somatic / jaw / neck research'],
+        ['pulsatile', 'Pulsatile-specific research'], ['sudden-hl', 'Sudden-hearing-loss research']];
+      const trialCount = tag => DB.trials.filter(tr => tr.treatment && DB.tById[tr.treatment] &&
+        (DB.tById[tr.treatment].subtypeTags || []).includes(tag)).length;
+      const mapRows = DOMAINS.map(([tag, label]) => {
+        const has = tags.includes(tag);
+        const n = has ? DB.treatments.filter(t => (t.subtypeTags || []).includes(tag)).length : 0;
+        return `<div class="eprow"><span class="lab">${esc(label)}</span>${segbar(has ? 4 : 0, !has)}
+          <span class="val">${has ? `${n} pages · ${trialCount(tag)} trials` : 'Not reported'}</span></div>`;
+      }).join('');
       results.innerHTML = `
         <h2 style="margin-top:20px">Research potentially relevant to your profile</h2>
+        <div class="eprofile"><div class="k">Research relevance map</div>${mapRows}
+          <p class="small muted" style="margin:8px 0 0"><strong>This shows research relevance — which studies involved
+          people with characteristics you reported.</strong> It is NOT a measure of how likely any treatment is to work
+          for you, and "Not reported" simply means you didn't report that characteristic.</p></div>
         ${tags.length ? `<p class="small muted">Matching on: ${tags.map(x => esc(CHAR_NAMES[x] || x)).join(' · ')}.
           These treatments were <em>studied</em> in people sharing those characteristics — that makes the research
           worth reading, not a recommendation.</p>
