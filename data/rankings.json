@@ -73,7 +73,7 @@
         "uncertainty": "The unpublished DEFINE trial (app vs human therapist) will show whether apps can substitute for clinicians."
       },
       "couldChange": "Peer-reviewed publication of the DEFINE non-inferiority trial could push it up; failed replications would trim it.",
-      "whyPlain": "Proven therapy delivered by phone. Multiple trials, one against a convincing fake app. Available today, often cheap.",
+      "whyPlain": "Well-supported therapy delivered by phone. Multiple trials, one against a convincing fake app. Available today, often cheap.",
       "stability": "stable",
       "stabilityNote": "Robust across all six weighting schemes tested."
     },
@@ -149,7 +149,7 @@
         "uncertainty": "Performance against active controls and at scale."
       },
       "couldChange": "Larger independent trials; currently ~100 pooled participants.",
-      "whyPlain": "A proven CBT relative built on acceptance instead of struggle. Fewer studies, consistent results.",
+      "whyPlain": "A well-studied CBT relative built on acceptance instead of struggle. Fewer studies, consistent results.",
       "stability": "weighting-sensitive",
       "stabilityNote": "Rises ~3 places under durability weighting; replication is largely one research network."
     },

@@ -2029,5 +2029,173 @@
         "reason": "Research-quality improvement phase — audit-identified coverage gap; extraction verified against sources (see audit-improvement/acquisition-report.md)."
       }
     ]
+  },
+  {
+    "randomized": false,
+    "sham": false,
+    "independent": true,
+    "results": {
+      "summary": "Pooled estimates: about 14% of adults report any tinnitus (≈2% severe); prevalence rises with age and is broadly similar across sexes. The standard modern citation for how common tinnitus is.",
+      "detail": "Estimates vary with definitions and instruments across the underlying studies."
+    },
+    "coi": "Independent.",
+    "limitations": "Heterogeneous definitions across included studies.",
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Context record added (not treatment evidence; not linked to any treatment page).",
+        "reason": "Independent holdout audit identified off-treatment-axis coverage gaps; identifiers verified via PubMed esummary 2026-09-04."
+      }
+    ],
+    "id": "jarach-2022-prevalence",
+    "title": "Global prevalence and incidence of tinnitus: systematic review and meta-analysis",
+    "authors": "Jarach CM, et al.",
+    "journal": "JAMA Neurology",
+    "year": 2022,
+    "pmid": "35939312",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/35939312/",
+    "n": "83 prevalence articles pooled",
+    "design": "Systematic review + meta-analysis (epidemiology — context record, not treatment evidence)",
+    "primaryOutcome": "—"
+  },
+  {
+    "randomized": false,
+    "sham": false,
+    "independent": true,
+    "results": {
+      "summary": "Severe tinnitus was associated with higher odds of reported suicide attempts, most clearly in women. ASSOCIATION, not causation — but it documents that severe tinnitus distress can co-occur with serious psychological crisis, which is why this platform points people with severe distress to urgent professional help.",
+      "detail": "Cross-sectional design cannot establish direction of causality; comorbid depression/anxiety are major factors."
+    },
+    "coi": "Independent.",
+    "limitations": "Cross-sectional; self-reported outcomes.",
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Context record added (not treatment evidence; not linked to any treatment page).",
+        "reason": "Independent holdout audit identified off-treatment-axis coverage gaps; identifiers verified via PubMed esummary 2026-09-04."
+      }
+    ],
+    "id": "lugo-2019-suicide-attempts",
+    "title": "Sex-specific association of tinnitus with suicide attempts (population-based)",
+    "authors": "Lugo A, et al.",
+    "journal": "JAMA Otolaryngology–Head & Neck Surgery",
+    "year": 2019,
+    "pmid": "31046059",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/31046059/",
+    "n": "Population-based (Sweden, STAGE cohort)",
+    "design": "Cross-sectional population study (distress-risk context record, not treatment evidence)",
+    "primaryOutcome": "—"
+  },
+  {
+    "randomized": false,
+    "sham": false,
+    "independent": true,
+    "results": {
+      "summary": "The TFI (0–100) measures tinnitus IMPACT/severity across 8 domains and was designed to be responsive to treatment change; a reduction of about 13 points is the commonly used threshold for meaningful improvement. It measures how much tinnitus affects a person — NOT how loud the tinnitus is.",
+      "detail": "This is the provenance for the ≥13-point 'clinically meaningful' TFI threshold used on this site."
+    },
+    "coi": "Independent.",
+    "limitations": "",
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Context record added (not treatment evidence; not linked to any treatment page).",
+        "reason": "Independent holdout audit identified off-treatment-axis coverage gaps; identifiers verified via PubMed esummary 2026-09-04."
+      }
+    ],
+    "id": "meikle-2012-tfi",
+    "title": "Tinnitus Functional Index (TFI): development and validation",
+    "authors": "Meikle MB, et al.",
+    "journal": "Ear & Hearing",
+    "year": 2012,
+    "pmid": "22156949",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/22156949/",
+    "n": "Development/validation samples",
+    "design": "Measurement-standard record (questionnaire development/validation)",
+    "primaryOutcome": "—"
+  },
+  {
+    "randomized": false,
+    "sham": false,
+    "independent": true,
+    "results": {
+      "summary": "The THI (0–100) quantifies tinnitus-related handicap in daily life. Like the TFI, it is a DISTRESS/impact measure, not a loudness measure; a ~20-point change (or 7 points in some analyses) is commonly discussed as meaningful, with thresholds varying by study.",
+      "detail": "Provenance record for THI-based results reported across this site."
+    },
+    "coi": "Independent.",
+    "limitations": "",
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Context record added (not treatment evidence; not linked to any treatment page).",
+        "reason": "Independent holdout audit identified off-treatment-axis coverage gaps; identifiers verified via PubMed esummary 2026-09-04."
+      }
+    ],
+    "id": "newman-1996-thi",
+    "title": "Tinnitus Handicap Inventory (THI): development",
+    "authors": "Newman CW, et al.",
+    "journal": "Archives of Otolaryngology–Head & Neck Surgery",
+    "year": 1996,
+    "pmid": "8630207",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/8630207/",
+    "n": "Development sample",
+    "design": "Measurement-standard record (questionnaire development)",
+    "primaryOutcome": "—"
+  },
+  {
+    "randomized": false,
+    "sham": false,
+    "independent": true,
+    "results": {
+      "summary": "International consensus on WHICH outcome domains tinnitus trials should measure, by intervention type — formalizing that different treatments target different outcomes and trials must not be compared on a single universal 'effectiveness' number. This is the methodological basis for our refusal to show one effectiveness score.",
+      "detail": ""
+    },
+    "coi": "Independent.",
+    "limitations": "",
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Context record added (not treatment evidence; not linked to any treatment page).",
+        "reason": "Independent holdout audit identified off-treatment-axis coverage gaps; identifiers verified via PubMed esummary 2026-09-04."
+      }
+    ],
+    "id": "comit-id-2018",
+    "title": "COMiT'ID: core outcome domains for tinnitus treatment trials",
+    "authors": "Hall DA, et al.",
+    "journal": "Trends in Hearing",
+    "year": 2018,
+    "pmid": "30488765",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/30488765/",
+    "n": "International consensus (Delphi + consensus meetings)",
+    "design": "Measurement-standard record (core outcome set consensus)",
+    "primaryOutcome": "—"
+  },
+  {
+    "randomized": false,
+    "sham": false,
+    "independent": true,
+    "results": {
+      "summary": "Consensus criteria for identifying the SOMATOSENSORY subtype (tinnitus modulated by jaw/neck movement, associated with somatic dysfunction) — the subtype in which cervical physiotherapy has its evidence. Identifying the right subtype is a clinical task; this record documents that formal criteria exist.",
+      "detail": ""
+    },
+    "coi": "Independent.",
+    "limitations": "",
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Context record added (not treatment evidence; not linked to any treatment page).",
+        "reason": "Independent holdout audit identified off-treatment-axis coverage gaps; identifiers verified via PubMed esummary 2026-09-04."
+      }
+    ],
+    "id": "michiels-2018-somatic-criteria",
+    "title": "Diagnostic criteria for somatosensory tinnitus: international Delphi consensus",
+    "authors": "Michiels S, et al.",
+    "journal": "Trends in Hearing",
+    "year": 2018,
+    "pmid": "30213235",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/30213235/",
+    "n": "International expert Delphi",
+    "design": "Consensus criteria (subtype-identification context record)",
+    "primaryOutcome": "—"
   }
 ]

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Admin — Review Queue — Tinnitus Evidence</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="admin">
+<main class="wrap">
+  <section class="hero" style="padding-bottom:0">
+    <h1>Admin · review queue</h1>
+    <p class="lead">Findings from the weekly scan. Nothing on the public site changes until an item here is
+    approved and merged into <code>data/</code>. Decisions you make are saved locally and exported as a
+    JSON patch for Claude (or a script) to apply.</p>
+    <p class="notice">This page is for local use. Don't deploy it publicly with a real backend later without auth.</p>
+  </section>
+  <div class="card" id="engine-status" style="margin-top:16px"><em class="muted small">Loading engine status…</em></div>
+  <h2 style="margin-top:20px">Major Evidence Changes — Held</h2>
+  <p class="small muted">Possible changes to scores, rankings, safety or regulatory status. The public assessment
+  stays unchanged until each hold is resolved (nothing here is automatic).</p>
+  <div id="held"></div>
+  <h2 style="margin-top:20px">Review queue (awaiting evaluation / manual triage)</h2>
+  <div id="queue" style="margin-top:8px"></div>
+  <p><button class="btn btn-primary" id="export" type="button">Export decisions JSON</button>
+     <button class="btn" id="clear" type="button">Clear my decisions</button></p>
+  <pre id="out" class="card small" style="white-space:pre-wrap" hidden></pre>
+</main>
+<script>
+(function(){
+  'use strict';
+  const KEY='ta:admin:decisions';
+  const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  let decisions={}; try{decisions=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
+  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(decisions))}catch(e){}};
+
+  function renderEval(ev){
+    const row=(k,v)=>{ if(v==null||v==='')return''; if(Array.isArray(v))v=v.join('; ');
+      if(typeof v==='object')v=Object.entries(v).map(([a,b])=>a+': '+b).join(', ');
+      return `<li><strong>${esc(k)}:</strong> ${esc(v)}</li>`; };
+    const confCls={high:'b-strong',moderate:'b-promising',low:'b-watch'}[ev.confidence]||'b-weak';
+    return `<details class="rdetail" open><summary>🤖 AI evidence evaluation
+        <span class="badge ${confCls}" style="margin-left:6px">confidence: ${esc(ev.confidence||'—')}</span>
+        ${ev.evidenceDirection?`<span class="badge ${ {strengthens:'b-strong',weakens:'b-weak'}[ev.evidenceDirection]||'b-promising'}">${esc(ev.evidenceDirection)}</span>`:''}</summary>
+      <ul class="small" style="margin:8px 0">
+        ${row('What is new',ev.whatIsNew)}
+        ${row('Study quality',ev.studyQuality)}
+        ${row('Sample size',ev.sampleSize)}
+        ${row('Control',ev.controlQuality)}
+        ${row('Randomized',ev.randomized===true?'yes':ev.randomized===false?'no':ev.randomized)}
+        ${row('Blinding',ev.blinded)}
+        ${row('Primary endpoint',ev.primaryEndpoint)}
+        ${row('Numerical result',ev.numericalResult)}
+        ${row('Loudness effect',ev.loudnessEffect)}
+        ${row('Distress effect',ev.distressEffect)}
+        ${row('Clinical significance',ev.clinicalSignificance)}
+        ${row('Main limitations',ev.mainLimitations)}
+        ${row('Conflicts of interest',ev.conflictOfInterest)}
+        ${row('Duplicate of',ev.duplicateOf)}
+        ${row('Proposed score change',ev.proposedScoreChange)}
+        ${row('Proposed rank change',ev.proposedRankChange)}
+      </ul>
+      <p class="small muted">The evaluation is advisory. Check the primary source before approving.</p></details>`;
+  }
+
+  fetch('data/engine-status.json').then(r=>r.json()).then(st=>{
+    const el=document.getElementById('engine-status');
+    const srcs=(st.sources||[]).map(s=>`${esc(s.name)}: ${s.error?'<span class="badge b-watch">FAILED</span> '+esc(s.error):s.count+' examined'}`).join('<br>');
+    el.innerHTML=`<h3 style="margin-top:0">Weekly engine status</h3>
+      <ul class="small">
+        <li><strong>Schedule:</strong> ${esc(st.schedule||'not scheduled')}</li>
+        <li><strong>Last successful cycle:</strong> ${esc(st.lastSuccess||'never')} · <strong>Last attempt:</strong> ${esc(st.lastAttempt||'—')} · <strong>Next scheduled:</strong> ${esc(st.nextScheduled||'—')}</li>
+        <li><strong>Records examined:</strong> ${st.examined??0} · <strong>new items:</strong> ${st.newItems??0} · <strong>published:</strong> ${st.published??0} (+${st.publishedUnderEvaluation??0} under-evaluation) · <strong>held:</strong> ${st.held??0} · <strong>awaiting AI evaluation:</strong> ${st.heldAwaitingEvaluation??0} · <strong>duplicates rejected:</strong> ${st.rejectedDuplicates??0} · <strong>irrelevant:</strong> ${st.rejectedIrrelevant??0} · <strong>trial-status updates:</strong> ${st.trialStatusUpdates??0}</li>
+        <li><strong>Sources:</strong><br>${srcs||'—'}</li>
+        ${(st.errors&&st.errors.length)?`<li><strong>Errors:</strong> ${st.errors.map(esc).join(' · ')}</li>`:''}
+      </ul>`;
+  }).catch(()=>{document.getElementById('engine-status').innerHTML='<em class="muted small">No engine-status.json yet — run engine/weekly_cycle.py.</em>';});
+
+  fetch('data/review-queue/held.json').then(r=>r.json()).then(h=>{
+    const el=document.getElementById('held');
+    if(!h.items||!h.items.length){el.innerHTML='<div class="empty">Nothing held. Public assessments match the last full review.</div>';return;}
+    el.innerHTML=h.items.map(x=>{const pc=x.proposedChange||{};return `<div class="card" style="margin-bottom:12px;border-left:4px solid var(--c-watch)">
+      <div class="small muted">${esc(x.heldAt)} — ${esc(x.reason)}</div>
+      <h3 style="margin:6px 0">${esc((x.item||{}).title||'')}</h3>
+      ${pc.safetySignal?'<span class="badge b-watch">⚠ Possible safety signal</span> ':''}
+      ${pc.scoreChange?`<span class="badge b-emerging">Score ${esc(pc.scoreChange.from)} → ${esc(pc.scoreChange.to)} proposed</span> `:''}
+      ${pc.rankChange?`<span class="badge b-emerging">Rank #${esc(pc.rankChange.from)} → #${esc(pc.rankChange.to)} proposed</span> `:''}
+      ${pc.adminSummary?`<p class="small">${esc(pc.adminSummary)}</p>`:''}
+      <p class="small"><a href="${esc((x.item||{}).url||'#')}" target="_blank" rel="noopener">Primary source ↗</a> · <strong>Status:</strong> ${esc(x.resolution)}</p>
+      <p class="small muted">To resolve: verify against the full evidence record, then apply (or reject) the change via the normal data-edit process with a history entry — see engine/README.md.</p>
+    </div>`;}).join('');
+  }).catch(()=>{document.getElementById('held').innerHTML='<div class="empty">No held.json yet.</div>';});
+
+  fetch('data/review-queue/queue.json').then(r=>r.json()).then(q=>{
+    const root=document.getElementById('queue');
+    if(!q.items||!q.items.length){root.innerHTML='<div class="empty">Queue is empty. Run engine/weekly_scan.py to populate it.</div>';return;}
+    root.innerHTML=q.items.map(it=>`<div class="card" style="margin-bottom:14px" data-id="${esc(it.id)}">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <span class="badge b-emerging">${esc(it.kind)}</span>
+        <span class="badge ${ {approve:'b-strong',reject:'b-weak',later:'b-watch',edit:'b-promising'}[decisions[it.id]]||'b-watch'}">${esc(decisions[it.id]||'pending')}</span>
+        <span class="small muted">${esc(it.date||'')}</span></div>
+      <h3 style="margin-top:8px">${esc(it.title)}</h3>
+      <p class="small"><strong>Source:</strong> <a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.source||it.url)}</a></p>
+      ${it.treatment?`<p class="small"><strong>Related treatment:</strong> ${esc(it.treatment)}</p>`:''}
+      ${it.summary?`<p class="small">${esc(it.summary)}</p>`:''}
+      ${it.proposal?`<div class="notice" style="margin:8px 0"><strong>Proposed update:</strong> ${esc(it.proposal)}
+        ${it.scoreChange?`<br><strong>Evidence score:</strong> ${esc(it.scoreChange.from)} → ${esc(it.scoreChange.to)}`:''}
+        ${it.rankChange?`<br><strong>Ranking:</strong> #${esc(it.rankChange.from)} → #${esc(it.rankChange.to)}`:''}
+        ${it.why?`<br><strong>Why it matters:</strong> ${esc(it.why)}`:''}</div>`:''}
+      ${it.evaluation?renderEval(it.evaluation):''}
+      <div class="chips" style="margin:8px 0 0">
+        <button class="chip" data-d="approve">✅ Approve</button>
+        <button class="chip" data-d="edit">✏️ Edit</button>
+        <button class="chip" data-d="reject">❌ Reject</button>
+        <button class="chip" data-d="later">🕓 Save for later</button>
+      </div></div>`).join('');
+    root.addEventListener('click',e=>{
+      const b=e.target.closest('.chip'); if(!b)return;
+      const id=b.closest('[data-id]').dataset.id;
+      decisions[id]=b.dataset.d; save(); location.reload();
+    });
+  }).catch(()=>{document.getElementById('queue').innerHTML='<div class="empty">No queue file yet (data/review-queue/queue.json).</div>';});
+
+  document.getElementById('export').addEventListener('click',()=>{
+    const out=document.getElementById('out');
+    out.hidden=false; out.textContent=JSON.stringify({exported:new Date().toISOString(),decisions},null,2);
+  });
+  document.getElementById('clear').addEventListener('click',()=>{decisions={};save();location.reload();});
+})();
+</script>
+</body>
+</html>

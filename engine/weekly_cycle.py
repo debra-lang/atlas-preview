@@ -350,11 +350,21 @@ class Cycle:
         trial_items = self.refresh_trials(fixture=trial_fixture if self.simulate else None)
 
         if not self.skip_eval and fixtures is None:
-            # limit 60 drains any backlog (e.g. weeks that ran before the API key existed)
-            n, skip = evaluate_queue.main(limit=60)
-            if skip:
-                self.status["errors"].append(f"AI evaluation skipped: {skip}")
-            queue = self.load("data/review-queue/queue.json", queue)  # evaluate_queue writes directly
+            # LAUNCH GATE (research-integrity requirement): no AI-evaluated research may publish
+            # until the frozen production benchmark has PASSED (engine/run_benchmark.py, exit 0).
+            # Until then items simply accumulate as awaiting-evaluation — nothing is lost.
+            bench = self.load("engine/benchmark-report.json", None)
+            if not (bench and bench.get("passed") == bench.get("cases") and bench.get("cases")):
+                self.status["errors"].append(
+                    "AI evaluation skipped: production benchmark gate not passed yet "
+                    "(run engine/run_benchmark.py once ANTHROPIC_API_KEY is configured; "
+                    "items held as awaiting-evaluation)")
+            else:
+                # limit 60 drains any backlog (e.g. weeks that ran before the API key existed)
+                n, skip = evaluate_queue.main(limit=60)
+                if skip:
+                    self.status["errors"].append(f"AI evaluation skipped: {skip}")
+                queue = self.load("data/review-queue/queue.json", queue)  # evaluate_queue writes directly
 
         register = self.published_register()
         study_ids = {s["id"] for s in self.load("data/studies.json", [])}

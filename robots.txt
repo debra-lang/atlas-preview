@@ -1,2 +1,5 @@
+# Tinnitus Evidence — PRE-LAUNCH INDEXING BLOCK
+# Remove the Disallow line (replace with "Disallow:") at public launch, after all hard
+# launch gates pass (see RESEARCH-AUDIT-V2.md). Sitemap activates with the production domain.
 User-agent: *
 Disallow: /

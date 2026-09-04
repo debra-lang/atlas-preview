@@ -1,0 +1,38 @@
+name: Production AI evaluator benchmark (launch gate)
+
+# Runs the FROZEN Baseline-V1 8-case gold benchmark against the production evaluator.
+# Manual trigger only. Cases, gold criteria and the production prompt must never be
+# modified to obtain a pass. A green run commits engine/benchmark-report.json, which
+# unlocks AI evaluation in the weekly cycle; a red run blocks it (and launch).
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: tinnitus-evidence-benchmark
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install anthropic
+      - name: Run frozen gold benchmark against production evaluator
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python engine/run_benchmark.py
+      - name: Commit benchmark report (pass unlocks weekly AI evaluation)
+        if: always()
+        run: |
+          git config user.name "tinnitus-evidence-bot"
+          git config user.email "tinnitus-evidence-bot@users.noreply.github.com"
+          git add engine/benchmark-report.json
+          git diff --cached --quiet || git commit -m "Production AI benchmark report"
+          git push origin main

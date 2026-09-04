@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Prepared for the production domain; activates when TinnitusEvidence.com goes live. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://tinnitusevidence.com/</loc></url>
+  <url><loc>https://tinnitusevidence.com/treatments.html</loc></url>
+  <url><loc>https://tinnitusevidence.com/treatment.html</loc></url>
+  <url><loc>https://tinnitusevidence.com/compare.html</loc></url>
+  <url><loc>https://tinnitusevidence.com/trials.html</loc></url>
+  <url><loc>https://tinnitusevidence.com/research.html</loc></url>
+  <url><loc>https://tinnitusevidence.com/institutions.html</loc></url>
+  <url><loc>https://tinnitusevidence.com/search.html</loc></url>
+  <url><loc>https://tinnitusevidence.com/watchlist.html</loc></url>
+  <url><loc>https://tinnitusevidence.com/profile.html</loc></url>
+  <url><loc>https://tinnitusevidence.com/about.html</loc></url>
+</urlset>
