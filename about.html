@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>About & Methodology — Tinnitus Evidence</title>
-<meta name="description" content="How Tinnitus Evidence evaluates evidence: tiers, scores, source hierarchy, the human review process, and the full medical disclaimer.">
+<meta name="description" content="How Tinnitus Evidence works: evidence tiers and scores, source hierarchy, automated research monitoring with held-for-review evidence changes, and the full medical disclaimer.">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,7 +60,7 @@
   <em>not yet assessed</em>, because unknown is not the same as weak. We deliberately show
   <strong>no percentages and no single "effectiveness score"</strong>: tinnitus studies measure different
   outcomes in different populations, and one universal number would be scientifically misleading. Changes to
-  these values go through the same human review as rankings.</p>
+  these values go through the same held-for-review process as rankings — they never change automatically.</p>
 
   <h2>Evidence score (1–5)</h2>
   <p>Scored from study quality, size, randomization, blinding, sham/placebo control, independent replication,
@@ -81,11 +81,33 @@
   and press releases stronger than the papers behind them. We also avoid dismissing a treatment merely because
   it is new. Failed and negative trials are shown prominently — they are information, not embarrassments.</p>
 
-  <h2>How updates happen</h2>
-  <p>A weekly automated scan checks PubMed, ClinicalTrials.gov and regulatory sources for new tinnitus research.
-  Every candidate finding goes into a human review queue with the proposed change, the reasoning, and the
-  supporting and conflicting studies. <strong>Nothing publishes automatically.</strong> Approved changes appear
-  in the weekly report and in each treatment's change history.</p>
+  <h2 id="automation">How updates happen — and where automation is used</h2>
+  <p>Tinnitus Evidence is kept current by an automated pipeline that runs <strong>once a week</strong>. Being
+  straight about what that means:</p>
+  <ul>
+    <li><strong>Automated systems</strong> monitor trusted research sources (PubMed, ClinicalTrials.gov, FDA,
+    NIH/NIDCD, Cochrane ENT, major journals, EMA and others), identify relevant new material, extract structured
+    study information (design, sample size, endpoints, outcomes, funding), compare findings against our existing
+    evidence record, and classify weekly updates. Every item links to its original source.</li>
+    <li><strong>Routine research updates</strong> — a new study report, a trial status change verified at the
+    registry, a follow-up publication — publish to "This Week in Tinnitus Research" automatically, after
+    automated verification of the source, identifiers, dates, and duplicate checks. These items report what
+    happened; they do not change our conclusions.</li>
+    <li><strong>Anything that could change a conclusion is never automatic.</strong> A possible evidence-score,
+    tier, ranking, loudness/distress-rating, safety or regulatory-status change is placed in a held queue with
+    a full proposed-change report. The existing public assessment stands unchanged until that hold is resolved —
+    one new paper is never allowed to silently rewrite a medical conclusion. Where a held item's underlying fact
+    is verified, it may appear in the weekly feed marked <em>"Impact on Tinnitus Evidence rating: Under
+    evaluation."</em></li>
+    <li><strong>Company announcements</strong> are monitored for pipeline intelligence but always labeled
+    "Company-reported development" and never treated as independent evidence. Regulatory statuses update only
+    against authoritative records (FDA databases, ClinicalTrials.gov, EMA), never from press coverage.</li>
+    <li><strong>Missing information is never inferred</strong> — items say "Not reported" or "Unable to verify."
+    If a week's scan finds nothing meaningful, the feed says exactly that rather than manufacturing news.</li>
+  </ul>
+  <p>Automated analysis is a monitoring and triage tool — it does not replace medical judgment, and this site
+  does not claim physician or clinician editorial review of weekly items. A complete audit trail (source,
+  identifier, extraction, classification, and publish/hold decision) is kept for every automated update.</p>
 
   <h2 id="disclaimer">Medical disclaimer</h2>
   <div class="notice" style="border-color:var(--line);background:var(--surface-2)">

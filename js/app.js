@@ -37,7 +37,9 @@
   async function load() {
     if (DB) return DB;
     if (window.__TA_DATA__) { DB = window.__TA_DATA__; indexDB(); return DB; }
-    const get = f => fetch('data/' + f).then(r => { if (!r.ok) throw new Error(f + ' ' + r.status); return r.json(); });
+    // cache:'no-cache' revalidates instead of silently serving stale weekly data
+    // (never use ?v= query-busting here — the Capacitor iOS asset server can't serve query URLs)
+    const get = f => fetch('data/' + f, { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error(f + ' ' + r.status); return r.json(); });
     const [meta, categories, treatments, studies, trials, institutions, rankings, weeklyIndex] =
       await Promise.all(['meta.json', 'categories.json', 'treatments.json', 'studies.json',
         'trials.json', 'institutions.json', 'rankings.json', 'weekly/index.json'].map(get));
@@ -366,7 +368,7 @@
       `<p class="small muted" style="margin:10px 0 0">Of ${treatments.length} tracked treatments,
         <a href="treatments.html?flag=loud">${loudN} have at least moderate evidence for the sound itself</a>,
         <a href="treatments.html?flag=distress">${distN} for being less bothered</a> — and only ${bothN} for both.
-        Counts update automatically as evidence classifications change through human review.</p>`;
+        Counts update automatically; the underlying classifications only change through the held-review process.</p>`;
     }
 
     // What hasn't worked (Tier 5, still marketed/available — the ones people spend money on)
@@ -422,12 +424,26 @@
   };
   function weekItem(it) {
     const KIND_COLORS = { study: 'var(--c-promising)', trial: 'var(--c-emerging)', regulatory: 'var(--c-strong)', ranking: 'var(--c-watch)', negative: 'var(--c-weak)', news: 'var(--c-promising)' };
+    const d = it.detail || {};
+    const drow = (k, v) => (v && v !== 'Not reported' && (!Array.isArray(v) || v.length)) ?
+      `<li><strong>${k}:</strong> ${esc(Array.isArray(v) ? v.join('; ') : v)}</li>` : '';
     return `<div class="week-item" style="--w-c:${KIND_COLORS[it.kind] || 'var(--c-promising)'}">
       ${it.importance ? `<span class="badge ${IMP_STYLE[it.importance] || 'b-weak'}" style="margin-bottom:4px">${esc(it.importance)}</span>` : ''}
+      ${it.safetySignal ? `<span class="badge b-watch" style="margin-bottom:4px">⚠ Possible safety signal — read the source</span>` : ''}
+      ${it.underEvaluation ? `<span class="badge b-emerging" style="margin-bottom:4px">Impact on Tinnitus Evidence rating: Under evaluation</span>` : ''}
       <div class="t">${esc(it.title)}</div>
       ${it.whyMatters ? `<div class="small"><strong>Why it matters:</strong> ${esc(it.whyMatters)}</div>` : ''}
       <details class="rdetail"><summary>Research detail</summary>
         <p class="small">${esc(it.summary)}</p>
+        <ul class="small">
+          ${drow('Study type', d.studyType)}${drow('Population', d.population)}${drow('Sample size', d.sampleSize)}
+          ${drow('Control / comparison', d.control)}${drow('Comparison type', d.comparisonType)}
+          ${drow('Primary endpoint', d.primaryEndpoint)}${drow('Secondary endpoints', d.secondaryEndpoints)}
+          ${drow('🔉 Loudness outcome', d.loudnessOutcome)}${drow('🧠 Distress outcome', d.distressOutcome)}
+          ${drow('Other outcomes', d.otherOutcomes)}${drow('Safety (as reported)', d.safety)}
+          ${drow('Limitations', d.limitations)}${drow('Funding / conflicts', d.funding)}
+          ${drow('Identifier', d.identifier)}${drow('Changes our assessment?', d.changesAssessment)}
+        </ul>
         <p class="small">
         ${it.treatment && DB.tById[it.treatment] ? `<a href="treatment.html?id=${esc(it.treatment)}">${esc(DB.tById[it.treatment].name)} — full evidence page →</a><br>` : ''}
         ${it.url ? `<a href="${esc(it.url)}" rel="noopener" target="_blank">Original source ↗</a>` : ''}</p>
@@ -816,7 +832,7 @@
         ${Object.keys(impCounts).length ? `<div class="card" style="margin-bottom:14px">
           <div class="k small muted" style="text-transform:uppercase;font-weight:700;letter-spacing:.06em">This edition's ${rep.items.length} updates, by importance</div>
           ${countBars(impOrder.filter(k => impCounts[k]).map(k => ({ label: k, n: impCounts[k] })), { aria: 'Updates by importance' })}
-          <p class="small muted" style="margin:8px 0 0">Classifications are assigned during human review, never automatically. An activity-over-time view will appear as the weekly archive grows.</p></div>` : ''}
+          <p class="small muted" style="margin:8px 0 0">Classifications are assigned by our automated evaluation pipeline; anything that could change an evidence rating is held for review rather than auto-applied. An activity-over-time view will appear as the archive grows.</p></div>` : ''}
         ${rep.headline ? `<div class="card" style="border-left:4px solid var(--c-promising)"><div class="k small muted" style="text-transform:uppercase;font-weight:700;letter-spacing:.06em">Most important this week</div>
           <h3>${esc(rep.headline.title)}</h3><p class="small">${esc(rep.headline.summary)}</p>
           ${rep.headline.url ? `<a class="small" href="${esc(rep.headline.url)}" rel="noopener" target="_blank">Source ↗</a>` : ''}</div>` : ''}
@@ -824,7 +840,7 @@
     };
     if (file) {
       if (SINGLE && DB.weeklyAll) renderReport(DB.weeklyAll[file] || DB.weekly);
-      else fetch('data/weekly/' + file).then(r => r.json()).then(renderReport);
+      else fetch('data/weekly/' + file, { cache: 'no-cache' }).then(r => r.json()).then(renderReport);
     } else if (DB.weekly) renderReport(DB.weekly);
     $('#archive').innerHTML = DB.weeklyIndex.reports.map(r =>
       `<li><a href="research.html?week=${esc(r.file)}">${fmtDate(r.date)}</a> — ${esc(r.title)}</li>`).join('');
@@ -1012,7 +1028,7 @@
   /* ---------------- single-file router ---------------- */
   function setFootMeta() {
     const fm = $('#foot-meta');
-    if (fm) fm.textContent = `Database: ${DB.treatments.length} treatments · ${DB.studies.length} studies · ${DB.trials.length} trials · last full review ${fmtDate(DB.meta.lastFullReview)}. Nothing publishes without human review.`;
+    if (fm) fm.textContent = `Database: ${DB.treatments.length} treatments · ${DB.studies.length} studies · ${DB.trials.length} trials · last full review ${fmtDate(DB.meta.lastFullReview)}. Routine updates publish automatically after source verification; evidence ratings, rankings and safety assessments never change automatically.`;
   }
   let pendingAnchor = null;
   function renderRoute() {

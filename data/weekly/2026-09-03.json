@@ -8,6 +8,76 @@
   },
   "items": [
     {
+      "kind": "trial",
+      "treatment": "tavns",
+      "title": "Trial status change: NCT05417711 is now 'Unknown status'",
+      "importance": "Does Not Change Current Evidence",
+      "whyMatters": "The registry entry for this trial moved from 'Ongoing (larger successor trial registered)' to 'Unknown status'. Status changes are verified directly against ClinicalTrials.gov.",
+      "summary": "taVNS paired with tailor-made notched music (double-blind RCT) — sponsor Sun Yat-Sen Memorial Hospital. Status verified at the registry on 2026-09-03.",
+      "url": "https://clinicaltrials.gov/study/NCT05417711",
+      "detail": {
+        "identifier": "NCT05417711",
+        "source": "ClinicalTrials.gov (authoritative registry)",
+        "changesAssessment": "No — trial status only."
+      }
+    },
+    {
+      "kind": "trial",
+      "treatment": "",
+      "title": "Trial status change: NCT07655440 is now 'Not yet recruiting'",
+      "importance": "Does Not Change Current Evidence",
+      "whyMatters": "The registry entry for this trial moved from 'Registered' to 'Not yet recruiting'. Status changes are verified directly against ClinicalTrials.gov.",
+      "summary": "Anti-CGRP monoclonals (galcanezumab/erenumab) for tinnitus with migraine features — sponsor Stanford University. Status verified at the registry on 2026-09-03.",
+      "url": "https://clinicaltrials.gov/study/NCT07655440",
+      "detail": {
+        "identifier": "NCT07655440",
+        "source": "ClinicalTrials.gov (authoritative registry)",
+        "changesAssessment": "No — trial status only."
+      }
+    },
+    {
+      "kind": "trial",
+      "treatment": "venous-stenting",
+      "title": "Trial status change: NCT07070089 is now 'Recruiting'",
+      "importance": "Does Not Change Current Evidence",
+      "whyMatters": "The registry entry for this trial moved from 'Registered' to 'Recruiting'. Status changes are verified directly against ClinicalTrials.gov.",
+      "summary": "BosSTENT dedicated venous stent for pulsatile tinnitus — sponsor Sonorous NV. Status verified at the registry on 2026-09-03.",
+      "url": "https://clinicaltrials.gov/study/NCT07070089",
+      "detail": {
+        "identifier": "NCT07070089",
+        "source": "ClinicalTrials.gov (authoritative registry)",
+        "changesAssessment": "No — trial status only."
+      }
+    },
+    {
+      "kind": "trial",
+      "treatment": "",
+      "title": "Trial status change: NCT07071480 is now 'Recruiting'",
+      "importance": "Does Not Change Current Evidence",
+      "whyMatters": "The registry entry for this trial moved from 'Registered' to 'Recruiting'. Status changes are verified directly against ClinicalTrials.gov.",
+      "summary": "Mild therapeutic hypothermia (mastoid cooling) for tinnitus — sham-controlled — sponsor Restorear Devices. Status verified at the registry on 2026-09-03.",
+      "url": "https://clinicaltrials.gov/study/NCT07071480",
+      "detail": {
+        "identifier": "NCT07071480",
+        "source": "ClinicalTrials.gov (authoritative registry)",
+        "changesAssessment": "No — trial status only."
+      }
+    },
+    {
+      "kind": "trial",
+      "treatment": "cochlear-implants",
+      "title": "Trial status change: NCT06641999 is now 'Recruiting'",
+      "importance": "Does Not Change Current Evidence",
+      "whyMatters": "The registry entry for this trial moved from 'Registered' to 'Recruiting'. Status changes are verified directly against ClinicalTrials.gov.",
+      "summary": "Dedicated tinnitus implant evaluation — sponsor Cochlear Ltd. Status verified at the registry on 2026-09-03.",
+      "url": "https://clinicaltrials.gov/study/NCT06641999",
+      "detail": {
+        "identifier": "NCT06641999",
+        "source": "ClinicalTrials.gov (authoritative registry)",
+        "changesAssessment": "No — trial status only."
+      }
+    },
+    {
       "kind": "ranking",
       "treatment": "lenire",
       "title": "Phase 2 audit: two ranking changes, fully documented",
@@ -88,5 +158,6 @@
       "importance": "Negative Result",
       "whyMatters": "The only treatment with rigorous evidence of making tinnitus quieter still has no path to reaching patients — three years and counting."
     }
-  ]
+  ],
+  "automated": true
 }

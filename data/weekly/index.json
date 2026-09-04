@@ -1,5 +1,9 @@
 {
   "reports": [
-    { "date": "2026-09-03", "file": "2026-09-03.json", "title": "Launch edition — the state of the field, September 2026" }
+    {
+      "date": "2026-09-03",
+      "file": "2026-09-03.json",
+      "title": "Launch edition — the state of the field, September 2026"
+    }
   ]
 }

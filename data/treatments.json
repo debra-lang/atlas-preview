@@ -474,6 +474,11 @@
     ],
     "latest": [
       {
+        "date": "2026-09-03",
+        "text": "Trial status change: NCT06641999 is now 'Recruiting'",
+        "url": "https://clinicaltrials.gov/study/NCT06641999"
+      },
+      {
         "date": "2024-09-13",
         "text": "2024 meta-analysis confirms percept-level and distress improvements after implantation.",
         "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11431415/"
@@ -2394,6 +2399,11 @@
     ],
     "latest": [
       {
+        "date": "2026-09-03",
+        "text": "Trial status change: NCT07070089 is now 'Recruiting'",
+        "url": "https://clinicaltrials.gov/study/NCT07070089"
+      },
+      {
         "date": "2026-07-01",
         "text": "BosSTENT dedicated-device trial (N=90) registered (NCT07070089).",
         "url": "https://clinicaltrials.gov/study/NCT07070089"
@@ -2472,6 +2482,11 @@
       }
     ],
     "latest": [
+      {
+        "date": "2026-09-03",
+        "text": "Trial status change: NCT05417711 is now 'Unknown status'",
+        "url": "https://clinicaltrials.gov/study/NCT05417711"
+      },
       {
         "date": "2026-06-01",
         "text": "Large multicenter taVNS + notched-music program continues; successor trial registered.",
