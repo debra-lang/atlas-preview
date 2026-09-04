@@ -1,8 +1,12 @@
 # Research engine — automated weekly cycle
 
-**Schedule:** every **Monday 06:00 local**, Windows Task Scheduler task `TinnitusEvidenceWeekly`
-(runs `run_weekly.bat`; runs-if-missed, retries 3× hourly on failure; log: `engine/last-run.log`).
-For the future production repo, `github-actions-weekly.yml` is ready — run exactly ONE scheduler.
+**Schedule (PRODUCTION):** every **Monday 06:00 UTC via GitHub Actions** in the
+`debra-lang/atlas-preview` repo (`.github/workflows/weekly.yml`) — runs serverless, no local
+machine required; failures surface as failed Actions runs (GitHub emails the owner).
+**That repo is now canonical for `data/` and engine state** — pull it before editing content
+locally. The local Windows Task Scheduler task `TinnitusEvidenceWeekly` is DISABLED (kept as a
+fallback via `run_weekly.bat`; never run both schedulers). The Anthropic key lives only in the
+repo's GitHub Secrets (`ANTHROPIC_API_KEY`) — never in code, never client-side.
 
 ## Pipeline (`weekly_cycle.py`)
 

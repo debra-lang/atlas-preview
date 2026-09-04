@@ -99,6 +99,11 @@ def main(limit=None):
     except ImportError:
         print("evaluate_queue: 'anthropic' package not installed — evaluation skipped.", file=sys.stderr)
         return 0, "anthropic package not installed (pip install anthropic)"
+    import os
+    if not (os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN")):
+        # the SDK defers credential resolution to request time, so check up front
+        print("evaluate_queue: ANTHROPIC_API_KEY not set — evaluation skipped.", file=sys.stderr)
+        return 0, "ANTHROPIC_API_KEY not set (add it to GitHub repo Secrets)"
     try:
         client = anthropic.Anthropic()
     except Exception as e:
@@ -143,6 +148,10 @@ def main(limit=None):
             print("  rate-limited; stopping — re-run later."); break
         except anthropic.APIStatusError as e:
             print(f"  API error {e.status_code}: {e.message}; skipping."); continue
+        except Exception as e:
+            # never let an SDK/client error kill the whole cycle — items simply stay queued
+            print(f"  evaluation error ({e}); stopping.", file=sys.stderr)
+            return done, f"evaluation error: {e}"
 
         text = next((b.text for b in response.content if b.type == "text"), "")
         try:

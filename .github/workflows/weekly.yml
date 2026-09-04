@@ -45,3 +45,5 @@ jobs:
             git push origin main
           fi
           git push -f origin main:gh-pages   # GitHub Pages serves gh-pages
+
+# rev 2: credential pre-flight + verified-only feeds
