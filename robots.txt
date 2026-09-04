@@ -1,5 +1,9 @@
-# Tinnitus Evidence — PRE-LAUNCH INDEXING BLOCK
-# Remove the Disallow line (replace with "Disallow:") at public launch, after all hard
-# launch gates pass (see RESEARCH-AUDIT-V2.md). Sitemap activates with the production domain.
+# Tinnitus Evidence — PRODUCTION robots.txt
+# Deploy as robots.txt ONLY as the final launch action, after the scientific launch gate
+# (production AI benchmark) and the SEO gate both pass.
 User-agent: *
-Disallow: /
+Disallow: /admin.html
+Disallow: /preview.html
+Allow: /
+
+Sitemap: https://tinnitusevidence.com/sitemap.xml
