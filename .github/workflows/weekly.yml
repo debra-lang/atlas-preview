@@ -12,7 +12,8 @@
 name: Weekly research cycle
 on:
   schedule:
-    - cron: "0 14 * * 1"          # Mondays 14:00 UTC ≈ 06:00 Pacific (PDT; 07:00 during PST)
+    - cron: "0 6 * * 1"           # Mondays 06:00 Pacific — timezone-aware, stable across PST/PDT
+      timezone: "America/Los_Angeles"
   workflow_dispatch: {}
   push:
     paths: [".github/workflows/weekly.yml"]   # self-test on workflow changes only

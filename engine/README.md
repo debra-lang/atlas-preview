@@ -1,6 +1,7 @@
 # Research engine — automated weekly cycle
 
-**Schedule (PRODUCTION):** every **Monday 06:00 UTC via GitHub Actions** in the
+**Schedule (PRODUCTION):** every **Monday 06:00 Pacific (timezone-aware: `timezone:
+"America/Los_Angeles"` on the cron — stays 6 AM through PST/PDT) via GitHub Actions** in the
 `debra-lang/atlas-preview` repo (`.github/workflows/weekly.yml`) — runs serverless, no local
 machine required; failures surface as failed Actions runs (GitHub emails the owner).
 **That repo is now canonical for `data/` and engine state** — pull it before editing content
