@@ -1,0 +1,47 @@
+# Tinnitus Evidence — production weekly research cycle.
+# Runs entirely on GitHub infrastructure: no local machine required.
+#
+# scan -> AI evaluation (ANTHROPIC_API_KEY from repo Secrets; never in code) -> verification
+# -> routine updates publish automatically -> consequential changes HELD (public ratings never
+# auto-change) -> site redeploys via GitHub Pages.
+#
+# A failed run changes nothing (all public-data writes in weekly_cycle.py are atomic) and shows
+# up as a failed Actions run (GitHub emails the repo owner by default).
+name: Weekly research cycle
+on:
+  schedule:
+    - cron: "0 6 * * 1"          # Mondays 06:00 UTC
+  workflow_dispatch: {}           # manual trigger from the Actions tab
+  push:
+    paths: [".github/workflows/weekly.yml"]   # self-test on workflow changes (bot data commits don't match)
+concurrency:
+  group: weekly-cycle
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  weekly:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install evaluator SDK
+        run: pip install anthropic
+      - name: Run weekly cycle
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python engine/weekly_cycle.py
+      - name: Commit results and redeploy site
+        run: |
+          git config user.name "tinnitus-evidence-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A data engine
+          if git diff --cached --quiet; then
+            echo "No changes to commit (quiet cycle)."
+          else
+            git commit -m "Automated weekly research update"
+            git push origin main
+          fi
+          git push -f origin main:gh-pages   # GitHub Pages serves gh-pages

@@ -1,0 +1,40 @@
+{
+  "comment": "Watched feeds for weekly_scan.py. Every item still goes to the review queue — nothing publishes automatically. Add/remove feeds freely; type 'rss' covers RSS and Atom. 'filter' is a case-insensitive keyword ANY-match applied to title+summary; feeds marked alwaysRelevant skip the filter.",
+  "feeds": [
+    { "name": "FDA press announcements", "type": "rss", "kind": "regulatory",
+      "url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml",
+      "filter": ["tinnitus", "hearing", "otolaryng", "auditory", "cochlear"] },
+    { "name": "FDA MedWatch safety alerts", "type": "rss", "kind": "regulatory",
+      "url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/medwatch/rss.xml",
+      "filter": ["tinnitus", "hearing", "ototoxic", "cochlear"] },
+    { "name": "NIH news releases", "type": "rss", "kind": "study",
+      "url": "https://www.nih.gov/news-releases/feed.xml",
+      "filter": ["tinnitus", "hearing", "auditory", "deafness", "cochlear"] },
+    { "name": "NIDCD news", "type": "rss", "kind": "study",
+      "url": "https://www.nidcd.nih.gov/rss/news.xml",
+      "filter": ["tinnitus", "auditory", "hearing"] },
+    { "name": "JAMA Otolaryngology latest", "type": "rss", "kind": "study",
+      "url": "https://jamanetwork.com/rss/site_20/74.xml",
+      "filter": ["tinnitus"] },
+    { "name": "Nature Communications (medicine & clinical)", "type": "rss", "kind": "study",
+      "url": "https://www.nature.com/ncomms.rss",
+      "filter": ["tinnitus"] },
+    { "name": "Scientific Reports", "type": "rss", "kind": "study",
+      "url": "https://www.nature.com/srep.rss",
+      "filter": ["tinnitus"] },
+    { "name": "Cochrane ENT new reviews", "type": "rss", "kind": "study",
+      "url": "https://ent.cochrane.org/rss.xml",
+      "filter": ["tinnitus"] },
+    { "name": "EMA news", "type": "rss", "kind": "regulatory",
+      "url": "https://www.ema.europa.eu/en/rss.xml",
+      "filter": ["tinnitus", "hearing"] },
+    { "name": "American Tinnitus Association news", "type": "rss", "kind": "news",
+      "url": "https://www.ata.org/feed/",
+      "alwaysRelevant": true }
+  ],
+  "notes": [
+    "Company announcements: deliberately NOT watched as feeds; they surface via the sources above or manual adds, and are always labeled press-release-grade by the evaluator.",
+    "Feed URLs can rot — weekly_scan.py logs failures per feed without aborting the scan; fix or replace URLs here.",
+    "To watch a specific university program, add its news RSS with a tinnitus filter."
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "schedule": "Every Monday 06:00 local time (Windows Task Scheduler task: TinnitusEvidenceWeekly)",
+  "nextScheduled": "2026-09-07T06:00",
+  "lastAttempt": "2026-09-03T20:14:01",
+  "sources": [
+    {
+      "name": "PubMed",
+      "checked": true,
+      "count": 30,
+      "error": null
+    },
+    {
+      "name": "ClinicalTrials.gov",
+      "checked": true,
+      "count": 4,
+      "error": null
+    },
+    {
+      "name": "Watched feeds (FDA, NIH/NIDCD, journals, EMA…)",
+      "checked": true,
+      "count": 0,
+      "error": null
+    }
+  ],
+  "examined": 34,
+  "newItems": 34,
+  "published": 0,
+  "rejectedDuplicates": 1,
+  "rejectedIrrelevant": 0,
+  "held": 0,
+  "publishedUnderEvaluation": 0,
+  "heldAwaitingEvaluation": 33,
+  "trialStatusUpdates": 0,
+  "errors": [
+    "AI evaluation skipped: anthropic package not installed (pip install anthropic)"
+  ],
+  "lastSuccess": "2026-09-03T20:14:01"
+}
