@@ -1,7 +1,7 @@
 {
-  "schedule": "Every Monday 14:00 UTC (≈06:00 Pacific) via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled",
-  "nextScheduled": "2026-09-07T14:00 UTC",
-  "lastAttempt": "2026-09-04T03:49:23",
+  "schedule": "Every Monday 06:00 America/Los_Angeles (timezone-aware — stays 6 AM Pacific through PST/PDT) via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled",
+  "nextScheduled": "2026-09-07 06:00 America/Los_Angeles",
+  "lastAttempt": "2026-09-04T03:53:36",
   "sources": [
     {
       "name": "PubMed",
@@ -34,5 +34,5 @@
   "errors": [
     "AI evaluation skipped: ANTHROPIC_API_KEY not set (add it to GitHub repo Secrets)"
   ],
-  "lastSuccess": "2026-09-04T03:49:23"
+  "lastSuccess": "2026-09-04T03:53:36"
 }
