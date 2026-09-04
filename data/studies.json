@@ -35,7 +35,7 @@
   {
     "id": "uniti-2025",
     "title": "UNITI-RCT: single versus combined treatments for chronic tinnitus",
-    "authors": "Schoisswohl S, Langguth B, et al.",
+    "authors": "Schoisswohl S, Basso L, Simoes J, et al. (incl. Langguth B)",
     "journal": "Nature Communications",
     "year": 2025,
     "doi": "10.1038/s41467-025-66165-1",
@@ -61,8 +61,14 @@
         "date": "2026-09-04",
         "change": "Labeled the 7-point MCID as an external benchmark not defined by the paper.",
         "reason": "Research-quality audit borderline endpoint-wording pass; verified against the publication."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "PMID filled; author styling corrected (2nd/3rd authors are Basso L and Simoes J; Langguth is a co-author, not 2nd).",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
-    ]
+    ],
+    "pmid": "41271763"
   },
   {
     "id": "beukes-2022-icbt",
@@ -87,7 +93,15 @@
       "detail": "Control was weekly monitoring (no active comparator). 1-year follow-up paper reported maintained efficacy (PMID 36353148)."
     },
     "coi": "Academic.",
-    "limitations": "Self-selected online sample; unblinded."
+    "limitations": "Self-selected online sample; unblinded.",
+    "pmid": "35156936",
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 35156936",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
+      }
+    ]
   },
   {
     "id": "tent-a1-2020",
@@ -112,7 +126,15 @@
       "detail": "The widely quoted '86.2% improved at 12 weeks / 80.1% sustained at 12 months' figures come from manufacturer materials, count ANY improvement among compliant completers (not clinically meaningful responders), and could not be verified in the paper itself. Because every arm received active treatment, the trial cannot separate device effect from placebo/natural course."
     },
     "coi": "Funded by Neuromod Devices (manufacturer).",
-    "limitations": "No sham or no-treatment arm; identical results across arms; headline percentages are company-derived."
+    "limitations": "No sham or no-treatment arm; identical results across arms; headline percentages are company-derived.",
+    "pmid": "33028707",
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 33028707",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
+      }
+    ]
   },
   {
     "id": "tent-a3-2024",
@@ -148,8 +170,14 @@
         "date": "2026-09-04",
         "change": "Added ITT n=112 (imputed) note.",
         "reason": "Research-quality audit borderline endpoint-wording pass; verified against the publication."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 39160146",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
-    ]
+    ],
+    "pmid": "39160146"
   },
   {
     "id": "kasper-2026-lenire",
@@ -213,8 +241,14 @@
         "date": "2026-09-04",
         "change": "Made explicit that the loudness co-primary missed significance in ITT at week 6.",
         "reason": "Research-quality audit borderline endpoint-wording pass; verified against the publication."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 37266943",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
-    ]
+    ],
+    "pmid": "37266943"
   },
   {
     "id": "marks-2018-stm",
@@ -239,7 +273,15 @@
       "detail": ""
     },
     "coi": "NIH-funded; investigator patent interests disclosed.",
-    "limitations": "Pilot size."
+    "limitations": "Pilot size.",
+    "pmid": "29298868",
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 29298868",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
+      }
+    ]
   },
   {
     "id": "trtt-2019",
@@ -375,7 +417,7 @@
   {
     "id": "ci-meta-2024",
     "title": "Cochlear implantation and tinnitus: systematic review and meta-analysis",
-    "authors": "Li, Yang, Niu, Sun, et al.",
+    "authors": "Li Y, Yang H, Niu X, Sun Y",
     "journal": "Diagnostics",
     "year": 2024,
     "doi": "10.3390/diagnostics14182028",
@@ -397,13 +439,19 @@
         "date": "2026-09-04",
         "change": "Citation-hygiene fix: authors: '—' → 'Li, Yang, Niu, Sun, et al.'",
         "reason": "Authors filled (verified against the publication). (Research-quality audit citation pass.)"
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Spurious 'et al.' removed — those four are the complete author list; PMID filled.",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
-    ]
+    ],
+    "pmid": "39335707"
   },
   {
     "id": "rtms-meta-2025",
     "title": "rTMS for tinnitus: meta-analysis of 16 RCTs",
-    "authors": "—",
+    "authors": "He Z, et al.",
     "journal": "Frontiers in Neuroscience",
     "year": 2025,
     "doi": "10.3389/fnins.2025.1579846",
@@ -419,12 +467,20 @@
       "detail": "Either way, even the significant estimates sit at or below the ~7-point THI clinical-meaningfulness threshold — the durability and magnitude problems are unresolved, not settled in either direction."
     },
     "coi": "Independent.",
-    "limitations": "High protocol heterogeneity; 6-month durability disputed between meta-analyses."
+    "limitations": "High protocol heterogeneity; 6-month durability disputed between meta-analyses.",
+    "pmid": "40303608",
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 40303608; authors = He Z, et al.",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
+      }
+    ]
   },
   {
     "id": "tdcs-meta-2022",
     "title": "Transcranial electrical stimulation for tinnitus: meta-analysis",
-    "authors": "—",
+    "authors": "Martins ML, et al.",
     "journal": "Neurophysiologie Clinique",
     "year": 2022,
     "pmid": "35027291",
@@ -436,7 +492,7 @@
     "independent": true,
     "primaryOutcome": "Loudness and distress measures",
     "results": {
-      "summary": "Small-to-moderate effects on tinnitus measures; significant loudness reduction only with lateral-temporal-area stimulation. No significant effect of treatment on psychiatric (depression/anxiety) symptoms. Verdict: possible adjunct, not a standalone treatment.",
+      "summary": "Small-to-moderate effects on tinnitus measures; overall pooled loudness effect significant (SMD −0.35); subgroup analysis localizes the benefit to lateral-temporal-area stimulation. No significant effect of treatment on psychiatric (depression/anxiety) symptoms. Verdict: possible adjunct, not a standalone treatment.",
       "detail": ""
     },
     "coi": "Independent.",
@@ -446,6 +502,11 @@
         "date": "2026-09-04",
         "change": "Corrected: removed false claim that prefrontal stimulation 'mainly helped comorbid depression/anxiety' — the paper reports NO significant psychiatric effect; scope corrected to tDCS-only, 14 studies, N=1,031.",
         "reason": "Research-quality audit M2, verified against the publication (PMID 35027291)."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Nuance fix: the abstract reports the OVERALL loudness effect as significant (SMD −0.35); 'only with LTA' is true of the subgroup analysis, not the pooled estimate. Authors filled (Martins ML et al.).",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
     ]
   },
@@ -474,8 +535,14 @@
         "date": "2026-09-04",
         "change": "Made explicit that the full-cohort responder difference was not statistically significant (subgroup-driven finding).",
         "reason": "Research-quality audit borderline endpoint-wording pass; verified against the publication."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 28931943",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
-    ]
+    ],
+    "pmid": "28931943"
   },
   {
     "id": "hall-2022-t30",
@@ -530,7 +597,7 @@
   {
     "id": "oto313-2023",
     "title": "OTO-313 (intratympanic gacyclidine) Phase 2: negative trial",
-    "authors": "—",
+    "authors": "Searchfield GD, et al.",
     "journal": "European Archives of Oto-Rhino-Laryngology",
     "year": 2023,
     "doi": "10.1007/s00405-023-08047-0",
@@ -547,7 +614,14 @@
       "detail": "One of the cleanest demonstrations of the ~30–40% placebo response that plagues tinnitus drug trials."
     },
     "coi": "Sponsor-run (Otonomy).",
-    "limitations": "—"
+    "limitations": "—",
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: authors = Searchfield GD, et al.",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
+      }
+    ]
   },
   {
     "id": "tactt-trials",
@@ -572,7 +646,7 @@
   {
     "id": "bmj-nma-2025",
     "title": "Pharmacotherapy for subjective tinnitus: network meta-analysis of 60 RCTs",
-    "authors": "—",
+    "authors": "Li P, Che C, Wu Y, et al.",
     "journal": "BMJ Open",
     "year": 2025,
     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12121590/",
@@ -595,6 +669,11 @@
         "date": "2026-09-04",
         "change": "Citation-hygiene fix: doi: None → '10.1136/bmjopen-2024-096995'; pmid: None → '40441764'",
         "reason": "DOI/PMID filled (verified). (Research-quality audit citation pass.)"
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: authors = Li P, Che C, Wu Y, et al.",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
     ]
   },
@@ -617,7 +696,15 @@
       "detail": ""
     },
     "coi": "Independent.",
-    "limitations": ""
+    "limitations": "",
+    "pmid": "36383762",
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 36383762",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
+      }
+    ]
   },
   {
     "id": "cochrane-zinc-2016",
@@ -638,7 +725,15 @@
       "detail": ""
     },
     "coi": "Independent.",
-    "limitations": ""
+    "limitations": "",
+    "pmid": "27879981",
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 27879981",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
+      }
+    ]
   },
   {
     "id": "cochrane-betahistine-2018",
@@ -665,13 +760,19 @@
         "date": "2026-09-04",
         "change": "Citation-hygiene fix: n: 'Multiple RCTs' → '5 studies, N≈305'",
         "reason": "Study/participant counts added (verified). (Research-quality audit citation pass.)"
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 30908589",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
-    ]
+    ],
+    "pmid": "30908589"
   },
   {
     "id": "atipas-2021-notched",
     "title": "Notched music vs ordinary music: independent RCT",
-    "authors": "Atipas S, et al.",
+    "authors": "Therdphaothai J, Atipas S, Suvansit K, Prakairungthong S, Thongyai K, Limviriyakul S",
     "journal": "Journal of International Advanced Otology",
     "year": 2021,
     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9450089/",
@@ -682,7 +783,7 @@
     "independent": true,
     "primaryOutcome": "THI, VAS",
     "results": {
-      "summary": "No significant THI difference between tailor-made notched music and ordinary music (N=104).",
+      "summary": "No significant THI difference between tailor-made notched music and ordinary music (N=104). The abstract notes a greater score reduction in the treatment group during the follow-up period — a secondary observation that does not alter the negative primary findings.",
       "detail": "The Münster trials reported modest effects mainly on perceived loudness in tonal tinnitus."
     },
     "coi": "Independent.",
@@ -694,13 +795,18 @@
         "date": "2026-09-04",
         "change": "Citation-hygiene fix: doi: None → '10.5152/iao.2021.9385'; pmid: None → '34100746'",
         "reason": "DOI/PMID filled (verified). (Research-quality audit citation pass.)"
+      },
+      {
+        "date": "2026-09-04",
+        "change": "First author corrected: the paper is Therdphaothai J et al. (Atipas is second author); follow-up-period nuance added.",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
     ]
   },
   {
     "id": "kalmeda-2023",
     "title": "Kalmeda app (mobile CBT-based therapy): RCT behind Germany's DiGA listing",
-    "authors": "—",
+    "authors": "Walter U, Pennig S, Kottmann T, et al.",
     "journal": "PLOS Digital Health",
     "year": 2023,
     "pmid": "37676883",
@@ -723,13 +829,18 @@
         "date": "2026-09-04",
         "change": "Citation-hygiene fix: doi: None → '10.1371/journal.pdig.0000337'",
         "reason": "DOI filled (verified). (Research-quality audit citation pass.)"
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: authors = Walter U, Pennig S, Kottmann T, et al.",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
     ]
   },
   {
     "id": "kyorin-2026-app",
     "title": "Smartphone tinnitus app: double-blind sham-controlled RCT (Japan)",
-    "authors": "—",
+    "authors": "Wasano K, Kawasaki T, Goto F, et al.",
     "journal": "JAMA Otolaryngology–Head & Neck Surgery",
     "year": 2026,
     "doi": "10.1001/jamaoto.2026.0858",
@@ -745,7 +856,15 @@
       "detail": "Per the authors, the first DOUBLE-BLIND sham-app-controlled RCT of a tinnitus digital therapeutic (earlier app RCTs were single-blind). Registration jRCTs032230359."
     },
     "coi": "Sponsored by Kyorin Pharmaceutical; several authors received sponsor fees.",
-    "limitations": "N=60, single country, industry-sponsored."
+    "limitations": "N=60, single country, industry-sponsored.",
+    "pmid": "42096236",
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 42096236; authors = Wasano K, Kawasaki T, Goto F, et al.",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
+      }
+    ]
   },
   {
     "id": "oto-flinders-2025",
@@ -800,8 +919,14 @@
         "date": "2026-09-04",
         "change": "Corrected: design was under-specified — this is an N=40 RCT of PT added to photobiomodulation (co-intervention previously hidden); the 43%-vs-12% figure re-attributed to Tullberg 2006.",
         "reason": "Research-quality audit M5 (borderline material), verified against the publication (DOI 10.1097/MD.0000000000029946)."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 35945770",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
-    ]
+    ],
+    "pmid": "35945770"
   },
   {
     "id": "stopmd3-2024",
@@ -833,7 +958,7 @@
   {
     "id": "quiet1-aut00063",
     "title": "QUIET-1: AUT00063 (Kv3 modulator) Phase 2a — terminated for futility",
-    "authors": "—",
+    "authors": "Hall DA, Ray J, Watson J, et al.",
     "journal": "Hearing Research",
     "year": 2019,
     "url": "https://www.sciencedirect.com/science/article/pii/S0378595518302909",
@@ -856,6 +981,11 @@
         "date": "2026-09-04",
         "change": "Citation-hygiene fix: year: 2018 → 2019; pmid: None → '30939361'; doi: None → '10.1016/j.heares.2019.03.018'; n: '—' → '91'",
         "reason": "Year corrected 2018 → 2019; PMID/DOI added; N=91 added (per the publication). (Research-quality audit citation pass.)"
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: authors = Hall DA, Ray J, Watson J, et al.",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
     ]
   },
@@ -884,8 +1014,14 @@
         "date": "2026-09-04",
         "change": "Citation-hygiene fix: doi: None → '10.1007/s00106-025-01668-3'",
         "reason": "DOI filled (verified). (Research-quality audit citation pass.)"
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 40920197",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
-    ]
+    ],
+    "pmid": "40920197"
   },
   {
     "id": "tent-a2-2022",
@@ -938,8 +1074,14 @@
         "date": "2026-09-04",
         "change": "Citation-hygiene fix: authors: '—' → 'McMahan E, Lim HH, et al.'; n: '—' → '212 fitted / 220 enrolled'",
         "reason": "Authors and N filled (verified against the publication). (Research-quality audit citation pass.)"
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 40295853",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
-    ]
+    ],
+    "pmid": "40295853"
   },
   {
     "id": "searchfield-2022",
@@ -991,7 +1133,7 @@
   {
     "id": "acupuncture-sr-2020",
     "title": "Acupuncture for tinnitus: systematic review and meta-analysis (8 RCTs)",
-    "authors": "—",
+    "authors": "Huang K, Liang S, Chen L, Grellet A",
     "journal": "Acupuncture in Medicine",
     "year": 2021,
     "pmid": "32772848",
@@ -1013,6 +1155,11 @@
         "date": "2026-09-04",
         "change": "Corrected: 18 RCTs → 8 RCTs (N=504); year 2020 → 2021; journal added (Acupuncture in Medicine); significant secondary THI result added and labeled secondary.",
         "reason": "Research-quality audit M3, verified against the publication (PMID 32772848)."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: authors = Huang K, Liang S, Chen L, Grellet A",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
     ]
   },
@@ -1040,13 +1187,20 @@
         "date": "2026-09-04",
         "change": "Citation-hygiene fix: authors: 'Chen et al.' → 'Xu X, Xie H, et al.'; journal: '—' → 'Frontiers in Neurology'",
         "reason": "Authors/journal corrected to the actual publication (Xu X, Xie H et al., Frontiers in Neurology 2022). (Research-quality audit citation pass.)"
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 36468042; doi = 10.3389/fneur.2022.1061431",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
-    ]
+    ],
+    "pmid": "36468042",
+    "doi": "10.3389/fneur.2022.1061431"
   },
   {
     "id": "lllt-meta-2020",
     "title": "Low-level laser therapy for tinnitus: meta-analysis with trial sequential analysis",
-    "authors": "Chen et al.",
+    "authors": "Chen CH, et al.",
     "journal": "Brain Sciences",
     "year": 2020,
     "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7761002/",
@@ -1057,7 +1211,7 @@
     "independent": true,
     "primaryOutcome": "Tinnitus outcomes",
     "results": {
-      "summary": "No significant benefit of LLLT on tinnitus; trial sequential analysis suggests further similar trials are unlikely to change the conclusion.",
+      "summary": "No significant benefit of LLLT on tinnitus severity (MD −2.85, 95% CI −8.99 to 3.28, p=0.362; 11 RCTs, N=670). The authors' own conclusion: the value of LLLT 'remains unclear', in part due to small patient numbers and heterogeneity, and larger studies are called for.",
       "detail": ""
     },
     "coi": "Independent.",
@@ -1072,8 +1226,15 @@
         "date": "2026-09-04",
         "change": "Softened trial-sequential-analysis claim to match the strength of the source.",
         "reason": "Research-quality audit borderline endpoint-wording pass; verified against the publication."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Removed a trial-sequential-analysis futility claim the abstract does not support (the authors call for larger studies, not futility); replaced with the authors' actual conclusion. PMID/DOI/authors filled.",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
-    ]
+    ],
+    "pmid": "33276501",
+    "doi": "10.3390/brainsci10120931"
   },
   {
     "id": "tavns-sr-2023",
@@ -1100,8 +1261,14 @@
         "date": "2026-09-04",
         "change": "Corrected: 'narrative synthesis only' was false — the review includes a 4-study meta-analysis with a pooled positive disability effect of low clinical relevance; citation completed (Fernández-Hernando et al., J Clin Med 2023, DOI 10.3390/jcm12113673).",
         "reason": "Research-quality audit M4, verified against the publication."
+      },
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 37297867",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
-    ]
+    ],
+    "pmid": "37297867"
   },
   {
     "id": "levo-rct-2017",
@@ -1154,7 +1321,7 @@
     "primaryOutcome": "Tinnitus intensity; THI",
     "results": {
       "summary": "Both OPPOSITE neurofeedback protocols reduced intensity ratings equally — indicating a non-specific effect — with no THI benefit.",
-      "detail": "The specificity claim behind EEG neurofeedback failed its test."
+      "detail": "The specificity claim behind EEG neurofeedback failed its test. Record id retains a legacy slug; the paper is Jensen M et al. (Brain Communications 2023) — distinct from R. Guillard’s separate tinnitus-neurofeedback work."
     },
     "coi": "Independent.",
     "limitations": "",
@@ -1164,13 +1331,19 @@
         "date": "2026-09-04",
         "change": "Citation-hygiene fix: authors: 'Guillard et al.' → 'Jensen M, et al.'; doi: None → '10.1093/braincomms/fcad185'; n: '—' → '94'",
         "reason": "Authors corrected to the actual publication (Jensen M et al., Brain Communications 2023); DOI and N=94 added. (Research-quality audit citation pass.)"
+      },
+      {
+        "date": "2026-09-04",
+        "change": "PMID filled; slug-confusion note added (paper is Jensen et al., not R. Guillard).",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
       }
-    ]
+    ],
+    "pmid": "37680692"
   },
   {
     "id": "stenting-pooled-2024",
     "title": "Venous sinus stenting for pulsatile tinnitus: pooled analysis of 28 studies",
-    "authors": "—",
+    "authors": "Schartz D, Finkelstein A, et al.",
     "journal": "World Neurosurgery",
     "year": 2024,
     "url": "https://www.sciencedirect.com/science/article/abs/pii/S1878875024014074",
@@ -1185,7 +1358,16 @@
       "detail": "Observational only; patient selection is everything. A dedicated stent trial (BosSTENT, NCT07070089, N=90) is registered."
     },
     "coi": "Independent.",
-    "limitations": "No RCT; selection-dependent."
+    "limitations": "No RCT; selection-dependent.",
+    "pmid": "39142383",
+    "doi": "10.1016/j.wneu.2024.08.048",
+    "history": [
+      {
+        "date": "2026-09-04",
+        "change": "Citation completion from re-verification: pmid = 39142383; doi = 10.1016/j.wneu.2024.08.048; authors = Schartz D, Finkelstein A, et al.",
+        "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
+      }
+    ]
   },
   {
     "randomized": true,
