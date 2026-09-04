@@ -2,6 +2,78 @@
   "lastScan": "2026-09-04",
   "items": [
     {
+      "id": "pubmed-42694802",
+      "kind": "study",
+      "title": "Extra-dural repair of symptomatic tegmen defects through mini-temporal craniotomy: Our institutional experience.",
+      "source": "Surgical neurology international",
+      "date": "2026 Aug 28",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42694802/",
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    },
+    {
+      "id": "pubmed-42694569",
+      "kind": "study",
+      "title": "Auditory Perceptions Associated With Hypoglossal Nerve Stimulation for Obstructive Sleep Apnea.",
+      "source": "Laryngoscope investigative otolaryngology",
+      "date": "2026 Sep 3",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42694569/",
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    },
+    {
+      "id": "ctgov-NCT07772089-2026-09-04",
+      "kind": "trial",
+      "title": "Acute Nicotine Gum and Tinnitus Loudness in Non-Smoking Adults",
+      "source": "San Diego State University",
+      "date": "2026-09-04",
+      "url": "https://clinicaltrials.gov/study/NCT07772089",
+      "summary": "Trial update — status: COMPLETED. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    },
+    {
+      "id": "ctgov-NCT06942689-2026-08-28",
+      "kind": "trial",
+      "title": "Determination of the Optimal Volume of Liposomal Bupivacaine in Adductor Canal Block for Knee Joint Surgery",
+      "source": "Nanjing First Hospital, Nanjing Medical University",
+      "date": "2026-08-28",
+      "url": "https://clinicaltrials.gov/study/NCT06942689",
+      "summary": "Trial update — status: RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    },
+    {
+      "id": "ctgov-NCT05936034-2026-09-01",
+      "kind": "trial",
+      "title": "Comparative Study of the Quality of Life of Patients Suffering From OTOTOXICITY Due to Chemotherapy Based on Platinum Salts Fitted With a Hearing Aid Compared to Those Not Fitted.",
+      "source": "Institut de Cancérologie de Lorraine",
+      "date": "2026-09-01",
+      "url": "https://clinicaltrials.gov/study/NCT05936034",
+      "summary": "Trial update — status: RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    },
+    {
+      "id": "fda-510-k-clearance-k260413",
+      "kind": "regulatory",
+      "title": "FDA 510(k) decision: Levo Gen 2 Tinnitus Therapy System (Levo Medical Corporation) — Substantially Equivalent",
+      "source": "openFDA 510(k) clearance database",
+      "date": "2026-09-04",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K260413",
+      "summary": "Authoritative FDA database record (510(k) clearance). Needs evaluation; regulatory wording must be exact (cleared ≠ approved ≠ De Novo authorized).",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    },
+    {
       "id": "pubmed-42691614",
       "kind": "study",
       "title": "Health-Related Quality-of-Life Profiles in Adults With Tinnitus.",
