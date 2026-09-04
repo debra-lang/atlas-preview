@@ -1,38 +1,56 @@
 {
   "schedule": "Every Monday 06:00 America/Los_Angeles (timezone-aware — stays 6 AM Pacific through PST/PDT) via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled",
   "nextScheduled": "2026-09-07 06:00 America/Los_Angeles",
-  "lastAttempt": "2026-09-04T03:53:36",
+  "lastAttempt": "2026-09-04T16:43:53",
   "sources": [
     {
-      "name": "PubMed",
+      "name": "PubMed (title/abstract + MeSH)",
       "checked": true,
-      "count": 21,
+      "count": 23,
       "error": null
     },
     {
-      "name": "ClinicalTrials.gov",
+      "name": "ClinicalTrials.gov (condition + full-text)",
       "checked": true,
-      "count": 4,
+      "count": 7,
       "error": null
     },
     {
-      "name": "Watched feeds (FDA, NIH/NIDCD, journals, EMA…)",
+      "name": "Watched feeds (FDA press, NIH, journals)",
+      "checked": true,
+      "count": 0,
+      "error": null
+    },
+    {
+      "name": "FDA databases (510k/PMA/MAUDE — openFDA)",
+      "checked": true,
+      "count": 1,
+      "error": null
+    },
+    {
+      "name": "News-wire intelligence (labeled, never evidence)",
+      "checked": true,
+      "count": 0,
+      "error": null
+    },
+    {
+      "name": "Guideline page watcher (AAO-HNSF, NICE)",
       "checked": true,
       "count": 0,
       "error": null
     }
   ],
-  "examined": 25,
-  "newItems": 0,
+  "examined": 31,
+  "newItems": 6,
   "published": 0,
   "rejectedDuplicates": 0,
   "rejectedIrrelevant": 0,
   "held": 0,
   "publishedUnderEvaluation": 0,
-  "heldAwaitingEvaluation": 34,
+  "heldAwaitingEvaluation": 40,
   "trialStatusUpdates": 0,
   "errors": [
-    "AI evaluation skipped: ANTHROPIC_API_KEY not set (add it to GitHub repo Secrets)"
+    "AI evaluation skipped: production benchmark gate not passed yet (run engine/run_benchmark.py once ANTHROPIC_API_KEY is configured; items held as awaiting-evaluation)"
   ],
-  "lastSuccess": "2026-09-04T03:53:36"
+  "lastSuccess": "2026-09-04T16:43:53"
 }
