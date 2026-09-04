@@ -39,6 +39,24 @@ rankings, loudness/distress ratings, safety assessments and treatment regulatory
 NEVER modified by automation; quiet weeks publish an honest "nothing identified" note instead of
 fake freshness.
 
+## Privacy in the public repo
+
+The repo is public, so what it may contain is constrained by design:
+- **Awaiting-evaluation queue (`queue.json`)** — public-safe by construction: bibliographic
+  metadata only. Evaluated items are routed out (published/held/rejected) in the same run, so
+  raw AI evaluation output never sits in the committed queue; a crashed run never commits.
+- **Held changes (`held.json`)** — unpublished internal review material (proposed score/rank/
+  safety changes, admin summaries). Stored ONLY encrypted as `held.json.enc` (AES-256, key =
+  `STATE_KEY` repo secret); the plaintext path is gitignored and the workflow refuses to commit
+  holds if the key is missing (failing loudly, losing nothing — source items stay in the queue).
+- To read held items locally:
+  `openssl enc -d -aes-256-cbc -pbkdf2 -in data/review-queue/held.json.enc -pass pass:<your STATE_KEY>`
+  (then admin.html renders the decrypted held.json). Set `STATE_KEY` yourself:
+  `gh secret set STATE_KEY --repo debra-lang/atlas-preview` — pick any strong passphrase and
+  keep it in your password manager; it is only needed once the first major change gets held.
+- `engine-status.json` and `audit-log.jsonl` stay public deliberately (transparency; they
+  contain registry facts and routing metadata, no secrets, no unpublished conclusions).
+
 ## Resolving a held item
 
 Open `admin.html` → "Major Evidence Changes — Held". Verify the primary source against the full
