@@ -50,17 +50,106 @@
     return DB;
   }
 
-  /* ---------------- watchlist ---------------- */
+  /* ---------------- watchlist (v2: treatments + trials + institutions) ---------------- */
   const WL_KEY = 'ta:watchlist', SEEN_KEY = 'ta:lastSeen';
-  const wlGet = () => { try { return JSON.parse(localStorage.getItem(WL_KEY)) || []; } catch (e) { return []; } };
-  const wlSet = ids => { try { localStorage.setItem(WL_KEY, JSON.stringify(ids)); } catch (e) {} };
-  const wlHas = id => wlGet().includes(id);
-  const wlToggle = id => { const l = wlGet(); const i = l.indexOf(id); i >= 0 ? l.splice(i, 1) : l.push(id); wlSet(l); return i < 0; };
+  function wlGet() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(WL_KEY));
+      if (Array.isArray(raw)) return { treatments: raw, trials: [], institutions: [] }; // v1 migration
+      return Object.assign({ treatments: [], trials: [], institutions: [] }, raw || {});
+    } catch (e) { return { treatments: [], trials: [], institutions: [] }; }
+  }
+  const wlSet = wl => { try { localStorage.setItem(WL_KEY, JSON.stringify(wl)); } catch (e) {} };
+  const wlHas = (kind, id) => (wlGet()[kind] || []).includes(id);
+  function wlToggle(kind, id) {
+    const wl = wlGet(); const l = wl[kind] = wl[kind] || [];
+    const i = l.indexOf(id); i >= 0 ? l.splice(i, 1) : l.push(id); wlSet(wl); return i < 0;
+  }
+
+  /* ---------------- My Tinnitus Profile (local-only) ---------------- */
+  const PROFILE_KEY = 'ta:profile';
+  const getProfile = () => { try { return JSON.parse(localStorage.getItem(PROFILE_KEY)); } catch (e) { return null; } };
+  const setProfile = p => { try { localStorage.setItem(PROFILE_KEY, JSON.stringify(p)); } catch (e) {} };
+  const SUBTYPE_LABELS = {
+    general: 'Broad / unspecified tinnitus', pulsatile: 'Pulsatile tinnitus',
+    somatic: 'Somatic-modulated tinnitus', 'hearing-loss': 'With hearing loss',
+    'sudden-hl': 'After sudden hearing loss', 'ci-candidate': 'Cochlear-implant candidates',
+    meniere: "Meniere's disease"
+  };
+  const CHAR_NAMES = {
+    pulsatile: 'pulsatile (heartbeat-synchronized) tinnitus',
+    somatic: 'tinnitus that changes with jaw or neck movement',
+    'hearing-loss': 'tinnitus with hearing loss',
+    'sudden-hl': 'tinnitus after a sudden hearing drop'
+  };
+  function profileTags(p) {
+    if (!p) return [];
+    const tags = [];
+    if (p.pulsatile === 'yes') tags.push('pulsatile');
+    if (p.somaticModulation === 'yes' || p.jawTMJ === 'yes' || p.neck === 'yes') tags.push('somatic');
+    if (p.hearingLoss === 'yes') tags.push('hearing-loss');
+    if (p.suddenHL === 'yes') tags.push('sudden-hl');
+    return tags; // specific tags only — 'general' matches are not meaningful
+  }
+  function profileMatches(t) {
+    const p = getProfile(); if (!p) return [];
+    const specific = profileTags(p);
+    return (t.subtypeTags || []).filter(tag => specific.includes(tag));
+  }
+  // Red flags from AAO-HNSF CPG: Tinnitus (2014) + AAO-HNSF CPG: Sudden Hearing Loss (2019)
+  function redFlags(p) {
+    const f = [];
+    if (p.pulsatile === 'yes') f.push('tinnitus that pulses with your heartbeat');
+    if (p.suddenHL === 'yes') f.push('a sudden drop in hearing (guidelines recommend prompt evaluation for this one)');
+    if (p.laterality === 'left' || p.laterality === 'right') f.push('tinnitus in one ear only');
+    if (p.asymmetric === 'yes') f.push('hearing that is clearly different between ears, or recently changed');
+    if (p.neuroSymptoms === 'yes') f.push('neurological symptoms alongside tinnitus');
+    if (p.vertigo === 'yes') f.push('vertigo or serious dizziness');
+    if (p.earPainDrainage === 'yes') f.push('ear pain or discharge');
+    if (p.trauma === 'yes') f.push('a recent head or ear injury');
+    return f;
+  }
+
+  /* ---------------- plain-language helpers ---------------- */
+  const EVIDENCE_WORDS = { 1: 'Weak', 2: 'Limited', 3: 'Moderate', 4: 'Strong', 5: 'Very strong' };
+  function effectWord(t) {
+    const l = ['moderate', 'strong'].includes(t.loudness.level);
+    const d = ['moderate', 'strong'].includes(t.distress.level);
+    if (l && d) return 'Loudness + distress';
+    if (l) return 'Loudness';
+    if (d) return 'Distress';
+    if (t.loudness.level === 'limited' || t.distress.level === 'limited') return 'Unclear (early signals)';
+    return 'Unclear';
+  }
+  function availWord(t) {
+    const a = t.availability || {};
+    if (a.availableNow) return /some|limited|scarce|select/i.test(a.usa || '') ? 'Limited availability' : 'Available';
+    if (/investigational|pre-clinical|registered/i.test((t.regulatory || {}).status || '')) return 'Clinical trials / research only';
+    return 'Not yet available';
+  }
+  function whoStudied(t) {
+    if (t.whoStudied) return t.whoStudied;
+    const s = (t.subtypes || []).filter(Boolean);
+    return s.length ? 'Studied primarily in people with ' + s.join('; ') : 'Studied in broad or unspecified tinnitus populations';
+  }
+  function regExplain(status) {
+    const s = (status || '').toLowerCase();
+    if (s.includes('de novo')) return 'De Novo authorized = the FDA reviewed it as a brand-new device type and allowed marketing. Stronger than "cleared", weaker than full "approval".';
+    if (s.includes('510(k)') || s.includes('cleared')) return 'FDA cleared (510(k)) = judged similar to an existing device. Clearance is NOT proof that it works.';
+    if (s.includes('pma') || s.startsWith('fda approved')) return 'FDA approved = passed the FDA\'s strictest review (PMA) — for the indication on its label.';
+    if (s.includes('off-label')) return 'Off-label = doctors may legally use an approved product for a purpose it wasn\'t originally approved for.' + (s.includes('investigational') ? ' A dedicated product for this use is still investigational (being tested).' : '');
+    if (s.includes('investigational')) return 'Investigational = still being tested; not authorized for sale for this use.';
+    if (s.includes('ce mark') || s.includes('ce-mark')) return 'CE marked = meets European safety requirements; for low-risk devices this is not proof of effectiveness.';
+    if (s.includes('standard')) return 'An established therapy — no device/drug authorization applies.';
+    if (s.includes('unregulated') || s.includes('supplement') || s.includes('wellness')) return 'No regulator has evaluated this for tinnitus at all.';
+    if (s.includes('off-label')) return 'Off-label = the product is approved for something else; using it for tinnitus is at the prescriber\'s discretion.';
+    return '';
+  }
 
   /* ---------------- shared components ---------------- */
   const TIER_LABELS = {
     1: ['Strongest evidence', 'b-strong'], 2: ['Promising', 'b-promising'],
-    3: ['Experimental', 'b-emerging'], 4: ['Coping / symptom mgmt', 'b-watch'],
+    3: ['Experimental', 'b-emerging'], 4: ['Helps you cope', 'b-watch'],
     5: ['Weak / unsupported', 'b-weak']
   };
   const LV_LABELS = { none: 'None shown', limited: 'Limited', moderate: 'Moderate', strong: 'Strong' };
@@ -73,8 +162,8 @@
   function emeter(score, label) {
     let dots = '';
     for (let i = 1; i <= 5; i++) dots += `<i class="${i <= score ? 'on' : ''}"></i>`;
-    return `<span class="emeter" style="--em-c:${scoreColor(score)}" title="Evidence score ${score}/5"
-      role="img" aria-label="Evidence score ${score} out of 5">${dots}<span class="lab">${label !== false ? score + '/5' : ''}</span></span>`;
+    return `<span class="emeter" style="--em-c:${scoreColor(score)}" title="Evidence score ${score}/5 (${EVIDENCE_WORDS[score]})"
+      role="img" aria-label="Evidence score ${score} out of 5, ${EVIDENCE_WORDS[score]}">${dots}<span class="lab">${label !== false ? score + '/5 · ' + EVIDENCE_WORDS[score] : ''}</span></span>`;
   }
   function duo(t, compact) {
     const cell = (k, o) => `<div class="cell"><div class="k">${k}</div>
@@ -101,7 +190,10 @@
       <h3>${updatedRecently(t) ? '<span class="updated-dot" title="Updated recently"></span>' : ''}${esc(t.name)}</h3>
       <p class="one">${esc(t.oneLiner)}</p>
       ${duo(t, true)}
-      <div class="foot">${emeter(t.evidenceScore)} ${tierBadge(t.tier)} ${availBadge(t)}</div>
+      <p class="who">👥 ${esc(whoStudied(t))}</p>
+      <div class="foot">${emeter(t.evidenceScore)} ${tierBadge(t.tier)}
+        <span class="badge b-promising" title="What the evidence addresses">🎯 ${effectWord(t)}</span> ${availBadge(t)}
+        ${t.narrowPopulation ? '<span class="badge b-watch" title="Results apply only to a specific diagnosed population">⚠ Specific population only</span>' : ''}</div>
     </a>`;
   }
 
@@ -113,7 +205,7 @@
     ['research.html', 'Research', '📰'],
     ['watchlist.html', 'Watchlist', '⭐'],
   ];
-  const NAV_MORE = [['compare.html', 'Compare'], ['institutions.html', 'Institutions'], ['about.html', 'About']];
+  const NAV_MORE = [['search.html', 'Search'], ['profile.html', 'My Profile'], ['compare.html', 'Compare'], ['institutions.html', 'Institutions'], ['about.html', 'About']];
 
   function chrome() {
     $$('.topbar, .bottomnav, .footer').forEach(el => el.remove()); // idempotent (single-file router re-runs it)
@@ -188,6 +280,11 @@
     const coming = trials.filter(t => t.watch).slice(0, 4);
     $('#coming').innerHTML = coming.map(trialCard).join('');
 
+    // What hasn't worked (Tier 5, still marketed/available — the ones people spend money on)
+    const neg = treatments.filter(t => t.tier === 5 && t.availability && t.availability.availableNow)
+      .sort((a, b) => a.evidenceScore - b.evidenceScore).slice(0, 3);
+    if ($('#negative')) $('#negative').innerHTML = neg.map(t => treatmentCard(t)).join('');
+
     // Categories
     $('#cats').innerHTML = categories.map(c => {
       const n = treatments.filter(t => t.category === c.id).length;
@@ -200,7 +297,8 @@
   function whyRankingBlock(r, t) {
     const d = r.detail || {};
     const row = (k, v) => v ? `<li><strong>${k}:</strong> ${esc(v)}</li>` : '';
-    return `<details class="rdetail"><summary>Why is this ranked #${r.rank}?</summary>
+    return `${r.whyPlain ? `<p class="whyline"><strong>Why #${r.rank}?</strong> ${esc(r.whyPlain)}</p>` : ''}
+      <details class="rdetail"><summary>Research detail — the full reasoning</summary>
       <p class="small">${esc(r.why)}</p>
       <ul class="small">
         ${row('Strongest evidence', d.strongest)}
@@ -228,57 +326,95 @@
     </div>`;
   }
 
+  const IMP_STYLE = {
+    'Potentially Important': 'b-strong', 'Interesting but Early': 'b-emerging',
+    'Confirms Previous Evidence': 'b-promising', 'Negative Result': 'b-watch',
+    'Does Not Change Current Evidence': 'b-weak'
+  };
   function weekItem(it) {
     const KIND_COLORS = { study: 'var(--c-promising)', trial: 'var(--c-emerging)', regulatory: 'var(--c-strong)', ranking: 'var(--c-watch)', negative: 'var(--c-weak)', news: 'var(--c-promising)' };
     return `<div class="week-item" style="--w-c:${KIND_COLORS[it.kind] || 'var(--c-promising)'}">
+      ${it.importance ? `<span class="badge ${IMP_STYLE[it.importance] || 'b-weak'}" style="margin-bottom:4px">${esc(it.importance)}</span>` : ''}
       <div class="t">${esc(it.title)}</div>
-      <div class="small muted">${esc(it.summary)}</div>
-      ${it.treatment && DB.tById[it.treatment] ? `<a class="small" href="treatment.html?id=${esc(it.treatment)}">${esc(DB.tById[it.treatment].name)} →</a>` : ''}
-      ${it.url ? ` <a class="small" href="${esc(it.url)}" rel="noopener" target="_blank">Source ↗</a>` : ''}</div>`;
+      ${it.whyMatters ? `<div class="small"><strong>Why it matters:</strong> ${esc(it.whyMatters)}</div>` : ''}
+      <details class="rdetail"><summary>Research detail</summary>
+        <p class="small">${esc(it.summary)}</p>
+        <p class="small">
+        ${it.treatment && DB.tById[it.treatment] ? `<a href="treatment.html?id=${esc(it.treatment)}">${esc(DB.tById[it.treatment].name)} — full evidence page →</a><br>` : ''}
+        ${it.url ? `<a href="${esc(it.url)}" rel="noopener" target="_blank">Original source ↗</a>` : ''}</p>
+      </details></div>`;
   }
 
-  function trialCard(tr) {
+  function trialCard(tr, opts) {
+    opts = opts || {};
     const t = tr.treatment && DB.tById[tr.treatment];
-    const st = /recruit/i.test(tr.status) ? 'b-strong' : /active|enrolling/i.test(tr.status) ? 'b-promising' : /complete/i.test(tr.status) ? 'b-weak' : 'b-watch';
+    const st = /recruit/i.test(tr.status) && !/stale/i.test(tr.status) ? 'b-strong' : /active|enrolling|ongoing/i.test(tr.status) ? 'b-promising' : /complete/i.test(tr.status) ? 'b-weak' : 'b-watch';
+    const matches = t ? profileMatches(t) : [];
     return `<div class="card">
       <div class="foot" style="margin:0 0 8px;display:flex;gap:6px;flex-wrap:wrap">
         <span class="badge ${st}">${esc(tr.status)}</span>
         ${tr.phase ? `<span class="badge b-emerging">${esc(tr.phase)}</span>` : ''}
+        ${tr.country ? `<span class="badge b-weak" title="Country of the lead sponsor/site">📍 ${esc(tr.country)}</span>` : ''}
         ${tr.watch ? '<span class="badge b-watch">One to watch</span>' : ''}</div>
       <h3 style="font-size:1rem">${esc(tr.title)}</h3>
-      <p class="small muted">${esc(tr.sponsor)}${tr.n ? ` · target N=${esc(tr.n)}` : ''}${tr.completionEst ? ` · est. completion ${esc(tr.completionEst)}` : ''}</p>
+      <p class="small muted">${esc(tr.sponsor)}${tr.n ? ` · aiming to enroll ${esc(tr.n)} people` : ''}${tr.completionEst ? ` · est. completion ${esc(tr.completionEst)}` : ''}</p>
       ${tr.whyItMatters ? `<p class="small">${esc(tr.whyItMatters)}</p>` : ''}
+      ${opts.profileNotes && matches.length ? `<div class="match-note">👤 This study involves ${matches.map(m => esc(CHAR_NAMES[m] || m)).join(' and ')} — a characteristic in your Tinnitus Profile. Only the study's research team can determine whether anyone is eligible.</div>` : ''}
       <p class="small" style="margin-bottom:0">
         ${t ? `<a href="treatment.html?id=${esc(t.id)}">${esc(t.name)}</a> · ` : ''}
-        <a href="${esc(tr.url || ('https://clinicaltrials.gov/study/' + tr.nctId))}" rel="noopener" target="_blank">${esc(tr.nctId)} ↗</a></p>
+        <a href="${esc(tr.url || ('https://clinicaltrials.gov/study/' + tr.nctId))}" rel="noopener" target="_blank">${esc(tr.nctId)} ↗</a>
+        ${opts.follow ? ` <button class="btn followbtn watch-btn" type="button" data-watch-trial="${esc(tr.nctId)}" aria-pressed="${wlHas('trials', tr.nctId)}">${wlHas('trials', tr.nctId) ? '⭐ Watching' : '☆ Watch this trial'}</button>` : ''}</p>
     </div>`;
   }
 
   /* ----- treatments browse ----- */
   PAGES.treatments = function () {
-    const state = { cat: qs('cat') || '', tier: '', avail: false, loud: false, distress: false, q: '' };
+    const flagParam = qs('flag') || '';
+    const state = { cat: qs('cat') || '', type: qs('type') || '', q: '',
+      avail: flagParam === 'avail', loud: flagParam === 'loud', distress: flagParam === 'distress',
+      negative: flagParam === 'negative', profile: flagParam === 'profile' };
     const catChips = $('#cat-chips'), listEl = $('#tlist');
     catChips.innerHTML = `<button class="chip" data-cat="">All categories</button>` +
       DB.categories.map(c => `<button class="chip" data-cat="${esc(c.id)}">${esc(c.icon)} ${esc(c.name)}</button>`).join('');
+    const typeChips = $('#type-chips');
+    if (typeChips) {
+      const used = new Set(); DB.treatments.forEach(t => (t.subtypeTags || []).forEach(x => used.add(x)));
+      typeChips.innerHTML = `<button class="chip" data-type="">Any tinnitus type</button>` +
+        Object.keys(SUBTYPE_LABELS).filter(k => k !== 'general' && used.has(k))
+          .map(k => `<button class="chip" data-type="${k}">${esc(SUBTYPE_LABELS[k])}</button>`).join('');
+    }
+    const profChip = $('[data-flag="profile"]');
+    if (profChip && !getProfile()) profChip.hidden = true;
 
     function render() {
       $$('#cat-chips .chip').forEach(ch => ch.setAttribute('aria-pressed', ch.dataset.cat === state.cat));
+      $$('#type-chips .chip').forEach(ch => ch.setAttribute('aria-pressed', ch.dataset.type === state.type));
       $$('#flag-chips .chip').forEach(ch => ch.setAttribute('aria-pressed', !!state[ch.dataset.flag]));
       let list = DB.treatments.slice();
       if (state.cat) list = list.filter(t => t.category === state.cat);
+      if (state.type) list = list.filter(t => (t.subtypeTags || []).includes(state.type));
       if (state.avail) list = list.filter(t => t.availability && t.availability.availableNow);
-      if (state.loud) list = list.filter(t => ['moderate', 'strong'].includes(t.loudness.level));
+      if (state.loud) list = list.filter(t => ['limited', 'moderate', 'strong'].includes(t.loudness.level));
       if (state.distress) list = list.filter(t => ['moderate', 'strong'].includes(t.distress.level));
+      if (state.negative) list = list.filter(t => t.tier === 5);
+      if (state.profile) list = list.filter(t => profileMatches(t).length);
       if (state.q) {
         const q = state.q.toLowerCase();
         list = list.filter(t => (t.name + ' ' + t.oneLiner + ' ' + t.developer + ' ' + (t.researchers || []).join(' ') + ' ' + t.mechanism).toLowerCase().includes(q));
       }
-      list.sort((a, b) => a.tier - b.tier || b.evidenceScore - a.evidenceScore || a.name.localeCompare(b.name));
-      listEl.innerHTML = list.length ? list.map(t => treatmentCard(t)).join('') :
-        '<div class="empty">Nothing matches those filters.</div>';
+      if (state.loud) list.sort((a, b) => lvRank(b.loudness.level) - lvRank(a.loudness.level) || b.evidenceScore - a.evidenceScore);
+      else list.sort((a, b) => a.tier - b.tier || b.evidenceScore - a.evidenceScore || a.name.localeCompare(b.name));
+      const note =
+        state.loud ? `<div class="notice" style="margin-bottom:14px">🔉 <strong>Honest note:</strong> very few treatments have credible evidence of making the tinnitus sound itself quieter — and most of those apply only to specific tinnitus types. Sorted by strength of loudness evidence; check each card's population.</div>` :
+        state.negative ? `<div class="notice" style="margin-bottom:14px">These treatments have failed trials, never beat placebo, or are marketed well beyond their evidence. No judgment if you've tried them — the marketing is persuasive. The evidence just isn't.</div>` :
+        state.profile ? `<div class="match-note" style="margin-bottom:14px">👤 Showing research studied in people who share characteristics with your Tinnitus Profile. This is evidence navigation, not a recommendation.</div>` : '';
+      listEl.innerHTML = note + (list.length ? list.map(t => treatmentCard(t)).join('') :
+        '<div class="empty">Nothing matches those filters.</div>');
       $('#tcount').textContent = list.length;
     }
+    const lvRank = l => ({ strong: 3, moderate: 2, limited: 1 }[l] || 0);
     catChips.addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) { state.cat = b.dataset.cat; render(); } });
+    if (typeChips) typeChips.addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) { state.type = b.dataset.type; render(); } });
     $('#flag-chips').addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) { state[b.dataset.flag] = !state[b.dataset.flag]; render(); } });
     $('#tsearch').addEventListener('input', e => { state.q = e.target.value.trim(); render(); });
     render();
@@ -317,7 +453,10 @@
       </div>
       <h1 style="margin:.2em 0 .3em">${esc(t.name)}</h1>
       <p class="muted" style="max-width:46em">${esc(t.oneLiner)}</p>
-      <p><button class="btn watch-btn" type="button" id="watch" aria-pressed="${wlHas(t.id)}">⭐ <span>${wlHas(t.id) ? 'On your watchlist' : 'Add to watchlist'}</span></button>
+      ${t.narrowPopulation ? `<div class="narrow-note">🎯 <strong>Applies only to a specific diagnosed tinnitus population.</strong> ${esc(t.narrowNote || '')}</div>` : ''}
+      ${plainBlock(t)}
+      ${profileRelevance(t)}
+      <p><button class="btn watch-btn" type="button" id="watch" aria-pressed="${wlHas('treatments', t.id)}">⭐ <span>${wlHas('treatments', t.id) ? 'On your watchlist' : 'Add to watchlist'}</span></button>
       <a class="btn" href="compare.html?ids=${esc(t.id)}">⚖ Compare</a></p>
 
       ${prevNote}
@@ -326,7 +465,8 @@
         <div class="cell"><div class="k">Evidence score</div><div class="v">${emeter(t.evidenceScore)}</div></div>
         <div class="cell"><div class="k">Tier</div><div class="v">${tierBadge(t.tier)}</div></div>
         <div class="cell"><div class="k">Available now</div><div class="v">${av.availableNow ? 'Yes' : 'No'}</div></div>
-        <div class="cell"><div class="k">Regulatory status</div><div class="v">${esc(t.regulatory.status)}</div></div>
+        <div class="cell"><div class="k">Regulatory status</div><div class="v">${esc(t.regulatory.status)}</div>
+          ${regExplain(t.regulatory.status) ? `<div class="small muted" style="margin-top:3px">${esc(regExplain(t.regulatory.status))}</div>` : ''}</div>
         <div class="cell"><div class="k">Loudness effect</div><div class="v lv-${esc(t.loudness.level)}">${LV_LABELS[t.loudness.level]}</div></div>
         <div class="cell"><div class="k">Distress effect</div><div class="v lv-${esc(t.distress.level)}">${LV_LABELS[t.distress.level]}</div></div>
         <div class="cell"><div class="k">Cost (approx.)</div><div class="v">${esc(av.cost || 'Unknown')}</div></div>
@@ -365,6 +505,7 @@
         </ul>
         <p class="small muted">Regulatory detail: ${esc(t.regulatory.detail)}
           ${t.regulatory.sourceUrl ? ` <a href="${esc(t.regulatory.sourceUrl)}" rel="noopener" target="_blank">Source ↗</a>` : ''}</p>
+        ${fmqsBox(t)}
 
         ${(t.timeline || []).length ? `<h2>Research timeline</h2><ul class="timeline">${t.timeline.map(ev => `<li><b>${esc(ev.year)}</b> — ${esc(ev.event)}</li>`).join('')}</ul>` : ''}
 
@@ -384,11 +525,50 @@
       </div>`;
 
     $('#watch').addEventListener('click', function () {
-      const on = wlToggle(t.id);
+      const on = wlToggle('treatments', t.id);
       this.setAttribute('aria-pressed', on);
       $('span:last-child', this).textContent = on ? 'On your watchlist' : 'Add to watchlist';
     });
   };
+
+  function plainBlock(t) {
+    const L = { none: 'No good evidence it makes the sound itself quieter.',
+      limited: 'Only weak or early signs it may affect the sound itself.',
+      moderate: 'Reasonable evidence it can make the sound quieter — in the population studied.',
+      strong: 'Strong evidence it can reduce or eliminate the sound — in the population studied.' };
+    const D = { none: 'No good evidence it makes tinnitus less bothersome.',
+      limited: 'Some early evidence it may make tinnitus less bothersome.',
+      moderate: 'Reasonable evidence it helps people be less bothered by tinnitus.',
+      strong: 'Strong evidence it helps people be less bothered by tinnitus.' };
+    return `<div class="plain-block">
+      <div class="k">In plain English</div>
+      <p style="margin:.4em 0"><strong>How solid is the evidence?</strong> ${EVIDENCE_WORDS[t.evidenceScore]} (${t.evidenceScore}/5).</p>
+      <p style="margin:.4em 0"><strong>🔉 The sound itself:</strong> ${L[t.loudness.level]}</p>
+      <p style="margin:.4em 0"><strong>🧠 How much it bothers you:</strong> ${D[t.distress.level]}</p>
+      <p style="margin:.4em 0"><strong>Can I get it?</strong> ${availWord(t)}.</p>
+      <p style="margin:.4em 0 0"><strong>Who was studied?</strong> ${esc(whoStudied(t))}.</p>
+    </div>`;
+  }
+
+  function profileRelevance(t) {
+    const matches = profileMatches(t);
+    if (!matches.length) return '';
+    return `<div class="match-note">👤 <strong>Relevant to your profile:</strong> this treatment has been studied in
+      people who share some characteristics with your Tinnitus Profile — specifically
+      ${matches.map(m => esc(CHAR_NAMES[m] || m)).join(' and ')}. That makes the research more relevant to read,
+      not a recommendation that it will work for you.</div>`;
+  }
+
+  function fmqsBox(t) {
+    if (!t.fmqs || !DB.meta.relatedProduct) return '';
+    const rp = DB.meta.relatedProduct;
+    return `<div class="fmqs-box">
+      <strong>🎧 Want to try ${esc(t.fmqs.feature)} yourself?</strong><br>
+      <a href="${esc(rp.url)}" rel="noopener" target="_blank">${esc(t.fmqs.label)} → ${esc(rp.name)} ↗</a>
+      <p class="small muted">This is a product link, not evidence — the evidence rating above is unaffected by it.
+      ${esc(rp.disclosure)}</p>
+    </div>`;
+  }
 
   function studyBlock(s) {
     if (!s) return '';
@@ -462,28 +642,43 @@
 
   /* ----- trials ----- */
   PAGES.trials = function () {
-    const state = { status: '', phase: '', q: '' };
+    const state = { status: '', phase: '', country: '', q: '' };
+    // "Recruiting near me": country chips (lead sponsor/site country) added to the static chip row
+    const chipsEl = $('#trial-chips');
+    const countries = [...new Set(DB.trials.map(t => t.country).filter(Boolean))].sort();
+    chipsEl.insertAdjacentHTML('beforeend',
+      countries.map(c => `<button class="chip" data-k="country" data-v="${esc(c)}">📍 ${esc(c)}</button>`).join(''));
+    const nearNote = $('#near-note');
+    if (nearNote) nearNote.innerHTML = `Country shows the lead sponsor/site. For a full location search near you, use
+      <a href="https://clinicaltrials.gov/search?cond=tinnitus" rel="noopener" target="_blank">ClinicalTrials.gov's tinnitus search ↗</a>
+      — it lists every recruiting site worldwide.` +
+      (getProfile() ? '' : ` <a href="profile.html">Build a Tinnitus Profile</a> to see which studies involve characteristics like yours.`);
+
     const list = () => {
       let l = DB.trials.slice();
       if (state.status) l = l.filter(t => new RegExp(state.status, 'i').test(t.status));
       if (state.phase) l = l.filter(t => (t.phase || '').includes(state.phase));
+      if (state.country) l = l.filter(t => t.country === state.country);
       if (state.q) { const q = state.q.toLowerCase(); l = l.filter(t => (t.title + ' ' + t.sponsor + ' ' + t.nctId).toLowerCase().includes(q)); }
       l.sort((a, b) => (b.watch ? 1 : 0) - (a.watch ? 1 : 0));
       return l;
     };
     function render() {
-      $$('#trial-chips .chip').forEach(c => {
-        const k = c.dataset.k, v = c.dataset.v;
-        c.setAttribute('aria-pressed', state[k] === v);
-      });
+      $$('#trial-chips .chip').forEach(c => c.setAttribute('aria-pressed', state[c.dataset.k] === c.dataset.v));
       const l = list();
-      $('#trlist').innerHTML = l.length ? l.map(trialCard).join('') : '<div class="empty">No trials match.</div>';
+      $('#trlist').innerHTML = l.length ? l.map(tr => trialCard(tr, { follow: true, profileNotes: true })).join('') : '<div class="empty">No trials match.</div>';
     }
-    $('#trial-chips').addEventListener('click', e => {
+    chipsEl.addEventListener('click', e => {
       const b = e.target.closest('.chip'); if (!b) return;
       const k = b.dataset.k;
       state[k] = state[k] === b.dataset.v ? '' : b.dataset.v;
       render();
+    });
+    $('#trlist').addEventListener('click', e => {
+      const b = e.target.closest('[data-watch-trial]'); if (!b) return;
+      const on = wlToggle('trials', b.dataset.watchTrial);
+      b.setAttribute('aria-pressed', on);
+      b.textContent = on ? '⭐ Watching' : '☆ Watch this trial';
     });
     $('#trsearch').addEventListener('input', e => { state.q = e.target.value.trim(); render(); });
     render();
@@ -510,39 +705,158 @@
 
   /* ----- institutions ----- */
   PAGES.institutions = function () {
-    $('#inst').innerHTML = DB.institutions.map(i => `<div class="card">
+    const inst = $('#inst');
+    inst.innerHTML = DB.institutions.map(i => `<div class="card">
       <h3>${esc(i.name)}</h3><p class="small muted" style="margin-top:-4px">${esc(i.location)}</p>
       <p class="small">${esc(i.focus)}</p>
       ${(i.researchers || []).length ? `<p class="small"><strong>Key researchers:</strong> ${i.researchers.map(esc).join(', ')}</p>` : ''}
       ${(i.treatments || []).length ? `<p class="small"><strong>Related treatments:</strong> ${i.treatments.map(id => DB.tById[id] ? `<a href="treatment.html?id=${esc(id)}">${esc(DB.tById[id].name)}</a>` : '').filter(Boolean).join(' · ')}</p>` : ''}
-      ${i.url ? `<a class="small" href="${esc(i.url)}" rel="noopener" target="_blank">Website ↗</a>` : ''}
+      <p class="small" style="margin-bottom:0">
+        ${i.url ? `<a href="${esc(i.url)}" rel="noopener" target="_blank">Website ↗</a> ` : ''}
+        <button class="btn followbtn watch-btn" type="button" data-follow-inst="${esc(i.id)}" aria-pressed="${wlHas('institutions', i.id)}">${wlHas('institutions', i.id) ? '⭐ Following' : '☆ Follow this group'}</button></p>
     </div>`).join('');
+    inst.onclick = e => {
+      const b = e.target.closest('[data-follow-inst]'); if (!b) return;
+      const on = wlToggle('institutions', b.dataset.followInst);
+      b.setAttribute('aria-pressed', on);
+      b.textContent = on ? '⭐ Following' : '☆ Follow this group';
+    };
   };
 
-  /* ----- watchlist ----- */
+  /* ----- unified search ----- */
+  PAGES.search = function () {
+    const input = $('#gsearch'), out = $('#gresults');
+    function rows(q) {
+      q = q.toLowerCase();
+      const hit = s => (s || '').toLowerCase().includes(q);
+      const r = [];
+      DB.treatments.forEach(t => { if (hit(t.name + ' ' + t.oneLiner + ' ' + t.mechanism + ' ' + t.developer + ' ' + (t.researchers || []).join(' ')))
+        r.push(['Treatment', t.name, `treatment.html?id=${t.id}`, t.oneLiner]); });
+      DB.studies.forEach(s => { if (hit(s.title + ' ' + s.authors + ' ' + s.journal))
+        r.push(['Study', s.title, s.url, `${s.authors} · ${s.journal} · ${s.year}`, true]); });
+      DB.trials.forEach(tr => { if (hit(tr.title + ' ' + tr.sponsor + ' ' + tr.nctId))
+        r.push(['Trial', tr.title, `trials.html`, `${tr.nctId} · ${tr.sponsor} · ${tr.status}`]); });
+      DB.institutions.forEach(i => { if (hit(i.name + ' ' + (i.researchers || []).join(' ') + ' ' + i.focus))
+        r.push(['Institution', i.name, `institutions.html`, i.location]); });
+      DB.categories.forEach(c => { if (hit(c.name + ' ' + c.blurb))
+        r.push(['Category', c.name, `treatments.html?cat=${c.id}`, c.blurb]); });
+      (DB.weekly ? DB.weekly.items : []).forEach(w => { if (hit(w.title + ' ' + w.summary))
+        r.push(['Update', w.title, `research.html`, w.whyMatters || '']); });
+      return r.slice(0, 40);
+    }
+    function render() {
+      const q = input.value.trim();
+      if (q.length < 2) { out.innerHTML = '<div class="empty">Type at least two characters.</div>'; return; }
+      const r = rows(q);
+      out.innerHTML = r.length ? r.map(([type, title, href, sub, ext]) =>
+        `<div class="sr-row"><span class="type">${type}</span>
+          <span><a href="${esc(href)}"${ext ? ' rel="noopener" target="_blank"' : ''}>${esc(title)}${ext ? ' ↗' : ''}</a>
+          ${sub ? `<br><span class="small muted">${esc(sub)}</span>` : ''}</span></div>`).join('')
+        : '<div class="empty">No matches across treatments, studies, trials, institutions, categories or updates.</div>';
+    }
+    input.addEventListener('input', render);
+    render();
+  };
+
+  /* ----- My Tinnitus Profile ----- */
+  PAGES.profile = function () {
+    const form = $('#pform'), box = $('#redflag-box'), results = $('#p-results');
+    const existing = getProfile();
+    if (existing) Object.entries(existing).forEach(([k, v]) => { const el = form.elements[k]; if (el) el.value = v; });
+
+    function renderFlags(p) {
+      const flags = redFlags(p);
+      box.innerHTML = flags.length ? `<div class="redflag">
+        <strong>Please read this first.</strong>
+        <p style="margin:.5em 0">Your answers include a characteristic that clinical guidelines recommend discussing
+        with a healthcare professional: <strong>${flags.map(esc).join('; ')}</strong>.</p>
+        <p class="small" style="margin:.5em 0">This does not mean something is wrong — it means these particular
+        characteristics deserve a professional look (ENT physician or audiologist) before treating tinnitus as routine.
+        ${p.suddenHL === 'yes' ? '<strong>A sudden drop in hearing is time-sensitive — clinical guidelines recommend seeking evaluation promptly.</strong>' : ''}</p>
+        <p class="small muted" style="margin-bottom:0">Based on the AAO-HNSF Clinical Practice Guidelines for Tinnitus (2014)
+        and Sudden Hearing Loss (2019). This page does not diagnose the cause.</p>
+      </div>` : '';
+    }
+
+    function renderResults(p) {
+      const tags = profileTags(p);
+      const relevant = DB.treatments.filter(t => (t.subtypeTags || []).some(x => tags.includes(x)))
+        .sort((a, b) => a.tier - b.tier || b.evidenceScore - a.evidenceScore);
+      results.innerHTML = `
+        <h2 style="margin-top:20px">Research potentially relevant to your profile</h2>
+        ${tags.length ? `<p class="small muted">Matching on: ${tags.map(x => esc(CHAR_NAMES[x] || x)).join(' · ')}.
+          These treatments were <em>studied</em> in people sharing those characteristics — that makes the research
+          worth reading, not a recommendation.</p>
+        <div class="grid grid-3" style="row-gap:22px">${relevant.map(t => treatmentCard(t)).join('')}</div>
+        <p style="margin-top:12px"><a class="btn" href="treatments.html?flag=profile">See this list with filters →</a>
+        <a class="btn" href="trials.html">Check clinical trials →</a></p>`
+        : `<p class="small muted">Your answers don't point to a specific studied subtype, which is very common —
+          most tinnitus research covers broad populations. <a href="treatments.html">Browse all treatments</a>.</p>`}`;
+    }
+
+    form.onsubmit = e => {
+      e.preventDefault();
+      const p = {}; Array.from(form.elements).forEach(el => { if (el.name) p[el.name] = el.value; });
+      p.savedAt = new Date().toISOString();
+      setProfile(p);
+      renderFlags(p); renderResults(p);
+      window.scrollTo(0, 0);
+    };
+    $('#p-export').onclick = () => {
+      const p = getProfile();
+      results.insertAdjacentHTML('afterbegin', `<div class="card" style="margin-top:14px"><strong>Your profile (copy and keep it anywhere):</strong>
+        <pre class="small" style="white-space:pre-wrap;user-select:all">${esc(JSON.stringify(p || {}, null, 1))}</pre></div>`);
+    };
+    $('#p-import').onclick = () => {
+      const txt = window.prompt('Paste a previously exported profile (JSON):');
+      if (!txt) return;
+      try { const p = JSON.parse(txt); setProfile(p); PAGES.profile(); } catch (e) { alert('That was not valid profile JSON.'); }
+    };
+    $('#p-delete').onclick = () => {
+      try { localStorage.removeItem(PROFILE_KEY); } catch (e) {}
+      form.reset(); box.innerHTML = ''; results.innerHTML = '<p class="small muted">Profile deleted from this device.</p>';
+    };
+    if (existing) { renderFlags(existing); renderResults(existing); }
+  };
+
+  /* ----- watchlist (treatments + trials + institutions) ----- */
   PAGES.watchlist = function () {
-    const ids = wlGet();
+    const wl = wlGet();
     const root = $('#wl');
-    if (!ids.length) {
+    const total = wl.treatments.length + wl.trials.length + wl.institutions.length;
+    if (!total) {
       root.innerHTML = `<div class="empty">Your watchlist is empty.<br><br>
-        Follow treatments you care about and this page will highlight new research about them.<br><br>
-        <a class="btn btn-primary" href="treatments.html">Browse treatments</a></div>`;
+        Follow treatments, clinical trials or research groups, and this page will highlight news about them.<br><br>
+        <a class="btn btn-primary" href="treatments.html">Browse treatments</a>
+        <a class="btn" href="trials.html">Browse trials</a></div>`;
       return;
     }
     let lastSeen = 0; try { lastSeen = +localStorage.getItem(SEEN_KEY) || 0; } catch (e) {}
-    root.innerHTML = ids.map(id => {
+    let html = '';
+    html += wl.treatments.map(id => {
       const t = DB.tById[id]; if (!t) return '';
       const fresh = (t.latest || []).filter(l => new Date(l.date).getTime() > lastSeen);
       return `<div class="card">
         ${fresh.length ? `<span class="badge b-strong" style="margin-bottom:8px">🔔 New research available</span>` : ''}
         ${treatmentCard(t).replace('class="card tcard"', 'class="tcard"')}
         ${fresh.map(l => `<div class="week-item"><div class="t small">${fmtDate(l.date)}</div><div class="small">${esc(l.text)}</div></div>`).join('')}
-        <button class="btn small" data-unwatch="${esc(id)}" type="button">Remove</button>
+        <button class="btn small" data-unwatch="treatments" data-id="${esc(id)}" type="button">Remove</button>
       </div>`;
     }).join('');
+    html += wl.trials.map(nct => {
+      const tr = DB.trials.find(x => x.nctId === nct); if (!tr) return '';
+      return `<div class="card">${trialCard(tr)}
+        <button class="btn small" data-unwatch="trials" data-id="${esc(nct)}" type="button" style="margin-top:8px">Remove</button></div>`;
+    }).join('');
+    html += wl.institutions.map(iid => {
+      const i = DB.institutions.find(x => x.id === iid); if (!i) return '';
+      return `<div class="card"><h3>${esc(i.name)}</h3><p class="small">${esc(i.focus)}</p>
+        <button class="btn small" data-unwatch="institutions" data-id="${esc(iid)}" type="button">Remove</button></div>`;
+    }).join('');
+    root.innerHTML = html;
     root.onclick = e => { // assignment, not addEventListener: re-renders must not stack handlers
       const b = e.target.closest('[data-unwatch]');
-      if (b) { wlToggle(b.dataset.unwatch); PAGES.watchlist(); }
+      if (b) { wlToggle(b.dataset.unwatch, b.dataset.id); PAGES.watchlist(); }
     };
     try { localStorage.setItem(SEEN_KEY, Date.now()); } catch (e) {}
   };
@@ -578,7 +892,7 @@
   function pageTitle(p) {
     return { index: 'Home', treatments: 'Treatments', treatment: 'Treatment', compare: 'Compare',
       trials: 'Clinical Trials', research: 'This Week in Research', institutions: 'Institutions',
-      watchlist: 'Watchlist', about: 'About' }[p] || p;
+      watchlist: 'Watchlist', about: 'About', search: 'Search', profile: 'My Tinnitus Profile' }[p] || p;
   }
   function initRouter() {
     document.addEventListener('click', e => {

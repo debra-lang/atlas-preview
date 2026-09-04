@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Tinnitus Profile — Tinnitus Evidence</title>
+<meta name="description" content="Record your tinnitus characteristics privately on your device to find research studied in people like you. Not a diagnostic tool.">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="profile">
+<a class="skip-link" href="#content">Skip to content</a>
+<main id="content" class="wrap">
+  <section class="hero" style="padding-bottom:0">
+    <h1>My Tinnitus Profile</h1>
+    <p class="lead">Record the characteristics of your tinnitus to see which research studied people like you.
+    This is <strong>not a diagnostic tool</strong> and produces no medical advice — it is a way to navigate
+    the evidence. Everything stays on this device unless you export it.</p>
+  </section>
+
+  <div id="redflag-box"></div>
+
+  <form class="pform" id="pform" style="margin-top:14px">
+    <fieldset>
+      <legend>The basics</legend>
+      <div class="row">
+        <label>How long have you had it?
+          <select name="duration">
+            <option value="">—</option>
+            <option value="lt3m">Less than 3 months</option>
+            <option value="3-12m">3–12 months</option>
+            <option value="1-5y">1–5 years</option>
+            <option value="gt5y">More than 5 years</option>
+          </select></label>
+        <label>How did it start?
+          <select name="onset">
+            <option value="">—</option>
+            <option value="sudden">Suddenly</option>
+            <option value="gradual">Gradually</option>
+            <option value="unsure">Not sure</option>
+          </select></label>
+        <label>Is it there…
+          <select name="pattern">
+            <option value="">—</option>
+            <option value="constant">Constantly</option>
+            <option value="intermittent">On and off</option>
+          </select></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Where and what it sounds like</legend>
+      <div class="row">
+        <label>Which side?
+          <select name="laterality">
+            <option value="">—</option>
+            <option value="left">Left ear</option>
+            <option value="right">Right ear</option>
+            <option value="both">Both ears</option>
+            <option value="head">In my head / can't localize</option>
+          </select></label>
+        <label>Does it pulse in time with your heartbeat?
+          <select name="pulsatile">
+            <option value="">—</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+            <option value="unsure">Not sure</option>
+          </select></label>
+        <label>Sound character
+          <select name="soundType">
+            <option value="">—</option>
+            <option value="tonal">A tone / ringing</option>
+            <option value="hissing">Hissing / static</option>
+            <option value="buzzing">Buzzing / humming</option>
+            <option value="multiple">Several sounds</option>
+            <option value="other">Something else</option>
+          </select></label>
+        <label>Estimated pitch (if you know it)
+          <select name="pitch">
+            <option value="">—</option>
+            <option value="low">Low</option>
+            <option value="mid">Middle</option>
+            <option value="high">High</option>
+            <option value="veryhigh">Very high</option>
+          </select></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Hearing</legend>
+      <div class="row">
+        <label>Do you have hearing loss?
+          <select name="hearingLoss">
+            <option value="">—</option>
+            <option value="yes">Yes (diagnosed or suspected)</option>
+            <option value="no">No, hearing seems normal</option>
+            <option value="unsure">Not sure / never tested</option>
+          </select></label>
+        <label>Did hearing drop suddenly (within about 3 days)?
+          <select name="suddenHL">
+            <option value="">—</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select></label>
+        <label>Is one ear clearly worse than the other, or has that changed recently?
+          <select name="asymmetric">
+            <option value="">—</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+            <option value="unsure">Not sure</option>
+          </select></label>
+        <label>Significant noise exposure history?
+          <select name="noiseExposure">
+            <option value="">—</option>
+            <option value="yes">Yes (work, music, military…)</option>
+            <option value="no">No</option>
+          </select></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Body connections</legend>
+      <div class="row">
+        <label>Can you change the sound by moving your jaw or neck, clenching, or pressing on your head?
+          <select name="somaticModulation">
+            <option value="">—</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+            <option value="unsure">Never tried</option>
+          </select></label>
+        <label>Jaw / TMJ problems?
+          <select name="jawTMJ">
+            <option value="">—</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select></label>
+        <label>Neck problems?
+          <select name="neck">
+            <option value="">—</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Other symptoms</legend>
+      <div class="row">
+        <label>Vertigo or serious dizziness?
+          <select name="vertigo">
+            <option value="">—</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select></label>
+        <label>Everyday sounds feel painfully loud (hyperacusis)?
+          <select name="hyperacusis">
+            <option value="">—</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select></label>
+        <label>Ear pain or discharge?
+          <select name="earPainDrainage">
+            <option value="">—</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select></label>
+        <label>Recent head or ear injury?
+          <select name="trauma">
+            <option value="">—</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select></label>
+        <label>Other neurological symptoms (weakness, numbness, vision or balance problems)?
+          <select name="neuroSymptoms">
+            <option value="">—</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Impact</legend>
+      <div class="row">
+        <label>Does tinnitus disturb your sleep?
+          <select name="sleepProblems">
+            <option value="">—</option>
+            <option value="often">Often</option>
+            <option value="sometimes">Sometimes</option>
+            <option value="rarely">Rarely / never</option>
+          </select></label>
+        <label>How much does it bother you day to day?
+          <select name="distressLevel">
+            <option value="">—</option>
+            <option value="mild">A little</option>
+            <option value="moderate">Quite a bit</option>
+            <option value="severe">Severely</option>
+          </select></label>
+      </div>
+    </fieldset>
+
+    <p>
+      <button class="btn btn-primary" type="submit">Save my profile</button>
+      <button class="btn" type="button" id="p-export">Export</button>
+      <button class="btn" type="button" id="p-import">Import</button>
+      <button class="btn" type="button" id="p-delete">Delete profile</button>
+    </p>
+  </form>
+
+  <div id="p-results"></div>
+
+  <div class="prose">
+    <h2 class="small" style="font-size:1rem">About this profile</h2>
+    <p class="small muted">Your answers are stored only in this browser (nothing is uploaded), and you can
+    export or delete them at any time. The guidance-check above is based on published clinical practice
+    guidelines — the AAO-HNSF Clinical Practice Guideline: Tinnitus (2014) and the AAO-HNSF Clinical Practice
+    Guideline: Sudden Hearing Loss (2019) — which identify characteristics that warrant professional evaluation.
+    This page cannot diagnose the cause of tinnitus and does not replace an ENT physician or audiologist.
+    We deliberately use plain questions rather than licensed clinical questionnaires (THI/TFI), which have
+    usage restrictions and belong in clinical care.</p>
+  </div>
+</main>
+<script src="js/app.js"></script>
+</body>
+</html>

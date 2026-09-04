@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>All Treatments — Tinnitus Atlas</title>
+<title>All Treatments — Tinnitus Evidence</title>
 <meta name="description" content="Browse every tracked tinnitus treatment with evidence scores, tiers, loudness vs distress effects, and availability.">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="manifest" href="manifest.webmanifest">
@@ -21,10 +21,13 @@
   <div class="searchbar" role="search"><span aria-hidden="true">🔎</span>
     <input id="tsearch" type="search" placeholder="Search treatments, devices, drugs, researchers, mechanisms…" aria-label="Search treatments"></div>
   <div class="chips" id="cat-chips" role="group" aria-label="Filter by category"></div>
+  <div class="chips" id="type-chips" role="group" aria-label="Filter by tinnitus type"></div>
   <div class="chips" id="flag-chips" role="group" aria-label="Filter by property">
     <button class="chip" data-flag="avail">✅ Available now</button>
     <button class="chip" data-flag="loud">🔉 Loudness evidence</button>
     <button class="chip" data-flag="distress">🧠 Distress evidence</button>
+    <button class="chip" data-flag="negative">🚫 What hasn't worked</button>
+    <button class="chip" data-flag="profile">👤 Relevant to my profile</button>
   </div>
   <div id="tlist" class="grid grid-3" style="row-gap:22px;margin-top:6px"></div>
 </main>

@@ -1,7 +1,9 @@
 {
   "updated": "2026-09-03",
   "top": [
-    { "rank": 1, "id": "cbt",
+    {
+      "rank": 1,
+      "id": "cbt",
       "why": "The reference standard. Largest body of controlled evidence of any tinnitus treatment (Cochrane 2020: 28 studies, 2,733 participants), guideline-recommended, safe, and confirmed by the 2025 UNITI trial as among the most effective single treatments.",
       "detail": {
         "strongest": "Cochrane 2020 meta-analysis (28 RCTs, N=2,733): consistent quality-of-life benefit vs every comparator; UNITI 2025 head-to-head confirmation.",
@@ -13,8 +15,12 @@
         "availability": "Available now through psychologists and digital programs; access limited mainly by therapist supply.",
         "uncertainty": "Whether benefits persist long-term after therapy ends (few 6–12-month follow-ups)."
       },
-      "couldChange": "Would drop only if a treatment shows durable loudness reduction in large independent RCTs; could rise in absolute impact as digital delivery widens access." },
-    { "rank": 2, "id": "lenire",
+      "couldChange": "Would drop only if a treatment shows durable loudness reduction in large independent RCTs; could rise in absolute impact as digital delivery widens access.",
+      "whyPlain": "Most-tested treatment in the field + recommended by medical guidelines + available now. Helps how much tinnitus bothers you, not the volume."
+    },
+    {
+      "rank": 2,
+      "id": "lenire",
       "why": "Authorized, available, and consistent across three large trials and two real-world cohorts — which outweighs any single unreplicated trial, even though no Lenire study has ever had a sham arm and all of them are manufacturer-funded.",
       "detail": {
         "strongest": "Three large trials (N=326/191/112) plus two US real-world cohorts showing consistent within-arm THI improvement; FDA De Novo authorization DEN210033 (the only device in the bimodal tinnitus-treatment class).",
@@ -26,8 +32,12 @@
         "availability": "Available by prescription in the US (≈$4,000 self-pay, rarely insured) and Europe.",
         "uncertainty": "How much of the effect is placebo/natural course — unanswerable without a sham-controlled trial."
       },
-      "couldChange": "An independent sham-controlled RCT confirming benefit would cement it; failure to separate from sound therapy in independent hands would drop it." },
-    { "rank": 3, "id": "shore-bimodal",
+      "couldChange": "An independent sham-controlled RCT confirming benefit would cement it; failure to separate from sound therapy in independent hands would drop it.",
+      "whyPlain": "Replicated clinical results + FDA authorization + currently available. Caveat: every study was company-funded, none had a placebo group."
+    },
+    {
+      "rank": 3,
+      "id": "shore-bimodal",
       "why": "The only tinnitus treatment with rigorous randomized evidence of reducing the tinnitus percept itself — loudness matching was a CO-PRIMARY endpoint, double-blinded and NIH-funded. Held below Lenire because it is one single-center trial, in one subtype, with no replication, no registered pivotal trial, and no visible path to market.",
       "detail": {
         "strongest": "Double-blind randomized crossover (JAMA Network Open 2023, N=99): co-primary loudness matching improved up to −14.1 dB (per-protocol, cumulative) alongside clinically meaningful TFI reduction, vs an active auditory-only control.",
@@ -39,8 +49,12 @@
         "availability": "Not available anywhere; no trial sponsored by Auricle Inc is registered.",
         "uncertainty": "Whether it ever reaches a pivotal trial, and whether results generalize beyond somatic tinnitus."
       },
-      "couldChange": "A registered pivotal trial or FDA submission would push it up; continued company silence or a failed replication would drop it further." },
-    { "rank": 4, "id": "digital-cbt",
+      "couldChange": "A registered pivotal trial or FDA submission would push it up; continued company silence or a failed replication would drop it further.",
+      "whyPlain": "Strongest evidence that anything can make tinnitus QUIETER — but one lab, one study, and you can't get it anywhere."
+    },
+    {
+      "rank": 4,
+      "id": "digital-cbt",
       "why": "CBT's evidence, delivered at scale. Kalmeda RCT (N=187, d=1.1 vs delayed treatment), the first double-blind sham-app-controlled trial (Japan 2026: THI −20.4 between groups), Oto RCTs, and Germany's DiGA listing make this the fastest-maturing category.",
       "detail": {
         "strongest": "Multiple positive RCTs across independent products, including the first double-blind sham-app-controlled trial (JAMA Otolaryngology 2026, per its authors).",
@@ -52,8 +66,12 @@
         "availability": "Available now via app stores; Kalmeda prescribable in Germany; SilentCloud 510(k)-cleared (as a masker).",
         "uncertainty": "The unpublished DEFINE trial (app vs human therapist) will show whether apps can substitute for clinicians."
       },
-      "couldChange": "Peer-reviewed publication of the DEFINE non-inferiority trial could push it up; failed replications would trim it." },
-    { "rank": 5, "id": "cochlear-implants",
+      "couldChange": "Peer-reviewed publication of the DEFINE non-inferiority trial could push it up; failed replications would trim it.",
+      "whyPlain": "Proven therapy delivered by phone. Multiple trials, one against a convincing fake app. Available today, often cheap."
+    },
+    {
+      "rank": 5,
+      "id": "cochlear-implants",
       "why": "For people with severe hearing loss who qualify, CI is one of the few interventions with percept-level effects: tinnitus decreases in 25–72% of implanted patients and is completely suppressed in 8–45% (Ramakers 2015); pooled THI −14.0 across 28 studies.",
       "detail": {
         "strongest": "2024 meta-analysis of 28 studies (N=853) plus consistent replication across many independent implant centers, covering both distress and percept-level ratings.",
@@ -65,8 +83,12 @@
         "availability": "Available and usually insurance-covered — but only for qualifying severe hearing loss.",
         "uncertainty": "Who improves vs who worsens, and durability over years."
       },
-      "couldChange": "Applies only to implant candidates; better prediction of who improves (and who worsens) would strengthen its position." },
-    { "rank": 6, "id": "hearing-aids",
+      "couldChange": "Applies only to implant candidates; better prediction of who improves (and who worsens) would strengthen its position.",
+      "whyPlain": "Often genuinely quiets tinnitus — but only for people who already qualify for an implant due to severe hearing loss."
+    },
+    {
+      "rank": 6,
+      "id": "hearing-aids",
       "why": "Guideline-recommended ('Recommendation' strength) when hearing loss accompanies tinnitus; in the 2025 UNITI trial hearing aids were among the largest single-treatment effects. Honest basis: guideline consensus plus UNITI — Cochrane found the placebo-controlled evidence insufficient.",
       "detail": {
         "strongest": "UNITI 2025 (N=461): among the largest single-treatment effects; AAO-HNSF 'Recommendation' (middle strength tier — sound therapy gets only 'Option').",
@@ -78,8 +100,12 @@
         "availability": "Widely available; OTC from ~$200 (incl. FDA-authorized AirPods hearing-aid software since 2024).",
         "uncertainty": "How much is tinnitus-specific vs simply hearing better."
       },
-      "couldChange": "A well-controlled trial isolating the tinnitus effect from the hearing benefit would settle the score either way." },
-    { "rank": 7, "id": "cbt-i",
+      "couldChange": "A well-controlled trial isolating the tinnitus effect from the hearing benefit would settle the score either way.",
+      "whyPlain": "If you have hearing loss, treating it is one of the most effective moves — guideline-recommended and easy to access."
+    },
+    {
+      "rank": 7,
+      "id": "cbt-i",
       "why": "Insomnia affects most people with bothersome tinnitus; a 2023 RCT (N=102) showed clinically meaningful insomnia improvement in >80% with CBT-I vs 47% and 20% in two active control arms, with tinnitus distress improving too.",
       "detail": {
         "strongest": "Well-designed three-arm RCT against ACTIVE controls with effects sustained at 6 months.",
@@ -91,8 +117,12 @@
         "availability": "Available through sleep clinics and digital CBT-I programs.",
         "uncertainty": "Whether results generalize beyond the single UK center."
       },
-      "couldChange": "Replication outside the single UK center would raise confidence." },
-    { "rank": 8, "id": "act",
+      "couldChange": "Replication outside the single UK center would raise confidence.",
+      "whyPlain": "If tinnitus wrecks your sleep, treating the insomnia works — one strong trial against real alternatives."
+    },
+    {
+      "rank": 8,
+      "id": "act",
       "why": "Pooled THI reduction of −17.7 points vs untreated controls across 3 RCTs; a plausible, safe alternative to classic CBT with growing evidence.",
       "detail": {
         "strongest": "Meta-analysis of 3 RCTs: pooled THI −17.7 (95% CI −23.5 to −11.8); Westin 2011 d=1.04 vs waitlist.",
@@ -104,8 +134,12 @@
         "availability": "Available where ACT-trained therapists exist; some digital versions.",
         "uncertainty": "Performance against active controls and at scale."
       },
-      "couldChange": "Larger independent trials; currently ~100 pooled participants." },
-    { "rank": 9, "id": "mbct",
+      "couldChange": "Larger independent trials; currently ~100 pooled participants.",
+      "whyPlain": "A proven CBT relative built on acceptance instead of struggle. Fewer studies, consistent results."
+    },
+    {
+      "rank": 9,
+      "id": "mbct",
       "why": "Best-tested mindfulness approach: MBCT beat an intensity-matched active relaxation control by 6.3 TQ points post-treatment and 7.2 points at 6-month follow-up — a tougher comparison than most of this field attempts.",
       "detail": {
         "strongest": "Beat an ACTIVE control with a durable effect (6.3 points post, 7.2 at 6 months) — rare in this field.",
@@ -117,8 +151,12 @@
         "availability": "Generic MBCT is widespread; tinnitus-specific programs are rarer.",
         "uncertainty": "Whether the effect survives online delivery and non-specialist settings."
       },
-      "couldChange": "Multicenter replication; results are from specialist psychology settings." },
-    { "rank": 10, "id": "rtms",
+      "couldChange": "Multicenter replication; results are from specialist psychology settings.",
+      "whyPlain": "Best-tested mindfulness approach — outperformed a genuine comparison treatment (not just a waiting list), and the benefit lasted six months."
+    },
+    {
+      "rank": 10,
+      "id": "rtms",
       "why": "The honest #10: by sheer volume of sham-controlled evidence (29 RCTs, N=1,228 in the 2020 meta-analysis), rTMS outranks any pipeline drug with zero controlled tinnitus data. Framed plainly: consistent short-term benefit over sham; durability disputed; effect sizes at or below clinical meaningfulness; not guideline-recommended.",
       "detail": {
         "strongest": "More sham-controlled RCT evidence than any other treatment on this list except CBT: THI −11.5 vs sham post-treatment (2025 meta, 16 RCTs, N=1,105).",
@@ -130,36 +168,122 @@
         "availability": "Off-label at some centers; research settings; AAO-HNSF recommends against routine use.",
         "uncertainty": "Whether navigated/personalized targeting (trials now recruiting) fixes the durability problem."
       },
-      "couldChange": "A navigated-rTMS trial with durable 6-month benefit would move it up; another null durability meta would drop it out." }
+      "couldChange": "A navigated-rTMS trial with durable 6-month benefit would move it up; another null durability meta would drop it out.",
+      "whyPlain": "Magnetic brain stimulation — tested against a fake version of the device more than anything else here. Real short-term relief in trials, but small, possibly temporary, and not routine doctor-recommended care."
+    }
   ],
   "history": [
-    { "date": "2026-09-03",
+    {
+      "date": "2026-09-03",
       "note": "Initial Top-10 established at launch from the verified evidence base.",
       "snapshot": [
-        { "rank": 1, "id": "cbt", "evidenceScore": 4 },
-        { "rank": 2, "id": "shore-bimodal", "evidenceScore": 3 },
-        { "rank": 3, "id": "lenire", "evidenceScore": 3 },
-        { "rank": 4, "id": "digital-cbt", "evidenceScore": 3 },
-        { "rank": 5, "id": "cochlear-implants", "evidenceScore": 3 },
-        { "rank": 6, "id": "hearing-aids", "evidenceScore": 3 },
-        { "rank": 7, "id": "cbt-i", "evidenceScore": 3 },
-        { "rank": 8, "id": "act", "evidenceScore": 3 },
-        { "rank": 9, "id": "mbct", "evidenceScore": 3 },
-        { "rank": 10, "id": "spi-1005", "evidenceScore": 2 }
-      ] },
-    { "date": "2026-09-03",
+        {
+          "rank": 1,
+          "id": "cbt",
+          "evidenceScore": 4
+        },
+        {
+          "rank": 2,
+          "id": "shore-bimodal",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 3,
+          "id": "lenire",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 4,
+          "id": "digital-cbt",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 5,
+          "id": "cochlear-implants",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 6,
+          "id": "hearing-aids",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 7,
+          "id": "cbt-i",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 8,
+          "id": "act",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 9,
+          "id": "mbct",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 10,
+          "id": "spi-1005",
+          "evidenceScore": 2
+        }
+      ]
+    },
+    {
+      "date": "2026-09-03",
       "note": "Phase 2 adversarial audit: Lenire and Shore/Auricle swapped (#2↔#3 — replication, authorization and availability outweigh one unreplicated trial; the old order was novelty bias). SPI-1005 removed from #10 (zero controlled tinnitus data — pipeline hype) and replaced by rTMS (29 sham-controlled RCTs, honestly framed). Every underlying claim re-verified against primary sources.",
       "snapshot": [
-        { "rank": 1, "id": "cbt", "evidenceScore": 4 },
-        { "rank": 2, "id": "lenire", "evidenceScore": 3 },
-        { "rank": 3, "id": "shore-bimodal", "evidenceScore": 3 },
-        { "rank": 4, "id": "digital-cbt", "evidenceScore": 3 },
-        { "rank": 5, "id": "cochlear-implants", "evidenceScore": 3 },
-        { "rank": 6, "id": "hearing-aids", "evidenceScore": 3 },
-        { "rank": 7, "id": "cbt-i", "evidenceScore": 3 },
-        { "rank": 8, "id": "act", "evidenceScore": 3 },
-        { "rank": 9, "id": "mbct", "evidenceScore": 3 },
-        { "rank": 10, "id": "rtms", "evidenceScore": 2 }
-      ] }
+        {
+          "rank": 1,
+          "id": "cbt",
+          "evidenceScore": 4
+        },
+        {
+          "rank": 2,
+          "id": "lenire",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 3,
+          "id": "shore-bimodal",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 4,
+          "id": "digital-cbt",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 5,
+          "id": "cochlear-implants",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 6,
+          "id": "hearing-aids",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 7,
+          "id": "cbt-i",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 8,
+          "id": "act",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 9,
+          "id": "mbct",
+          "evidenceScore": 3
+        },
+        {
+          "rank": 10,
+          "id": "rtms",
+          "evidenceScore": 2
+        }
+      ]
+    }
   ]
 }

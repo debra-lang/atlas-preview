@@ -183,6 +183,43 @@ table.cmp th,table.cmp td{padding:10px 13px;border-bottom:1px solid var(--line);
 table.cmp th:first-child,table.cmp td:first-child{position:sticky;left:0;background:var(--surface);font-weight:600;min-width:130px;box-shadow:1px 0 0 var(--line)}
 table.cmp thead th{font-family:var(--font-display)}
 
+/* ---------- Phase 3: entry paths, plain-why, profile, search ---------- */
+.paths{display:grid;gap:12px;grid-template-columns:1fr;margin:18px 0 6px}
+@media(min-width:720px){.paths{grid-template-columns:1fr 1fr 1fr}}
+.path-card{display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:var(--r);
+  border:1px solid var(--line);background:var(--surface);color:var(--text);box-shadow:var(--shadow);
+  border-left:4px solid var(--p-c,var(--c-promising))}
+.path-card:hover{text-decoration:none;transform:translateY(-1px);transition:.15s}
+.path-card b{font-family:var(--font-display);font-size:1.05rem}
+.path-card .small{color:var(--muted)}
+.whyline{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:8px 11px;margin:2px 0 0;font-size:.88rem}
+.whyline strong{color:var(--c-promising)}
+.who{margin:0;font-size:.8rem;color:var(--muted)}
+.lvl-chip{cursor:pointer}
+.imp{display:inline-flex;font-size:.72rem;font-weight:700;letter-spacing:.02em;border-radius:6px;padding:2px 8px;margin-right:6px}
+.plain-block{border:1px solid var(--line);border-left:4px solid var(--c-promising);background:var(--surface);
+  border-radius:var(--r-sm);padding:12px 16px;margin:14px 0;box-shadow:var(--shadow)}
+.plain-block .k{font-size:.68rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.narrow-note{border:1px solid var(--c-watch-line);background:var(--c-watch-bg);border-radius:var(--r-sm);
+  padding:10px 14px;margin:10px 0;font-size:.9rem}
+.fmqs-box{border:1px dashed var(--c-promising-line);background:var(--c-promising-bg);border-radius:var(--r-sm);
+  padding:12px 15px;margin:14px 0}
+.fmqs-box .small{margin:6px 0 0}
+.pform fieldset{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin:0 0 14px;background:var(--surface)}
+.pform legend{font-family:var(--font-display);font-weight:600;padding:0 8px}
+.pform label{display:flex;gap:8px;align-items:center;padding:5px 0;font-size:.93rem}
+.pform select,.pform input[type=text]{background:var(--surface-2);border:1px solid var(--line);color:var(--text);
+  border-radius:8px;padding:7px 10px;font:inherit;max-width:100%}
+.pform .row{display:flex;flex-wrap:wrap;gap:10px 22px}
+.redflag{border:1px solid var(--c-watch-line);background:var(--c-watch-bg);border-radius:var(--r);padding:14px 16px;margin:14px 0}
+.match-note{border:1px solid var(--c-promising-line);background:var(--c-promising-bg);border-radius:var(--r-sm);
+  padding:9px 12px;margin:8px 0;font-size:.85rem}
+.sr-row{display:flex;gap:10px;align-items:baseline;padding:10px 4px;border-bottom:1px solid var(--line)}
+.sr-row .type{flex:none;font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  border:1px solid var(--line);border-radius:6px;padding:2px 7px;color:var(--muted);min-width:78px;text-align:center}
+.followbtn{font-size:.8rem;padding:5px 12px}
+
 /* ---------- misc ---------- */
 .notice{border:1px solid var(--c-watch-line);background:var(--c-watch-bg);color:var(--text);border-radius:var(--r-sm);padding:11px 14px;font-size:.88rem}
 .footer{margin-top:40px;border-top:1px solid var(--line);padding:24px 0 30px;color:var(--muted);font-size:.85rem}

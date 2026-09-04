@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tinnitus Atlas — The Latest Evidence on Tinnitus Treatments</title>
+<title>Tinnitus Evidence — The Latest Evidence on Tinnitus Treatments</title>
 <meta name="description" content="The latest evidence on tinnitus treatments — organized, ranked and continuously updated. Evidence scores, clinical trials, and what actually reduces tinnitus loudness vs distress.">
 <meta name="theme-color" content="#0c1120">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -17,33 +17,55 @@
 <main id="content" class="wrap">
 
   <section class="hero">
-    <span class="kicker">Continuously updated · human-reviewed</span>
-    <h1>The latest evidence on tinnitus treatments — organized, ranked and continuously updated.</h1>
-    <p class="lead">What has the strongest evidence, what's available today, what actually reduces tinnitus
-    loudness versus what helps you cope — and what changed this week.</p>
+    <span class="kicker">Tinnitus Evidence · continuously updated · human-reviewed</span>
+    <h1>What does the science actually show?</h1>
+    <p class="lead">Every credible tinnitus treatment — ranked by real evidence, in plain English,
+    with the full research one tap deeper. Independent, free, and honest about what we don't know.</p>
+
+    <div class="paths">
+      <a class="path-card" href="treatments.html?flag=avail" style="--p-c:var(--c-strong)">
+        <b>✅ What can I try today?</b>
+        <span class="small">Treatments you can actually access now, with clear evidence labels.</span>
+      </a>
+      <a class="path-card" href="treatments.html?flag=loud" style="--p-c:var(--c-emerging)">
+        <b>🔉 What may reduce the loudness?</b>
+        <span class="small">The short list of approaches studied for making the sound itself quieter.</span>
+      </a>
+      <a class="path-card" href="trials.html" style="--p-c:var(--c-promising)">
+        <b>🔭 What's coming next?</b>
+        <span class="small">The clinical trials and pipeline treatments that could change the answer.</span>
+      </a>
+    </div>
+
     <div class="hero-stats">
       <div class="stat"><b id="stat-treatments">–</b><span>treatments tracked</span></div>
       <div class="stat"><b id="stat-studies">–</b><span>studies evaluated</span></div>
       <div class="stat"><b id="stat-trials">–</b><span>trials watched</span></div>
-      <div class="stat"><b id="stat-updated">–</b><span>last review</span></div>
+      <div class="stat"><b id="stat-updated">–</b><span>last evidence review</span></div>
     </div>
-    <p class="small muted">🔉 <strong>Loudness</strong> = the tinnitus sound itself gets quieter.
-    🧠 <strong>Distress</strong> = the reaction to it improves (THI/TFI, sleep, anxiety). Most treatments
-    only do the second — we always show both, separately.</p>
+    <p class="small muted">Two different questions, always kept separate here:
+    <a href="treatments.html?flag=loud">🔉 <strong>Loudness</strong> — did the sound itself get quieter?</a> ·
+    <a href="treatments.html?flag=distress">🧠 <strong>Distress</strong> — did it bother people less, even if the sound stayed?</a><br>
+    Most treatments with good evidence only do the second. We never blur the two.</p>
   </section>
 
   <section class="section">
     <div class="section-head"><h2>Top 10 most promising developments</h2>
       <a class="more" href="treatments.html">All treatments →</a></div>
-    <p class="section-sub">Ranked by evidence quality, meaningful clinical benefit, reproducibility, safety and availability —
-    not by hype. Rankings change only through human review, and every change is logged.</p>
+    <p class="section-sub">Ranked across ten dimensions — evidence quality, size of benefit, loudness effect, distress effect,
+    replication, study quality, safety, availability, regulatory status, independent confirmation — never by hype or headlines.
+    Every card explains its own rank, and tapping any treatment shows the studies behind it — every claim links to its source.
+    <a href="about.html#rankings">How rankings work →</a><br>
+    <strong>We rank the evidence, not what's right for you</strong> — treatment decisions belong with you and your doctor.</p>
     <div id="top10" class="grid grid-3" style="row-gap:22px"></div>
   </section>
 
   <section class="section">
     <div class="section-head"><h2>Best options available today</h2></div>
-    <p class="section-sub">Treatments you can actually access now, with honest regulatory wording — approved, cleared,
-    De Novo authorized and investigational are different things.</p>
+    <p class="section-sub">Treatments you can actually access now, with exact regulatory wording — these terms are NOT interchangeable:
+    <strong>approved</strong> = passed the FDA's strictest review · <strong>cleared</strong> = judged similar to an existing device
+    (not proof it works) · <strong>De Novo authorized</strong> = allowed as a first-of-its-kind device ·
+    <strong>investigational</strong> = still being tested, not for sale.</p>
     <div id="available" class="grid grid-3" style="row-gap:22px"></div>
   </section>
 
@@ -56,6 +78,27 @@
     <div class="section-head"><h2>Coming next — 1 to 3 years</h2>
       <a class="more" href="trials.html">Trial database →</a></div>
     <div id="coming" class="grid grid-2"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>What hasn't worked — and what remains uncertain</h2>
+      <a class="more" href="treatments.html?flag=negative">See all →</a></div>
+    <p class="section-sub">An honest evidence site shows the failures too: treatments that lost their trials,
+    never beat placebo, or are sold on marketing instead of science. No ridicule — just the evidence,
+    so nobody spends money or hope where the research says not to.</p>
+    <div id="negative" class="grid grid-3" style="row-gap:22px"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Is this research relevant to <em>my</em> tinnitus?</h2></div>
+    <div class="card" style="border-left:4px solid var(--c-emerging)">
+      <p style="margin-top:0">Tinnitus isn't one condition. Pulsatile, somatic, hearing-loss-related and other
+      forms have different evidence. <strong>My Tinnitus Profile</strong> lets you record your characteristics —
+      privately, on this device — and see which research studied people like you. It also checks your answers
+      against clinical guidelines' signs that deserve a professional evaluation.</p>
+      <p style="margin-bottom:0"><a class="btn btn-primary" href="profile.html">Build My Tinnitus Profile</a>
+      <span class="small muted" style="margin-left:8px">Not a diagnosis. Nothing leaves your device.</span></p>
+    </div>
   </section>
 
   <section class="section">

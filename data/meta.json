@@ -1,7 +1,19 @@
 {
-  "name": "Tinnitus Atlas",
-  "tagline": "The latest evidence on tinnitus treatments — organized, ranked and continuously updated.",
+  "name": "Tinnitus Evidence",
+  "tagline": "What does the science actually show?",
+  "taglineSecondary": "Research. Treatments. Results.",
+  "domain": "",
+  "relatedProduct": {
+    "name": "Find My Quiet Sound",
+    "url": "https://findmyquietsound.com",
+    "disclosure": "Find My Quiet Sound is a related product operated by the same organization. Its inclusion does not affect the evidence rating shown here."
+  },
+  "premium": {
+    "enabled": false,
+    "note": "Evidence is free. Personalization can be Premium. Do not gate evidence, red-flag guidance, or safety information.",
+    "plannedFeatures": ["full-profile-sync", "research-alerts", "personalized-weekly", "cross-device", "advanced-matching"]
+  },
   "lastFullReview": "2026-09-03",
   "evidenceThrough": "2026-09-03",
-  "version": 1
+  "version": 2
 }

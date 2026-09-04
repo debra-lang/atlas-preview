@@ -7,41 +7,86 @@
     "url": "https://www.nature.com/articles/s41467-025-66165-1"
   },
   "items": [
-    { "kind": "ranking", "treatment": "lenire",
+    {
+      "kind": "ranking",
+      "treatment": "lenire",
       "title": "Phase 2 audit: two ranking changes, fully documented",
       "summary": "After an adversarial re-verification of every Top-10 claim against primary sources: Lenire and the Shore/Auricle device swapped places (#2↔#3 — replication, FDA authorization and availability outweigh one unreplicated single-center trial), and SPI-1005 left the Top 10 in favor of rTMS (29 sham-controlled RCTs beat zero controlled tinnitus data). Full reasoning is on each treatment's page under 'Change history'.",
-      "url": "" },
-    { "kind": "study", "treatment": "digital-cbt",
+      "url": "",
+      "importance": "Does Not Change Current Evidence",
+      "whyMatters": "We re-checked our own claims and reordered two rankings. The underlying science didn't change — our honesty about it got sharper."
+    },
+    {
+      "kind": "study",
+      "treatment": "digital-cbt",
       "title": "First double-blind sham-app-controlled tinnitus RCT (JAMA Otolaryngology, online May 7, 2026)",
       "summary": "Japanese 3-center trial (Wasano et al., N=60, Kyorin-sponsored): at week 16, THI fell 16.8 points with the active app vs a 3.6-point rise with sham — a 20.4-point difference, with 70% vs 27% meaningfully improved. Per the authors, the first DOUBLE-BLIND sham-app-controlled trial (earlier app RCTs were single-blind). Small and industry-sponsored.",
-      "url": "https://jamanetwork.com/journals/jamaotolaryngology/fullarticle/2848394" },
-    { "kind": "study", "treatment": "lenire",
+      "url": "https://jamanetwork.com/journals/jamaotolaryngology/fullarticle/2848394",
+      "importance": "Potentially Important",
+      "whyMatters": "For the first time, a tinnitus app beat a fake look-alike app in a trial where nobody knew which was which. Small study, but the cleanest app result yet."
+    },
+    {
+      "kind": "study",
+      "treatment": "lenire",
       "title": "Second US real-world Lenire chart review published (Am J Audiology, 2026)",
       "summary": "N=140, single site: 81.8% of bothered-tinnitus patients improved ≥7 THI points (mean −23.8) at 12 weeks. Consistent with trials — but retrospective, uncontrolled and manufacturer-linked, so it cannot separate treatment effect from placebo and natural course.",
-      "url": "https://pubs.asha.org/doi/10.1044/2025_AJA-25-00090" },
-    { "kind": "trial", "treatment": "trtl-913",
+      "url": "https://pubs.asha.org/doi/10.1044/2025_AJA-25-00090",
+      "importance": "Confirms Previous Evidence",
+      "whyMatters": "More patients improving in real clinics is encouraging — but without a comparison group, this can't tell us how much is the device vs time and expectation."
+    },
+    {
+      "kind": "trial",
+      "treatment": "trtl-913",
       "title": "New drug entrant: Tortugas Neuroscience registers Phase 2a for TRTL-913",
       "summary": "The $106M startup (launched April 2026) registered a 100-participant Phase 2a of its GABA-A positive allosteric modulator — not yet recruiting (estimated start Sept 2026), and Part A doses healthy volunteers before Part B reaches tinnitus patients. Still: one of only two Phase 2+ drug programs with tinnitus as the primary indication. Estimated completion August 2027.",
-      "url": "https://clinicaltrials.gov/study/NCT07777549" },
-    { "kind": "trial", "treatment": "spi-1005",
+      "url": "https://clinicaltrials.gov/study/NCT07777549",
+      "importance": "Interesting but Early",
+      "whyMatters": "A well-funded company is betting on a new tinnitus drug, but no tinnitus patient has taken it in a trial yet."
+    },
+    {
+      "kind": "trial",
+      "treatment": "spi-1005",
       "title": "SPI-1005 (ebselen) completes enrollment in open-label Phase 3 safety study",
       "summary": "Sound Pharmaceuticals finished enrolling ~200 patients in July 2026; primary completion December 2026. Tinnitus remains a secondary, patient-reported outcome in a Meniere's population — watch for the first peer-reviewed publication of STOPMD-3.",
-      "url": "https://www.businesswire.com/news/home/20260714809135/en/Sound-Pharma-completes-enrollment-of-Open-Label-Phase-3-study-of-SPI-1005-in-Menieres-Disease" },
-    { "kind": "news", "treatment": "truesilence",
+      "url": "https://www.businesswire.com/news/home/20260714809135/en/Sound-Pharma-completes-enrollment-of-Open-Label-Phase-3-study-of-SPI-1005-in-Menieres-Disease",
+      "importance": "Interesting but Early",
+      "whyMatters": "The most advanced drug with tinnitus outcomes moved a step forward — but its tinnitus data remain unblinded and unpublished, and its disease is Meniere's, not ordinary tinnitus."
+    },
+    {
+      "kind": "news",
+      "treatment": "truesilence",
       "title": "University of Auckland spins out TrueSilence Therapeutics (announced Aug 25, 2026)",
       "summary": "Grant Searchfield's 30-year research program becomes an Atlanta-based startup (technical staff in NZ) delivering personalized, gamified sound therapy (QCore) in clinician-guided 90-day programs — rolling out via NZ audiologists while pursuing US approval. This is company news, not new clinical evidence: the supporting RCT is the 2022 prototype trial (TFI −17.8 vs −10.1 against a white-noise app).",
-      "url": "https://www.auckland.ac.nz/en/news/2026/08/25/how-30-years-of-tinnitus-research-became-a-start-up.html" },
-    { "kind": "regulatory", "treatment": "levo",
+      "url": "https://www.auckland.ac.nz/en/news/2026/08/25/how-30-years-of-tinnitus-research-became-a-start-up.html",
+      "importance": "Interesting but Early",
+      "whyMatters": "A respected 30-year research program became a company. That's business news — the product itself hasn't been tested in a trial yet."
+    },
+    {
+      "kind": "regulatory",
+      "treatment": "levo",
       "title": "Two new tinnitus-masker 510(k) clearances in 2026",
       "summary": "Levo Gen 2 (K260413, Levo Medical Corp., August) and a Sivantos 'Tinnitus Therapy' hearing-aid module (K260614, June) were both FDA-cleared this year — under the tinnitus MASKER regulation (874.3400). Reminder: 510(k) clearance means substantial equivalence to existing maskers, not proven efficacy.",
-      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPMN/pmn.cfm" },
-    { "kind": "regulatory", "treatment": "cbt",
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPMN/pmn.cfm",
+      "importance": "Does Not Change Current Evidence",
+      "whyMatters": "Two more sound-therapy devices were cleared, but clearance means 'similar to existing devices,' not 'proven to work.'"
+    },
+    {
+      "kind": "regulatory",
+      "treatment": "cbt",
       "title": "AAO-HNSF tinnitus guideline update is in development",
       "summary": "The 2014 clinical practice guideline — still the current US standard — is officially listed as being updated. Publication timing is unconfirmed. Expect the CBT recommendation to strengthen and new language on bimodal devices and apps.",
-      "url": "https://www.entnet.org/quality-practice/quality-products/clinical-practice-guidelines/" },
-    { "kind": "negative", "treatment": "shore-bimodal",
+      "url": "https://www.entnet.org/quality-practice/quality-products/clinical-practice-guidelines/",
+      "importance": "Potentially Important",
+      "whyMatters": "When the official US guideline updates, it will reset what doctors are told to recommend — the first refresh since 2014."
+    },
+    {
+      "kind": "negative",
+      "treatment": "shore-bimodal",
       "title": "Still no pivotal trial for the Shore/Auricle device (checked September 2026)",
       "summary": "Three years after its JAMA Network Open results, no trial sponsored by Auricle Inc is registered on ClinicalTrials.gov, no FDA submission is visible, and the company has declined to comment on timing since October 2025. (Don't confuse it with 'Auricle Health Inc', an unrelated company running a hearing-restoration study.) The strongest loudness evidence in the field remains commercially frozen — a key reason it dropped to #3 in this audit.",
-      "url": "https://www.tinnitushub.com/dr-susan-shore-auricle-questions-answers/" }
+      "url": "https://www.tinnitushub.com/dr-susan-shore-auricle-questions-answers/",
+      "importance": "Negative Result",
+      "whyMatters": "The only treatment with rigorous evidence of making tinnitus quieter still has no path to reaching patients — three years and counting."
+    }
   ]
 }

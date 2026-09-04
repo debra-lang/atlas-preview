@@ -3,22 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Research Institutions — Tinnitus Evidence</title>
-<meta name="description" content="The universities, hospitals and companies leading tinnitus research, and the treatments they are developing.">
+<title>Search — Tinnitus Evidence</title>
+<meta name="description" content="Search every treatment, study, clinical trial, researcher, institution and research update on Tinnitus Evidence.">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 </head>
-<body data-page="institutions">
+<body data-page="search">
 <a class="skip-link" href="#content">Skip to content</a>
 <main id="content" class="wrap">
   <section class="hero" style="padding-bottom:0">
-    <h1>Who leads the research</h1>
-    <p class="lead">Institutions and groups shaping the tinnitus field, and the treatments connected to them.</p>
+    <h1>Search everything</h1>
+    <p class="lead">One box for treatments, studies, clinical trials, researchers, institutions,
+    categories and weekly research updates.</p>
   </section>
-  <div id="inst" class="grid grid-2" style="margin-top:14px"></div>
+  <div class="searchbar" role="search"><span aria-hidden="true">🔎</span>
+    <input id="gsearch" type="search" placeholder="Try: Lenire, Susan Shore, notched, NCT07777549, pulsatile…" aria-label="Search everything" autofocus></div>
+  <div id="gresults" style="margin-top:14px"></div>
 </main>
 <script src="js/app.js"></script>
 </body>
