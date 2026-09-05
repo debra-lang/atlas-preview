@@ -389,15 +389,27 @@ export default {
             system, messages: [{ role: "user", content: user }] }),
           signal: AbortSignal.timeout(45000),
         });
-        if (!resp.ok) throw new Error("model-unavailable");
+        if (!resp.ok) {
+          // safe diagnostics: Anthropic error bodies contain type/message/request-id, never the key
+          let detail = "";
+          try { const je = await resp.json(); detail = je.error ? (je.error.type + ": " + je.error.message) : ""; } catch (e2) {}
+          const err = new Error("model-unavailable");
+          err.diag = { anthropicHttpStatus: resp.status, detail: String(detail).slice(0, 250) };
+          throw err;
+        }
         const j = await resp.json();
         return (j.content || []).filter(b => b.type === "text").map(b => b.text).join("");
       };
       const result = await answerQuestion(q, data, callModel);
       return new Response(JSON.stringify(result), { headers });
     } catch (e) {
-      return new Response(JSON.stringify({ status: "unavailable",
-        message: "Ask Tinnitus Evidence is temporarily unavailable. You can still search treatments, studies and trials directly." }), { status: 503, headers });
+      const body = { status: "unavailable",
+        message: "Ask Tinnitus Evidence is temporarily unavailable. You can still search treatments, studies and trials directly." };
+      // diagnostics only for explicit X-Debug requests (curl); never shown to normal visitors,
+      // never contains credentials — only the upstream HTTP status and safe error type/message
+      if (request.headers.get("X-Debug") === "1")
+        body.diag = (e && e.diag) ? e.diag : { error: String(e && e.message || e).slice(0, 250) };
+      return new Response(JSON.stringify(body), { status: 503, headers });
     }
   },
 };
