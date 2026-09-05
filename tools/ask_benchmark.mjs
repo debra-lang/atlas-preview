@@ -90,7 +90,8 @@ for (const t of TESTS) {
   process.stdout.write("Q: " + t.q.slice(0, 60) + " … ");
   let res;
   try { res = await answerQuestion(t.q, data, callModel); }
-  catch (e) { res = { status: "error", answer: "", message: String(e) }; }
+  catch (e) { res = { status: "error", answer: "", message: String(e && e.stack || e).slice(0, 300) };
+    console.log("\n  ERROR:", res.message); }
   const a = (res.answer || "") + " " + JSON.stringify(res.sources || "");
   const passed = res.status === "ok" && t.check(a);
   const halluc = hallucinationScan(a);
@@ -98,7 +99,7 @@ for (const t of TESTS) {
   const hard = !passed || halluc.length > 0;
   if (hard) hardFails++;
   results.push({ question: t.q, passed, hallucinations: halluc, invalidCitationsStripped: stripped,
-    coverage: res.coverage, citations: (res.sources || []).length, answer: res.answer });
+    coverage: res.coverage, citations: (res.sources || []).length, answer: res.answer, error: res.message });
   console.log((passed ? "PASS" : "FAIL") + (halluc.length ? " HALLUC:" + halluc.join(",") : "") + (stripped ? ` (stripped ${stripped} invalid tokens)` : ""));
 }
 
