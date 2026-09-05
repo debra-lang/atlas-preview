@@ -70,7 +70,7 @@ TIERS = {1: "Tier 1 — strongest current evidence", 2: "Tier 2 — promising", 
 
 FOOTER_LINKS = [
     ("treatments/", "Tinnitus treatments"), ("trials/", "Clinical trials"), ("research/", "Research records"),
-    ("research-questions/", "Research questions"),
+    ("ask/", "Ask Tinnitus Evidence"), ("research-questions/", "Research questions"),
     ("guides/tinnitus-treatments/", "What has the strongest evidence?"),
     ("guides/tinnitus-loudness-vs-distress/", "Loudness vs distress"),
     ("research.html", "This week in tinnitus research"),
@@ -662,6 +662,142 @@ canon = page("research-questions/index.html",
              "Research Questions",
              [("", "Home"), (None, "Research questions")], rq_dir)
 sitemap_urls.append(canon)
+
+# ---------------- Ask Tinnitus Evidence (tool page; endpoint configured in /ask-config.js) ----------------
+ask_body = """
+<p class="lead"><strong>Ask a question about tinnitus treatments, studies, trials, evidence strength, safety,
+or research findings.</strong> Answers are generated from the Tinnitus Evidence research database and linked sources.</p>
+<p class="small muted">This tool provides research information, not diagnosis or personalized medical advice.</p>
+
+<div class="card" style="margin:14px 0">
+  <form id="ask-form">
+    <label for="ask-q" style="font-weight:600">Your question</label>
+    <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap">
+      <input id="ask-q" type="text" maxlength="350" placeholder="Ask a tinnitus research question…"
+        style="flex:1;min-width:240px;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);font:inherit">
+      <button class="btn" type="submit" id="ask-btn" style="padding:12px 22px">Ask</button>
+    </div>
+  </form>
+  <p class="small muted" style="margin:10px 0 0">Answers are generated with AI from Tinnitus Evidence's verified
+  research database. AI does not determine treatment ratings or rankings. Evidence ratings, safety assessments,
+  rankings, and major research conclusions remain subject to the site's human-review rules.
+  Looking for a specific study or treatment? <a href="search.html">Search the database →</a></p>
+</div>
+
+<div id="ask-status" role="status" aria-live="polite" class="small muted"></div>
+<div id="ask-answer" class="prose" hidden></div>
+<div id="ask-sources" hidden></div>
+<div id="ask-followups" hidden></div>
+
+<div id="ask-examples">
+<h2>Try a question</h2>
+<ul class="small" style="list-style:none;padding:0;display:grid;gap:8px">
+  <li><button class="btn ask-ex" type="button">What tinnitus treatments currently have the strongest evidence?</button></li>
+  <li><button class="btn ask-ex" type="button">What does the evidence say about Lenire?</button></li>
+  <li><button class="btn ask-ex" type="button">Compare Lenire and the Michigan Shore treatment.</button></li>
+  <li><button class="btn ask-ex" type="button">Which treatments have evidence for reducing tinnitus loudness?</button></li>
+  <li><button class="btn ask-ex" type="button">Which tinnitus treatments have failed in controlled trials?</button></li>
+  <li><button class="btn ask-ex" type="button">What are researchers currently investigating?</button></li>
+</ul>
+</div>
+
+<script src="ask-config.js"></script>
+<script>
+(function(){
+  var EP = window.ASK_ENDPOINT || "";
+  var $ = function(s){ return document.querySelector(s); };
+  var form=$("#ask-form"), q=$("#ask-q"), btn=$("#ask-btn"), st=$("#ask-status"),
+      ans=$("#ask-answer"), src=$("#ask-sources"), fu=$("#ask-followups"), ex=$("#ask-examples");
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function inline(s){ // links + bold only, on escaped text
+    return esc(s)
+      .replace(/\\[([^\\]]+)\\]\\(([^)\\s]+)\\)/g, function(m,t,u){
+        var safe=/^(https:\\/\\/(pubmed\\.ncbi\\.nlm\\.nih\\.gov|doi\\.org|clinicaltrials\\.gov)\\/|treatments\\/|research\\/|trials\\/|guides\\/|research-questions\\/|about\\.html|search\\.html)/.test(u);
+        return safe? '<a href="'+u+'"'+(u.indexOf("https:")===0?' rel="noopener"':'')+'>'+t+'</a>' : t; })
+      .replace(/\\*\\*([^*]+)\\*\\*/g,"<strong>$1</strong>");
+  }
+  function md(text){ // minimal renderer: ###, lists, tables, paragraphs
+    var out=[], lines=text.split(/\\r?\\n/), i=0;
+    while(i<lines.length){
+      var L=lines[i];
+      if(/^###\\s+/.test(L)){ out.push("<h3>"+inline(L.replace(/^###\\s+/,""))+"</h3>"); i++; continue; }
+      if(/^\\s*[-*]\\s+/.test(L)){ var items=[]; while(i<lines.length && /^\\s*[-*]\\s+/.test(lines[i])){ items.push("<li>"+inline(lines[i].replace(/^\\s*[-*]\\s+/,""))+"</li>"); i++; }
+        out.push("<ul>"+items.join("")+"</ul>"); continue; }
+      if(/^\\s*\\|/.test(L)){ var rows=[]; while(i<lines.length && /^\\s*\\|/.test(lines[i])){ rows.push(lines[i]); i++; }
+        var html="<div style='overflow-x:auto'><table>"; rows.forEach(function(rw,ri){
+          if(/^\\s*\\|[\\s:-]+\\|/.test(rw.replace(/[^|:\\s-]/g,"x"))&&/^[|\\s:-]+$/.test(rw)) return;
+          var cells=rw.split("|").slice(1,-1); var tag=ri===0?"th":"td";
+          html+="<tr>"+cells.map(function(c){return "<"+tag+">"+inline(c.trim())+"</"+tag+">";}).join("")+"</tr>"; });
+        out.push(html+"</table></div>"); continue; }
+      if(L.trim()==""){ i++; continue; }
+      var para=[L]; i++;
+      while(i<lines.length && lines[i].trim()!="" && !/^(###|\\s*[-*]\\s|\\s*\\|)/.test(lines[i])){ para.push(lines[i]); i++; }
+      out.push("<p>"+inline(para.join(" "))+"</p>");
+    }
+    return out.join("");
+  }
+  function unavailable(){
+    st.textContent="";
+    ans.hidden=false;
+    ans.innerHTML="<div class='notice'>Ask Tinnitus Evidence is temporarily unavailable. You can still search "+
+      "<a href='treatments/'>treatments</a>, <a href='research/'>studies</a> and <a href='trials/'>trials</a> directly.</div>";
+  }
+  function render(res){
+    st.textContent="";
+    ans.hidden=false; ans.innerHTML=md(res.answer||"");
+    if(res.sources && res.sources.length){
+      src.hidden=false;
+      src.innerHTML="<h3 style='margin-top:18px'>Sources</h3><ul class='small'>"+res.sources.map(function(s){
+        var extra=s.pmid? ' · <a rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/'+esc(s.pmid)+'/">PubMed '+esc(s.pmid)+"</a>":"";
+        return "<li><a href='"+esc(s.href)+"'>"+esc(s.label)+"</a>"+extra+"</li>"; }).join("")+"</ul>"+
+        "<p class='small muted'>Coverage in the verified database: "+esc(res.coverage||"")+".</p>";
+    } else { src.hidden=true; }
+    if(res.followups && res.followups.length){
+      fu.hidden=false;
+      fu.innerHTML="<h3>Follow-up questions</h3><div style='display:flex;flex-wrap:wrap;gap:8px'>"+
+        res.followups.map(function(f){ return "<button type='button' class='btn ask-ex'>"+esc(f)+"</button>"; }).join("")+"</div>";
+      wireExamples();
+    } else { fu.hidden=true; }
+    ans.scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  function submit(question){
+    if(!EP){ unavailable(); return; }
+    btn.disabled=true; ex.hidden=true;
+    ans.hidden=true; src.hidden=true; fu.hidden=true;
+    st.textContent="Searching the verified evidence database…";
+    fetch(EP,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:question})})
+      .then(function(r){ return r.json().then(function(j){ return {okStatus:r.ok, j:j}; }); })
+      .then(function(x){
+        if(x.j && x.j.answer){ render(x.j); }
+        else if(x.j && x.j.message){ st.textContent=""; ans.hidden=false; ans.innerHTML="<div class='notice'>"+esc(x.j.message)+"</div>"; }
+        else unavailable();
+      })
+      .catch(unavailable)
+      .finally(function(){ btn.disabled=false; });
+  }
+  form.addEventListener("submit",function(e){ e.preventDefault(); var v=q.value.trim(); if(v) submit(v); });
+  function wireExamples(){
+    document.querySelectorAll(".ask-ex").forEach(function(b){
+      b.onclick=function(){ q.value=b.textContent; q.focus(); submit(b.textContent); };
+    });
+  }
+  wireExamples();
+})();
+</script>"""
+
+canon = page("ask/index.html",
+             "Ask Tinnitus Evidence: Evidence-Based Answers About Tinnitus Research | Tinnitus Evidence",
+             "Ask a question about tinnitus treatments, studies, trials, evidence strength or safety — answers generated from the verified Tinnitus Evidence research database, with sources.",
+             "Ask Tinnitus Evidence",
+             [("", "Home"), (None, "Ask")], ask_body)
+sitemap_urls.append(canon)
+# the page loads its endpoint from the root config (kept outside the generator so enabling
+# the feature never requires regenerating pages); create a disabled default if absent
+_cfg = ROOT / "ask-config.js"
+if not _cfg.exists():
+    _cfg.write_text('// Ask Tinnitus Evidence endpoint. Empty string = feature disabled (page shows a graceful\n'
+                    '// unavailable message). Set to the deployed Cloudflare Worker URL to enable.\n'
+                    'window.ASK_ENDPOINT = "";\n', encoding="utf-8")
 
 # ---------------- sitemap + production robots + redirect map ----------------
 (ROOT / "sitemap.xml").write_text(

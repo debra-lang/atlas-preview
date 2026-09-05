@@ -25,7 +25,7 @@ if isinstance(treatments, dict): treatments = treatments["treatments"]
 # collect indexable pages: generated dirs + root indexable pages
 gen = sorted(ROOT.glob("treatments/**/index.html")) + sorted(ROOT.glob("trials/**/index.html")) + \
       sorted(ROOT.glob("research/**/index.html")) + sorted(ROOT.glob("guides/**/index.html")) + \
-      sorted(ROOT.glob("research-questions/**/index.html"))
+      sorted(ROOT.glob("research-questions/**/index.html")) + sorted(ROOT.glob("ask/index.html"))
 
 # Research Questions integrity: every page in the section MUST carry the hypothesis banner
 # (they are hypotheses, never evidence) — and the section must never be empty once launched.

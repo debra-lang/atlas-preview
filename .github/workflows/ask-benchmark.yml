@@ -1,0 +1,38 @@
+name: Ask Tinnitus Evidence benchmark (quality gate)
+
+# Runs the 15-question test set through the EXACT shipping Ask pipeline (ask-worker/worker.js)
+# against the production model. Manual trigger only. A red run means the Ask feature must stay
+# disabled (ask-config.js endpoint empty). Never weaken the tests to obtain a pass.
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ask-benchmark
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Deterministic core tests (no model)
+        run: node tools/ask_core_test.mjs
+      - name: Full pipeline benchmark (production model)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node tools/ask_benchmark.mjs
+      - name: Commit benchmark report
+        if: always()
+        run: |
+          git config user.name "tinnitus-evidence-bot"
+          git config user.email "tinnitus-evidence-bot@users.noreply.github.com"
+          git add ask-worker/benchmark-report.json
+          git diff --cached --quiet || git commit -m "Ask benchmark report"
+          git push origin main

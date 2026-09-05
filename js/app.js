@@ -300,7 +300,7 @@
     ['research.html', 'Research', '📰'],
     ['watchlist.html', 'Watchlist', '⭐'],
   ];
-  const NAV_MORE = [['search.html', 'Search'], ['profile.html', 'My Profile'], ['compare.html', 'Compare'], ['research-questions/', 'Research Questions'], ['institutions.html', 'Institutions'], ['about.html', 'About']];
+  const NAV_MORE = [['search.html', 'Search'], ['ask/', 'Ask'], ['profile.html', 'My Profile'], ['compare.html', 'Compare'], ['research-questions/', 'Research Questions'], ['institutions.html', 'Institutions'], ['about.html', 'About']];
 
   function chrome() {
     $$('.topbar, .bottomnav, .footer, .footer-links').forEach(el => el.remove()); // idempotent (static footer-links block is folded into the JS footer below)
@@ -339,7 +339,8 @@
       other qualified professional. Treatment rankings reflect our evaluation of available evidence; scientific
       understanding changes and individual results differ. <a href="about.html#disclaimer">Full disclaimer & methodology</a>.</p>
       <p class="small"><a href="treatments/">Tinnitus treatments</a> · <a href="trials/">Clinical trials</a> ·
-      <a href="research/">Research records</a> · <a href="research-questions/">Research questions</a> ·
+      <a href="research/">Research records</a> · <a href="ask/">Ask Tinnitus Evidence</a> ·
+      <a href="research-questions/">Research questions</a> ·
       <a href="guides/tinnitus-treatments/">Strongest evidence</a> ·
       <a href="guides/tinnitus-loudness-vs-distress/">Loudness vs distress</a> ·
       <a href="about.html#limitations">Research limitations</a> · <a href="about.html#corrections">Corrections &amp; editorial integrity</a></p>
