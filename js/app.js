@@ -300,7 +300,7 @@
     ['research.html', 'Research', '📰'],
     ['watchlist.html', 'Watchlist', '⭐'],
   ];
-  const NAV_MORE = [['search.html', 'Search'], ['profile.html', 'My Profile'], ['compare.html', 'Compare'], ['research-questions/', 'Questions'], ['institutions.html', 'Institutions'], ['about.html', 'About']];
+  const NAV_MORE = [['search.html', 'Search'], ['profile.html', 'My Profile'], ['compare.html', 'Compare'], ['research-questions/', 'Research Questions'], ['institutions.html', 'Institutions'], ['about.html', 'About']];
 
   function chrome() {
     $$('.topbar, .bottomnav, .footer, .footer-links').forEach(el => el.remove()); // idempotent (static footer-links block is folded into the JS footer below)
