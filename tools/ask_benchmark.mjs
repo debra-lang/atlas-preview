@@ -30,7 +30,7 @@ async function callModel(system, user, maxTokens) {
   const r = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: { "x-api-key": KEY, "anthropic-version": "2023-06-01", "content-type": "application/json" },
-    body: JSON.stringify({ model: MODEL, max_tokens: maxTokens, temperature: 0.2, system, messages: [{ role: "user", content: user }] }),
+    body: JSON.stringify({ model: MODEL, max_tokens: maxTokens, system, messages: [{ role: "user", content: user }] }),
   });
   if (!r.ok) throw new Error("API " + r.status + " " + (await r.text()).slice(0, 200));
   const j = await r.json();

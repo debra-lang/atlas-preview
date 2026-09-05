@@ -380,7 +380,7 @@ export default {
         const resp = await fetch("https://api.anthropic.com/v1/messages", {
           method: "POST",
           headers: { "x-api-key": env.ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json" },
-          body: JSON.stringify({ model: MODEL, max_tokens: maxTokens, temperature: 0.2,
+          body: JSON.stringify({ model: MODEL, max_tokens: maxTokens,
             system, messages: [{ role: "user", content: user }] }),
           signal: AbortSignal.timeout(45000),
         });
