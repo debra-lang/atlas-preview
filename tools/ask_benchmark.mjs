@@ -49,7 +49,9 @@ const TESTS = [
   { q: "Does CBT cure tinnitus?",
     check: a => has(a, /not|no\b/i) && has(a, /distress|quality of life|bother/i) && !has(a, /CBT cures/i) },
   { q: "Is magnesium proven for tinnitus?",
-    check: a => has(a, /not|no |insufficient|does not/i) && !has(a, /magnesium is (proven|effective)/i) },
+    // 2026-09-05 calibration: the honest answer restates the question inside a negation
+    // ("…whether magnesium is proven for tinnitus") — ban only affirmative sentence-final claims.
+    check: a => has(a, /not|no |insufficient|does not/i) && !has(a, /\b(yes|indeed|in fact)\b[^.]{0,60}magnesium/i) && !has(a, /magnesium is (proven|effective)[.!]/i) },
   { q: "Which treatments mainly improve distress rather than loudness?",
     check: a => has(a, /CBT|cognitive|therapy/i) && has(a, /distress/i) },
   { q: "What tinnitus treatments have failed in controlled trials?",
