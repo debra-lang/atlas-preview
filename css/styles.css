@@ -277,3 +277,7 @@ a.drow{color:var(--text)} a.drow:hover{text-decoration:none;background:var(--sur
 .crumbs a{color:var(--c-promising);text-decoration:none}
 .footer-links{border-top:1px solid var(--line);margin-top:40px;padding:18px 0 90px;color:var(--muted)}
 .footer-links a{color:var(--c-promising);text-decoration:none}
+
+/* Research Questions: hypothesis banner — deliberately distinct from evidence badges/tiers */
+.hypo-banner{display:flex;align-items:center;gap:12px;border:2px dashed var(--c-watch);background:var(--c-watch-bg);color:var(--text);border-radius:var(--r-sm);padding:12px 16px;margin:14px 0;font-size:.95rem}
+.hypo-banner .tag{background:var(--c-watch);color:#1a1204;font-family:var(--font-display);font-weight:700;font-size:.78rem;letter-spacing:.1em;padding:3px 10px;border-radius:6px;flex:none}

@@ -24,7 +24,17 @@ if isinstance(treatments, dict): treatments = treatments["treatments"]
 
 # collect indexable pages: generated dirs + root indexable pages
 gen = sorted(ROOT.glob("treatments/**/index.html")) + sorted(ROOT.glob("trials/**/index.html")) + \
-      sorted(ROOT.glob("research/**/index.html")) + sorted(ROOT.glob("guides/**/index.html"))
+      sorted(ROOT.glob("research/**/index.html")) + sorted(ROOT.glob("guides/**/index.html")) + \
+      sorted(ROOT.glob("research-questions/**/index.html"))
+
+# Research Questions integrity: every page in the section MUST carry the hypothesis banner
+# (they are hypotheses, never evidence) — and the section must never be empty once launched.
+rq = sorted(ROOT.glob("research-questions/**/index.html"))
+if not rq:
+    errors.append("research-questions section missing (was launched 2026-09-05; must not disappear)")
+for p in rq:
+    if "hypo-banner" not in p.read_text(encoding="utf-8"):
+        errors.append(f"{p.relative_to(ROOT).as_posix()}: missing hypothesis banner — research questions must be labeled as not-established-evidence")
 root_indexable = [ROOT / f for f in ("index.html", "research.html", "about.html", "institutions.html")]
 noindex_expected = [ROOT / f for f in ("admin.html", "compare.html", "search.html", "watchlist.html", "profile.html")]
 

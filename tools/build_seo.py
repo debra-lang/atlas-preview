@@ -70,6 +70,7 @@ TIERS = {1: "Tier 1 — strongest current evidence", 2: "Tier 2 — promising", 
 
 FOOTER_LINKS = [
     ("treatments/", "Tinnitus treatments"), ("trials/", "Clinical trials"), ("research/", "Research records"),
+    ("research-questions/", "Research questions"),
     ("guides/tinnitus-treatments/", "What has the strongest evidence?"),
     ("guides/tinnitus-loudness-vs-distress/", "Loudness vs distress"),
     ("research.html", "This week in tinnitus research"),
@@ -507,6 +508,159 @@ with the same conservative standards as every treatment page.</p>
 canon = page("guides/index.html", "Tinnitus Evidence Guides: Research Questions Answered | Tinnitus Evidence",
              "Evergreen evidence guides on tinnitus treatments, new research, loudness vs distress, bimodal neuromodulation and clinical trials — from the verified database.",
              "Tinnitus Evidence Guides", [("", "Home"), (None, "Guides")], guides_dir)
+sitemap_urls.append(canon)
+
+# ---------------- Research Questions (hypotheses — NEVER data-driven) ----------------
+# CONTENT POLICY: this section is authored and human-approved IN THIS SCRIPT, never generated
+# from data/*.json and never writable by the weekly pipeline. The automation may flag candidate
+# hypotheses into the held review queue, but nothing publishes here without a human editing this
+# file. Every item carries the hypothesis banner — these are not evidence records.
+HYPO_BANNER = """<div class="hypo-banner" role="note"><span class="tag">HYPOTHESIS</span>
+<span>Research hypothesis — not established evidence</span></div>"""
+
+rq_cites = """<section><h2>Sources</h2><ul class="small">
+<li>van der Wal AC, et al. Prognostic indicators for positive treatment outcome after multidisciplinary orofacial treatment in patients with somatosensory tinnitus. Front Neurosci 2020. <a href="https://pubmed.ncbi.nlm.nih.gov/33041758/" rel="noopener">PMID 33041758</a></li>
+<li>Spencer S, et al. Bimodal (auditory and electrical) stimulation for tinnitus — feasibility and predictor analysis. Front Neurosci 2022. <a href="https://pubmed.ncbi.nlm.nih.gov/36090280/" rel="noopener">PMID 36090280</a></li>
+<li>Lee HY, et al. Retrospective analysis of somatic modulation and treatment outcome in a tinnitus clinic. J Int Adv Otol 2020. <a href="https://pubmed.ncbi.nlm.nih.gov/32784160/" rel="noopener">PMID 32784160</a></li>
+<li>Low WK, et al. Electroacupuncture in somatic vs non-somatic tinnitus. Med Acupunct 2017. <a href="https://pubmed.ncbi.nlm.nih.gov/28736590/" rel="noopener">PMID 28736590</a></li>
+<li>Vanneste S, et al. Transcutaneous electrical nerve stimulation (C2) in 240 patients selected for somatosensory modulation. Exp Brain Res 2010. <a href="https://pubmed.ncbi.nlm.nih.gov/20505927/" rel="noopener">PMID 20505927</a></li>
+<li>Jones GR, …, Shore SE. Bisensory stimulation randomized clinical trial (incl. supplementary eFigure 7). JAMA Netw Open 2023. <a href="https://pubmed.ncbi.nlm.nih.gov/37266943/" rel="noopener">PMID 37266943</a></li>
+<li>Rocha CB, Sanchez TG. Myofascial trigger-point deactivation RCT with modulation-direction analysis. Braz J Otorhinolaryngol 2012. <a href="https://pubmed.ncbi.nlm.nih.gov/23306563/" rel="noopener">PMID 23306563</a></li>
+<li>D'Arcy S, et al. TENT-A1 trial protocol (prespecified somatic-subtype analysis). BMJ Open 2017. <a href="https://pubmed.ncbi.nlm.nih.gov/29074518/" rel="noopener">PMID 29074518</a></li>
+<li>Levine RA, et al. Somatic testing and treatment-subgroup proposal. Prog Brain Res 2007. <a href="https://pubmed.ncbi.nlm.nih.gov/17956783/" rel="noopener">PMID 17956783</a></li>
+<li>Won JY, et al. Modulation-characteristics candidate-selection proposal. Audiol Neurootol 2013. <a href="https://pubmed.ncbi.nlm.nih.gov/23881235/" rel="noopener">PMID 23881235</a></li>
+</ul>
+<p class="small muted">Summaries are original to Tinnitus Evidence, written from the sources above during an
+adversarial precedent audit (September 2026); they are not publisher abstracts.</p></section>"""
+
+rq_body = HYPO_BANNER + """
+<section><h2>The question in plain language</h2>
+<p>Many people can temporarily change their tinnitus — its loudness, pitch, or character — by moving or
+tensing the jaw, neck, or head, or by pressing on certain muscles. This is common: studies report that
+roughly 56–80% of people with tinnitus show some modulation on formal maneuver testing.</p>
+<p>Researchers have already asked the obvious question: does simply HAVING this ability predict who will
+respond to treatments that engage the body–hearing connection (bimodal stimulation devices, cervical or
+jaw-focused physiotherapy, related neuromodulation)? So far, that simple yes/no characteristic has generally
+<strong>not</strong> been a useful predictor.</p>
+<p>A narrower possibility remains open: the <strong>number</strong> of maneuvers that change the tinnitus,
+the <strong>direction</strong> of the change (louder vs quieter), the <strong>size</strong> of the change,
+and how <strong>consistently</strong> the same response occurs may carry more information than mere presence.
+This remains unproven.</p></section>
+
+<section><h2>Evidence for the refined question</h2>
+<ul>
+<li><strong>Shore/Jones 2023 (bisensory device RCT):</strong> in a supplementary analysis, participants for whom
+MORE maneuvers changed their tinnitus showed greater questionnaire (TFI) improvement during active treatment —
+and not during control or washout phases. Important caveats: this was a post-hoc correlation (r ≈ 0.3), inside a
+trial that only enrolled people who could modulate, so it cannot say anything about non-modulators.</li>
+<li><strong>Rocha &amp; Sanchez 2012 (trigger-point therapy RCT):</strong> the DIRECTION of modulation at baseline
+mattered — people whose tinnitus temporarily decreased when a trigger point was pressed were more likely to have
+lasting relief after treatment (p=0.002).</li>
+<li><strong>Related phenotype signals:</strong> in cervical physiotherapy studies, self-reported co-variation of
+tinnitus with neck complaints — and history-based somatic-association scores — have predicted response better
+than maneuver testing itself.</li>
+</ul>
+<p class="small muted">These are associations, not demonstrations of prediction. None comes from a study designed
+and powered to test the question.</p></section>
+
+<section><h2>Evidence against the simple version</h2>
+<p>The binary form of this idea — "can modulate" vs "cannot" — has been tested directly and has generally not
+held up:</p>
+<ul>
+<li><strong>van der Wal 2020</strong> (N=101, multidisciplinary orofacial treatment): explicitly expected stronger
+somatic influence to mean larger treatment effects; ability to modulate was <em>not</em> identified as a prognostic
+indicator. Shorter tinnitus duration, painful jaw-muscle palpation and other characteristics predicted outcome instead.</li>
+<li><strong>Spencer 2022</strong> (N=29, bimodal auditory + electrical stimulation): baseline modulation ability did
+not predict outcome — though with only six modulators, the test was severely underpowered.</li>
+<li><strong>Lee 2020</strong> (N=81, retrospective clinic series): modulation status was unrelated to improvement;
+only age predicted outcome.</li>
+<li><strong>Low 2017</strong> (N=27, electroacupuncture): no overall outcome difference between somatic and
+non-somatic groups (a post-hoc signal favored people whose maneuver responses were <em>consistent</em>).</li>
+<li><strong>Vanneste 2010</strong> (N=240, electrical stimulation at C2): every participant was selected for
+somatosensory modulation — yet only 17.9% responded. Being a modulator clearly does not guarantee response to a
+somatosensory treatment.</li>
+</ul>
+<p>With modulation present in roughly 56–80% of patients, the simple yes/no trait appears too common and too
+weakly discriminating to work as a biomarker by itself. That is a finding about the <em>simple</em> version — it
+does not settle the refined, graded question above.</p></section>
+
+<section><h2>An unanswered Lenire/TENT-A1 question</h2>
+<p>The first large Lenire trial (TENT-A1, 326 participants) collected baseline somatic-modulation data using a
+standardized 25-maneuver assessment performed by a physiotherapist, and its published protocol prespecified an
+efficacy analysis by somatic-tinnitus status, to be reported in a subsequent publication. In our literature audit
+(through September 2026), <strong>we did not identify a published report of the prespecified somatic-subgroup
+analysis</strong>. The existing dataset may therefore contain information relevant to this question.</p></section>
+
+<section><details><summary><strong>Refined hypothesis (technical wording)</strong></summary>
+<p>In interventions engaging auditory–somatosensory integration, graded features of baseline somatic modulation —
+including the number of effective maneuvers, direction of induced change, magnitude of change, and test–retest
+consistency — may predict treatment response more effectively than the simple presence or absence of modulation.</p>
+<p><strong>This has not yet been established in an adequately powered, prespecified prospective test.</strong></p>
+</details></section>
+
+<section><h2>How researchers could test this</h2>
+<p><strong>Lowest-cost approach:</strong> analyze existing datasets that already collected standardized
+somatic-modulation measurements — prioritizing TENT-A1, if the relevant baseline data and outcomes are available.</p>
+<p><strong>Next step:</strong> add a standardized baseline modulation battery to ongoing bimodal or somatosensory
+tinnitus trials, and prespecify the interaction analysis before outcomes are known.</p>
+<p><strong>Definitive test:</strong> a prospective controlled study enrolling participants across the full
+modulation spectrum, with a standardized baseline maneuver battery, a prespecified modulation × treatment
+interaction, and a percept-level tinnitus outcome — not only distress/severity questionnaires.</p></section>
+
+<section><h2>What would disprove this?</h2>
+<p>The refined hypothesis would be weakened or rejected if: graded modulation features fail to predict response in
+adequately powered studies; the same apparent relationship appears in matched control groups (indicating a
+non-specific effect); test–retest modulation measurements prove too unreliable to carry a signal; stronger baseline
+predictors fully account for the association; or independent datasets do not reproduce it. The hypothesis is
+falsifiable, and several of these tests are inexpensive.</p></section>
+
+<section><h2>Why this question matters</h2>
+<p>If a simple baseline test could identify who is more likely to respond to a particular tinnitus treatment,
+future trials could become more targeted and less likely to dilute subgroup effects. <strong>But current evidence
+is not strong enough to use somatic modulation for clinical treatment selection.</strong></p>
+<p>Somatic-modulation characteristics are being investigated as potential response predictors, but they are not
+established tools for selecting tinnitus treatment. Nothing on this page is a treatment recommendation.</p></section>
+
+<section><h2>Novelty and precedent</h2>
+<p>This is not a new idea in its broad form. Researchers have proposed somatic testing for treatment selection
+since at least 2007 (Levine; later Won 2013), and binary somatic-modulation predictors have been tested before,
+with mostly null results. The remaining research question concerns whether more detailed, graded modulation
+characteristics carry predictive information.</p></section>
+""" + rq_cites
+
+canon = page("research-questions/somatic-modulation-treatment-response/index.html",
+             "Can Somatic Tinnitus Modulation Predict Treatment Response? | Tinnitus Evidence",
+             "Review the evidence on whether jaw, neck and other somatic tinnitus modulation patterns may help predict treatment response, including supporting and contradictory studies.",
+             "Could patterns of somatic tinnitus modulation help predict treatment response?",
+             [("", "Home"), ("research-questions/", "Research questions"), (None, "Somatic modulation & treatment response")],
+             rq_body, article={"headline": "Could patterns of somatic tinnitus modulation help predict treatment response?", "published": "2026-09-05"})
+sitemap_urls.append(canon)
+
+rq_dir = """
+<p class="muted" style="margin-top:-8px;font-size:1.05rem">Patterns in the evidence that may deserve further investigation</p>
+<p class="lead">Tinnitus Evidence reviews published research, but some important questions remain unresolved.
+This section highlights patterns that emerge across multiple studies and may be worth testing further.
+<strong>These are hypotheses, not treatment recommendations or established medical conclusions.</strong></p>
+""" + HYPO_BANNER + """
+<section><h2>Open questions</h2>
+<ul>
+<li><a href="research-questions/somatic-modulation-treatment-response/">Could patterns of somatic tinnitus
+modulation help predict treatment response?</a> — the simple yes/no version has been tested (mostly null);
+whether graded modulation features carry predictive information remains open.</li>
+</ul></section>
+<section><h2>How a question earns a place here</h2>
+<p>Every entry follows the same process before publication:</p>
+<p class="small"><strong>Pattern identified → adversarial literature search → precedent check → contradictory-evidence
+search → hypothesis refined or rejected → human approval → publication.</strong></p>
+<p class="small muted">Hypotheses are never auto-published. The weekly research automation may flag candidate
+questions internally for review, but nothing appears in this section without an adversarial precedent audit and
+explicit human approval — and being listed here never affects any treatment's evidence rating, tier, or ranking.
+Unlike evidence records, entries here carry no evidence scores.</p></section>"""
+canon = page("research-questions/index.html",
+             "Research Questions in Tinnitus | Tinnitus Evidence",
+             "Patterns in the tinnitus evidence that may deserve further investigation — clearly labeled research hypotheses, with supporting and contradictory studies, never treatment recommendations.",
+             "Research Questions",
+             [("", "Home"), (None, "Research questions")], rq_dir)
 sitemap_urls.append(canon)
 
 # ---------------- sitemap + production robots + redirect map ----------------

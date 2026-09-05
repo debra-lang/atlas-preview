@@ -109,3 +109,13 @@ failed run, and the NEXT Monday's run automatically covers the gap for PubMed (E
 ClinicalTrials/feeds items surface on their next update. A run can also be started manually any time
 via workflow_dispatch. The monthly retraction check self-schedules by elapsed time (>=27 days since
 `retraction-state.json` lastRun), so a missed week never skips a month.
+
+## Research Questions section (policy)
+
+`/research-questions/` publishes clearly-labeled HYPOTHESES, never evidence. Its content lives ONLY in
+tools/build_seo.py (code-versioned, human-edited); it is not data-driven and the weekly pipeline has no
+code path that writes to it. The automation may flag candidate hypotheses into the held review queue
+(internal state), but nothing publishes in this section without: adversarial literature search → precedent
+check → contradictory-evidence search → refinement/rejection → explicit human approval → a human edit to
+build_seo.py. tools/check_seo.py enforces that every page in the section carries the hypothesis banner.
+Hypotheses never receive evidence scores, tiers, or rankings, and never alter any treatment record.
