@@ -684,7 +684,7 @@ or research findings.</strong> Answers are generated from the Tinnitus Evidence 
   Looking for a specific study or treatment? <a href="search.html">Search the database →</a></p>
 </div>
 
-<div id="ask-status" role="status" aria-live="polite" class="small muted"></div>
+<div id="ask-status" role="status" aria-live="polite" class="small muted" style="position:absolute;left:-9999px"></div>
 <div id="ask-loading" class="ask-loading" hidden>
   <span class="ask-spin" aria-hidden="true"></span>
   <div style="flex:1;min-width:0">
