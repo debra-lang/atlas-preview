@@ -107,5 +107,13 @@ ok(ra.studyHits.includes("piccirillo-2007-gabapentin") && !ra.studyHits.includes
 // digit-token matching survives the stopword filter (registry/acronym-style tokens)
 ok(retrieve("What is TENT-A1?", data).studyHits.includes("tent-a1-2020"), "digit-token TENT-A1 still matches");
 
+// contrast question retrieves BOTH distress and loudness sides
+let rc = retrieve("Which treatments mainly improve distress rather than loudness?", data);
+ok(rc.treatmentIds.includes("cbt") && (rc.treatmentIds.includes("shore-bimodal") || rc.treatmentIds.includes("cochlear-implants")),
+   "contrast question retrieves both sides", JSON.stringify(rc.treatmentIds));
+// personal treatment-selection question must reach the model (never bare not-covered)
+ok(retrieve("Which treatment should I personally use?", data).coverage !== "not-covered",
+   "personal selection question gets limited coverage, not not-covered");
+
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

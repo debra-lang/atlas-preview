@@ -131,12 +131,14 @@ export function retrieve(question, data) {
   const T = Object.fromEntries(data.treatments.map(t => [t.id, t]));
   if (flags.strongest && treatmentIds.length < 2)
     treatmentIds = data.rankings.top.slice(0, 5).map(r => r.id);
-  if (flags.loudness && !treatmentIds.length)
-    treatmentIds = data.treatments.filter(t => ["moderate", "strong"].includes(t.loudness.level)).map(t => t.id).slice(0, 6);
   if (flags.negative && !treatmentIds.length)
     treatmentIds = data.treatments.filter(t => t.tier === 5).map(t => t.id).slice(0, 6);
-  if (flags.distress && !treatmentIds.length)
-    treatmentIds = data.treatments.filter(t => ["moderate", "strong"].includes(t.distress.level)).map(t => t.id).slice(0, 6);
+  if ((flags.loudness || flags.distress) && !treatmentIds.length) {
+    // contrast questions ("distress rather than loudness") fire BOTH flags — include both sides
+    const loud = flags.loudness ? data.treatments.filter(t => ["moderate", "strong"].includes(t.loudness.level)).map(t => t.id) : [];
+    const dist = flags.distress ? data.treatments.filter(t => ["moderate", "strong"].includes(t.distress.level)).map(t => t.id) : [];
+    treatmentIds = [...new Set([...dist.slice(0, 4), ...loud.slice(0, 4)])].slice(0, 7);
+  }
   if (flags.sleep && !treatmentIds.includes("cbt-i") && !scored.length) treatmentIds.unshift("cbt-i");
 
   // direct study-title match (e.g. "MOST trial", "TENT-A1", author names).
@@ -160,8 +162,10 @@ export function retrieve(question, data) {
   if (entityScore >= 3 || (treatmentIds.length && intentHit)) coverage = "strong";
   else if (entityScore >= 2 || treatmentIds.length || studyHits.length) coverage = "moderate";
   else if (intentHit) coverage = "moderate";
-  // generic tinnitus question with no entity/intent: limited via rankings context
-  else if (/tinnitus/.test(q)) { coverage = "limited"; treatmentIds = data.rankings.top.slice(0, 3).map(r => r.id); }
+  // generic tinnitus question with no entity/intent — and personal treatment-selection
+  // questions ("which treatment should I use?"), which must reach the model so the
+  // clinician-framing rules apply instead of a bare not-covered card: limited via rankings
+  else if (/tinnitus/.test(q) || flags.personalStrong) { coverage = "limited"; treatmentIds = data.rankings.top.slice(0, 3).map(r => r.id); }
 
   return { flags, treatmentIds: treatmentIds.slice(0, RETRIEVAL_LIMIT), studyHits, coverage };
 }
