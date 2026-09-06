@@ -269,7 +269,7 @@ replication and independence status, safety, availability and full primary-sourc
     for tier, ts in sorted(by_tier.items()))
 canon = page("treatments/index.html",
              "Tinnitus Treatments: Compare the Evidence | Tinnitus Evidence",
-             "Compare the clinical evidence for every major tinnitus treatment — evidence scores, loudness vs distress outcomes, replication, safety, availability and primary sources.",
+             "Compare the clinical evidence for major tinnitus treatments and emerging approaches — evidence scores, loudness vs distress outcomes, replication, safety, availability and primary sources.",
              "Tinnitus Treatments: What Does the Evidence Show?",
              [("", "Home"), (None, "Treatments")], dir_body)
 sitemap_urls.append(canon)
@@ -815,6 +815,27 @@ if not _cfg.exists():
     _cfg.write_text('// Ask Tinnitus Evidence endpoint. Empty string = feature disabled (page shows a graceful\n'
                     '// unavailable message). Set to the deployed Cloudflare Worker URL to enable.\n'
                     'window.ASK_ENDPOINT = "";\n', encoding="utf-8")
+
+# ---------------- static-stat sync (single source of truth: the database) ----------------
+# Elements marked data-stat="…" in hand-authored pages (index.html, about.html) get their text
+# refreshed from data/ on every build — the weekly workflow runs this, so visible counts can
+# never drift from the database again, and crawlers/no-JS visitors see real values, not dashes.
+def _fmt_date(iso):
+    y, m, d = iso.split("-")
+    months = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    return f"{months[int(m)]} {int(d)}, {y}"
+
+STATS = {"treatments": str(len(treatments)), "records": str(len(studies)), "trials": str(len(trials)),
+         "lastReview": _fmt_date(meta.get("lastFullReview", TODAY))}
+for fname in ("index.html", "about.html"):
+    p = ROOT / fname
+    h = p.read_text(encoding="utf-8")
+    orig = h
+    for key, val in STATS.items():
+        h = re.sub(r'(data-stat="' + key + r'"[^>]*>)[^<]*(</)', r"\g<1>" + val + r"\g<2>", h)
+    if h != orig:
+        p.write_text(h, encoding="utf-8")
+        print(f"stats synced into {fname}")
 
 # ---------------- sitemap + production robots + redirect map ----------------
 (ROOT / "sitemap.xml").write_text(

@@ -292,6 +292,15 @@ a.drow{color:var(--text)} a.drow:hover{text-decoration:none;background:var(--sur
    fits without wrapping only above ~1150px; below that the existing bottom-nav pattern serves
    navigation (this also fixes a pre-existing top-nav overflow at 900-1100px widths). */
 
+/* Ask: loading indicator (CSS-only animation; stops with the element — no JS loops) */
+.ask-loading{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);padding:14px 16px;margin:14px 0;box-shadow:var(--shadow)}
+.ask-spin{width:22px;height:22px;flex:none;border-radius:50%;border:3px solid var(--surface-2);border-top-color:var(--c-promising);animation:askspin .9s linear infinite}
+@keyframes askspin{to{transform:rotate(360deg)}}
+.ask-loading .bar{position:relative;height:4px;border-radius:99px;background:var(--surface-2);overflow:hidden;margin-top:8px}
+.ask-loading .bar i{position:absolute;inset:0;width:35%;border-radius:99px;background:var(--grad-brand);animation:askbar 1.6s ease-in-out infinite}
+@keyframes askbar{0%{left:-35%}100%{left:100%}}
+@media (prefers-reduced-motion: reduce){.ask-spin,.ask-loading .bar i{animation:none}.ask-loading .bar i{width:100%;left:0;opacity:.5}}
+
 </style>
 <div id="app"></div>
 <template id="page-index"><main id="content" class="wrap">
@@ -299,8 +308,8 @@ a.drow{color:var(--text)} a.drow:hover{text-decoration:none;background:var(--sur
   <section class="hero">
     <span class="kicker">Tinnitus Evidence · updated weekly from verified research sources</span>
     <h1>What does the science actually show?</h1>
-    <p class="lead">Every credible tinnitus treatment — ranked by real evidence, in plain English,
-    with the full research one tap deeper. Independent, free, and honest about what we don't know.</p>
+    <p class="lead">Major tinnitus treatments and emerging approaches — ranked by the available evidence,
+    in plain English, with the full research one tap deeper. Independent, free, and honest about what we don't know.</p>
 
     <div class="paths">
       <a class="path-card" href="treatments.html?flag=avail" style="--p-c:var(--c-strong)">
@@ -318,11 +327,14 @@ a.drow{color:var(--text)} a.drow:hover{text-decoration:none;background:var(--sur
     </div>
 
     <div class="hero-stats">
-      <div class="stat"><b id="stat-treatments">–</b><span>treatments tracked</span></div>
+      <!-- initial values are baked in at build time from data/ (tools/build_seo.py sync step,
+           re-run by the weekly workflow) so crawlers, no-JS visitors and slow loads never see
+           dashes; JS then refreshes them from the live database -->
+      <div class="stat"><b id="stat-treatments" data-stat="treatments">38</b><span>treatments tracked</span></div>
       <div class="stat"><b>Hundreds</b><span>research results screened</span></div>
-      <div class="stat"><b id="stat-studies">–</b><span>research records included</span></div>
-      <div class="stat"><b id="stat-trials">–</b><span>trials watched</span></div>
-      <div class="stat"><b id="stat-updated">–</b><span>last evidence review</span></div>
+      <div class="stat"><b id="stat-studies" data-stat="records">73</b><span>research records included</span></div>
+      <div class="stat"><b id="stat-trials" data-stat="trials">21</b><span>trials watched</span></div>
+      <div class="stat"><b id="stat-updated" data-stat="lastReview">Sep 3, 2026</b><span>last evidence review</span></div>
     </div>
     <p class="small muted">Two different questions, always kept separate here:
     <a href="treatments.html?flag=loud">🔉 <strong>Loudness</strong> — did the sound itself get quieter?</a> ·
@@ -340,6 +352,16 @@ a.drow{color:var(--text)} a.drow:hover{text-decoration:none;background:var(--sur
     <a href="about.html#rankings">How rankings work →</a><br>
     <strong>We rank the evidence, not what's right for you</strong> — treatment decisions belong with you and your doctor.</p>
     <div id="top10" class="grid grid-3" style="row-gap:22px"></div>
+  </section>
+
+  <section class="section">
+    <div class="card" style="border-left:4px solid var(--brand-1)">
+      <h2 style="margin-top:0">Have a question about tinnitus research?</h2>
+      <p class="small muted" style="max-width:52em">Ask about a treatment, compare two approaches, or find out
+      what the evidence says. Answers are generated from our verified research database and linked to the
+      underlying evidence — every claim cites its source.</p>
+      <a class="btn" href="ask/">Ask Tinnitus Evidence →</a>
+    </div>
   </section>
 
   <section class="section">
@@ -484,7 +506,7 @@ a.drow{color:var(--text)} a.drow:hover{text-decoration:none;background:var(--sur
   <p>We screen hundreds of research results from sources including PubMed, ClinicalTrials.gov, Cochrane
   reviews, FDA records and major clinical guidelines. Around 170 unique studies, trials, guidelines and
   regulatory records were individually examined in building Tinnitus Evidence, with the most relevant
-  research reviewed in greater detail. The current database includes 67 research records (plus separately
+  research reviewed in greater detail. The current database includes <span data-stat="records">73</span> research records (plus separately
   tracked clinical-trial registry records and regulatory records), each checked against its primary source.</p>
   <p>For every included record we consider study quality, results, negative findings, replication, safety and
   potential conflicts of interest — and we separately evaluate whether an intervention actually reduced
