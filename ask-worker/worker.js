@@ -21,7 +21,10 @@ const RETRIEVAL_LIMIT = 12;
 const RX = {
   compare: /\b(vs\.?|versus|compare[ds]?|comparison|better than|or the|difference between)\b/i,
   strongest: /\b(strongest|best|most (effective|promising|evidence)|top|highest|work(s)? best|proven)\b/i,
-  loudness: /\b(loud|quieter|volume|percept|softer|reduce the sound|sound itself)\b/i,
+  // maintenance 2026-09-06: \bloud\b never matched "loudness"/"louder" (word-boundary bug);
+  // percept\w* covers percept/perception/percept-level; "intensity" added. Deliberately NOT
+  // matching bare "sound" so "sound therapy" questions don't false-trigger the loudness path.
+  loudness: /\b(loud\w*|quieter|volume|percept\w*|softer|intensity|reduce the sound|sound itself)\b/i,
   distress: /\b(distress|bother|cope|coping|anxiety|quality of life|severity|annoyance)\b/i,
   negative: /\b(fail(ed|ure)?|didn'?t work|negative|debunk|not work|useless|disproven|weak(est)?)\b/i,
   trials: /\b(trials?|recruit\w*|study i can join|enroll\w*|nct\d+|pipeline|upcoming|phase \d)\b/i,
@@ -85,6 +88,13 @@ const EXTRA_ALIASES = {
   "combo-aids-fractal": ["fractal", "zen", "widex"],
 };
 
+// high-frequency corpus words that appear across many record titles — never discriminative
+const STUDY_STOPWORDS = new Set(["tinnitus", "chronic", "subjective", "treatment", "treatments", "therapy",
+  "trial", "trials", "study", "studies", "randomized", "randomised", "controlled", "clinical", "review",
+  "systematic", "meta-analysis", "evidence", "research", "patients", "adults", "effects", "effect",
+  "double-blind", "placebo", "sham", "multicenter", "multicentre", "cochrane", "guideline", "sound",
+  "stimulation", "record", "records", "based", "versus", "results", "program", "response", "loudness"]);
+
 function buildIndex(data) {
   const idx = [];
   for (const t of data.treatments) {
@@ -96,13 +106,22 @@ function buildIndex(data) {
 }
 
 export function retrieve(question, data) {
-  const q = " " + question.toLowerCase() + " ";
+  // normalize punctuation to spaces so "TENT-A1?" tokenizes as "tent-a1"
+  const q = " " + question.toLowerCase().replace(/[^a-z0-9-]+/g, " ") + " ";
+  const qTokens = new Set(q.trim().split(/\s+/));
   const flags = classify(question);
   const idx = buildIndex(data);
   const scored = [];
   for (const e of idx) {
     let s = 0;
-    for (const a of e.aliases) if (a.length > 2 && q.includes(a)) s = Math.max(s, a.length > 5 ? 3 : 2);
+    for (const a of e.aliases) {
+      // maintenance 2026-09-06: short single-word aliases must match as WHOLE TOKENS —
+      // the substring check let "tus" match inside "tinnitus" on every question.
+      const hit = a.includes(" ") ? q.includes(" " + a.trim() + " ")
+                : a.length >= 6 ? q.includes(a)
+                : qTokens.has(a);
+      if (hit) s = Math.max(s, a.length > 5 ? 3 : 2);
+    }
     if (s) scored.push({ id: e.id, score: s });
   }
   scored.sort((a, b) => b.score - a.score);
@@ -120,10 +139,16 @@ export function retrieve(question, data) {
     treatmentIds = data.treatments.filter(t => ["moderate", "strong"].includes(t.distress.level)).map(t => t.id).slice(0, 6);
   if (flags.sleep && !treatmentIds.includes("cbt-i") && !scored.length) treatmentIds.unshift("cbt-i");
 
-  // direct study-title match (e.g. "MOST trial", "TENT-A1", author names)
-  const studyHits = data.studies.filter(s =>
-    (s.title + " " + (s.authors || "")).toLowerCase().split(/[^a-z0-9-]+/).some(w => w.length > 4 && q.includes(" " + w + " "))
-  ).slice(0, 4).map(s => s.id);
+  // direct study-title match (e.g. "MOST trial", "TENT-A1", author names).
+  // maintenance 2026-09-06: ubiquitous words ("tinnitus", "randomized", "trial"…) no longer
+  // count — only DISCRIMINATIVE tokens match: non-stopword words >4 chars (author surnames,
+  // "notched", "gabapentin"…) or tokens containing digits (tent-a1, spi-1005, nct ids).
+  // Exact substring matching only — no fuzzy matching.
+  const hits = data.studies.filter(s => {
+    const toks = (s.title + " " + (s.authors || "")).toLowerCase().split(/[^a-z0-9-]+/);
+    return toks.some(w => w && !STUDY_STOPWORDS.has(w) && (/\d/.test(w) || w.length > 4) && q.includes(" " + w + " "));
+  });
+  const studyHits = hits.slice(0, 4).map(s => s.id);
 
   const entityScore = scored.length ? scored[0].score : 0;
   // off-topic guard: intent words alone ("best", "new") never count without tinnitus context

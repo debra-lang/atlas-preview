@@ -28,11 +28,15 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: node tools/ask_benchmark.mjs
+      - name: Maintenance verification (8 re-test questions, non-gating)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node tools/ask_verify.mjs || echo "::warning::verify run had failures (non-gating)"
       - name: Commit benchmark report
         if: always()
         run: |
           git config user.name "tinnitus-evidence-bot"
           git config user.email "tinnitus-evidence-bot@users.noreply.github.com"
-          git add ask-worker/benchmark-report.json
+          git add ask-worker/benchmark-report.json ask-worker/verify-report.json
           git diff --cached --quiet || git commit -m "Ask benchmark report"
           git push origin main

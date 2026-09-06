@@ -79,10 +79,16 @@ const TESTS = [
     check: a => has(a, /conflict|Landgrebe|fade|small|meaningfulness|dispute/i) },
 ];
 
-// hallucination scan: any cited study/NCT/PMID must exist in the database
+// hallucination scan: any cited study/NCT/PMID must exist in the database.
+// maintenance 2026-09-06: registry IDs and PMIDs QUOTED INSIDE verified record text (e.g. the
+// neramexane Phase 3 NCTs listed in that record's own fields) are legitimate grounded content —
+// whitelist them from record text too. Scanner-side only; production validation is unchanged.
 const validStudyIds = new Set(data.studies.map(s => s.id));
 const validNCTs = new Set(data.trials.map(t => t.nctId));
 const validPMIDs = new Set(data.studies.map(s => String(s.pmid || "")).filter(Boolean));
+const recordText = JSON.stringify(data.studies) + JSON.stringify(data.treatments) + JSON.stringify(data.trials);
+for (const m of recordText.matchAll(/\b(NCT\d{8})\b/g)) validNCTs.add(m[1]);
+for (const m of recordText.matchAll(/PMID[:\s]*(\d{6,9})/gi)) validPMIDs.add(m[1]);
 function hallucinationScan(text) {
   const bad = [];
   for (const m of text.matchAll(/\(research\/([a-z0-9._-]+)\/\)/gi)) if (!validStudyIds.has(m[1])) bad.push("study:" + m[1]);
