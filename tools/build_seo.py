@@ -685,6 +685,13 @@ or research findings.</strong> Answers are generated from the Tinnitus Evidence 
 </div>
 
 <div id="ask-status" role="status" aria-live="polite" class="small muted"></div>
+<div id="ask-loading" class="ask-loading" hidden>
+  <span class="ask-spin" aria-hidden="true"></span>
+  <div style="flex:1;min-width:0">
+    <div id="ask-loading-text" class="small" style="font-weight:600">Searching the verified evidence database…</div>
+    <div class="bar" aria-hidden="true"><i></i></div>
+  </div>
+</div>
 <div id="ask-answer" class="prose" hidden></div>
 <div id="ask-sources" hidden></div>
 <div id="ask-followups" hidden></div>
@@ -707,7 +714,17 @@ or research findings.</strong> Answers are generated from the Tinnitus Evidence 
   var EP = window.ASK_ENDPOINT || "";
   var $ = function(s){ return document.querySelector(s); };
   var form=$("#ask-form"), q=$("#ask-q"), btn=$("#ask-btn"), st=$("#ask-status"),
-      ans=$("#ask-answer"), src=$("#ask-sources"), fu=$("#ask-followups"), ex=$("#ask-examples");
+      ans=$("#ask-answer"), src=$("#ask-sources"), fu=$("#ask-followups"), ex=$("#ask-examples"),
+      ld=$("#ask-loading"), ldt=$("#ask-loading-text");
+  var STAGES=["Searching the verified evidence database…","Reading the most relevant studies…",
+              "Checking loudness vs distress outcomes…","Writing a sourced answer…","Validating citations…"];
+  var stageTimer=null;
+  function startLoading(){
+    var i=0; ld.hidden=false; ldt.textContent=STAGES[0]; st.textContent=STAGES[0];
+    stageTimer=setInterval(function(){ i=Math.min(i+1,STAGES.length-1); ldt.textContent=STAGES[i];
+      if(i===STAGES.length-1) clearInterval(stageTimer); else st.textContent=STAGES[i]; },2600);
+  }
+  function stopLoading(){ if(stageTimer){clearInterval(stageTimer);stageTimer=null;} ld.hidden=true; st.textContent=""; }
   function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
   function inline(s){ // links + bold only, on escaped text
     return esc(s)
@@ -737,13 +754,13 @@ or research findings.</strong> Answers are generated from the Tinnitus Evidence 
     return out.join("");
   }
   function unavailable(){
-    st.textContent="";
+    stopLoading();
     ans.hidden=false;
     ans.innerHTML="<div class='notice'>Ask Tinnitus Evidence is temporarily unavailable. You can still search "+
       "<a href='treatments/'>treatments</a>, <a href='research/'>studies</a> and <a href='trials/'>trials</a> directly.</div>";
   }
   function render(res){
-    st.textContent="";
+    stopLoading();
     ans.hidden=false; ans.innerHTML=md(res.answer||"");
     if(res.sources && res.sources.length){
       src.hidden=false;
@@ -764,12 +781,12 @@ or research findings.</strong> Answers are generated from the Tinnitus Evidence 
     if(!EP){ unavailable(); return; }
     btn.disabled=true; ex.hidden=true;
     ans.hidden=true; src.hidden=true; fu.hidden=true;
-    st.textContent="Searching the verified evidence database…";
+    startLoading();
     fetch(EP,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:question})})
       .then(function(r){ return r.json().then(function(j){ return {okStatus:r.ok, j:j}; }); })
       .then(function(x){
         if(x.j && x.j.answer){ render(x.j); }
-        else if(x.j && x.j.message){ st.textContent=""; ans.hidden=false; ans.innerHTML="<div class='notice'>"+esc(x.j.message)+"</div>"; }
+        else if(x.j && x.j.message){ stopLoading(); ans.hidden=false; ans.innerHTML="<div class='notice'>"+esc(x.j.message)+"</div>"; }
         else unavailable();
       })
       .catch(unavailable)

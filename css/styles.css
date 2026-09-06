@@ -285,3 +285,12 @@ a.drow{color:var(--text)} a.drow:hover{text-decoration:none;background:var(--sur
 /* Desktop nav breakpoint raised 900->1180px: the full 11-link row (incl. "Research Questions")
    fits without wrapping only above ~1150px; below that the existing bottom-nav pattern serves
    navigation (this also fixes a pre-existing top-nav overflow at 900-1100px widths). */
+
+/* Ask: loading indicator (CSS-only animation; stops with the element — no JS loops) */
+.ask-loading{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);padding:14px 16px;margin:14px 0;box-shadow:var(--shadow)}
+.ask-spin{width:22px;height:22px;flex:none;border-radius:50%;border:3px solid var(--surface-2);border-top-color:var(--c-promising);animation:askspin .9s linear infinite}
+@keyframes askspin{to{transform:rotate(360deg)}}
+.ask-loading .bar{position:relative;height:4px;border-radius:99px;background:var(--surface-2);overflow:hidden;margin-top:8px}
+.ask-loading .bar i{position:absolute;inset:0;width:35%;border-radius:99px;background:var(--grad-brand);animation:askbar 1.6s ease-in-out infinite}
+@keyframes askbar{0%{left:-35%}100%{left:100%}}
+@media (prefers-reduced-motion: reduce){.ask-spin,.ask-loading .bar i{animation:none}.ask-loading .bar i{width:100%;left:0;opacity:.5}}
