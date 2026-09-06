@@ -119,13 +119,13 @@
     "category": "neuromodulation",
     "tier": 2,
     "evidenceScore": 3,
-    "oneLiner": "The only treatment with rigorous randomized evidence of making tinnitus quieter — still stuck in the lab.",
+    "oneLiner": "One of the strongest randomized results for making the tinnitus sound itself quieter — still stuck in the lab.",
     "whatItIs": "A home-use device from Susan Shore's University of Michigan lab that pairs precisely timed sound (matched to your tinnitus spectrum) with mild electrical stimulation of the face or neck, 30 minutes a day. Licensed to Auricle Inc. Not for sale anywhere.",
     "howItWorks": "In somatic tinnitus, fusiform cells in the dorsal cochlear nucleus fire in pathological synchrony. Precisely timed auditory + somatosensory input exploits spike-timing-dependent plasticity to desynchronize them — targeting the root circuit rather than the reaction to it.",
     "mechanism": "Timing-dependent plasticity in the dorsal cochlear nucleus",
     "loudness": {
       "level": "moderate",
-      "summary": "Loudness was a CO-PRIMARY endpoint, measured by psychoacoustic loudness matching (dB SL): within-participant change −7.2 dB per-protocol (p=.03) at week 6, deepening to −14.1 dB by week 12 of the second active phase — the strongest percept-level result of any tinnitus RCT. These are changes during treatment, not active-minus-control differences."
+      "summary": "Loudness was a CO-PRIMARY endpoint, measured by psychoacoustic loudness matching (dB SL): within-participant change −7.2 dB per-protocol (p=.03) at week 6, deepening to −14.1 dB by week 12 of the second active phase — among the strongest percept-level results reported in a tinnitus RCT. These are changes during treatment, not active-minus-control differences."
     },
     "distress": {
       "level": "moderate",
@@ -211,6 +211,16 @@
         "date": "2026-09-04",
         "change": "safetyLevel: 'strong' → 'moderate'",
         "reason": "Audit: total human safety exposure is ~120 participants for ≤12 weeks — too small a base for the top safety label, even with no serious adverse events reported."
+      },
+      {
+        "date": "2026-09-06",
+        "change": "oneLiner: 'the only treatment with rigorous randomized evidence' → 'one of the strongest randomized results' (other randomized percept-level signals exist, e.g. Levo intensity, melatonin matching).",
+        "reason": "Editorial precision pass (independent-audit follow-up): absolute/directive wording replaced with defensible evidence-framed wording. No change to any score, tier, level, ranking, or numerical result."
+      },
+      {
+        "date": "2026-09-06",
+        "change": "loudness summary: 'the strongest percept-level result of any tinnitus RCT' → 'among the strongest percept-level results reported in a tinnitus RCT' (loudness LEVEL unchanged; within-participant caveat retained).",
+        "reason": "Editorial precision pass (independent-audit follow-up): absolute/directive wording replaced with defensible evidence-framed wording. No change to any score, tier, level, ranking, or numerical result."
       }
     ],
     "scoreRationale": "A rigorous NIH-funded double-blind crossover with percept-level benefit earns a 3/5; independent replication, a pivotal trial, and regulatory progress would raise it.",
@@ -575,7 +585,7 @@
     "category": "hearing-tech",
     "tier": 2,
     "evidenceScore": 3,
-    "oneLiner": "If you have hearing loss with tinnitus, treating the hearing loss is one of the most effective single moves.",
+    "oneLiner": "For people with hearing loss and tinnitus, hearing aids are among the most established and accessible interventions studied.",
     "whatItIs": "Properly fitted amplification for coexisting hearing loss — the AAO-HNSF guideline recommends a hearing aid evaluation whenever hearing loss accompanies bothersome tinnitus.",
     "howItWorks": "Amplification restores input to deprived auditory pathways (reducing the central gain that drives tinnitus), masks the tinnitus with ambient sound, and removes the strain of struggling to hear.",
     "mechanism": "Restored auditory input + ambient masking",
@@ -660,6 +670,11 @@
         "date": "2026-09-04",
         "change": "Study records added: hoare-2014-cochrane-ha, guideline-aaohns-2014, guideline-nice-ng155, guideline-eu-2019.",
         "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
+      },
+      {
+        "date": "2026-09-06",
+        "change": "oneLiner: directive second-person advice → evidence-framed description.",
+        "reason": "Editorial precision pass (independent-audit follow-up): absolute/directive wording replaced with defensible evidence-framed wording. No change to any score, tier, level, ranking, or numerical result."
       }
     ],
     "scoreRationale": "Guideline recommendation and the UNITI head-to-head result earn 3/5; a trial isolating the tinnitus effect from the hearing benefit would settle it. Amplification-SPECIFIC randomized evidence is thin: Cochrane CD010151 found one RCT (N=91) and concluded there is no evidence to support or refute hearing aids as a routine tinnitus intervention; the rating rests on guideline consensus (all three major guidelines recommend aids with hearing loss), UNITI results and observational data.",
@@ -1130,7 +1145,7 @@
     "category": "somatic",
     "tier": 3,
     "evidenceScore": 2,
-    "oneLiner": "When tinnitus changes with your jaw or neck, treating the jaw or neck can change the tinnitus.",
+    "oneLiner": "In selected people with somatic tinnitus, targeted jaw or neck treatment has shown benefit in controlled studies.",
     "whatItIs": "Physical therapy for the neck, TMJ (jaw) treatment, and musculoskeletal care for somatosensory tinnitus — the subtype where head/neck signals modulate the sound. Roughly 60–80% of tinnitus patients can modulate their tinnitus somewhat with jaw or neck maneuvers (Ralli 2016: 79.7% in TMJ/neck patients; Lee 2020: 61.7% in a general clinic; Sanchez & Rocha 2011 review: ~65%). Note: chiropractic/osteopathic manipulation adds no evidence over exercise-based physiotherapy, and high-velocity neck manipulation carries a rare but serious artery-dissection risk.",
     "howItWorks": "Somatosensory nerves from the jaw and upper neck converge on the dorsal cochlear nucleus, the same circuit implicated in tinnitus generation. Abnormal muscle or joint input can drive the percept; treating it can reduce the drive.",
     "mechanism": "Reducing aberrant somatosensory input to the dorsal cochlear nucleus",
@@ -1219,6 +1234,11 @@
         "date": "2026-09-04",
         "change": "Study records added: michiels-2016-cervical.",
         "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
+      },
+      {
+        "date": "2026-09-06",
+        "change": "oneLiner: universal causal phrasing → population-qualified evidence statement (also keeps established evidence separate from the somatic-modulation-predictor hypothesis).",
+        "reason": "Editorial precision pass (independent-audit follow-up): absolute/directive wording replaced with defensible evidence-framed wording. No change to any score, tier, level, ranking, or numerical result."
       }
     ],
     "scoreRationale": "Real percept modulation and positive controlled studies earn 2/5; a proper multicenter RCT would move it.",
@@ -1239,7 +1259,7 @@
     "category": "sound-therapy",
     "tier": 4,
     "evidenceScore": 2,
-    "oneLiner": "Widely used, low-risk, valued by many — but never proven better than placebo in controlled trials.",
+    "oneLiner": "Widely used, low-risk, valued by many — but controlled trials have not established a benefit beyond comparison sounds or placebo effects.",
     "whatItIs": "Background sound — noise, nature sounds, music, sound generators or apps — used to partially cover tinnitus, ease its intrusiveness, and help sleep and focus.",
     "howItWorks": "External sound reduces the contrast between tinnitus and silence, gives the auditory system real input to process, and supports habituation. It manages the experience rather than changing the tinnitus.",
     "mechanism": "Partial masking / contrast reduction / habituation support",
@@ -1334,6 +1354,11 @@
         "date": "2026-09-04",
         "change": "Formal re-evaluation completed for the MOST/DFCRS N=440 double-blind RCT: evidence score UNCHANGED at 2/5; 'under re-evaluation' flag cleared.",
         "reason": "The trial is the largest and best-blinded sound-therapy RCT but compares four ACTIVE sounds with no placebo arm; the customized-arm advantage (~4 THI points vs unmodified music) is statistically significant yet small and unadjusted for multiplicity, and the authors state placebo effects cannot be excluded. Size alone does not raise a rating."
+      },
+      {
+        "date": "2026-09-06",
+        "change": "oneLiner: 'never proven' absolute → 'controlled trials have not established…' (also more precise: the largest trial compared active sounds, not placebo).",
+        "reason": "Editorial precision pass (independent-audit follow-up): absolute/directive wording replaced with defensible evidence-framed wording. No change to any score, tier, level, ranking, or numerical result."
       }
     ],
     "scoreRationale": "Score 2/5 CONFIRMED after formal re-evaluation of the MOST trial (N=440, the largest double-blind sound-therapy RCT, eClinicalMedicine 2025): all four active sound arms improved similarly; the customized (DFCRS) arm beat unmodified music by only ~4 THI points (statistically significant, clinically small, no multiplicity adjustment) and the trial has no no-sound arm, so placebo effects cannot be excluded — the authors say so themselves. This is consistent with Cochrane 2018 (no strong evidence) and the guideline split (AAO-HNSF: option; NICE/EU: research-only; German S3: against sound generators). A large trial does not raise a rating by size alone; what it shows is modest, possibly non-specific benefit.",
@@ -2426,7 +2451,7 @@
     "category": "drugs",
     "tier": 5,
     "evidenceScore": 1,
-    "oneLiner": "Heavily marketed, repeatedly tested, consistently unsupported.",
+    "oneLiner": "Heavily marketed, repeatedly tested — and rigorous reviews have found no reliable benefit.",
     "whatItIs": "Over-the-counter products marketed for tinnitus — Ginkgo biloba, zinc, melatonin, B vitamins, magnesium and branded blends.",
     "howItWorks": "Claimed circulation/antioxidant/neural mechanisms; none validated for tinnitus.",
     "mechanism": "None validated",
@@ -2494,6 +2519,11 @@
         "date": "2026-09-04",
         "change": "Study records added: hurtuk-2011-melatonin, guideline-aaohns-2014.",
         "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
+      },
+      {
+        "date": "2026-09-06",
+        "change": "oneLiner: 'consistently unsupported' absolute → review-anchored phrasing (one small positive melatonin crossover exists in the record set).",
+        "reason": "Editorial precision pass (independent-audit follow-up): absolute/directive wording replaced with defensible evidence-framed wording. No change to any score, tier, level, ranking, or numerical result."
       }
     ],
     "scoreRationale": "Multiple Cochrane reviews found nothing: 1/5, Tier 5 — the clearest marketing-vs-evidence gap on the site.",

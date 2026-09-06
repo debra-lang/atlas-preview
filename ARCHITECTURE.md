@@ -82,7 +82,7 @@ Hard lessons imported from the Softwave native shell:
 ```
 
 Evidence tiers: 1 Strongest current evidence · 2 Promising · 3 Experimental/emerging ·
-4 Symptom management/coping · 5 Weak or unsupported.
+4 Supportive/symptom-management (limited treatment-specific evidence) · 5 Weak or unsupported.
 Color meaning (site-wide): green = strong/available, blue = promising, purple = experimental,
 orange = limited/watch, gray = weak/inactive.
 

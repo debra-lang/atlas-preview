@@ -66,7 +66,7 @@ IND = {"primarily-independent": "Primarily independent", "mixed": "Mixed",
        "primarily-sponsor": "Primarily sponsor-supported", "unclear": "Independence unclear"}
 SCORE_WORDS = {1: "Weak", 2: "Limited", 3: "Moderate", 4: "Good", 5: "Strong"}
 TIERS = {1: "Tier 1 — strongest current evidence", 2: "Tier 2 — promising", 3: "Tier 3 — experimental/emerging",
-         4: "Tier 4 — symptom management/coping", 5: "Tier 5 — weak or unsupported"}
+         4: "Tier 4 — supportive/symptom-management (limited treatment-specific evidence)", 5: "Tier 5 — weak or unsupported"}
 
 FOOTER_LINKS = [
     ("treatments/", "Tinnitus treatments"), ("trials/", "Clinical trials"), ("research/", "Research records"),
@@ -302,8 +302,8 @@ determine eligibility.</p>"""
     sitemap_urls.append(canon)
 
 trials_body = f"""
-<p class="lead">Tinnitus Evidence tracks <strong>{len(trials)} registered clinical trials</strong> — the drug programs,
-device studies and therapy trials that could change the tinnitus evidence picture. Statuses are verified directly against
+<p class="lead">Tinnitus Evidence tracks <strong>{len(trials)} registered clinical trials</strong> — current drug,
+device and therapy studies that may add to or change the evidence picture. Statuses are verified directly against
 the ClinicalTrials.gov registry every week; tracked trials are research in progress, not recommended treatments.</p>
 <p><a href="trials.html">Prefer filters and the watch feature? Open the interactive trials browser.</a></p>
 <ul>""" + "".join(
@@ -359,13 +359,35 @@ primary source — not a reproduction of the publisher's abstract.</p>"""
                  [("", "Home"), ("research/", "Research records"), (None, trunc(s["title"], 40))], body)
     sitemap_urls.append(canon)
 
+def _rec_group(s):
+    """Deterministic grouping from STRUCTURED fields only (design string + linkage), never guessed from titles."""
+    d = (s.get("design") or "").lower()
+    res = ((s.get("results") or {}).get("summary") or "").lower()
+    if "guideline" in d: return "Clinical guidelines"
+    if "cochrane" in d or "systematic review" in d or "meta-analysis" in d or "umbrella" in d or "pooled" in d:
+        return "Systematic reviews & meta-analyses"
+    if "measurement-standard" in d or "consensus criteria" in d or "epidemiology" in d or "context record" in d or "cross-sectional population" in d:
+        return "Measurement standards & context records"
+    if "company" in d or "program" in d or "registry" in d or "announcement" in (s.get("journal") or "").lower():
+        return "Company programs & registry records"
+    if s.get("randomized") or "rct" in d or "randomi" in d or "controlled" in d or "phase" in d or "crossover" in d:
+        return "Randomized & controlled trials"
+    return "Observational & other designs"
+_ORDER = ["Randomized & controlled trials", "Systematic reviews & meta-analyses",
+          "Clinical guidelines", "Company programs & registry records", "Measurement standards & context records", "Observational & other designs"]
+_groups = {}
+for s in studies: _groups.setdefault(_rec_group(s), []).append(s)
 res_dir = """
 <p class="lead">Every research record in the Tinnitus Evidence database — trials, systematic reviews, guidelines and
 regulatory records — each verified against its primary source, with design, results, limitations and conflicts of
 interest. Negative and failed results are first-class records here, not footnotes.</p>
-<ul>""" + "".join(
-    f'<li><a href="research/{E(s["id"])}/">{E(s["title"])}</a> <span class="muted">({E(str(s.get("year", "")))})</span></li>'
-    for s in sorted(studies, key=lambda x: (-int(x.get("year") or 0), x["id"]))) + "</ul>"
+<nav class="small muted" aria-label="Record types">Jump to: """ + " · ".join(
+    f'<a href="research/#{E(g.lower().replace(" ", "-").replace("&", "and"))}">{E(g)}</a> ({len(_groups[g])})'
+    for g in _ORDER if g in _groups) + "</nav>" + "".join(
+    f'<section id="{E(g.lower().replace(" ", "-").replace("&", "and"))}"><h2>{E(g)} ({len(_groups[g])})</h2><ul>' +
+    "".join(f'<li><a href="research/{E(s["id"])}/">{E(s["title"])}</a> <span class="muted">({E(str(s.get("year", "")))})</span></li>'
+            for s in sorted(_groups[g], key=lambda x: (-int(x.get("year") or 0), x["id"]))) + "</ul></section>"
+    for g in _ORDER if g in _groups)
 canon = page("research/index.html",
              f"Tinnitus Research Records: {len(studies)} Verified Studies & Reviews | Tinnitus Evidence",
              "Browse every verified research record behind Tinnitus Evidence — trials, systematic reviews, guidelines and regulatory records with results, limitations and primary sources.",
@@ -648,7 +670,10 @@ This section highlights patterns that emerge across multiple studies and may be 
 modulation help predict treatment response?</a> — the simple yes/no version has been tested (mostly null);
 whether graded modulation features carry predictive information remains open.</li>
 </ul></section>
-<section><h2>How a question earns a place here</h2>
+<section><h2>How a research hypothesis earns a place here</h2>
+<p class="small muted">Note the distinction: <a href="ask/">Ask Tinnitus Evidence</a> answers <em>your</em> questions
+about the existing evidence. This section lists unresolved <em>scientific hypotheses</em> — patterns across studies
+that may deserve formal investigation. They never affect treatment ratings, tiers, or rankings.</p>
 <p>Every entry follows the same process before publication:</p>
 <p class="small"><strong>Pattern identified → adversarial literature search → precedent check → contradictory-evidence
 search → hypothesis refined or rejected → human approval → publication.</strong></p>

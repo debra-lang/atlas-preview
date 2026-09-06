@@ -244,7 +244,7 @@
   /* ---------------- shared components ---------------- */
   const TIER_LABELS = {
     1: ['Strongest evidence', 'b-strong'], 2: ['Promising', 'b-promising'],
-    3: ['Experimental', 'b-emerging'], 4: ['Helps you cope', 'b-watch'],
+    3: ['Experimental', 'b-emerging'], 4: ['Supportive', 'b-watch'],
     5: ['Weak / unsupported', 'b-weak']
   };
   const LV_LABELS = { none: 'None shown', limited: 'Limited', moderate: 'Moderate', strong: 'Strong' };
