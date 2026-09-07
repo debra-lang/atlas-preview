@@ -1,0 +1,43 @@
+{
+  "items": [
+    {
+      "archivedAt": "2026-09-07T18:09:04",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "pubmed-42684436",
+        "kind": "study",
+        "title": "Symptomatic cerebral venous outflow resistance responds to stenting even in the absence of intracranial hypertension on manometry: a multicentre study.",
+        "source": "Neuroradiology",
+        "date": "2026 Sep 2",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42684436/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-07T18:09:04",
+      "reason": "relevance category 3 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 3,
+      "item": {
+        "id": "ctgov-NCT05936034-2026-09-01",
+        "kind": "trial",
+        "title": "Comparative Study of the Quality of Life of Patients Suffering From OTOTOXICITY Due to Chemotherapy Based on Platinum Salts Fitted With a Hearing Aid Compared to Those Not Fitted.",
+        "source": "Institut de Cancérologie de Lorraine",
+        "date": "2026-09-01",
+        "url": "https://clinicaltrials.gov/study/NCT05936034"
+      }
+    },
+    {
+      "archivedAt": "2026-09-07T18:09:04",
+      "reason": "relevance category 3 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 3,
+      "item": {
+        "id": "pubmed-42694569",
+        "kind": "study",
+        "title": "Auditory Perceptions Associated With Hypoglossal Nerve Stimulation for Obstructive Sleep Apnea.",
+        "source": "Laryngoscope investigative otolaryngology",
+        "date": "2026 Sep 3",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42694569/"
+      }
+    }
+  ]
+}

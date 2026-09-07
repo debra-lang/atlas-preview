@@ -1,18 +1,18 @@
 {
   "schedule": "Every Monday 06:00 America/Los_Angeles (timezone-aware — stays 6 AM Pacific through PST/PDT) via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled",
-  "nextScheduled": "2026-09-07 06:00 America/Los_Angeles",
-  "lastAttempt": "2026-09-04T16:43:53",
+  "nextScheduled": "2026-09-14 06:00 America/Los_Angeles",
+  "lastAttempt": "2026-09-07T17:59:45",
   "sources": [
     {
       "name": "PubMed (title/abstract + MeSH)",
       "checked": true,
-      "count": 23,
+      "count": 24,
       "error": null
     },
     {
       "name": "ClinicalTrials.gov (condition + full-text)",
       "checked": true,
-      "count": 7,
+      "count": 5,
       "error": null
     },
     {
@@ -40,17 +40,16 @@
       "error": null
     }
   ],
-  "examined": 31,
-  "newItems": 6,
-  "published": 0,
+  "examined": 30,
+  "newItems": 5,
+  "published": 8,
   "rejectedDuplicates": 0,
-  "rejectedIrrelevant": 0,
+  "rejectedIrrelevant": 6,
   "held": 0,
   "publishedUnderEvaluation": 0,
-  "heldAwaitingEvaluation": 40,
+  "heldAwaitingEvaluation": 28,
   "trialStatusUpdates": 0,
-  "errors": [
-    "AI evaluation skipped: production benchmark gate not passed yet (run engine/run_benchmark.py once ANTHROPIC_API_KEY is configured; items held as awaiting-evaluation)"
-  ],
-  "lastSuccess": "2026-09-04T16:43:53"
+  "errors": [],
+  "archived": 3,
+  "lastSuccess": "2026-09-07T17:59:45"
 }

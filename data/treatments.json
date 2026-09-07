@@ -2988,6 +2988,11 @@
     ],
     "latest": [
       {
+        "date": "2026-09-07",
+        "text": "FDA clears next-generation Levo tinnitus device through the 510(k) substantial-equivalence pathway",
+        "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K260413"
+      },
+      {
         "date": "2026-08-15",
         "text": "Levo Gen 2 Tinnitus Therapy System received FDA 510(k) clearance (K260413) — a clearance under the masker regulation, not new efficacy evidence.",
         "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfPMN/pmn.cfm"
@@ -3245,7 +3250,13 @@
         "event": "Umbrella review: all systematic reviews low quality."
       }
     ],
-    "latest": [],
+    "latest": [
+      {
+        "date": "2026-09-07",
+        "text": "Narrative review of acupuncture for tinnitus again finds evidence too weak and inconsistent to confirm efficacy",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42703377/"
+      }
+    ],
     "history": [
       {
         "date": "2026-09-03",
