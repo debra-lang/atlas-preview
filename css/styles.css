@@ -523,3 +523,24 @@ body[data-page="index"] #top10{margin-top:6px}
    height. Border tint and everything else unchanged. */
 .card.tcard:not(.rcard){
   background:linear-gradient(180deg,color-mix(in srgb,var(--cat-c,var(--c-promising)) 20%,var(--surface)) 0,color-mix(in srgb,var(--cat-c,var(--c-promising)) 8%,var(--surface)) 10%,var(--surface) 20%)}
+
+/* ---------- Refinement pass 10: Clinical Trials cards — hierarchy in line with Treatments ----------
+   Status stays the prominent badge; phase / country / "One to watch" become quieter secondary
+   badges. Title is the primary element. A restrained wash keyed to the card's existing status
+   color (same strength as the treatment-card wash), and a little more internal room. */
+.trial-card{--st-c:var(--c-promising);--hov-c:color-mix(in srgb,var(--st-c) 60%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--st-c) 20%,var(--surface)) 0,color-mix(in srgb,var(--st-c) 8%,var(--surface)) 10%,var(--surface) 20%);
+  border-top-color:color-mix(in srgb,var(--st-c) 48%,var(--line))}
+.trial-card.st-strong{--st-c:var(--c-strong)}
+.trial-card.st-promising{--st-c:var(--c-promising)}
+.trial-card.st-weak{--st-c:var(--c-weak)}
+.trial-card.st-watch{--st-c:var(--c-watch)}
+.trial-card .tbadges{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 12px;padding:0}
+.trial-card .tbadges .badge.sec{font-size:.68rem;font-weight:500;padding:2px 7px;opacity:.85}
+.trial-card h3{font-size:1.12rem;font-weight:700;line-height:1.3;margin:0 0 8px}
+.trial-card .meta{margin:0 0 10px}
+.trial-card .why{margin:0 0 12px}
+.trial-card .match-note{margin:0 0 12px}
+.trial-card .acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin:0}
+.trial-card .acts .followbtn{margin-left:auto}
+#near-note{font-size:.8rem;opacity:.72;max-width:60em}

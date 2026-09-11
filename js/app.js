@@ -506,17 +506,19 @@
     const t = tr.treatment && DB.tById[tr.treatment];
     const st = /recruit/i.test(tr.status) && !/stale/i.test(tr.status) ? 'b-strong' : /active|enrolling|ongoing/i.test(tr.status) ? 'b-promising' : /complete/i.test(tr.status) ? 'b-weak' : 'b-watch';
     const matches = t ? profileMatches(t) : [];
-    return `<div class="card">
-      <div class="foot" style="margin:0 0 8px;display:flex;gap:6px;flex-wrap:wrap">
+    // presentation classes only: st-* mirrors the status badge class so the card's top wash and
+    // hover frame follow the existing status color; .sec marks the quieter secondary badges
+    return `<div class="card trial-card st-${st.slice(2)}">
+      <div class="foot tbadges">
         <span class="badge ${st}">${esc(tr.status)}</span>
-        ${tr.phase ? `<span class="badge b-emerging">${esc(tr.phase)}</span>` : ''}
-        ${tr.country ? `<span class="badge b-weak" title="Country of the lead sponsor/site">📍 ${esc(tr.country)}</span>` : ''}
-        ${tr.watch ? '<span class="badge b-watch">One to watch</span>' : ''}</div>
-      <h3 style="font-size:1rem">${esc(tr.title)}</h3>
-      <p class="small muted">${esc(tr.sponsor)}${tr.n ? ` · aiming to enroll ${esc(tr.n)} people` : ''}${tr.completionEst ? ` · est. completion ${esc(tr.completionEst)}` : ''}</p>
-      ${tr.whyItMatters ? `<p class="small">${esc(tr.whyItMatters)}</p>` : ''}
+        ${tr.phase ? `<span class="badge sec b-emerging">${esc(tr.phase)}</span>` : ''}
+        ${tr.country ? `<span class="badge sec b-weak" title="Country of the lead sponsor/site">📍 ${esc(tr.country)}</span>` : ''}
+        ${tr.watch ? '<span class="badge sec b-watch">One to watch</span>' : ''}</div>
+      <h3>${esc(tr.title)}</h3>
+      <p class="small muted meta">${esc(tr.sponsor)}${tr.n ? ` · aiming to enroll ${esc(tr.n)} people` : ''}${tr.completionEst ? ` · est. completion ${esc(tr.completionEst)}` : ''}</p>
+      ${tr.whyItMatters ? `<p class="small why">${esc(tr.whyItMatters)}</p>` : ''}
       ${opts.profileNotes && matches.length ? `<div class="match-note">👤 This study involves ${matches.map(m => esc(CHAR_NAMES[m] || m)).join(' and ')} — a characteristic in your Tinnitus Profile. Only the study's research team can determine whether anyone is eligible.</div>` : ''}
-      <p class="small" style="margin-bottom:0">
+      <p class="small acts" style="margin-bottom:0">
         ${t ? `<a href="treatment.html?id=${esc(t.id)}">${esc(t.name)}</a> · ` : ''}
         <a href="${esc(tr.url || ('https://clinicaltrials.gov/study/' + tr.nctId))}" rel="noopener" target="_blank">${esc(tr.nctId)} ↗</a>
         ${opts.follow ? ` <button class="btn followbtn watch-btn" type="button" data-watch-trial="${esc(tr.nctId)}" aria-pressed="${wlHas('trials', tr.nctId)}">${wlHas('trials', tr.nctId) ? '⭐ Watching' : '☆ Watch this trial'}</button>` : ''}</p>
