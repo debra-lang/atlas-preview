@@ -428,3 +428,28 @@ body[data-page="index"] .section-head h2::before{content:"";display:block;width:
 body[data-page="index"] .section-head{margin-bottom:12px}
 body[data-page="index"] .section-sub{margin-top:-4px}
 body[data-page="index"] #top10{margin-top:6px}
+
+/* ---------- Refinement pass 3 (final visual tweaks; CSS only) ----------
+   Entry tiles ~20–25% taller (vertical padding + spacing, equal heights via the grid),
+   stats strip ~10–15% taller but still secondary, #4–#10 take their natural height,
+   "How solid is this order?" reads as a quiet inline control until opened. */
+.paths{gap:12px;margin:18px 0 6px}
+.path-card{padding:17px 18px 18px;gap:6px;border-left-width:4px}
+.path-card b{font-size:1.06rem;line-height:1.3}
+.path-card .small{font-size:.86rem;line-height:1.5}
+@media(max-width:719px){.path-card{padding:15px 16px 16px;gap:4px}}
+
+.stats-strip{margin:16px 0 12px}
+.stats-strip .stat{padding:11px 16px}
+.stats-strip .stat b{font-size:1.2rem}
+.stats-strip .stat span{font-size:.74rem}
+
+.rcard-rest{align-self:start}
+.rcard-rest .see{margin-bottom:2px}
+.rcard-rest details.rmore{margin:4px -4px 0}
+
+#top10-method{background:none;border:0;padding:0;margin:0 0 12px}
+#top10-method summary{font-size:.84rem;font-weight:500;color:var(--muted);padding:2px 0;display:inline-block}
+#top10-method summary:hover{color:var(--text)}
+#top10-method[open]{border:1px solid var(--line);background:var(--surface-2);padding:0 14px 10px;border-radius:var(--r-sm)}
+#top10-method[open] summary{display:block;color:var(--c-promising);font-weight:600;padding:9px 0}
