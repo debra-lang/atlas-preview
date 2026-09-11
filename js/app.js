@@ -976,7 +976,8 @@
     }
     function render() {
       const q = input.value.trim();
-      if (q.length < 2) { out.innerHTML = '<div class="empty">Type at least two characters.</div>'; return; }
+      if (q.length < 2) { // untouched box: orientation line; started typing: the short-input hint
+        out.innerHTML = '<div class="empty">' + (q.length ? 'Type at least two characters.' : 'Search across treatments, research, clinical trials, researchers and institutions.') + '</div>'; return; }
       const r = rows(q);
       out.innerHTML = r.length ? r.map(([type, title, href, sub, ext]) =>
         `<div class="sr-row sr-${type.toLowerCase()}"><span class="type">${type}</span>
