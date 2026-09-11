@@ -475,6 +475,13 @@ body[data-page="index"] #top10{margin-top:6px}
 .rcard-rest details.rmore summary{font-size:.76rem}
 @media(max-width:639px){.rcard-rest{padding-top:18px}}
 
+/* ---------- Refinement pass 5: #4–#10 hover shows the full frame (same highlight as full cards) ----------
+   Idle look unchanged (hairline only). On hover the whole perimeter lights up with the card
+   highlight color, drawn as an outline just outside the entry so nothing inside moves. */
+.rcard-rest{outline:1px solid transparent;outline-offset:6px;border-radius:var(--r);transition:outline-color .15s,border-color .15s,transform .15s,background-color .15s}
+.rcard-rest:hover{outline-color:color-mix(in srgb,var(--c-promising) 45%,var(--line));border-top-color:transparent;transform:translateY(-1px);background:color-mix(in srgb,var(--surface) 45%,transparent)}
+@media(hover:none){.rcard-rest:hover{outline-color:transparent;border-top-color:var(--line);transform:none;background:none}}
+
 </style>
 <div id="app"></div>
 <template id="page-index"><main id="content" class="wrap">
