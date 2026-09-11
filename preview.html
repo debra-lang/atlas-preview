@@ -677,6 +677,12 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
 .pform-actions #p-delete{margin-left:auto;color:var(--muted)}
 @media(max-width:639px){.pform fieldset{padding:14px 14px 12px}.pform label{flex-basis:100%}.pform-actions .btn-primary{width:100%;justify-content:center}.pform-actions #p-delete{margin-left:0}}
 
+/* ---------- Refinement pass 18: profile dropdowns sized to their options ----------
+   Selects take their intrinsic width (the longest option) instead of the column width, so
+   Yes/No/Not sure fields are compact while long-option fields stay wide. */
+.pform label select{width:auto;min-width:9.5em;max-width:100%;padding-right:28px}
+@media(max-width:639px){.pform label select{min-width:12em;min-height:42px}}
+
 </style>
 <div id="app"></div>
 <template id="page-index"><main id="content" class="wrap">
