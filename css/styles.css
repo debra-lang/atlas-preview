@@ -612,3 +612,29 @@ body[data-page="index"] #top10{margin-top:6px}
 .sr-update{--wash-c:var(--c-weak)}
 @media(hover:hover){.sr-row:hover{border-color:var(--hov-c);box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--hov-c) 22%,transparent)}}
 @media(max-width:639px){#wl .empty-state{padding:18px 16px 16px}.search-panel{padding:14px 14px}.sr-row{padding:11px 12px}}
+
+/* ---------- Refinement pass 15: Ask Tinnitus Evidence — the question panel as the centerpiece ----------
+   Same wash recipe as the rest of the site (brand cyan here), a taller input, a primary Ask
+   button, and the six example questions as a 2-column grid of clickable tiles on desktop. */
+.ask-panel{--wash-c:var(--brand-1);margin:16px 0 18px;padding:22px 24px 18px;
+  border-top-color:color-mix(in srgb,var(--wash-c) 48%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--wash-c) 17%,var(--surface)) 0,color-mix(in srgb,var(--wash-c) 7%,var(--surface)) 10%,var(--surface) 22%)}
+.ask-label{display:block;font-family:var(--font-display);font-weight:700;font-size:1.05rem;margin:0 0 10px}
+.ask-row-in{display:flex;gap:10px;flex-wrap:wrap}
+.ask-input{flex:1;min-width:240px;padding:15px 16px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);font:inherit;font-size:1.05rem;transition:border-color .15s,box-shadow .15s}
+.ask-input:focus{outline:none;border-color:color-mix(in srgb,var(--c-promising) 60%,var(--line));box-shadow:0 0 0 3px color-mix(in srgb,var(--c-promising) 22%,transparent)}
+.ask-submit{padding:14px 28px;font-size:1rem;border-radius:12px}
+.ask-panel .ask-submit:disabled{opacity:.6;cursor:default}
+#ask-examples{margin:22px 0 0}
+#ask-examples h2{font-size:1.15rem;margin:0 0 12px}
+.ask-ex-grid{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:720px){.ask-ex-grid{grid-template-columns:1fr 1fr}}
+.ask-ex-grid li{display:flex}
+.ask-ex-grid .ask-ex{--hov-c:color-mix(in srgb,var(--c-promising) 60%,var(--line));width:100%;justify-content:flex-start;text-align:left;
+  border-radius:var(--r-sm);padding:12px 16px;white-space:normal;line-height:1.4;font-weight:500;font-size:.92rem;
+  transition:border-color .15s,box-shadow .15s}
+@media(hover:hover){.ask-ex-grid .ask-ex:hover{border-color:var(--hov-c);box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--hov-c) 22%,transparent)}}
+/* the page's own bottom spacing: the static footer-links block (folded away when app.js runs)
+   carries a large bottom pad for the mobile bottom-nav; the JS footer already has its own */
+body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
+@media(max-width:639px){.ask-panel{padding:16px 16px 14px}.ask-submit{width:100%;justify-content:center}}

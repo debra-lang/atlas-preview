@@ -703,13 +703,12 @@ ask_body = """
 or research findings.</strong> Answers are generated from the Tinnitus Evidence research database and linked sources.</p>
 <p class="small muted">This tool provides research information, not diagnosis or personalized medical advice.</p>
 
-<div class="card" style="margin:14px 0">
+<div class="card ask-panel">
   <form id="ask-form">
-    <label for="ask-q" style="font-weight:600">Your question</label>
-    <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap">
-      <input id="ask-q" type="text" maxlength="350" placeholder="Ask a tinnitus research question…"
-        style="flex:1;min-width:240px;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);font:inherit">
-      <button class="btn" type="submit" id="ask-btn" style="padding:12px 22px">Ask</button>
+    <label for="ask-q" class="ask-label">Your question</label>
+    <div class="ask-row-in">
+      <input id="ask-q" class="ask-input" type="text" maxlength="350" placeholder="Ask a tinnitus research question…">
+      <button class="btn btn-primary ask-submit" type="submit" id="ask-btn">Ask</button>
     </div>
   </form>
   <p class="small muted" style="margin:10px 0 0">Answers are generated with AI from Tinnitus Evidence's verified
@@ -732,7 +731,7 @@ or research findings.</strong> Answers are generated from the Tinnitus Evidence 
 
 <div id="ask-examples">
 <h2>Try a question</h2>
-<ul class="small" style="list-style:none;padding:0;display:grid;gap:8px">
+<ul class="ask-ex-grid">
   <li><button class="btn ask-ex" type="button">What tinnitus treatments currently have the strongest evidence?</button></li>
   <li><button class="btn ask-ex" type="button">What does the evidence say about Lenire?</button></li>
   <li><button class="btn ask-ex" type="button">Compare Lenire and the Michigan Shore treatment.</button></li>

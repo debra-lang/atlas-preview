@@ -1,4 +1,4 @@
-# Redirect / canonical map (prepared 2026-09-10)
+# Redirect / canonical map (prepared 2026-09-11)
 
 Preferred host: **https://tinnitusevidence.com** (non-www). At DNS setup: configure `www.tinnitusevidence.com` -> 301 -> `tinnitusevidence.com`,
 HTTP -> HTTPS (GitHub Pages custom-domain HTTPS enforcement), one hostname only.
