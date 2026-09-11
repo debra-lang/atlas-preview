@@ -947,8 +947,8 @@
   /* ----- institutions ----- */
   PAGES.institutions = function () {
     const inst = $('#inst');
-    inst.innerHTML = DB.institutions.map(i => `<div class="card">
-      <h3>${esc(i.name)}</h3><p class="small muted" style="margin-top:-4px">${esc(i.location)}</p>
+    inst.innerHTML = DB.institutions.map(i => `<div class="card inst-card">
+      <h3>${esc(i.name)}</h3><p class="small muted inst-loc">${esc(i.location)}</p>
       <p class="small">${esc(i.focus)}</p>
       ${(i.researchers || []).length ? `<p class="small"><strong>Key researchers:</strong> ${i.researchers.map(esc).join(', ')}</p>` : ''}
       ${(i.treatments || []).length ? `<p class="small"><strong>Related treatments:</strong> ${i.treatments.map(id => DB.tById[id] ? `<a href="treatment.html?id=${esc(id)}">${esc(DB.tById[id].name)}</a>` : '').filter(Boolean).join(' · ')}</p>` : ''}

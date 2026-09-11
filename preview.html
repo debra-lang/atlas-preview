@@ -738,6 +738,21 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
 .rq-card>p:last-child{margin-bottom:0}
 @media(max-width:639px){.rq-card{padding:16px 16px 12px}}
 
+/* ---------- Refinement pass 23: "Who leads the research" — institution cards on the shared card language ----------
+   Decorative wash rotation (cyan / blue / purple / indigo — never evidence or safety colors),
+   full-frame hover on the whole card, name more prominent, location secondary. */
+.inst-card{--wash-c:var(--brand-1);--hov-c:color-mix(in srgb,var(--wash-c) 60%,var(--line));padding:20px 20px 16px;
+  border-top-color:color-mix(in srgb,var(--wash-c) 48%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--wash-c) 17%,var(--surface)) 0,color-mix(in srgb,var(--wash-c) 7%,var(--surface)) 10%,var(--surface) 22%)}
+.inst-card:nth-child(4n+2){--wash-c:var(--c-promising)}
+.inst-card:nth-child(4n+3){--wash-c:var(--c-emerging)}
+.inst-card:nth-child(4n+4){--wash-c:var(--brand-2)}
+.inst-card h3{font-size:1.15rem;font-weight:700;line-height:1.3;margin:0 0 2px}
+.inst-card .inst-loc{margin:0 0 10px;font-size:.84rem}
+.inst-card p.small{line-height:1.55}
+@media(hover:hover){.inst-card:hover{border-color:var(--hov-c);box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--hov-c) 22%,transparent)}}
+@media(max-width:639px){.inst-card{padding:16px 16px 12px}}
+
 </style>
 <div id="app"></div>
 <template id="page-index"><main id="content" class="wrap">
@@ -7248,8 +7263,8 @@ window.__TA_DATA__ = {"meta":{"name":"Tinnitus Evidence","tagline":"What does th
   /* ----- institutions ----- */
   PAGES.institutions = function () {
     const inst = $('#inst');
-    inst.innerHTML = DB.institutions.map(i => `<div class="card">
-      <h3>${esc(i.name)}</h3><p class="small muted" style="margin-top:-4px">${esc(i.location)}</p>
+    inst.innerHTML = DB.institutions.map(i => `<div class="card inst-card">
+      <h3>${esc(i.name)}</h3><p class="small muted inst-loc">${esc(i.location)}</p>
       <p class="small">${esc(i.focus)}</p>
       ${(i.researchers || []).length ? `<p class="small"><strong>Key researchers:</strong> ${i.researchers.map(esc).join(', ')}</p>` : ''}
       ${(i.treatments || []).length ? `<p class="small"><strong>Related treatments:</strong> ${i.treatments.map(id => DB.tById[id] ? `<a href="treatment.html?id=${esc(id)}">${esc(DB.tById[id].name)}</a>` : '').filter(Boolean).join(' · ')}</p>` : ''}
