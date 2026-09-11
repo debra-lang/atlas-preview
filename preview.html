@@ -555,6 +555,30 @@ body[data-page="index"] #top10{margin-top:6px}
 .trial-card.st-strong{
   background:linear-gradient(180deg,color-mix(in srgb,var(--st-c) 17%,var(--surface)) 0,color-mix(in srgb,var(--st-c) 7%,var(--surface)) 10%,var(--surface) 20%)}
 
+/* ---------- Refinement pass 12: Research page — weekly updates as restrained cards ----------
+   Scoped to the research page list (#rep) so the homepage "What's new" digest and treatment
+   pages keep their compact left-line rows. Wash + frame + hover follow the item's existing
+   importance classification color (same strength as treatment/trial cards). */
+#rep .week-item{--imp-c:var(--c-promising);--hov-c:color-mix(in srgb,var(--imp-c) 60%,var(--line));
+  border:1px solid var(--line);border-top-color:color-mix(in srgb,var(--imp-c) 48%,var(--line));border-radius:var(--r);
+  padding:18px 20px 14px;margin:14px 0;box-shadow:var(--shadow);
+  background:linear-gradient(180deg,color-mix(in srgb,var(--imp-c) 17%,var(--surface)) 0,color-mix(in srgb,var(--imp-c) 7%,var(--surface)) 10%,var(--surface) 20%);
+  transition:border-color .15s,box-shadow .15s}
+#rep .week-item.imp-strong{--imp-c:var(--c-strong)}
+#rep .week-item.imp-promising{--imp-c:var(--c-promising)}
+#rep .week-item.imp-emerging{--imp-c:var(--c-emerging)}
+#rep .week-item.imp-watch{--imp-c:var(--c-watch)}
+#rep .week-item.imp-weak{--imp-c:var(--c-weak)}
+@media(hover:hover){#rep .week-item:hover{border-color:var(--hov-c);box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--hov-c) 22%,transparent)}}
+#rep .week-item .badge{margin:0 4px 10px 0}
+#rep .week-item .t{font-family:var(--font-display);font-size:1.12rem;font-weight:700;line-height:1.3;margin:2px 0 8px;letter-spacing:-.01em}
+#rep .week-item>.small{font-size:.92rem;line-height:1.55;margin:0 0 10px}
+#rep .week-item details.rdetail{margin:12px 0 0;background:transparent}
+#rep .week-item details.rdetail summary{font-size:.82rem;font-weight:500;color:var(--muted);padding:9px 0}
+#rep .week-item details.rdetail summary:hover{color:var(--text)}
+#rep .week-item details.rdetail[open] summary{color:var(--c-promising)}
+@media(max-width:639px){#rep .week-item{padding:16px 16px 12px}}
+
 </style>
 <div id="app"></div>
 <template id="page-index"><main id="content" class="wrap">
@@ -6587,7 +6611,10 @@ window.__TA_DATA__ = {"meta":{"name":"Tinnitus Evidence","tagline":"What does th
     const d = it.detail || {};
     const drow = (k, v) => (v && v !== 'Not reported' && (!Array.isArray(v) || v.length)) ?
       `<li><strong>${k}:</strong> ${esc(Array.isArray(v) ? v.join('; ') : v)}</li>` : '';
-    return `<div class="week-item" style="--w-c:${KIND_COLORS[it.kind] || 'var(--c-promising)'}">
+    // imp-* is presentation only: it mirrors the importance badge class so the research-page card
+    // wash and hover frame follow the classification color already shown on the badge
+    const impCls = it.importance ? (IMP_STYLE[it.importance] || 'b-weak').slice(2) : 'promising';
+    return `<div class="week-item imp-${impCls}" style="--w-c:${KIND_COLORS[it.kind] || 'var(--c-promising)'}">
       ${it.importance ? `<span class="badge ${IMP_STYLE[it.importance] || 'b-weak'}" style="margin-bottom:4px">${esc(it.importance)}</span>` : ''}
       ${it.safetySignal ? `<span class="badge b-watch" style="margin-bottom:4px">⚠ Possible safety signal — read the source</span>` : ''}
       ${it.underEvaluation ? `<span class="badge b-emerging" style="margin-bottom:4px">Impact on Tinnitus Evidence rating: Under evaluation</span>` : ''}

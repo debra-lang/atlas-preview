@@ -478,7 +478,10 @@
     const d = it.detail || {};
     const drow = (k, v) => (v && v !== 'Not reported' && (!Array.isArray(v) || v.length)) ?
       `<li><strong>${k}:</strong> ${esc(Array.isArray(v) ? v.join('; ') : v)}</li>` : '';
-    return `<div class="week-item" style="--w-c:${KIND_COLORS[it.kind] || 'var(--c-promising)'}">
+    // imp-* is presentation only: it mirrors the importance badge class so the research-page card
+    // wash and hover frame follow the classification color already shown on the badge
+    const impCls = it.importance ? (IMP_STYLE[it.importance] || 'b-weak').slice(2) : 'promising';
+    return `<div class="week-item imp-${impCls}" style="--w-c:${KIND_COLORS[it.kind] || 'var(--c-promising)'}">
       ${it.importance ? `<span class="badge ${IMP_STYLE[it.importance] || 'b-weak'}" style="margin-bottom:4px">${esc(it.importance)}</span>` : ''}
       ${it.safetySignal ? `<span class="badge b-watch" style="margin-bottom:4px">⚠ Possible safety signal — read the source</span>` : ''}
       ${it.underEvaluation ? `<span class="badge b-emerging" style="margin-bottom:4px">Impact on Tinnitus Evidence rating: Under evaluation</span>` : ''}
