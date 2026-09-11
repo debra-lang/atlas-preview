@@ -746,3 +746,29 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
 .inst-card p.small{line-height:1.55}
 @media(hover:hover){.inst-card:hover{border-color:var(--hov-c);box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--hov-c) 22%,transparent)}}
 @media(max-width:639px){.inst-card{padding:16px 16px 12px}}
+
+/* ---------- Refinement pass 24: About page — major sections as restrained cards ----------
+   Visible sections become cards with the shared wash/frame/hover; the collapsible deep-methodology
+   sections keep their collapsed behavior but take the same card shell. Wording untouched. */
+.about-card{--wash-c:var(--brand-1);--hov-c:color-mix(in srgb,var(--wash-c) 60%,var(--line));margin:18px 0 0;padding:20px 22px 16px;
+  border-top-color:color-mix(in srgb,var(--wash-c) 48%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--wash-c) 17%,var(--surface)) 0,color-mix(in srgb,var(--wash-c) 7%,var(--surface)) 10%,var(--surface) 22%)}
+.about-publisher{--wash-c:var(--c-promising)}
+.about-distinction{--wash-c:var(--brand-2)}
+.prose .about-card h2{margin:0 0 12px;font-size:1.22rem;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.about-card>:last-child{margin-bottom:0}
+.about-card>p:first-of-type{margin-top:0}
+.about-duo{margin:4px 0 14px;gap:10px}
+.about-duo .cell{padding:13px 15px;font-size:.95rem;line-height:1.55}
+.about-duo .cell strong{display:block;font-family:var(--font-display);font-size:1.05rem;margin:0 0 4px}
+@media(max-width:560px){.about-duo{grid-template-columns:1fr}}
+.prose details.sec{--wash-c:var(--brand-1);--hov-c:color-mix(in srgb,var(--wash-c) 60%,var(--line));border:1px solid var(--line);border-radius:var(--r);
+  margin:14px 0 0;padding:0 22px;background:var(--surface);box-shadow:var(--shadow);
+  border-top-color:color-mix(in srgb,var(--wash-c) 48%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--wash-c) 12%,var(--surface)) 0,color-mix(in srgb,var(--wash-c) 5%,var(--surface)) 10%,var(--surface) 22%);
+  transition:border-color .15s,box-shadow .15s}
+.prose details.sec>summary{padding:16px 0;font-size:1.12rem}
+.prose details.sec[open]{padding-bottom:14px}
+.prose details.sec[open]>summary{border-bottom:1px solid var(--line);margin-bottom:12px}
+@media(hover:hover){.about-card:hover,.prose details.sec:hover{border-color:var(--hov-c);box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--hov-c) 22%,transparent)}}
+@media(max-width:639px){.about-card{padding:16px 16px 12px}.prose details.sec{padding:0 16px}}

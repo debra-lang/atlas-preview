@@ -753,6 +753,32 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
 @media(hover:hover){.inst-card:hover{border-color:var(--hov-c);box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--hov-c) 22%,transparent)}}
 @media(max-width:639px){.inst-card{padding:16px 16px 12px}}
 
+/* ---------- Refinement pass 24: About page — major sections as restrained cards ----------
+   Visible sections become cards with the shared wash/frame/hover; the collapsible deep-methodology
+   sections keep their collapsed behavior but take the same card shell. Wording untouched. */
+.about-card{--wash-c:var(--brand-1);--hov-c:color-mix(in srgb,var(--wash-c) 60%,var(--line));margin:18px 0 0;padding:20px 22px 16px;
+  border-top-color:color-mix(in srgb,var(--wash-c) 48%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--wash-c) 17%,var(--surface)) 0,color-mix(in srgb,var(--wash-c) 7%,var(--surface)) 10%,var(--surface) 22%)}
+.about-publisher{--wash-c:var(--c-promising)}
+.about-distinction{--wash-c:var(--brand-2)}
+.prose .about-card h2{margin:0 0 12px;font-size:1.22rem;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.about-card>:last-child{margin-bottom:0}
+.about-card>p:first-of-type{margin-top:0}
+.about-duo{margin:4px 0 14px;gap:10px}
+.about-duo .cell{padding:13px 15px;font-size:.95rem;line-height:1.55}
+.about-duo .cell strong{display:block;font-family:var(--font-display);font-size:1.05rem;margin:0 0 4px}
+@media(max-width:560px){.about-duo{grid-template-columns:1fr}}
+.prose details.sec{--wash-c:var(--brand-1);--hov-c:color-mix(in srgb,var(--wash-c) 60%,var(--line));border:1px solid var(--line);border-radius:var(--r);
+  margin:14px 0 0;padding:0 22px;background:var(--surface);box-shadow:var(--shadow);
+  border-top-color:color-mix(in srgb,var(--wash-c) 48%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--wash-c) 12%,var(--surface)) 0,color-mix(in srgb,var(--wash-c) 5%,var(--surface)) 10%,var(--surface) 22%);
+  transition:border-color .15s,box-shadow .15s}
+.prose details.sec>summary{padding:16px 0;font-size:1.12rem}
+.prose details.sec[open]{padding-bottom:14px}
+.prose details.sec[open]>summary{border-bottom:1px solid var(--line);margin-bottom:12px}
+@media(hover:hover){.about-card:hover,.prose details.sec:hover{border-color:var(--hov-c);box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--hov-c) 22%,transparent)}}
+@media(max-width:639px){.about-card{padding:16px 16px 12px}.prose details.sec{padding:0 16px}}
+
 </style>
 <div id="app"></div>
 <template id="page-index"><main id="content" class="wrap">
@@ -985,6 +1011,7 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
     <p class="small muted" style="margin:8px 0 0">The essentials are open below; deeper methodology sections are collapsed — tap a heading to expand it. Nothing has been removed.</p>
   </nav>
 
+  <section class="card about-card about-publisher">
   <h2 id="publisher">Who publishes Tinnitus Evidence</h2>
   <p>Tinnitus Evidence is an independently operated evidence-navigation project. It is not owned, funded, or
   sponsored by any pharmaceutical company, medical-device manufacturer, hearing clinic, or tinnitus treatment
@@ -998,16 +1025,20 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
   disclosure, visually separated from the evidence.</p>
   <p class="small muted">This site is an educational resource, not a medical institution: content is not
   physician-reviewed, and the platform claims no academic affiliation or nonprofit status.</p>
-
-<h2>The one distinction that matters most</h2>
-  <p><strong>🔉 Loudness</strong> means the tinnitus percept itself became quieter or less present —
-  measured with psychoacoustic loudness matching or loudness ratings.
-  <strong>🧠 Distress</strong> means the person's reaction improved — lower THI or TFI questionnaire scores,
-  better sleep, less anxiety, better quality of life — while the sound may be unchanged.
-  Most treatments with good evidence improve distress, not loudness. We show both, separately, everywhere,
+</section>
+<section class="card about-card about-distinction">
+  <h2>The one distinction that matters most</h2>
+  <div class="duo about-duo">
+    <div class="cell"><strong>🔉 Loudness</strong> means the tinnitus percept itself became quieter or less present —
+  measured with psychoacoustic loudness matching or loudness ratings.</div>
+    <div class="cell"><strong>🧠 Distress</strong> means the person's reaction improved — lower THI or TFI questionnaire scores,
+  better sleep, less anxiety, better quality of life — while the sound may be unchanged.</div>
+  </div>
+  <p>Most treatments with good evidence improve distress, not loudness. We show both, separately, everywhere,
   and never present a distress improvement as if the sound got quieter.</p>
-
-<h2 id="methodology">How we research the evidence</h2>
+</section>
+<section class="card about-card">
+  <h2 id="methodology">How we research the evidence</h2>
   <p>We screen hundreds of research results from sources including PubMed, ClinicalTrials.gov, Cochrane
   reviews, FDA records and major clinical guidelines. Around 170 unique studies, trials, guidelines and
   regulatory records were individually examined in building Tinnitus Evidence, with the most relevant
@@ -1020,7 +1051,7 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
   Important new findings do not automatically change evidence ratings or rankings without additional
   verification. Tinnitus Evidence is designed to help people understand the research, including its
   limitations and uncertainties — it is an educational evidence-navigation resource, not medical advice.</p>
-
+</section>
 <details class="sec" id="limitations"><summary>Research limitations <span class="small">what we do not search systematically</span></summary>
   <p>In the interest of scientific transparency: our research process does not systematically search every
   scientific database or every non-English publication. Databases and sources we do not currently search
@@ -1032,7 +1063,8 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
   monitoring, periodic independent audits, retraction/correction checks and evidence updates are used to
   reduce these limitations over time, and our audit records are public.</p>
 </details>
-<h2 id="tiers">Evidence tiers</h2>
+<section class="card about-card">
+  <h2 id="tiers">Evidence tiers</h2>
   <ul>
     <li><strong style="color:var(--c-strong)">Tier 1 — Strongest current evidence.</strong> Quality trials, meaningful benefit, reproducibility, safety, independent research, availability.</li>
     <li><strong style="color:var(--c-promising)">Tier 2 — Promising.</strong> Meaningful human results with limitations: small trials, limited replication, manufacturer funding, short follow-up.</li>
@@ -1044,7 +1076,7 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
     treatment-specific evidence (such as CBT) rank in higher tiers.</li>
     <li><strong style="color:var(--c-weak)">Tier 5 — Weak or unsupported.</strong> Poor-quality or contradictory evidence, failed trials, or heavy marketing with weak science.</li>
   </ul>
-
+</section>
 <details class="sec"><summary>Evidence score (1–5) <span class="small">how the 1–5 score is derived</span></summary>
   <p>Scored from study quality, size, randomization, blinding, sham/placebo control, independent replication,
   clinical significance, follow-up length, safety, conflicts of interest and regulatory evidence.
@@ -1081,7 +1113,8 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
   (Hall 2018) formalized that different intervention types should measure different core outcome domains —
   the methodological basis for our refusal to reduce treatments to a single universal "effectiveness score."</p>
 </details>
-<h2 id="rankings">How rankings work</h2>
+<section class="card about-card">
+  <h2 id="rankings">How rankings work</h2>
   <p>The Top 10 weighs ten dimensions together: <strong>evidence quality</strong> (design, blinding, controls),
   <strong>size of benefit</strong>, <strong>loudness effect</strong> and <strong>distress effect</strong> (always
   scored separately), <strong>replication</strong>, <strong>study quality</strong>, <strong>safety</strong>,
@@ -1094,7 +1127,7 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
   and each card is labeled "Stable rank" or "Weighting-sensitive" with the detail of how far it can move —
   because a ranking is a judgment about evidence, not a measurement, and it is never a treatment
   recommendation.</p>
-
+</section>
 <details class="sec" id="heterogeneity"><summary>Tinnitus is not one condition <span class="small">pulsatile, somatic, sudden hearing loss</span></summary>
   <p>Roughly 14% of adults report some tinnitus and about 2% report severe tinnitus (global meta-analysis:
   Jarach 2022, JAMA Neurology) — but "tinnitus" covers very different situations that can require very
@@ -1107,7 +1140,8 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
   pulsatile tinnitus, sudden hearing loss, one-sided tinnitus or neurological symptoms toward professional
   evaluation. The site cannot determine which subtype anyone has — only a clinical evaluation can.</p>
 </details>
-<h2 id="severe-distress">Severe distress and crisis support</h2>
+<section class="card about-card">
+  <h2 id="severe-distress">Severe distress and crisis support</h2>
   <div class="notice" style="border-color:var(--c-watch-line);background:var(--c-watch-bg)">
     <p style="margin-top:0">Tinnitus distress is real and measurable, and for some people it becomes severe.
     Population research (Lugo 2019, JAMA Otolaryngology) found severe tinnitus associated with higher rates of
@@ -1121,7 +1155,7 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
     tinnitus treatments on this site (CBT and related approaches) target exactly this burden, and comorbid
     depression, anxiety and insomnia are treatable in their own right.</p>
   </div>
-
+</section>
 <details class="sec" id="automation"><summary>How updates happen — and where automation is used <span class="small">what publishes automatically and what never does</span></summary>
   <p>Tinnitus Evidence is kept current by an automated pipeline that runs <strong>once a week</strong>. Being
   straight about what that means:</p>
@@ -1172,7 +1206,8 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
   evidence score with reasoning, a confidence level, and its full change history. Facts we could not verify
   against a primary source are marked low-confidence rather than guessed.</p>
 </details>
-<h2 id="corrections">Corrections &amp; editorial integrity</h2>
+<section class="card about-card">
+  <h2 id="corrections">Corrections &amp; editorial integrity</h2>
   <p>Evidence changes, and so do we — visibly. Our trust model:</p>
   <ul>
     <li><strong>Corrections are made and shown, not hidden.</strong> When a factual error is found — by our own
@@ -1190,8 +1225,9 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
   </ul>
   <p class="small muted">Spotted an error? The fastest route is the correction process above — every claim on this
   site links to its primary source so you can check us.</p>
-
-<h2 id="disclaimer">Medical disclaimer</h2>
+</section>
+<section class="card about-card">
+  <h2 id="disclaimer">Medical disclaimer</h2>
   <div class="notice" style="border-color:var(--line);background:var(--surface-2)">
     <p style="margin-top:0">Tinnitus Evidence is an educational and scientific information resource. It:</p>
     <ul>
@@ -1204,7 +1240,7 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
     </ul>
     <p style="margin-bottom:0">Never start, stop or change a treatment based on this site without professional advice.</p>
   </div>
-
+</section>
 </main></template><template id="page-search"><main id="content" class="wrap">
   <section class="hero" style="padding-bottom:0">
     <h1>Search everything</h1>
