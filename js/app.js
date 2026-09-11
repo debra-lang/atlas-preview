@@ -286,7 +286,7 @@
       <p class="one">${esc(t.oneLiner)}</p>
       ${duo(t, true)}
       <div class="foot">${emeter(t.evidenceScore)} ${availBadge(t)}</div>
-      <details class="rmore">
+      <details class="rmore" open>
         <summary>More details</summary>
         <div class="foot" style="margin:0 0 4px">${tierBadge(t.tier)}
           <span class="badge b-promising" title="What the evidence addresses">🎯 ${effectWord(t)}</span>
