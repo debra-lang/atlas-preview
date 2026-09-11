@@ -640,64 +640,69 @@
         <a class="btn" href="compare.html?ids=${esc(t.id)}">⚖ Compare</a>
       </div>
 
-      <div class="prose">
-        <h2 id="what">What it is</h2><p>${esc(t.whatItIs)}</p>
-        <h3>How it works</h3><p>${esc(t.howItWorks)}</p>
+      <div class="prose tpage">
+        <section class="card sec-card" id="what"><h2>What it is</h2><p>${esc(t.whatItIs)}</p>
+          <h3>How it works</h3><p>${esc(t.howItWorks)}</p></section>
 
-        <h2 id="evidence">Evidence at a glance</h2>
-        ${plainBlock(t)}
-        ${evidenceProfile(t)}
+        <section class="card sec-card sec-blue" id="evidence"><h2>Evidence at a glance</h2>
+          ${plainBlock(t)}
+          ${evidenceProfile(t)}</section>
 
-        <h2 id="loud">🔉 Did tinnitus loudness improve?</h2>
-        <p><strong class="lv-${esc(t.loudness.level)}">${LV_LABELS[t.loudness.level]}.</strong> ${esc(t.loudness.summary)}</p>
-        <h2 id="distress">🧠 Did tinnitus distress improve?</h2>
-        <p><strong class="lv-${esc(t.distress.level)}">${LV_LABELS[t.distress.level]}.</strong> ${esc(t.distress.summary)}</p>
-        <p class="small muted">These are different outcomes. Loudness = the sound itself is reduced.
-        Distress = the reaction to it improves (THI/TFI, anxiety, sleep, quality of life).</p>
+        <section class="card sec-card sec-indigo" id="outcomes"><h2>Does it make tinnitus quieter — or easier to live with?</h2>
+          <div class="duo ld-full">
+            <div class="cell" id="loud"><div class="k">🔉 Loudness — did tinnitus loudness improve?</div>
+              <div class="v lv-${esc(t.loudness.level)}">${LV_LABELS[t.loudness.level]}</div><p class="small">${esc(t.loudness.summary)}</p></div>
+            <div class="cell" id="distress"><div class="k">🧠 Distress — did tinnitus distress improve?</div>
+              <div class="v lv-${esc(t.distress.level)}">${LV_LABELS[t.distress.level]}</div><p class="small">${esc(t.distress.summary)}</p></div>
+          </div>
+          <p class="small muted">These are different outcomes. Loudness = the sound itself is reduced.
+          Distress = the reaction to it improves (THI/TFI, anxiety, sleep, quality of life).</p></section>
 
-        <h2 id="strength">How strong is the evidence?</h2>
-        <p><strong>Why this score:</strong> ${esc(t.scoreRationale)}</p>
-        ${rEntry ? whyRankingBlock(rEntry, t) : ''}
-        ${rankHistory(t)}
+        <section class="card sec-card" id="strength"><h2>How strong is the evidence?</h2>
+          <p><strong>Why this score:</strong> ${esc(t.scoreRationale)}</p>
+          ${rEntry ? whyRankingBlock(rEntry, t) : ''}
+          ${rankHistory(t)}</section>
 
-        <h2 id="studies">Key studies</h2>
-        ${(t.studies || []).map(id => studyBlock(DB.sById[id])).join('') || '<p class="muted">No studies recorded yet.</p>'}
+        <details class="sec" id="studies"><summary>Key studies <span class="small">${(t.studies || []).length} tracked</span></summary>
+          ${(t.studies || []).map(id => studyBlock(DB.sById[id])).join('') || '<p class="muted">No studies recorded yet.</p>'}</details>
 
-        ${(t.limitations || []).length ? `<h2 id="limits">Limitations & open questions</h2><ul>${t.limitations.map(l => `<li>${esc(l)}</li>`).join('')}</ul>` : '<h2 id="limits">Limitations & open questions</h2><p class="muted">No limitations recorded.</p>'}
-        ${t.conflicts ? `<div class="notice">⚠ <strong>Conflicts of interest:</strong> ${esc(t.conflicts)}</div>` : ''}
+        <section class="card sec-card" id="limits"><h2>Limitations & open questions</h2>
+          ${(t.limitations || []).length ? `<ul>${t.limitations.map(l => `<li>${esc(l)}</li>`).join('')}</ul>` : '<p class="muted">No limitations recorded.</p>'}
+          ${t.conflicts ? `<div class="notice">⚠ <strong>Conflicts of interest:</strong> ${esc(t.conflicts)}</div>` : ''}</section>
 
-        <h2 id="replication">Has the result been independently replicated?</h2>
-        <p><strong>${esc(repWord)}.</strong> ${esc(t.replicationNote || '')}</p>
-        ${t.independence ? `<p class="small muted">Independence: <strong>${esc(IND_LABELS[t.independence] || cap(t.independence))}</strong>. ${esc(t.independenceNote || '')}</p>` : ''}
+        <section class="card sec-card" id="replication"><h2>Has the result been independently replicated?</h2>
+          <p><strong>${esc(repWord)}.</strong> ${esc(t.replicationNote || '')}</p>
+          ${t.independence ? `<p class="small muted">Independence: <strong>${esc(IND_LABELS[t.independence] || cap(t.independence))}</strong>. ${esc(t.independenceNote || '')}</p>` : ''}</section>
 
-        <h2 id="safety">Safety, regulatory status & availability</h2>
-        <p><strong>Safety evidence: ${esc(t.safetyLevel ? cap(t.safetyLevel) : 'Not yet assessed')}.</strong> ${esc(t.safety)}</p>
-        <div class="snapshot" style="margin:16px 0">
-          <div class="cell"><div class="k">Evidence score</div><div class="v">${emeter(t.evidenceScore)}</div></div>
-          <div class="cell"><div class="k">Tier</div><div class="v">${tierBadge(t.tier)}</div></div>
-          <div class="cell"><div class="k">Available now</div><div class="v">${av.availableNow ? 'Yes' : 'No'}</div></div>
-          <div class="cell"><div class="k">Regulatory status</div><div class="v">${esc(t.regulatory.status)}</div>
-            ${regExplain(t.regulatory.status) ? `<div class="small muted" style="margin-top:3px">${esc(regExplain(t.regulatory.status))}</div>` : ''}</div>
-          <div class="cell"><div class="k">Loudness effect</div><div class="v lv-${esc(t.loudness.level)}">${LV_LABELS[t.loudness.level]}</div></div>
-          <div class="cell"><div class="k">Distress effect</div><div class="v lv-${esc(t.distress.level)}">${LV_LABELS[t.distress.level]}</div></div>
-          <div class="cell"><div class="k">Cost (approx.)</div><div class="v">${esc(av.cost || 'Unknown')}</div></div>
-          <div class="cell"><div class="k">Confidence</div><div class="v"><span class="badge ${conf[0]}">${conf[1]}</span></div></div>
-          <div class="cell"><div class="k">Best suited for</div><div class="v small">${esc(t.bestSuitedFor || '—')}</div></div>
-          <div class="cell"><div class="k">Developer</div><div class="v small">${esc(t.developer || '—')}</div></div>
-          <div class="cell"><div class="k">Last reviewed</div><div class="v small">${fmtDate(t.lastReviewed)}</div></div>
-          <div class="cell"><div class="k">Studies tracked</div><div class="v small">${(t.studies || []).length}</div></div>
-        </div>
-        <h3>Availability</h3>
-        <ul>
-          <li><strong>USA:</strong> ${esc(av.usa || 'Unknown')}</li>
-          <li><strong>Europe:</strong> ${esc(av.europe || 'Unknown')}</li>
-          ${av.other ? `<li><strong>Elsewhere:</strong> ${esc(av.other)}</li>` : ''}
-          <li><strong>Prescription / specialist:</strong> ${av.prescription ? 'Yes' : 'No'}</li>
-          <li><strong>Approximate cost:</strong> ${esc(av.cost || 'Unknown')}</li>
-        </ul>
-        <p class="small muted">Regulatory detail: ${esc(t.regulatory.detail)}
-          ${t.regulatory.sourceUrl ? ` <a href="${esc(t.regulatory.sourceUrl)}" rel="noopener" target="_blank">Source ↗</a>` : ''}</p>
-        ${fmqsBox(t)}
+        <section class="card sec-card" id="safety"><h2>Safety, regulatory status & availability</h2>
+          <p><strong>Safety evidence: ${esc(t.safetyLevel ? cap(t.safetyLevel) : 'Not yet assessed')}.</strong> ${esc(t.safety)}</p>
+          <div class="snapshot" style="margin:14px 0">
+            <div class="cell"><div class="k">Evidence score</div><div class="v">${emeter(t.evidenceScore)}</div></div>
+            <div class="cell"><div class="k">Tier</div><div class="v">${tierBadge(t.tier)}</div></div>
+            <div class="cell"><div class="k">Available now</div><div class="v">${av.availableNow ? 'Yes' : 'No'}</div></div>
+            <div class="cell"><div class="k">Regulatory status</div><div class="v">${esc(t.regulatory.status)}</div>
+              ${regExplain(t.regulatory.status) ? `<div class="small muted" style="margin-top:3px">${esc(regExplain(t.regulatory.status))}</div>` : ''}</div>
+            <div class="cell"><div class="k">Loudness effect</div><div class="v lv-${esc(t.loudness.level)}">${LV_LABELS[t.loudness.level]}</div></div>
+            <div class="cell"><div class="k">Distress effect</div><div class="v lv-${esc(t.distress.level)}">${LV_LABELS[t.distress.level]}</div></div>
+            <div class="cell"><div class="k">Cost (approx.)</div><div class="v">${esc(av.cost || 'Unknown')}</div></div>
+            <div class="cell"><div class="k">Confidence</div><div class="v"><span class="badge ${conf[0]}">${conf[1]}</span></div></div>
+            <div class="cell"><div class="k">Best suited for</div><div class="v small">${esc(t.bestSuitedFor || '—')}</div></div>
+            <div class="cell"><div class="k">Developer</div><div class="v small">${esc(t.developer || '—')}</div></div>
+            <div class="cell"><div class="k">Last reviewed</div><div class="v small">${fmtDate(t.lastReviewed)}</div></div>
+            <div class="cell"><div class="k">Studies tracked</div><div class="v small">${(t.studies || []).length}</div></div>
+          </div>
+          <details class="rdetail"><summary>Availability by region, prescription and regulatory detail</summary>
+            <ul>
+              <li><strong>USA:</strong> ${esc(av.usa || 'Unknown')}</li>
+              <li><strong>Europe:</strong> ${esc(av.europe || 'Unknown')}</li>
+              ${av.other ? `<li><strong>Elsewhere:</strong> ${esc(av.other)}</li>` : ''}
+              <li><strong>Prescription / specialist:</strong> ${av.prescription ? 'Yes' : 'No'}</li>
+              <li><strong>Approximate cost:</strong> ${esc(av.cost || 'Unknown')}</li>
+            </ul>
+            <p class="small muted">Regulatory detail: ${esc(t.regulatory.detail)}
+              ${t.regulatory.sourceUrl ? ` <a href="${esc(t.regulatory.sourceUrl)}" rel="noopener" target="_blank">Source ↗</a>` : ''}</p>
+          </details>
+          ${fmqsBox(t)}</section>
 
         ${(t.timeline || []).length ? `<details class="sec" id="timeline"><summary>Research timeline <span class="small">${t.timeline.length} events</span></summary>${TL_KEY}<ul class="timeline">${t.timeline.map(ev => `<li class="${timelineClass(ev.event)}"><b>${esc(ev.year)}</b> — ${esc(ev.event)}</li>`).join('')}</ul></details>` : ''}
 
@@ -708,13 +713,12 @@
         ${(t.history || []).length ? `<details class="sec" id="history"><summary>Change history <span class="small">${t.history.length}</span></summary>${t.history.map(h =>
           `<div class="week-item" style="--w-c:var(--c-watch)"><div class="t">${fmtDate(h.date)} — ${esc(h.change)}</div><div class="small muted">${esc(h.reason)}</div></div>`).join('')}</details>` : ''}
 
-        <h2 id="sources">Sources & methodology</h2>
-        <ul class="small">${(t.studies || []).map(id => { const s = DB.sById[id]; return s ? `<li>${esc(s.authors)} — <a href="${esc(s.url)}" rel="noopener" target="_blank">${esc(s.title)}</a> (${esc(s.journal)}, ${esc(s.year)})</li>` : ''; }).join('')}
-        ${(t.extraSources || []).map(s => `<li><a href="${esc(s.url)}" rel="noopener" target="_blank">${esc(s.title)}</a></li>`).join('')}</ul>
-
-        <p class="small muted">Last reviewed ${fmtDate(t.lastReviewed)} · evidence included through ${fmtDate(t.evidenceThrough)} ·
-        tinnitus subtypes studied: ${esc((t.subtypes || []).join(', ') || 'not specified')} ·
-        <a href="about.html#methodology">how we rate evidence</a> · <a href="about.html#profile-bars">how the profile bars work</a></p>
+        <details class="sec" id="sources"><summary>Sources & methodology <span class="small">${(t.studies || []).length + (t.extraSources || []).length} sources</span></summary>
+          <ul class="small">${(t.studies || []).map(id => { const s = DB.sById[id]; return s ? `<li>${esc(s.authors)} — <a href="${esc(s.url)}" rel="noopener" target="_blank">${esc(s.title)}</a> (${esc(s.journal)}, ${esc(s.year)})</li>` : ''; }).join('')}
+          ${(t.extraSources || []).map(s => `<li><a href="${esc(s.url)}" rel="noopener" target="_blank">${esc(s.title)}</a></li>`).join('')}</ul>
+          <p class="small muted">Last reviewed ${fmtDate(t.lastReviewed)} · evidence included through ${fmtDate(t.evidenceThrough)} ·
+          tinnitus subtypes studied: ${esc((t.subtypes || []).join(', ') || 'not specified')} ·
+          <a href="about.html#methodology">how we rate evidence</a> · <a href="about.html#profile-bars">how the profile bars work</a></p></details>
       </div>`;
 
     $('#watch').addEventListener('click', function () {

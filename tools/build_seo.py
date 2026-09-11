@@ -219,38 +219,41 @@ for t in treatments:
 <p class="small muted">{E(cat.get('name', ''))}{f" · Ranked #{rk['rank']} on our Top 10 ({E(rk.get('stability', ''))})" if rk else ''}</p>
 {warn}
 {toc_html}
-<section id="evidence">
+<section class="card sec-card" id="evidence">
 <h2>Current evidence</h2>
 <p><strong>{E(t.get('oneLiner', ''))}</strong></p>
 <p>Evidence strength: <strong>{SCORE_WORDS.get(score, '?')} ({score}/5)</strong> · {E(TIERS.get(t.get('tier'), ''))} ·
 Evidence independence: <strong>{E(IND.get(t.get('independence'), 'Not assessed'))}</strong>.</p>
 <p>{E(t.get('whatItIs', ''))}</p>
 </section>
-<section id="loud"><h2>Did tinnitus loudness improve?</h2>
-<p><strong>{E(LV.get(lo.get('level'), 'Not assessed'))}.</strong> {E(lo.get('summary', ''))}</p></section>
-<section id="distress"><h2>Did tinnitus distress improve?</h2>
-<p><strong>{E(LV.get(di.get('level'), 'Not assessed'))}.</strong> {E(di.get('summary', ''))}</p>
+<section class="card sec-card sec-indigo" id="outcomes"><h2>Did tinnitus loudness or distress improve?</h2>
+<div class="duo ld-full">
+<div class="cell" id="loud"><div class="k">🔉 Did tinnitus loudness improve?</div>
+<div class="v lv-{E(lo.get('level', 'none'))}">{E(LV.get(lo.get('level'), 'Not assessed'))}.</div><p class="small">{E(lo.get('summary', ''))}</p></div>
+<div class="cell" id="distress"><div class="k">🧠 Did tinnitus distress improve?</div>
+<div class="v lv-{E(di.get('level', 'none'))}">{E(LV.get(di.get('level'), 'Not assessed'))}.</div><p class="small">{E(di.get('summary', ''))}</p></div>
+</div>
 <p class="small muted">Loudness means the tinnitus percept itself became quieter (psychoacoustic matching or loudness
 ratings). Distress means questionnaire scores such as THI/TFI, sleep, anxiety or quality of life improved — the sound
 may be unchanged. A THI/TFI improvement is never evidence the tinnitus got quieter.</p></section>
-<section id="strength"><h2>How strong is the evidence?</h2>
+<section class="card sec-card" id="strength"><h2>How strong is the evidence?</h2>
 <p>{E(t.get('scoreRationale', ''))}</p></section>
-<section id="studies"><h2>What the studies found</h2>
-{''.join(study_block(sid) for sid in t.get('studies', [])) or '<p class="muted">No individual study records yet.</p>'}</section>
-<section id="limits"><h2>What are the limitations?</h2>
+<details class="sec" id="studies"><summary>What the studies found <span class="small">{len(t.get('studies', []))} tracked</span></summary>
+{''.join(study_block(sid) for sid in t.get('studies', [])) or '<p class="muted">No individual study records yet.</p>'}</details>
+<section class="card sec-card" id="limits"><h2>What are the limitations?</h2>
 <ul>{''.join(f'<li>{E(l)}</li>' for l in t.get('limitations', []))}</ul>
 {f'<p><strong>Conflicts of interest:</strong> {E(t["conflicts"])}</p>' if t.get('conflicts') else ''}</section>
-<section id="replication"><h2>Has the result been independently replicated?</h2>
+<section class="card sec-card" id="replication"><h2>Has the result been independently replicated?</h2>
 <p><strong>{E(REP.get(t.get('replication'), 'Not assessed'))}.</strong> {E(t.get('replicationNote', ''))}</p>
 {f'<p class="small muted">Independence: {E(t.get("independenceNote", ""))}</p>' if t.get('independenceNote') else ''}</section>
-<section id="safety"><h2>What should patients know about safety?</h2>
-<p><strong>Safety evidence: {E((t.get('safetyLevel') or 'not yet assessed').capitalize())}.</strong> {E(t.get('safety', ''))}</p></section>
-<section id="availability"><h2>Is it available?</h2>
+<section class="card sec-card" id="safety"><h2>What should patients know about safety?</h2>
+<p><strong>Safety evidence: {E((t.get('safetyLevel') or 'not yet assessed').capitalize())}.</strong> {E(t.get('safety', ''))}</p>
+<h3 id="availability">Is it available?</h3>
 <p><strong>Regulatory status:</strong> {E(reg.get('status', ''))}. {E(reg.get('detail', ''))}</p>
 <p><strong>Availability:</strong> {E(av.get('usa', ''))}{(' · Europe: ' + E(av['europe'])) if av.get('europe') else ''}{(' · Cost (approx.): ' + E(av['cost'])) if av.get('cost') else ''}</p></section>
-{f'''<section><h2>Related clinical trials</h2><ul>{''.join(f'<li><a href="trials/{E(x["nctId"])}/">{E(x["title"])}</a> — {E(x.get("status", ""))}</li>' for x in rel_trials)}</ul>
-<p class="small muted">Tracked trials are research in progress, not recommended treatments.</p></section>''' if rel_trials else ''}
-{f'''<section><h2>Related treatments</h2><ul>{''.join(f'<li><a href="treatments/{E(x["id"])}/">{E(x["name"])}</a> — {E(trunc(x.get("oneLiner", ""), 110))}</li>' for x in related)}</ul></section>''' if related else ''}
+{f'''<details class="sec"><summary>Related clinical trials <span class="small">{len(rel_trials)}</span></summary><ul>{''.join(f'<li><a href="trials/{E(x["nctId"])}/">{E(x["title"])}</a> — {E(x.get("status", ""))}</li>' for x in rel_trials)}</ul>
+<p class="small muted">Tracked trials are research in progress, not recommended treatments.</p></details>''' if rel_trials else ''}
+{f'''<details class="sec"><summary>Related treatments <span class="small">{len(related)}</span></summary><ul>{''.join(f'<li><a href="treatments/{E(x["id"])}/">{E(x["name"])}</a> — {E(trunc(x.get("oneLiner", ""), 110))}</li>' for x in related)}</ul></details>''' if related else ''}
 <p class="small muted">Evidence last reviewed: {E(t.get('lastReviewed', ''))} · Evidence included through: {E(t.get('evidenceThrough', ''))} ·
 Confidence: {E(t.get('confidence', ''))}. <a href="treatment.html?id={E(tid)}">Open the interactive evidence profile</a> ·
 <a href="about.html#methodology">How we rate evidence</a>.</p>
