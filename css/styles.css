@@ -572,3 +572,43 @@ body[data-page="index"] #top10{margin-top:6px}
 #rep .week-item details.rdetail summary:hover{color:var(--text)}
 #rep .week-item details.rdetail[open] summary{color:var(--c-promising)}
 @media(max-width:639px){#rep .week-item{padding:16px 16px 12px}}
+
+/* ---------- Refinement pass 13: Watchlist + Search brought onto the same design language ----------
+   Shared "wash panel" recipe (same strength as treatment/trial/research cards), used for the
+   watchlist empty state, the search panel and search-result rows. */
+.empty-state,.search-panel,.sr-row{--wash-c:var(--c-promising);--hov-c:color-mix(in srgb,var(--wash-c) 60%,var(--line));
+  border:1px solid var(--line);border-top-color:color-mix(in srgb,var(--wash-c) 48%,var(--line));border-radius:var(--r);box-shadow:var(--shadow);
+  background:linear-gradient(180deg,color-mix(in srgb,var(--wash-c) 17%,var(--surface)) 0,color-mix(in srgb,var(--wash-c) 7%,var(--surface)) 10%,var(--surface) 22%);
+  transition:border-color .15s,box-shadow .15s}
+
+/* watchlist empty state: one intentional panel, left-aligned, tight */
+#wl .empty-state{grid-column:1/-1;max-width:640px;text-align:left;padding:22px 24px 20px;color:var(--text)}
+.empty-state .es-title{display:block;font-family:var(--font-display);font-size:1.25rem;font-weight:700;letter-spacing:-.01em;margin:0 0 6px}
+.empty-state p{margin:0 0 12px;color:var(--muted)}
+.empty-state .es-actions{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+/* watchlist entries: site cards + the watchlist-only extras */
+.wl-extra{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);position:relative;z-index:1}
+.wl-extra .week-item{flex:1 1 100%;margin:4px 0}
+.wl-extra .btn.small{margin-left:auto;font-size:.8rem;padding:5px 12px}
+.wl-inst{--wash-c:var(--c-promising);border-top-color:color-mix(in srgb,var(--wash-c) 48%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--wash-c) 17%,var(--surface)) 0,color-mix(in srgb,var(--wash-c) 7%,var(--surface)) 10%,var(--surface) 22%)}
+.wl-inst h3{font-size:1.12rem;font-weight:700}
+@media(hover:hover){.wl-inst:hover{border-color:var(--hov-c);box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--hov-c) 22%,transparent)}}
+
+/* search: the search area carries the presence; the empty hint stays a quiet line, not a box */
+.search-panel{margin-top:14px;padding:18px 20px}
+.search-panel .searchbar{box-shadow:none;background:var(--surface-2);padding:12px 18px;font-size:1.02rem;transition:border-color .15s}
+.search-panel .searchbar:focus-within{border-color:color-mix(in srgb,var(--c-promising) 60%,var(--line))}
+#gresults .empty{text-align:left;padding:14px 4px;font-size:.92rem}
+/* search results: type-colored rows with the same frame/hover as every other tile */
+.sr-row{align-items:flex-start;gap:12px;padding:12px 14px;margin:0 0 10px;border-radius:var(--r-sm)}
+.sr-row .type{color:var(--wash-c);border-color:color-mix(in srgb,var(--wash-c) 40%,var(--line));background:color-mix(in srgb,var(--wash-c) 10%,var(--surface));margin-top:2px}
+.sr-row>span:last-child a{font-weight:600;font-size:1rem}
+.sr-treatment{--wash-c:var(--c-promising)}
+.sr-study{--wash-c:var(--c-emerging)}
+.sr-trial{--wash-c:var(--c-strong)}
+.sr-institution{--wash-c:var(--c-watch)}
+.sr-category{--wash-c:var(--brand-1)}
+.sr-update{--wash-c:var(--c-weak)}
+@media(hover:hover){.sr-row:hover{border-color:var(--hov-c);box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--hov-c) 22%,transparent)}}
+@media(max-width:639px){#wl .empty-state{padding:18px 16px 16px}.search-panel{padding:14px 14px}.sr-row{padding:11px 12px}}

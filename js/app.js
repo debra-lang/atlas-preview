@@ -979,7 +979,7 @@
       if (q.length < 2) { out.innerHTML = '<div class="empty">Type at least two characters.</div>'; return; }
       const r = rows(q);
       out.innerHTML = r.length ? r.map(([type, title, href, sub, ext]) =>
-        `<div class="sr-row"><span class="type">${type}</span>
+        `<div class="sr-row sr-${type.toLowerCase()}"><span class="type">${type}</span>
           <span><a href="${esc(href)}"${ext ? ' rel="noopener" target="_blank"' : ''}>${esc(title)}${ext ? ' ↗' : ''}</a>
           ${sub ? `<br><span class="small muted">${esc(sub)}</span>` : ''}</span></div>`).join('')
         : '<div class="empty">No matches across treatments, studies, trials, institutions, categories or updates.</div>';
@@ -1070,33 +1070,34 @@
     const root = $('#wl');
     const total = wl.treatments.length + wl.trials.length + wl.institutions.length;
     if (!total) {
-      root.innerHTML = `<div class="empty">Your watchlist is empty.<br><br>
-        Follow treatments, clinical trials or research groups, and this page will highlight news about them.<br><br>
-        <a class="btn btn-primary" href="treatments.html">Browse treatments</a>
-        <a class="btn" href="trials.html">Browse trials</a></div>`;
+      root.innerHTML = `<div class="empty empty-state">
+        <strong class="es-title">Your watchlist is empty.</strong>
+        <p>Follow treatments, clinical trials or research groups, and this page will highlight news about them.</p>
+        <p class="es-actions"><a class="btn btn-primary" href="treatments.html">Browse treatments</a>
+        <a class="btn" href="trials.html">Browse trials</a></p></div>`;
       return;
     }
     let lastSeen = 0; try { lastSeen = +localStorage.getItem(SEEN_KEY) || 0; } catch (e) {}
     let html = '';
+    // entries reuse the site's treatment / trial cards as-is (wash, frame, hover); the watchlist-only
+    // extras (fresh-research badge, latest items, Remove) are appended inside the same card
+    const inside = (card, extra) => card.replace(/<\/div>\s*$/, extra + '</div>');
     html += wl.treatments.map(id => {
       const t = DB.tById[id]; if (!t) return '';
       const fresh = (t.latest || []).filter(l => new Date(l.date).getTime() > lastSeen);
-      return `<div class="card">
-        ${fresh.length ? `<span class="badge b-strong" style="margin-bottom:8px">🔔 New research available</span>` : ''}
-        ${treatmentCard(t).replace('class="card tcard"', 'class="tcard"')}
+      return inside(treatmentCard(t), `<div class="wl-extra">
+        ${fresh.length ? `<span class="badge b-strong">🔔 New research available</span>` : ''}
         ${fresh.map(l => `<div class="week-item"><div class="t small">${fmtDate(l.date)}</div><div class="small">${esc(l.text)}</div></div>`).join('')}
-        <button class="btn small" data-unwatch="treatments" data-id="${esc(id)}" type="button">Remove</button>
-      </div>`;
+        <button class="btn small" data-unwatch="treatments" data-id="${esc(id)}" type="button">Remove</button></div>`);
     }).join('');
     html += wl.trials.map(nct => {
       const tr = DB.trials.find(x => x.nctId === nct); if (!tr) return '';
-      return `<div class="card">${trialCard(tr)}
-        <button class="btn small" data-unwatch="trials" data-id="${esc(nct)}" type="button" style="margin-top:8px">Remove</button></div>`;
+      return inside(trialCard(tr), `<div class="wl-extra"><button class="btn small" data-unwatch="trials" data-id="${esc(nct)}" type="button">Remove</button></div>`);
     }).join('');
     html += wl.institutions.map(iid => {
       const i = DB.institutions.find(x => x.id === iid); if (!i) return '';
-      return `<div class="card"><h3>${esc(i.name)}</h3><p class="small">${esc(i.focus)}</p>
-        <button class="btn small" data-unwatch="institutions" data-id="${esc(iid)}" type="button">Remove</button></div>`;
+      return `<div class="card wl-inst"><h3>${esc(i.name)}</h3><p class="small">${esc(i.focus)}</p>
+        <div class="wl-extra"><button class="btn small" data-unwatch="institutions" data-id="${esc(iid)}" type="button">Remove</button></div></div>`;
     }).join('');
     root.innerHTML = html;
     root.onclick = e => { // assignment, not addEventListener: re-renders must not stack handlers
