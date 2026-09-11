@@ -709,3 +709,6 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
 .pform select[name="hearingLoss"],.pform select[name="noiseExposure"]{width:17em}       /* large */
 @media(max-width:639px){.pform .row{grid-template-columns:1fr}.pform label select{min-width:0}
   .pform select[name="hearingLoss"],.pform select[name="noiseExposure"]{width:100%}}
+
+/* ---------- Refinement pass 21: profile section cards get the site-wide full-frame hover (pointer devices) ---------- */
+@media(hover:hover){.pform fieldset:hover{border-color:color-mix(in srgb,var(--wash-c) 60%,var(--line));box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--wash-c) 22%,transparent)}}
