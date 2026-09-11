@@ -361,7 +361,10 @@
     $('#stat-treatments').textContent = treatments.length;
     $('#stat-studies').textContent = DB.studies.length;
     $('#stat-trials').textContent = trials.length;
-    $('#stat-updated').textContent = fmtDate(meta.lastFullReview);
+    // "last research scan" = date of the newest weekly report (the automated scan); the separate
+    // full-review date (meta.lastFullReview) is still shown in the footer and on About
+    const lastScan = (DB.weeklyIndex && DB.weeklyIndex.reports && DB.weeklyIndex.reports[0] && DB.weeklyIndex.reports[0].date) || meta.lastFullReview;
+    $('#stat-updated').textContent = fmtDate(lastScan);
 
     // Top 10 (scannable cards; "Why this ranking?" + research detail behind each card's expander).
     // The ranking-uncertainty statement (data/rankings.json) lives in the section's

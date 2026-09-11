@@ -861,8 +861,11 @@ def _fmt_date(iso):
     months = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     return f"{months[int(m)]} {int(d)}, {y}"
 
+_weekly_idx = json.loads((ROOT / "data" / "weekly" / "index.json").read_text(encoding="utf-8"))
+_last_scan = (_weekly_idx.get("reports") or [{}])[0].get("date") or meta.get("lastFullReview", TODAY)
 STATS = {"treatments": str(len(treatments)), "records": str(len(studies)), "trials": str(len(trials)),
-         "lastReview": _fmt_date(meta.get("lastFullReview", TODAY))}
+         "lastReview": _fmt_date(meta.get("lastFullReview", TODAY)),
+         "lastScan": _fmt_date(_last_scan)}   # newest weekly report = last automated research scan
 for fname in ("index.html", "about.html"):
     p = ROOT / fname
     h = p.read_text(encoding="utf-8")
