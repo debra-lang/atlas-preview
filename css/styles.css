@@ -694,3 +694,18 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
 .cmp-panel .chip[aria-pressed="true"]{box-shadow:0 0 0 3px color-mix(in srgb,var(--c-promising) 28%,transparent)}
 .cmp-panel .chips.full .chip:not([aria-pressed="true"]){opacity:.5}
 @media(max-width:639px){.cmp-panel{padding:14px 14px 12px}}
+
+/* ---------- Refinement pass 20: profile dropdowns in three standard widths on an aligned grid ----------
+   small = yes/no/unsure-type choices · medium = ordinary multiple choice · large = long option text.
+   Rows are a uniform column grid so fields line up section to section. */
+.pform .row{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px 16px}
+.pform label{flex:none}
+.pform label select{width:13em;max-width:100%}                         /* medium (default) */
+.pform select[name="onset"],.pform select[name="pattern"],.pform select[name="pulsatile"],.pform select[name="pitch"],
+.pform select[name="suddenHL"],.pform select[name="asymmetric"],.pform select[name="somaticModulation"],
+.pform select[name="jawTMJ"],.pform select[name="neck"],.pform select[name="vertigo"],.pform select[name="hyperacusis"],
+.pform select[name="earPainDrainage"],.pform select[name="trauma"],.pform select[name="neuroSymptoms"],
+.pform select[name="sleepProblems"],.pform select[name="distressLevel"]{width:9.5em}   /* small */
+.pform select[name="hearingLoss"],.pform select[name="noiseExposure"]{width:17em}       /* large */
+@media(max-width:639px){.pform .row{grid-template-columns:1fr}.pform label select{min-width:0}
+  .pform select[name="hearingLoss"],.pform select[name="noiseExposure"]{width:100%}}
