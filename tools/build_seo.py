@@ -673,19 +673,19 @@ rq_dir = """
 This section highlights patterns that emerge across multiple studies and may be worth testing further.
 <strong>These are hypotheses, not treatment recommendations or established medical conclusions.</strong></p>
 """ + HYPO_BANNER + """
-<section><h2>Open questions</h2>
+<section class="card rq-card rq-open"><h2>Open questions</h2>
 <ul>
 <li><a href="research-questions/somatic-modulation-treatment-response/">Could patterns of somatic tinnitus
 modulation help predict treatment response?</a> — the simple yes/no version has been tested (mostly null);
 whether graded modulation features carry predictive information remains open.</li>
 </ul></section>
-<section><h2>How a research hypothesis earns a place here</h2>
-<p class="small muted">Note the distinction: <a href="ask/">Ask Tinnitus Evidence</a> answers <em>your</em> questions
+<section class="card rq-card rq-process"><h2>How a research hypothesis earns a place here</h2>
+<p class="small muted rq-distinction">Note the distinction: <a href="ask/">Ask Tinnitus Evidence</a> answers <em>your</em> questions
 about the existing evidence. This section lists unresolved <em>scientific hypotheses</em> — patterns across studies
 that may deserve formal investigation. They never affect treatment ratings, tiers, or rankings.</p>
 <p>Every entry follows the same process before publication:</p>
-<p class="small"><strong>Pattern identified → adversarial literature search → precedent check → contradictory-evidence
-search → hypothesis refined or rejected → human approval → publication.</strong></p>
+<p class="small rq-flow"><strong><span class="step">Pattern identified</span> <span class="arrow">→</span> <span class="step">adversarial literature search</span> <span class="arrow">→</span> <span class="step">precedent check</span> <span class="arrow">→</span> <span class="step">contradictory-evidence
+search</span> <span class="arrow">→</span> <span class="step">hypothesis refined or rejected</span> <span class="arrow">→</span> <span class="step">human approval</span> <span class="arrow">→</span> <span class="step">publication.</span></strong></p>
 <p class="small muted">Hypotheses are never auto-published. The weekly research automation may flag candidate
 questions internally for review, but nothing appears in this section without an adversarial precedent audit and
 explicit human approval — and being listed here never affects any treatment's evidence rating, tier, or ranking.

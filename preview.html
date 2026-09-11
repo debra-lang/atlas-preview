@@ -719,6 +719,25 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
 /* ---------- Refinement pass 21: profile section cards get the site-wide full-frame hover (pointer devices) ---------- */
 @media(hover:hover){.pform fieldset:hover{border-color:color-mix(in srgb,var(--wash-c) 60%,var(--line));box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--wash-c) 22%,transparent)}}
 
+/* ---------- Refinement pass 22: Research Questions — open questions + process as structured cards ----------
+   Hypothesis banner untouched. Cards use the shared wash/frame/hover; the process line keeps its
+   exact wording but reads as a step flow. */
+.rq-card{--wash-c:var(--brand-1);margin:18px 0 0;padding:20px 22px 16px;
+  border-top-color:color-mix(in srgb,var(--wash-c) 48%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--wash-c) 17%,var(--surface)) 0,color-mix(in srgb,var(--wash-c) 7%,var(--surface)) 10%,var(--surface) 22%)}
+.rq-process{--wash-c:var(--c-promising)}
+.prose .rq-card h2{margin:0 0 12px;font-size:1.2rem;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.rq-open ul{margin:0;padding-left:1.2em}
+.rq-open li{font-size:1.02rem;line-height:1.55}
+.rq-open li a{font-weight:600}
+.rq-distinction{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface-2);padding:10px 12px;margin:0 0 14px}
+.rq-flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:6px 0 14px}
+.rq-flow strong{display:contents}
+.rq-flow .step{display:inline-block;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-weight:600;font-size:.84rem;line-height:1.3}
+.rq-flow .arrow{color:var(--c-promising);font-weight:700}
+.rq-card>p:last-child{margin-bottom:0}
+@media(max-width:639px){.rq-card{padding:16px 16px 12px}}
+
 </style>
 <div id="app"></div>
 <template id="page-index"><main id="content" class="wrap">
@@ -6007,19 +6026,19 @@ This section highlights patterns that emerge across multiple studies and may be 
 <strong>These are hypotheses, not treatment recommendations or established medical conclusions.</strong></p>
 <div class="hypo-banner" role="note"><span class="tag">HYPOTHESIS</span>
 <span>Research hypothesis — not established evidence</span></div>
-<section><h2>Open questions</h2>
+<section class="card rq-card rq-open"><h2>Open questions</h2>
 <ul>
 <li><a href="research-questions/somatic-modulation-treatment-response/">Could patterns of somatic tinnitus
 modulation help predict treatment response?</a> — the simple yes/no version has been tested (mostly null);
 whether graded modulation features carry predictive information remains open.</li>
 </ul></section>
-<section><h2>How a research hypothesis earns a place here</h2>
-<p class="small muted">Note the distinction: <a href="ask/">Ask Tinnitus Evidence</a> answers <em>your</em> questions
+<section class="card rq-card rq-process"><h2>How a research hypothesis earns a place here</h2>
+<p class="small muted rq-distinction">Note the distinction: <a href="ask/">Ask Tinnitus Evidence</a> answers <em>your</em> questions
 about the existing evidence. This section lists unresolved <em>scientific hypotheses</em> — patterns across studies
 that may deserve formal investigation. They never affect treatment ratings, tiers, or rankings.</p>
 <p>Every entry follows the same process before publication:</p>
-<p class="small"><strong>Pattern identified → adversarial literature search → precedent check → contradictory-evidence
-search → hypothesis refined or rejected → human approval → publication.</strong></p>
+<p class="small rq-flow"><strong><span class="step">Pattern identified</span> <span class="arrow">→</span> <span class="step">adversarial literature search</span> <span class="arrow">→</span> <span class="step">precedent check</span> <span class="arrow">→</span> <span class="step">contradictory-evidence
+search</span> <span class="arrow">→</span> <span class="step">hypothesis refined or rejected</span> <span class="arrow">→</span> <span class="step">human approval</span> <span class="arrow">→</span> <span class="step">publication.</span></strong></p>
 <p class="small muted">Hypotheses are never auto-published. The weekly research automation may flag candidate
 questions internally for review, but nothing appears in this section without an adversarial precedent audit and
 explicit human approval — and being listed here never affects any treatment's evidence rating, tier, or ranking.

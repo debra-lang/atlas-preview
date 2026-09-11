@@ -712,3 +712,22 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
 
 /* ---------- Refinement pass 21: profile section cards get the site-wide full-frame hover (pointer devices) ---------- */
 @media(hover:hover){.pform fieldset:hover{border-color:color-mix(in srgb,var(--wash-c) 60%,var(--line));box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--wash-c) 22%,transparent)}}
+
+/* ---------- Refinement pass 22: Research Questions — open questions + process as structured cards ----------
+   Hypothesis banner untouched. Cards use the shared wash/frame/hover; the process line keeps its
+   exact wording but reads as a step flow. */
+.rq-card{--wash-c:var(--brand-1);margin:18px 0 0;padding:20px 22px 16px;
+  border-top-color:color-mix(in srgb,var(--wash-c) 48%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--wash-c) 17%,var(--surface)) 0,color-mix(in srgb,var(--wash-c) 7%,var(--surface)) 10%,var(--surface) 22%)}
+.rq-process{--wash-c:var(--c-promising)}
+.prose .rq-card h2{margin:0 0 12px;font-size:1.2rem;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.rq-open ul{margin:0;padding-left:1.2em}
+.rq-open li{font-size:1.02rem;line-height:1.55}
+.rq-open li a{font-weight:600}
+.rq-distinction{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface-2);padding:10px 12px;margin:0 0 14px}
+.rq-flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:6px 0 14px}
+.rq-flow strong{display:contents}
+.rq-flow .step{display:inline-block;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-weight:600;font-size:.84rem;line-height:1.3}
+.rq-flow .arrow{color:var(--c-promising);font-weight:700}
+.rq-card>p:last-child{margin-bottom:0}
+@media(max-width:639px){.rq-card{padding:16px 16px 12px}}
