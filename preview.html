@@ -348,11 +348,11 @@ h3{text-wrap:balance}
 .rcard .see{font-weight:600;font-size:.88rem;margin:2px 0 0}
 details.rmore{border-top:1px solid var(--line);margin:auto -16px 0;padding:0 16px}
 .rcard .see{margin-bottom:8px}
-details.rmore summary{cursor:pointer;font-size:.8rem;font-weight:600;color:var(--muted);padding:9px 0;list-style:none;display:flex;align-items:center;gap:7px}
+details.rmore summary{cursor:pointer;font-size:.76rem;font-weight:500;color:var(--muted);opacity:.85;padding:8px 0;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:7px}
 details.rmore summary::-webkit-details-marker{display:none}
-details.rmore summary::before{content:"+";font-family:var(--font-display);font-weight:700;color:var(--c-promising);width:12px;text-align:center}
-details.rmore[open] summary::before{content:"–"}
-details.rmore summary:hover{color:var(--text)}
+details.rmore summary::after{content:"+";font-family:var(--font-display);font-weight:700;color:var(--c-promising)}
+details.rmore[open] summary::after{content:"–"}
+details.rmore summary:hover{color:var(--text);opacity:1}
 details.rmore[open]{padding-bottom:12px}
 details.rmore .foot{margin:0 0 8px;padding-top:0}
 details.rmore .whyline{margin:0 0 8px}
@@ -401,6 +401,39 @@ main.prose p.lead{font-size:1.02rem;color:var(--muted)}
 .grid>*{min-width:0}
 .badge{white-space:normal;text-align:left}
 .cmp-scroll,.dchart{max-width:100%}
+
+/* ---------- Refinement pass 2: hierarchy between cards, chapters between sections ----------
+   #1–#3 keep the full card treatment (category-tinted top edge); #4–#10 drop the box and read as
+   a ruled list. Same content, same size. Treatment cards: name → summary → loudness/distress →
+   evidence strength → availability; population/tier/outcome metadata one tap down. */
+.tcard .rhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tcard h3 a{color:inherit}
+.tcard h3 a::after{content:"";position:absolute;inset:0;border-radius:inherit}
+.tcard .see,.tcard details.rmore,.tcard .duo a,.tcard .foot a{position:relative;z-index:1}
+.card.tcard:hover{border-color:color-mix(in srgb,var(--c-promising) 45%,var(--line))}
+.tcard .foot+details.rmore{margin-top:0}
+.tcard details.rmore .who{margin:6px 0 0}
+
+.rcard-top{border-top:3px solid var(--cat-c,var(--c-promising));border-radius:12px var(--r) var(--r) 12px;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--cat-c,var(--c-promising)) 9%,var(--surface)),var(--surface) 58%)}
+.rcard-top h3{font-size:1.15rem}
+.rcard-top .one{color:var(--text);opacity:.85}
+.rcard-rest{background:none;border:0;box-shadow:none;border-radius:0;border-top:1px solid var(--line);padding:16px 4px 0}
+.rcard-rest:hover{border-color:var(--line)}
+.rcard-rest .rank{position:static;background:var(--surface-2);color:var(--text);box-shadow:none;border:1px solid var(--line);font-size:.72rem;padding:1px 8px}
+.rcard-rest h3{font-size:1rem}
+.rcard-rest .duo .cell{background:transparent}
+.rcard-rest details.rmore{margin:auto -4px 0;padding:0 4px;border-top:0}
+.rcard-rest details.rmore[open]{padding-bottom:6px}
+@media(min-width:960px){.rcard-top{padding-bottom:0}}
+
+/* homepage chapters: a hairline + short brand rule above each chapter heading (no extra boxes) */
+body[data-page="index"] .section{padding:34px 0 10px;border-top:1px solid var(--line);margin-top:18px}
+body[data-page="index"] .hero+.section{margin-top:8px}
+body[data-page="index"] .section-head h2::before{content:"";display:block;width:34px;height:3px;border-radius:2px;background:var(--grad-brand);margin-bottom:10px}
+body[data-page="index"] .section-head{margin-bottom:12px}
+body[data-page="index"] .section-sub{margin-top:-4px}
+body[data-page="index"] #top10{margin-top:6px}
 
 </style>
 <div id="app"></div>
@@ -6235,17 +6268,21 @@ window.__TA_DATA__ = {"meta":{"name":"Tinnitus Evidence","tagline":"What does th
   function treatmentCard(t, opts) {
     opts = opts || {};
     const cat = DB.catById[t.category] || {};
-    return `<a class="card tcard" href="treatment.html?id=${esc(t.id)}" style="--cat-c:${esc(cat.color || '#888')}">
-      ${opts.rank ? `<span class="rank">#${opts.rank}</span>` : ''}
-      <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span>
-      <h3>${updatedRecently(t) ? '<span class="updated-dot" title="Updated recently"></span>' : ''}${esc(t.name)}</h3>
+    return `<div class="card tcard" style="--cat-c:${esc(cat.color || '#888')}">
+      <div class="rhead">${opts.rank ? `<span class="rank">#${opts.rank}</span>` : ''}
+        <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span></div>
+      <h3>${updatedRecently(t) ? '<span class="updated-dot" title="Updated recently"></span>' : ''}<a href="treatment.html?id=${esc(t.id)}">${esc(t.name)}</a></h3>
       <p class="one">${esc(t.oneLiner)}</p>
       ${duo(t, true)}
-      <p class="who">👥 ${esc(whoStudied(t))}</p>
-      <div class="foot">${emeter(t.evidenceScore)} ${tierBadge(t.tier)}
-        <span class="badge b-promising" title="What the evidence addresses">🎯 ${effectWord(t)}</span> ${availBadge(t)}
-        ${t.narrowPopulation ? '<span class="badge b-watch" title="Results apply only to a specific diagnosed population">⚠ Specific population only</span>' : ''}</div>
-    </a>`;
+      <div class="foot">${emeter(t.evidenceScore)} ${availBadge(t)}</div>
+      <details class="rmore">
+        <summary>More details</summary>
+        <div class="foot" style="margin:0 0 4px">${tierBadge(t.tier)}
+          <span class="badge b-promising" title="What the evidence addresses">🎯 ${effectWord(t)}</span>
+          ${t.narrowPopulation ? '<span class="badge b-watch" title="Results apply only to a specific diagnosed population">⚠ Specific population only</span>' : ''}</div>
+        <p class="who">👥 ${esc(whoStudied(t))}</p>
+      </details>
+    </div>`;
   }
 
   /* ---------------- chrome ---------------- */
@@ -6404,15 +6441,16 @@ window.__TA_DATA__ = {"meta":{"name":"Tinnitus Evidence","tagline":"What does th
      rank stability, "Why #N?" and the full research detail) is still here, one tap down. */
   function rankedCard(t, r) {
     const cat = DB.catById[t.category] || {};
-    return `<div class="card tcard rcard" style="--cat-c:${esc(cat.color || '#888')}">
-      <span class="rank">#${r.rank}</span>
-      <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span>
-      <h3>${updatedRecently(t) ? '<span class="updated-dot" title="Updated recently"></span>' : ''}<a href="treatment.html?id=${esc(t.id)}" style="color:inherit">${esc(t.name)}</a></h3>
+    const top = r.rank <= 3; // #1–#3 keep the full card; #4–#10 read as a ruled list (same content)
+    return `<div class="card tcard rcard ${top ? 'rcard-top' : 'rcard-rest'}" style="--cat-c:${esc(cat.color || '#888')}">
+      <div class="rhead"><span class="rank">#${r.rank}</span>
+        <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span></div>
+      <h3>${updatedRecently(t) ? '<span class="updated-dot" title="Updated recently"></span>' : ''}<a href="treatment.html?id=${esc(t.id)}">${esc(t.name)}</a></h3>
       <p class="one">${esc(t.oneLiner)}</p>
       ${duo(t, true)}
       <a class="see" href="treatment.html?id=${esc(t.id)}">See evidence →</a>
       <details class="rmore">
-        <summary>Why #${r.rank}? · evidence score · rank stability</summary>
+        <summary>More evidence details</summary>
         <div class="foot">${emeter(t.evidenceScore)} ${tierBadge(t.tier)} ${availBadge(t)} ${stabilityBadge(r)}</div>
         ${whyRankingBlock(r, t)}
       </details>

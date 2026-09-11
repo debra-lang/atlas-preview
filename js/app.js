@@ -279,17 +279,21 @@
   function treatmentCard(t, opts) {
     opts = opts || {};
     const cat = DB.catById[t.category] || {};
-    return `<a class="card tcard" href="treatment.html?id=${esc(t.id)}" style="--cat-c:${esc(cat.color || '#888')}">
-      ${opts.rank ? `<span class="rank">#${opts.rank}</span>` : ''}
-      <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span>
-      <h3>${updatedRecently(t) ? '<span class="updated-dot" title="Updated recently"></span>' : ''}${esc(t.name)}</h3>
+    return `<div class="card tcard" style="--cat-c:${esc(cat.color || '#888')}">
+      <div class="rhead">${opts.rank ? `<span class="rank">#${opts.rank}</span>` : ''}
+        <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span></div>
+      <h3>${updatedRecently(t) ? '<span class="updated-dot" title="Updated recently"></span>' : ''}<a href="treatment.html?id=${esc(t.id)}">${esc(t.name)}</a></h3>
       <p class="one">${esc(t.oneLiner)}</p>
       ${duo(t, true)}
-      <p class="who">👥 ${esc(whoStudied(t))}</p>
-      <div class="foot">${emeter(t.evidenceScore)} ${tierBadge(t.tier)}
-        <span class="badge b-promising" title="What the evidence addresses">🎯 ${effectWord(t)}</span> ${availBadge(t)}
-        ${t.narrowPopulation ? '<span class="badge b-watch" title="Results apply only to a specific diagnosed population">⚠ Specific population only</span>' : ''}</div>
-    </a>`;
+      <div class="foot">${emeter(t.evidenceScore)} ${availBadge(t)}</div>
+      <details class="rmore">
+        <summary>More details</summary>
+        <div class="foot" style="margin:0 0 4px">${tierBadge(t.tier)}
+          <span class="badge b-promising" title="What the evidence addresses">🎯 ${effectWord(t)}</span>
+          ${t.narrowPopulation ? '<span class="badge b-watch" title="Results apply only to a specific diagnosed population">⚠ Specific population only</span>' : ''}</div>
+        <p class="who">👥 ${esc(whoStudied(t))}</p>
+      </details>
+    </div>`;
   }
 
   /* ---------------- chrome ---------------- */
@@ -448,15 +452,16 @@
      rank stability, "Why #N?" and the full research detail) is still here, one tap down. */
   function rankedCard(t, r) {
     const cat = DB.catById[t.category] || {};
-    return `<div class="card tcard rcard" style="--cat-c:${esc(cat.color || '#888')}">
-      <span class="rank">#${r.rank}</span>
-      <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span>
-      <h3>${updatedRecently(t) ? '<span class="updated-dot" title="Updated recently"></span>' : ''}<a href="treatment.html?id=${esc(t.id)}" style="color:inherit">${esc(t.name)}</a></h3>
+    const top = r.rank <= 3; // #1–#3 keep the full card; #4–#10 read as a ruled list (same content)
+    return `<div class="card tcard rcard ${top ? 'rcard-top' : 'rcard-rest'}" style="--cat-c:${esc(cat.color || '#888')}">
+      <div class="rhead"><span class="rank">#${r.rank}</span>
+        <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span></div>
+      <h3>${updatedRecently(t) ? '<span class="updated-dot" title="Updated recently"></span>' : ''}<a href="treatment.html?id=${esc(t.id)}">${esc(t.name)}</a></h3>
       <p class="one">${esc(t.oneLiner)}</p>
       ${duo(t, true)}
       <a class="see" href="treatment.html?id=${esc(t.id)}">See evidence →</a>
       <details class="rmore">
-        <summary>Why #${r.rank}? · evidence score · rank stability</summary>
+        <summary>More evidence details</summary>
         <div class="foot">${emeter(t.evidenceScore)} ${tierBadge(t.tier)} ${availBadge(t)} ${stabilityBadge(r)}</div>
         ${whyRankingBlock(r, t)}
       </details>
