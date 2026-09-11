@@ -678,3 +678,19 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
 @media(max-width:639px){.pform label select{min-width:12em;min-height:42px}}
 /* the label is a column flexbox with stretch alignment — opt the select out so its intrinsic width applies */
 .pform label select{align-self:flex-start}
+
+/* ---------- Refinement pass 19: Compare — treatment selection as one card with search + live count ---------- */
+.cmp-panel{--wash-c:var(--brand-1);margin:14px 0 16px;padding:16px 18px 14px;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
+  border-top-color:color-mix(in srgb,var(--wash-c) 48%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--wash-c) 17%,var(--surface)) 0,color-mix(in srgb,var(--wash-c) 7%,var(--surface)) 10%,var(--surface) 22%)}
+.cmp-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 10px}
+.cmp-label{font-family:var(--font-display);font-weight:700;font-size:1.02rem}
+.cmp-count{font-size:.8rem;font-weight:600;color:var(--c-promising);background:var(--c-promising-bg);border:1px solid var(--c-promising-line);border-radius:999px;padding:3px 10px;font-variant-numeric:tabular-nums}
+.cmp-panel .searchbar{box-shadow:none;background:var(--surface-2);margin:0 0 12px;transition:border-color .15s}
+.cmp-panel .searchbar:focus-within{border-color:color-mix(in srgb,var(--c-promising) 60%,var(--line))}
+.cmp-panel .chips{margin:0;gap:6px}
+.cmp-panel .chip{padding:5px 11px;font-size:.82rem;transition:border-color .15s,box-shadow .15s,color .15s}
+@media(hover:hover){.cmp-panel .chip:hover{border-color:color-mix(in srgb,var(--c-promising) 60%,var(--line));color:var(--text)}}
+.cmp-panel .chip[aria-pressed="true"]{box-shadow:0 0 0 3px color-mix(in srgb,var(--c-promising) 28%,transparent)}
+.cmp-panel .chips.full .chip:not([aria-pressed="true"]){opacity:.5}
+@media(max-width:639px){.cmp-panel{padding:14px 14px 12px}}

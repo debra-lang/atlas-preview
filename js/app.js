@@ -811,8 +811,19 @@
     chipsEl.innerHTML = DB.treatments.slice().sort((a, b) => a.name.localeCompare(b.name))
       .map(t => `<button class="chip" data-id="${esc(t.id)}">${esc(t.name)}</button>`).join('');
 
+    // selection-area UI only: live "n of 4 selected" count, search filter over the chips
+    // (selected chips always stay visible), and a "full" state once 4 are chosen
+    const countEl = $('#cmp-count'), searchEl = $('#cmp-search');
+    let filter = '';
+    function applyFilter() {
+      $$('.chip', chipsEl).forEach(c => { c.hidden = !!filter && !sel.has(c.dataset.id) && !c.textContent.toLowerCase().includes(filter); });
+    }
+    if (searchEl) searchEl.addEventListener('input', e => { filter = e.target.value.trim().toLowerCase(); applyFilter(); });
     function render() {
       $$('.chip', chipsEl).forEach(c => c.setAttribute('aria-pressed', sel.has(c.dataset.id)));
+      if (countEl) countEl.textContent = `${sel.size} of 4 selected`;
+      chipsEl.classList.toggle('full', sel.size >= 4);
+      applyFilter();
       const list = Array.from(sel).map(id => DB.tById[id]);
       const q = list.length ? '?ids=' + list.map(t => t.id).join(',') : '';
       history.replaceState(null, '', SINGLE ? ('#/compare' + q) : ('compare.html' + q));

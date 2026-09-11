@@ -23,7 +23,15 @@
     <h1>Compare treatments</h1>
     <p class="lead">Pick 2–4 treatments to see them side by side. Swipe the table sideways on a phone.</p>
   </section>
-  <div class="chips" id="cmp-chips" role="group" aria-label="Select treatments to compare"></div>
+  <div class="cmp-panel">
+    <div class="cmp-head">
+      <label for="cmp-search" class="cmp-label">Search treatments</label>
+      <span id="cmp-count" class="cmp-count" aria-live="polite">0 of 4 selected</span>
+    </div>
+    <div class="searchbar" role="search"><span aria-hidden="true">🔎</span>
+      <input id="cmp-search" type="search" placeholder="Search treatments…" aria-label="Search treatments"></div>
+    <div class="chips" id="cmp-chips" role="group" aria-label="Select treatments to compare"></div>
+  </div>
   <div id="cmp-out"></div>
 </main>
 <footer class="footer-links"><div class="wrap"><p class="small">
