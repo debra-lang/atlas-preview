@@ -517,3 +517,9 @@ body[data-page="index"] #top10{margin-top:6px}
 .card.tcard:not(.rcard) h3{margin-top:4px}
 .card.tcard:not(.rcard) .one{margin:2px 0 4px}
 .card.tcard:not(.rcard) .duo{margin-top:2px}
+
+/* ---------- Refinement pass 9: treatment-card wash a little more visible ----------
+   20% category color at the top edge, fading into the card background by ~20% of the card
+   height. Border tint and everything else unchanged. */
+.card.tcard:not(.rcard){
+  background:linear-gradient(180deg,color-mix(in srgb,var(--cat-c,var(--c-promising)) 20%,var(--surface)) 0,color-mix(in srgb,var(--cat-c,var(--c-promising)) 8%,var(--surface)) 10%,var(--surface) 20%)}
