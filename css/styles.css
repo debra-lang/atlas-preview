@@ -475,3 +475,25 @@ body[data-page="index"] #top10{margin-top:6px}
 .rcard-rest{outline:1px solid transparent;outline-offset:6px;border-radius:var(--r);transition:outline-color .15s,border-color .15s,transform .15s,background-color .15s}
 .rcard-rest:hover{outline-color:color-mix(in srgb,var(--c-promising) 45%,var(--line));border-top-color:transparent;transform:translateY(-1px);background:color-mix(in srgb,var(--surface) 45%,transparent)}
 @media(hover:none){.rcard-rest:hover{outline-color:transparent;border-top-color:var(--line);transform:none;background:none}}
+
+/* ---------- Refinement pass 6: one full-frame hover for every clickable card/tile, site-wide ----------
+   Idle appearance untouched. On hover (pointer devices only) the complete perimeter takes the
+   card's own color — category color for treatment/category/entry cards, path color for the hero
+   tiles, brand blue elsewhere — with a faint outer glow and the same .15s transition. */
+.card,.path-card,.catcard{--hov-c:color-mix(in srgb,var(--c-promising) 45%,var(--line));transition:border-color .15s,box-shadow .15s,transform .15s,background-color .15s}
+.tcard,.catcard{--hov-c:color-mix(in srgb,var(--cat-c,var(--c-promising)) 60%,var(--line))}
+.path-card{--hov-c:color-mix(in srgb,var(--p-c,var(--c-promising)) 60%,var(--line))}
+@media(hover:hover){
+  .card:has(a[href]):hover,.path-card:hover,.catcard:hover,.card.tcard:hover{
+    border-color:var(--hov-c);
+    box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--hov-c) 22%,transparent)}
+  .rcard-top:hover{border-top-color:var(--hov-c)}
+}
+/* #4–#10 (boxless): the frame is a pseudo-element drawn 7px outside the entry, replacing the earlier outline */
+.rcard-rest{outline:0;position:relative;transform:none}
+.rcard-rest::after{content:"";position:absolute;inset:-7px;border-radius:var(--r);border:1px solid transparent;pointer-events:none;transition:border-color .15s,box-shadow .15s}
+.rcard-rest:hover{outline:0;transform:none;background:none;border-top-color:var(--line)}
+@media(hover:hover){
+  .rcard-rest:hover{border-top-color:transparent;background:color-mix(in srgb,var(--surface) 45%,transparent)}
+  .rcard-rest:hover::after{border-color:var(--hov-c);box-shadow:0 0 0 3px color-mix(in srgb,var(--hov-c) 22%,transparent)}
+}
