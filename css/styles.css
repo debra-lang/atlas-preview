@@ -294,3 +294,104 @@ a.drow{color:var(--text)} a.drow:hover{text-decoration:none;background:var(--sur
 .ask-loading .bar i{position:absolute;inset:0;width:35%;border-radius:99px;background:var(--grad-brand);animation:askbar 1.6s ease-in-out infinite}
 @keyframes askbar{0%{left:-35%}100%{left:100%}}
 @media (prefers-reduced-motion: reduce){.ask-spin,.ask-loading .bar i{animation:none}.ask-loading .bar i{width:100%;left:0;opacity:.5}}
+
+/* ---------- Phase 5: hierarchy & density pass (same tokens, same identity) ----------
+   Goal: fewer competing elements per screen, nothing removed — secondary detail moves
+   behind native <details> expanders (no JS, keyboard-accessible, crawlable). */
+:focus-visible{outline:2px solid var(--c-promising);outline-offset:2px}
+.hero{padding:28px 0 8px}
+.hero p.lead{font-size:1rem;max-width:44em;margin:.3em 0 .6em}
+.hero h1{max-width:18em;text-wrap:balance}
+.section{padding:22px 0 4px}
+.section-sub{margin:-6px 0 12px;font-size:.95rem}
+h3{text-wrap:balance}
+
+/* slimmer entry cards */
+.paths{margin:14px 0 4px;gap:10px}
+.path-card{padding:11px 14px;gap:2px;border-left-width:3px}
+.path-card b{font-size:.95rem}
+.path-card .small{font-size:.8rem;line-height:1.45}
+
+/* one horizontal stats strip — values are still injected from data/ (build_seo sync + app.js) */
+.stats-strip{display:flex;flex-wrap:wrap;margin:14px 0 10px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface);box-shadow:var(--shadow);overflow:hidden}
+.stats-strip .stat{flex:1 1 0;min-width:120px;border:0;border-radius:0;box-shadow:none;background:none;padding:8px 14px;border-left:1px solid var(--line)}
+.stats-strip .stat:first-child{border-left:0}
+.stats-strip .stat b{font-size:1.1rem;line-height:1.2;font-variant-numeric:tabular-nums}
+.stats-strip .stat span{font-size:.72rem;white-space:nowrap}
+@media(max-width:639px){
+  .stats-strip .stat{flex:1 1 45%;border-top:1px solid var(--line)}
+  .stats-strip .stat:nth-child(-n+2){border-top:0}
+  .stats-strip .stat:nth-child(odd){border-left:0}
+}
+
+/* loudness vs distress — the same two-cell "duo" everywhere (hero key, cards, treatment pages) */
+.ld-key{margin:4px 0 2px}
+.ld-key a.cell{color:var(--text);display:block}
+.ld-key a.cell:hover{text-decoration:none;border-color:color-mix(in srgb,var(--c-promising) 45%,var(--line))}
+.ld-key .v{font-size:.86rem}
+.ld-key .small{display:block;color:var(--muted);margin-top:2px}
+.ld-note{font-size:.82rem;color:var(--muted);margin:6px 0 0}
+@media(max-width:400px){.ld-key.duo{grid-template-columns:1fr}}
+
+/* scannable ranked cards: rank · name · category · loudness · distress · one summary · See evidence */
+.rcard{gap:8px;padding:18px 16px 0}
+.rcard .cat{margin-top:2px}
+.rcard h3{font-size:1.04rem;margin:0}
+.rcard h3 a:hover{text-decoration:underline}
+.rcard .one{font-size:.9rem}
+.rcard .see{font-weight:600;font-size:.88rem;margin:2px 0 0}
+details.rmore{border-top:1px solid var(--line);margin:auto -16px 0;padding:0 16px}
+.rcard .see{margin-bottom:8px}
+details.rmore summary{cursor:pointer;font-size:.8rem;font-weight:600;color:var(--muted);padding:9px 0;list-style:none;display:flex;align-items:center;gap:7px}
+details.rmore summary::-webkit-details-marker{display:none}
+details.rmore summary::before{content:"+";font-family:var(--font-display);font-weight:700;color:var(--c-promising);width:12px;text-align:center}
+details.rmore[open] summary::before{content:"–"}
+details.rmore summary:hover{color:var(--text)}
+details.rmore[open]{padding-bottom:12px}
+details.rmore .foot{margin:0 0 8px;padding-top:0}
+details.rmore .whyline{margin:0 0 8px}
+details.rmore .rdetail{margin:0}
+
+/* section methodology expanders (Top 10 "How solid is this order?", page leads) */
+details.method{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface-2);padding:0 14px;margin:0 0 14px;font-size:.88rem}
+details.method summary{cursor:pointer;font-weight:600;color:var(--c-promising);padding:9px 0}
+details.method[open]{padding-bottom:10px}
+details.method p{margin:.4em 0}
+details.method p:last-child{margin-bottom:0}
+
+/* slim "Ask" row */
+.ask-row{display:flex;align-items:center;gap:12px 18px;flex-wrap:wrap;padding:14px 18px}
+.ask-row h2{font-size:1.05rem;margin:0 0 2px}
+.ask-row .txt{flex:1 1 300px;min-width:0}
+.ask-row p{margin:0}
+.ask-row .btn{flex:none}
+
+/* treatment page: on-this-page chips + collapsible secondary sections */
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 2px}
+.toc a{font-size:.78rem;font-weight:500;border:1px solid var(--line);border-radius:999px;padding:4px 11px;color:var(--muted);background:var(--surface);white-space:nowrap}
+.toc a:hover{text-decoration:none;color:var(--text);border-color:color-mix(in srgb,var(--c-promising) 45%,var(--line))}
+.tpage-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0 4px}
+.tpage-actions .btn{padding:7px 14px;font-size:.86rem}
+details.sec{border-top:1px solid var(--line);margin-top:1.3em}
+details.sec>summary{cursor:pointer;font-family:var(--font-display);font-weight:700;font-size:clamp(1.1rem,3.2vw,1.35rem);line-height:1.3;padding:14px 0;list-style:none;display:flex;align-items:center;gap:10px;letter-spacing:-.01em}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::after{content:"+";margin-left:auto;color:var(--c-promising);font-weight:700;flex:none}
+details.sec[open]>summary::after{content:"–"}
+details.sec>summary .small{font-family:var(--font-body);font-weight:500;color:var(--muted)}
+details.sec[open]{padding-bottom:6px}
+details.sec .prose>h2:first-child,details.sec>h2:first-of-type{margin-top:.4em}
+.prose details.sec h2{font-size:1.05rem;margin-top:1.2em}
+.prose details.sec h3{font-size:1rem}
+
+/* study cards: lighter meta line, details already collapsed */
+.study .meta{font-size:.8rem}
+
+/* generic page chrome: crumbs tighter, lead a touch smaller on inner pages */
+.crumbs{font-size:.8rem}
+main.prose>h1{margin-bottom:.35em}
+main.prose p.lead{font-size:1.02rem;color:var(--muted)}
+
+/* grid children must be allowed to shrink (long status badges/titles otherwise force horizontal overflow) */
+.grid>*{min-width:0}
+.badge{white-space:normal;text-align:left}
+.cmp-scroll,.dchart{max-width:100%}

@@ -46,6 +46,18 @@ def main():
         if not m:
             raise SystemExit(f"No <main> found in {page}.html")
         templates.append(f'<template id="page-{page}">{m.group(0)}</template>')
+    # prerendered static pages (treatments/<id>/, research/<id>/, trials/<nct>/, guides, research
+    # questions, ask) are embedded under their clean path so the preview covers every page type
+    n_static = 0
+    for sub in ("treatments", "trials", "research", "guides", "research-questions", "ask"):
+        for f in sorted((ROOT / sub).rglob("index.html")):
+            rel = f.relative_to(ROOT).parent.as_posix()
+            html = f.read_text(encoding="utf-8")
+            m = re.search(r"<main[^>]*>[\s\S]*?</main>", html)
+            if not m:
+                continue
+            templates.append(f'<template id="page-{rel}">{m.group(0)}</template>')
+            n_static += 1
 
     out = f"""<meta charset="utf-8">
 <meta name="robots" content="noindex">
@@ -68,7 +80,7 @@ window.__TA_DATA__ = {esc_json(json.dumps(data, ensure_ascii=False, separators=(
     dest = ROOT / "preview.html"
     dest.write_text(out, encoding="utf-8")
     print(f"Wrote {dest} ({dest.stat().st_size / 1024:.0f} KB) — "
-          f"{len(PAGES)} pages, {len(data['treatments'])} treatments embedded.")
+          f"{len(PAGES)} pages + {n_static} static pages, {len(data['treatments'])} treatments embedded.")
 
 if __name__ == "__main__":
     main()

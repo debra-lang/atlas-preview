@@ -49,7 +49,7 @@
       </a>
     </div>
 
-    <div class="hero-stats">
+    <div class="stats-strip" role="group" aria-label="Database at a glance">
       <!-- initial values are baked in at build time from data/ (tools/build_seo.py sync step,
            re-run by the weekly workflow) so crawlers, no-JS visitors and slow loads never see
            dashes; JS then refreshes them from the live database -->
@@ -59,10 +59,14 @@
       <div class="stat"><b id="stat-trials" data-stat="trials">21</b><span>trials watched</span></div>
       <div class="stat"><b id="stat-updated" data-stat="lastReview">Sep 3, 2026</b><span>last evidence review</span></div>
     </div>
-    <p class="small muted">Two different questions, always kept separate here:
-    <a href="treatments.html?flag=loud">🔉 <strong>Loudness</strong> — did the sound itself get quieter?</a> ·
-    <a href="treatments.html?flag=distress">🧠 <strong>Distress</strong> — did it bother people less, even if the sound stayed?</a><br>
-    Most treatments with good evidence only do the second. We never blur the two.</p>
+
+    <div class="duo ld-key" role="group" aria-label="Two different questions, always kept separate here">
+      <a class="cell" href="treatments.html?flag=loud"><div class="k">🔉 Loudness</div>
+        <div class="v">Did the sound itself get quieter?</div></a>
+      <a class="cell" href="treatments.html?flag=distress"><div class="k">🧠 Distress</div>
+        <div class="v">Did it bother people less, even if the sound stayed?</div></a>
+    </div>
+    <p class="ld-note">Two different questions, always kept separate here. Most treatments with good evidence only do the second. We never blur the two.</p>
   </section>
 
   <section class="section">
@@ -70,21 +74,16 @@
       <a class="more" href="treatments.html">All treatments →</a></div>
     <p class="section-sub">Ranked across ten dimensions — evidence quality, size of benefit, loudness effect, distress effect,
     replication, study quality, safety, availability, regulatory status, independent confirmation — never by hype or headlines.
-    Every card explains its own rank, and tapping any treatment shows the studies behind it — every claim links to its source.
-    Rankings and evidence scores never change automatically: potential changes are held for review, and every change is logged.
     <a href="about.html#rankings">How rankings work →</a><br>
     <strong>We rank the evidence, not what's right for you</strong> — treatment decisions belong with you and your doctor.</p>
+    <details class="method" id="top10-method">
+      <summary>ℹ️ How solid is this order?</summary>
+      <p id="rank-uncertainty">Rankings depend on how evidence dimensions are weighted; each card is labeled "Stable rank" or "Weighting-sensitive" with the detail of how far it can move.</p>
+      <p>Every card explains its own rank, and tapping any treatment shows the studies behind it — every claim links to its source.
+      Rankings and evidence scores never change automatically: potential changes are held for review, and every change is logged.
+      <a href="about.html#rankings">Read the full ranking methodology →</a></p>
+    </details>
     <div id="top10" class="grid grid-3" style="row-gap:22px"></div>
-  </section>
-
-  <section class="section">
-    <div class="card" style="border-left:4px solid var(--brand-1)">
-      <h2 style="margin-top:0">Have a question about tinnitus research?</h2>
-      <p class="small muted" style="max-width:52em">Ask about a treatment, compare two approaches, or find out
-      what the evidence says. Answers are generated from our verified research database and linked to the
-      underlying evidence — every claim cites its source.</p>
-      <a class="btn" href="ask/">Ask Tinnitus Evidence →</a>
-    </div>
   </section>
 
   <section class="section">
@@ -96,11 +95,24 @@
 
   <section class="section">
     <div class="section-head"><h2>Best options available today</h2></div>
-    <p class="section-sub">Treatments you can actually access now, with exact regulatory wording — these terms are NOT interchangeable:
-    <strong>approved</strong> = passed the FDA's strictest review · <strong>cleared</strong> = judged similar to an existing device
-    (not proof it works) · <strong>De Novo authorized</strong> = allowed as a first-of-its-kind device ·
-    <strong>investigational</strong> = still being tested, not for sale.</p>
+    <p class="section-sub">Treatments you can actually access now, with exact regulatory wording.</p>
+    <details class="method">
+      <summary>What the regulatory terms mean — they are NOT interchangeable</summary>
+      <p><strong>approved</strong> = passed the FDA's strictest review · <strong>cleared</strong> = judged similar to an existing device
+      (not proof it works) · <strong>De Novo authorized</strong> = allowed as a first-of-its-kind device ·
+      <strong>investigational</strong> = still being tested, not for sale.</p>
+    </details>
     <div id="available" class="grid grid-3" style="row-gap:22px"></div>
+  </section>
+
+  <section class="section">
+    <div class="card ask-row" style="border-left:4px solid var(--brand-1)">
+      <div class="txt"><h2>Have a question about tinnitus research?</h2>
+      <p class="small muted">Ask about a treatment, compare two approaches, or find out
+      what the evidence says. Answers are generated from our verified research database and linked to the
+      underlying evidence — every claim cites its source.</p></div>
+      <a class="btn" href="ask/">Ask Tinnitus Evidence →</a>
+    </div>
   </section>
 
   <section class="section">
@@ -125,13 +137,13 @@
 
   <section class="section">
     <div class="section-head"><h2>Is this research relevant to <em>my</em> tinnitus?</h2></div>
-    <div class="card" style="border-left:4px solid var(--c-emerging)">
-      <p style="margin-top:0">Tinnitus isn't one condition. Pulsatile, somatic, hearing-loss-related and other
+    <div class="card ask-row" style="border-left:4px solid var(--c-emerging)">
+      <div class="txt"><p>Tinnitus isn't one condition. Pulsatile, somatic, hearing-loss-related and other
       forms have different evidence. <strong>My Tinnitus Profile</strong> lets you record your characteristics —
       privately, on this device — and see which research studied people like you. It also checks your answers
       against clinical guidelines' signs that deserve a professional evaluation.</p>
-      <p style="margin-bottom:0"><a class="btn btn-primary" href="profile.html">Build My Tinnitus Profile</a>
-      <span class="small muted" style="margin-left:8px">Not a diagnosis. Nothing leaves your device.</span></p>
+      <p class="small muted" style="margin-top:6px">Not a diagnosis. Nothing leaves your device.</p></div>
+      <a class="btn btn-primary" href="profile.html">Build My Tinnitus Profile</a>
     </div>
   </section>
 

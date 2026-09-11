@@ -359,10 +359,12 @@
     $('#stat-trials').textContent = trials.length;
     $('#stat-updated').textContent = fmtDate(meta.lastFullReview);
 
-    // Top 10 (with "Why this ranking?" expanders)
-    $('#top10').innerHTML =
-      (rankings.uncertaintyNote ? `<div class="notice" style="grid-column:1/-1;margin:0 0 4px">ℹ️ <strong>How solid is this order?</strong> ${esc(rankings.uncertaintyNote)}</div>` : '') +
-      rankings.top.map(r => {
+    // Top 10 (scannable cards; "Why this ranking?" + research detail behind each card's expander).
+    // The ranking-uncertainty statement (data/rankings.json) lives in the section's
+    // "How solid is this order?" expander instead of a banner above the grid.
+    const unc = $('#rank-uncertainty');
+    if (unc && rankings.uncertaintyNote) unc.textContent = rankings.uncertaintyNote;
+    $('#top10').innerHTML = rankings.top.map(r => {
         const t = DB.tById[r.id]; if (!t) return '';
         return rankedCard(t, r);
       }).join('');
@@ -436,17 +438,28 @@
       </ul></details>`;
   }
 
+  function stabilityBadge(r) {
+    if (!r.stability) return '';
+    const ws = r.stability === 'weighting-sensitive';
+    return `<span class="badge ${ws ? 'b-watch' : 'b-strong'}" title="${esc(r.stabilityNote || '')}">${ws ? 'Weighting-sensitive' : 'Stable rank'}</span>`;
+  }
+  /* Ranked card, scannable first: rank · category · name · loudness · distress · one plain-English
+     line · "See evidence". Everything else the card used to show (evidence score, tier, availability,
+     rank stability, "Why #N?" and the full research detail) is still here, one tap down. */
   function rankedCard(t, r) {
     const cat = DB.catById[t.category] || {};
-    return `<div class="card tcard" style="--cat-c:${esc(cat.color || '#888')}">
+    return `<div class="card tcard rcard" style="--cat-c:${esc(cat.color || '#888')}">
       <span class="rank">#${r.rank}</span>
       <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span>
-      ${r.stability ? `<span class="badge ${r.stability === 'weighting-sensitive' ? 'b-watch' : 'b-strong'}" style="margin-left:4px" title="${esc(r.stabilityNote || '')}">${r.stability === 'weighting-sensitive' ? 'Weighting-sensitive' : 'Stable rank'}</span>` : ''}
       <h3>${updatedRecently(t) ? '<span class="updated-dot" title="Updated recently"></span>' : ''}<a href="treatment.html?id=${esc(t.id)}" style="color:inherit">${esc(t.name)}</a></h3>
       <p class="one">${esc(t.oneLiner)}</p>
       ${duo(t, true)}
-      <div class="foot">${emeter(t.evidenceScore)} ${tierBadge(t.tier)} ${availBadge(t)}</div>
-      ${whyRankingBlock(r, t)}
+      <a class="see" href="treatment.html?id=${esc(t.id)}">See evidence →</a>
+      <details class="rmore">
+        <summary>Why #${r.rank}? · evidence score · rank stability</summary>
+        <div class="foot">${emeter(t.evidenceScore)} ${tierBadge(t.tier)} ${availBadge(t)} ${stabilityBadge(r)}</div>
+        ${whyRankingBlock(r, t)}
+      </details>
     </div>`;
   }
 
@@ -589,61 +602,82 @@
     const av = t.availability || {};
     const conf = { low: ['b-watch', 'Low'], moderate: ['b-promising', 'Moderate'], high: ['b-strong', 'High'] }[t.confidence] || ['b-weak', '—'];
 
+    /* Page hierarchy (top → bottom): what it is → evidence at a glance → loudness → distress →
+       how strong the evidence is → key studies → limitations → replication → safety / regulatory /
+       availability → history → methodology & citations. Same data, same wording; only the order and
+       which parts start collapsed changed. */
+    const repWord = t.replication ? (REP_LABELS[t.replication] || cap(t.replication)) : 'Not yet assessed';
+    const toc = [['what', 'What it is'], ['evidence', 'Evidence'], ['loud', '🔉 Loudness'], ['distress', '🧠 Distress'],
+      ['strength', 'How strong?'], ['studies', 'Key studies'], ['limits', 'Limitations'], ['replication', 'Replication'],
+      ['safety', 'Safety & availability'], ['sources', 'Sources']];
     root.innerHTML = `
       <p class="small" style="margin-top:14px"><a href="treatments.html">‹ All treatments</a></p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
         <span class="cat" style="color:${esc(cat.color)};font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em">${esc(cat.icon)} ${esc(cat.name)}</span>
         ${rank ? `<span class="badge b-promising">#${rank} most promising</span>` : ''}
+        ${rEntry ? stabilityBadge(rEntry) : ''}
       </div>
       <h1 style="margin:.2em 0 .3em">${esc(t.name)}</h1>
-      <p class="muted" style="max-width:46em">${esc(t.oneLiner)}</p>
+      <p class="muted" style="max-width:46em;margin-top:0">${esc(t.oneLiner)}</p>
       ${t.narrowPopulation ? `<div class="narrow-note">🎯 <strong>Applies only to a specific diagnosed tinnitus population.</strong> ${esc(t.narrowNote || '')}</div>` : ''}
       ${t.underReevaluation ? `<div class="notice" style="margin:10px 0">🔎 <strong>Evidence rating under re-evaluation${t.underReevaluation.since ? ' since ' + fmtDate(t.underReevaluation.since) : ''}.</strong>
         ${esc(t.underReevaluation.reason || '')} The rating shown is the current published assessment; it changes only when the review completes.</div>` : ''}
-      ${plainBlock(t)}
-      ${evidenceProfile(t)}
-      ${profileRelevance(t)}
-      <p><button class="btn watch-btn" type="button" id="watch" aria-pressed="${wlHas('treatments', t.id)}">⭐ <span>${wlHas('treatments', t.id) ? 'On your watchlist' : 'Add to watchlist'}</span></button>
-      <a class="btn" href="compare.html?ids=${esc(t.id)}">⚖ Compare</a></p>
-
       ${prevNote}
-      ${rEntry ? whyRankingBlock(rEntry, t) : ''}
-      ${rankHistory(t)}
-      <div class="snapshot" style="margin:16px 0">
-        <div class="cell"><div class="k">Evidence score</div><div class="v">${emeter(t.evidenceScore)}</div></div>
-        <div class="cell"><div class="k">Tier</div><div class="v">${tierBadge(t.tier)}</div></div>
-        <div class="cell"><div class="k">Available now</div><div class="v">${av.availableNow ? 'Yes' : 'No'}</div></div>
-        <div class="cell"><div class="k">Regulatory status</div><div class="v">${esc(t.regulatory.status)}</div>
-          ${regExplain(t.regulatory.status) ? `<div class="small muted" style="margin-top:3px">${esc(regExplain(t.regulatory.status))}</div>` : ''}</div>
-        <div class="cell"><div class="k">Loudness effect</div><div class="v lv-${esc(t.loudness.level)}">${LV_LABELS[t.loudness.level]}</div></div>
-        <div class="cell"><div class="k">Distress effect</div><div class="v lv-${esc(t.distress.level)}">${LV_LABELS[t.distress.level]}</div></div>
-        <div class="cell"><div class="k">Cost (approx.)</div><div class="v">${esc(av.cost || 'Unknown')}</div></div>
-        <div class="cell"><div class="k">Confidence</div><div class="v"><span class="badge ${conf[0]}">${conf[1]}</span></div></div>
-        <div class="cell"><div class="k">Best suited for</div><div class="v small">${esc(t.bestSuitedFor || '—')}</div></div>
-        <div class="cell"><div class="k">Developer</div><div class="v small">${esc(t.developer || '—')}</div></div>
-        <div class="cell"><div class="k">Last reviewed</div><div class="v small">${fmtDate(t.lastReviewed)}</div></div>
-        <div class="cell"><div class="k">Studies tracked</div><div class="v small">${(t.studies || []).length}</div></div>
+      ${profileRelevance(t)}
+      <nav class="toc" aria-label="On this page">${toc.map(([id, label]) => `<a href="#${id}">${label}</a>`).join('')}</nav>
+      <div class="tpage-actions">
+        <button class="btn watch-btn" type="button" id="watch" aria-pressed="${wlHas('treatments', t.id)}">⭐ <span>${wlHas('treatments', t.id) ? 'On your watchlist' : 'Add to watchlist'}</span></button>
+        <a class="btn" href="compare.html?ids=${esc(t.id)}">⚖ Compare</a>
       </div>
 
       <div class="prose">
-        <h2>What it is</h2><p>${esc(t.whatItIs)}</p>
-        <h2>How it works</h2><p>${esc(t.howItWorks)}</p>
+        <h2 id="what">What it is</h2><p>${esc(t.whatItIs)}</p>
+        <h3>How it works</h3><p>${esc(t.howItWorks)}</p>
 
-        <h2>Does it make tinnitus quieter — or easier to live with?</h2>
+        <h2 id="evidence">Evidence at a glance</h2>
+        ${plainBlock(t)}
+        ${evidenceProfile(t)}
+
+        <h2 id="loud">🔉 Did tinnitus loudness improve?</h2>
+        <p><strong class="lv-${esc(t.loudness.level)}">${LV_LABELS[t.loudness.level]}.</strong> ${esc(t.loudness.summary)}</p>
+        <h2 id="distress">🧠 Did tinnitus distress improve?</h2>
+        <p><strong class="lv-${esc(t.distress.level)}">${LV_LABELS[t.distress.level]}.</strong> ${esc(t.distress.summary)}</p>
         <p class="small muted">These are different outcomes. Loudness = the sound itself is reduced.
         Distress = the reaction to it improves (THI/TFI, anxiety, sleep, quality of life).</p>
-        ${duo(t, false)}
 
-        <h2>Clinical evidence</h2>
+        <h2 id="strength">How strong is the evidence?</h2>
         <p><strong>Why this score:</strong> ${esc(t.scoreRationale)}</p>
+        ${rEntry ? whyRankingBlock(rEntry, t) : ''}
+        ${rankHistory(t)}
+
+        <h2 id="studies">Key studies</h2>
         ${(t.studies || []).map(id => studyBlock(DB.sById[id])).join('') || '<p class="muted">No studies recorded yet.</p>'}
 
-        <h2>Safety</h2><p>${esc(t.safety)}</p>
-
-        ${(t.limitations || []).length ? `<h2>Limitations & open questions</h2><ul>${t.limitations.map(l => `<li>${esc(l)}</li>`).join('')}</ul>` : ''}
+        ${(t.limitations || []).length ? `<h2 id="limits">Limitations & open questions</h2><ul>${t.limitations.map(l => `<li>${esc(l)}</li>`).join('')}</ul>` : '<h2 id="limits">Limitations & open questions</h2><p class="muted">No limitations recorded.</p>'}
         ${t.conflicts ? `<div class="notice">⚠ <strong>Conflicts of interest:</strong> ${esc(t.conflicts)}</div>` : ''}
 
-        <h2>Availability</h2>
+        <h2 id="replication">Has the result been independently replicated?</h2>
+        <p><strong>${esc(repWord)}.</strong> ${esc(t.replicationNote || '')}</p>
+        ${t.independence ? `<p class="small muted">Independence: <strong>${esc(IND_LABELS[t.independence] || cap(t.independence))}</strong>. ${esc(t.independenceNote || '')}</p>` : ''}
+
+        <h2 id="safety">Safety, regulatory status & availability</h2>
+        <p><strong>Safety evidence: ${esc(t.safetyLevel ? cap(t.safetyLevel) : 'Not yet assessed')}.</strong> ${esc(t.safety)}</p>
+        <div class="snapshot" style="margin:16px 0">
+          <div class="cell"><div class="k">Evidence score</div><div class="v">${emeter(t.evidenceScore)}</div></div>
+          <div class="cell"><div class="k">Tier</div><div class="v">${tierBadge(t.tier)}</div></div>
+          <div class="cell"><div class="k">Available now</div><div class="v">${av.availableNow ? 'Yes' : 'No'}</div></div>
+          <div class="cell"><div class="k">Regulatory status</div><div class="v">${esc(t.regulatory.status)}</div>
+            ${regExplain(t.regulatory.status) ? `<div class="small muted" style="margin-top:3px">${esc(regExplain(t.regulatory.status))}</div>` : ''}</div>
+          <div class="cell"><div class="k">Loudness effect</div><div class="v lv-${esc(t.loudness.level)}">${LV_LABELS[t.loudness.level]}</div></div>
+          <div class="cell"><div class="k">Distress effect</div><div class="v lv-${esc(t.distress.level)}">${LV_LABELS[t.distress.level]}</div></div>
+          <div class="cell"><div class="k">Cost (approx.)</div><div class="v">${esc(av.cost || 'Unknown')}</div></div>
+          <div class="cell"><div class="k">Confidence</div><div class="v"><span class="badge ${conf[0]}">${conf[1]}</span></div></div>
+          <div class="cell"><div class="k">Best suited for</div><div class="v small">${esc(t.bestSuitedFor || '—')}</div></div>
+          <div class="cell"><div class="k">Developer</div><div class="v small">${esc(t.developer || '—')}</div></div>
+          <div class="cell"><div class="k">Last reviewed</div><div class="v small">${fmtDate(t.lastReviewed)}</div></div>
+          <div class="cell"><div class="k">Studies tracked</div><div class="v small">${(t.studies || []).length}</div></div>
+        </div>
+        <h3>Availability</h3>
         <ul>
           <li><strong>USA:</strong> ${esc(av.usa || 'Unknown')}</li>
           <li><strong>Europe:</strong> ${esc(av.europe || 'Unknown')}</li>
@@ -655,21 +689,22 @@
           ${t.regulatory.sourceUrl ? ` <a href="${esc(t.regulatory.sourceUrl)}" rel="noopener" target="_blank">Source ↗</a>` : ''}</p>
         ${fmqsBox(t)}
 
-        ${(t.timeline || []).length ? `<h2>Research timeline</h2>${TL_KEY}<ul class="timeline">${t.timeline.map(ev => `<li class="${timelineClass(ev.event)}"><b>${esc(ev.year)}</b> — ${esc(ev.event)}</li>`).join('')}</ul>` : ''}
+        ${(t.timeline || []).length ? `<details class="sec" id="timeline"><summary>Research timeline <span class="small">${t.timeline.length} events</span></summary>${TL_KEY}<ul class="timeline">${t.timeline.map(ev => `<li class="${timelineClass(ev.event)}"><b>${esc(ev.year)}</b> — ${esc(ev.event)}</li>`).join('')}</ul></details>` : ''}
 
-        ${(t.latest || []).length ? `<h2>Latest developments</h2>${t.latest.map(l =>
+        ${(t.latest || []).length ? `<details class="sec" id="latest"${updatedRecently(t) ? ' open' : ''}><summary>Latest developments <span class="small">${t.latest.length}</span></summary>${t.latest.map(l =>
           `<div class="week-item"><div class="t">${fmtDate(l.date)}</div><div class="small">${esc(l.text)}
-           ${l.url ? ` <a href="${esc(l.url)}" rel="noopener" target="_blank">Source ↗</a>` : ''}</div></div>`).join('')}` : ''}
+           ${l.url ? ` <a href="${esc(l.url)}" rel="noopener" target="_blank">Source ↗</a>` : ''}</div></div>`).join('')}</details>` : ''}
 
-        ${(t.history || []).length ? `<h2>Change history</h2>${t.history.map(h =>
-          `<div class="week-item" style="--w-c:var(--c-watch)"><div class="t">${fmtDate(h.date)} — ${esc(h.change)}</div><div class="small muted">${esc(h.reason)}</div></div>`).join('')}` : ''}
+        ${(t.history || []).length ? `<details class="sec" id="history"><summary>Change history <span class="small">${t.history.length}</span></summary>${t.history.map(h =>
+          `<div class="week-item" style="--w-c:var(--c-watch)"><div class="t">${fmtDate(h.date)} — ${esc(h.change)}</div><div class="small muted">${esc(h.reason)}</div></div>`).join('')}</details>` : ''}
 
-        <h2>Sources</h2>
+        <h2 id="sources">Sources & methodology</h2>
         <ul class="small">${(t.studies || []).map(id => { const s = DB.sById[id]; return s ? `<li>${esc(s.authors)} — <a href="${esc(s.url)}" rel="noopener" target="_blank">${esc(s.title)}</a> (${esc(s.journal)}, ${esc(s.year)})</li>` : ''; }).join('')}
         ${(t.extraSources || []).map(s => `<li><a href="${esc(s.url)}" rel="noopener" target="_blank">${esc(s.title)}</a></li>`).join('')}</ul>
 
         <p class="small muted">Last reviewed ${fmtDate(t.lastReviewed)} · evidence included through ${fmtDate(t.evidenceThrough)} ·
-        tinnitus subtypes studied: ${esc((t.subtypes || []).join(', ') || 'not specified')}</p>
+        tinnitus subtypes studied: ${esc((t.subtypes || []).join(', ') || 'not specified')} ·
+        <a href="about.html#methodology">how we rate evidence</a> · <a href="about.html#profile-bars">how the profile bars work</a></p>
       </div>`;
 
     $('#watch').addEventListener('click', function () {
@@ -1072,19 +1107,30 @@
     const fm = $('#foot-meta');
     if (fm) fm.textContent = `Database: ${DB.treatments.length} treatments · ${DB.studies.length} studies · ${DB.trials.length} trials · last full review ${fmtDate(DB.meta.lastFullReview)}. Routine updates publish automatically after source verification; evidence ratings, rankings and safety assessments never change automatically.`;
   }
+  /* Deep links into collapsed sections: open every <details> ancestor of the target so
+     about.html#rankings, #timeline etc. never land on a closed expander. */
+  function revealTarget(id) {
+    const el = id && document.getElementById(id);
+    if (!el) return null;
+    for (let p = el; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;
+    return el;
+  }
   let pendingAnchor = null;
   function renderRoute() {
     const raw = (location.hash || '#/').replace(/^#\/?/, '');
     let page = (raw.split('?')[0] || 'index').replace(/\.html$/, '') || 'index';
+    // prerendered static pages are embedded under their path, e.g. "treatments/cbt/" -> page-treatments/cbt
+    if (page.includes('/')) page = page.replace(/\/$/, '');
     if (!document.getElementById('page-' + page)) page = 'index';
     document.body.dataset.page = page;
     document.title = ((DB.tById[qs('id')] || {}).name || pageTitle(page)) + ' — ' + DB.meta.name;
     $('#app').innerHTML = document.getElementById('page-' + page).innerHTML;
+    if (page.includes('/')) { const h1 = $('#app h1'); if (h1) document.title = h1.textContent.trim() + ' — ' + DB.meta.name; }
     chrome();
     setFootMeta();
     if (PAGES[page]) PAGES[page]();
     if (pendingAnchor) {
-      const el = document.getElementById(pendingAnchor); pendingAnchor = null;
+      const el = revealTarget(pendingAnchor); pendingAnchor = null;
       if (el) { el.scrollIntoView(); return; }
     }
     window.scrollTo(0, 0);
@@ -1098,12 +1144,30 @@
     document.addEventListener('click', e => {
       const a = e.target.closest('a[href]');
       if (!a) return;
-      const m = (a.getAttribute('href') || '').match(/^([a-z-]+)\.html(?:\?([^#]*))?(?:#(.*))?$/);
-      if (!m) return;
+      const href = a.getAttribute('href') || '';
+      let m = href.match(/^([a-z-]+)\.html(?:\?([^#]*))?(?:#(.*))?$/);
+      if (!m) {
+        // clean static URLs ("treatments/cbt/", "research/", "./") → embedded prerendered page
+        const s = href.match(/^(?:\.\/|((?:treatments|trials|research|guides|research-questions|ask)(?:\/[A-Za-z0-9_.-]+)?)\/?)(?:#(.*))?$/);
+        if (!s) return;
+        e.preventDefault();
+        pendingAnchor = s[2] || null;
+        const h = '#/' + (s[1] || '');
+        if (h === location.hash) renderRoute(); else location.hash = h;
+        return;
+      }
+      if (href.startsWith('#')) return;
       e.preventDefault();
       pendingAnchor = m[3] || null;
       const h = '#/' + (m[1] === 'index' ? '' : m[1]) + (m[2] ? '?' + m[2] : '');
       if (h === location.hash) renderRoute(); else location.hash = h;
+    });
+    // same-page anchors inside a routed page (e.g. the treatment page's "On this page" chips)
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a || a.getAttribute('href').startsWith('#/')) return;
+      const el = revealTarget(a.getAttribute('href').slice(1));
+      if (el) { e.preventDefault(); el.scrollIntoView({ block: 'start' }); }
     });
     addEventListener('hashchange', renderRoute);
     renderRoute();
@@ -1118,6 +1182,10 @@
       setFootMeta();
       const page = document.body.dataset.page;
       if (PAGES[page]) PAGES[page]();
+      // deep links into collapsed <details> sections (about.html#rankings, #timeline …)
+      const open = () => { const el = revealTarget(decodeURIComponent(location.hash.slice(1))); if (el) el.scrollIntoView(); };
+      if (location.hash) open();
+      addEventListener('hashchange', open);
     } catch (err) {
       chrome();
       const m = document.createElement('div');
