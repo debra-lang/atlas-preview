@@ -676,3 +676,5 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
    Yes/No/Not sure fields are compact while long-option fields stay wide. */
 .pform label select{width:auto;min-width:9.5em;max-width:100%;padding-right:28px}
 @media(max-width:639px){.pform label select{min-width:12em;min-height:42px}}
+/* the label is a column flexbox with stretch alignment — opt the select out so its intrinsic width applies */
+.pform label select{align-self:flex-start}
