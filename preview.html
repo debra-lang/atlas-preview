@@ -645,6 +645,13 @@ body[data-page="index"] #top10{margin-top:6px}
 body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
 @media(max-width:639px){.ask-panel{padding:16px 16px 14px}.ask-submit{width:100%;justify-content:center}}
 
+/* ---------- Refinement pass 16: Ask example tiles — the site's top wash (blue), a step brighter on hover ---------- */
+.ask-ex-grid .ask-ex{--wash-c:var(--c-promising);border-top-color:color-mix(in srgb,var(--wash-c) 48%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--wash-c) 17%,var(--surface)) 0,color-mix(in srgb,var(--wash-c) 7%,var(--surface)) 12%,var(--surface) 26%);
+  transition:border-color .15s,box-shadow .15s,background .15s}
+@media(hover:hover){.ask-ex-grid .ask-ex:hover{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--wash-c) 24%,var(--surface)) 0,color-mix(in srgb,var(--wash-c) 10%,var(--surface)) 12%,var(--surface) 26%)}}
+
 </style>
 <div id="app"></div>
 <template id="page-index"><main id="content" class="wrap">
