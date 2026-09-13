@@ -451,8 +451,9 @@
     return `<span class="badge ${ws ? 'b-watch' : 'b-strong'}" title="${esc(r.stabilityNote || '')}">${ws ? 'Weighting-sensitive' : 'Stable rank'}</span>`;
   }
   /* Ranked card, scannable first: rank · category · name · loudness · distress · one plain-English
-     line · "See evidence". Everything else the card used to show (evidence score, tier, availability,
-     rank stability, "Why #N?" and the full research detail) is still here, one tap down. */
+     line · "See evidence" · an always-visible summary strip (evidence score, tier, availability,
+     rank stability — same data and badges as before, no longer hidden in the expander).
+     "Why #N?" and the full research detail remain one tap down. */
   function rankedCard(t, r) {
     const cat = DB.catById[t.category] || {};
     const top = r.rank <= 3; // #1–#3 keep the full card; #4–#10 read as a ruled list (same content)
@@ -463,9 +464,9 @@
       <p class="one">${esc(t.oneLiner)}</p>
       ${duo(t, true)}
       <a class="see" href="treatment.html?id=${esc(t.id)}">See evidence →</a>
+      <div class="foot">${emeter(t.evidenceScore)} ${tierBadge(t.tier)} ${availBadge(t)} ${stabilityBadge(r)}</div>
       <details class="rmore">
         <summary>More evidence details</summary>
-        <div class="foot">${emeter(t.evidenceScore)} ${tierBadge(t.tier)} ${availBadge(t)} ${stabilityBadge(r)}</div>
         ${whyRankingBlock(r, t)}
       </details>
     </div>`;
