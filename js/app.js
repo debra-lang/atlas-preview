@@ -456,7 +456,7 @@
      "Why #N?" and the full research detail remain one tap down. */
   function rankedCard(t, r) {
     const cat = DB.catById[t.category] || {};
-    const top = r.rank <= 3; // #1–#3 keep the full card; #4–#10 read as a ruled list (same content)
+    const top = r.rank <= 3; // all 10 share the card style; #1–#3 carry the stronger 3px category top edge
     return `<div class="card tcard rcard ${top ? 'rcard-top' : 'rcard-rest'}" style="--cat-c:${esc(cat.color || '#888')}">
       <div class="rhead"><span class="rank">#${r.rank}</span>
         <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span></div>

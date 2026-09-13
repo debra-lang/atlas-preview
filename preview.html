@@ -802,6 +802,30 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
 .tpage .tl-key{margin-top:4px}
 @media(max-width:639px){.sec-card{padding:16px 16px 12px}}
 
+/* ---------- Refinement pass 26: Top 10 #4–#10 rejoin the card family (per owner) ----------
+   All ten ranked cards now share the Treatments-page card background (surface card, restrained
+   category wash fading by ~20% height, category-tinted 1px top edge). #1–#3 keep their stronger
+   3px solid category top edge as the Top-3 distinction; #4–#10 get the restrained tinted edge.
+   Content, badges, rank chips, duo, expander behavior and the full-frame hover are unchanged. */
+.card.tcard.rcard-top{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--cat-c,var(--c-promising)) 20%,var(--surface)) 0,color-mix(in srgb,var(--cat-c,var(--c-promising)) 8%,var(--surface)) 10%,var(--surface) 20%)}
+.card.tcard.rcard-rest{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--cat-c,var(--c-promising)) 20%,var(--surface)) 0,color-mix(in srgb,var(--cat-c,var(--c-promising)) 8%,var(--surface)) 10%,var(--surface) 20%);
+  border:1px solid var(--line);
+  border-top-color:color-mix(in srgb,var(--cat-c,var(--c-promising)) 48%,var(--line));
+  border-radius:var(--r);box-shadow:var(--shadow);
+  padding:18px 16px 0;align-self:stretch}
+.card.tcard.rcard-rest .duo .cell{background:var(--surface-2)}
+.card.tcard.rcard-rest details.rmore{margin:auto -16px 0;padding:0 16px;border-top:1px solid var(--line)}
+.card.tcard.rcard-rest details.rmore[open]{padding-bottom:12px}
+/* the old boxless-entry outer hover frame is replaced by the standard card hover */
+.card.tcard.rcard-rest::after{content:none}
+@media(hover:hover){
+  .card.tcard.rcard-rest:hover{border-color:var(--hov-c);
+    box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--hov-c) 22%,transparent)}
+}
+@media(max-width:639px){.card.tcard.rcard-rest{padding-top:18px}}
+
 </style>
 <div id="app"></div>
 <template id="page-index"><main id="content" class="wrap">
@@ -6945,7 +6969,7 @@ window.__TA_DATA__ = {"meta":{"name":"Tinnitus Evidence","tagline":"What does th
      "Why #N?" and the full research detail remain one tap down. */
   function rankedCard(t, r) {
     const cat = DB.catById[t.category] || {};
-    const top = r.rank <= 3; // #1–#3 keep the full card; #4–#10 read as a ruled list (same content)
+    const top = r.rank <= 3; // all 10 share the card style; #1–#3 carry the stronger 3px category top edge
     return `<div class="card tcard rcard ${top ? 'rcard-top' : 'rcard-rest'}" style="--cat-c:${esc(cat.color || '#888')}">
       <div class="rhead"><span class="rank">#${r.rank}</span>
         <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span></div>
