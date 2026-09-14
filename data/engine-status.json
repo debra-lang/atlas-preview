@@ -1,18 +1,18 @@
 {
   "schedule": "Every Monday 06:00 America/Los_Angeles (timezone-aware — stays 6 AM Pacific through PST/PDT) via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled",
-  "nextScheduled": "2026-09-14 06:00 America/Los_Angeles",
-  "lastAttempt": "2026-09-07T17:59:45",
+  "nextScheduled": "2026-09-21 06:00 America/Los_Angeles",
+  "lastAttempt": "2026-09-14T20:42:08",
   "sources": [
     {
       "name": "PubMed (title/abstract + MeSH)",
       "checked": true,
-      "count": 24,
+      "count": 25,
       "error": null
     },
     {
       "name": "ClinicalTrials.gov (condition + full-text)",
       "checked": true,
-      "count": 5,
+      "count": 8,
       "error": null
     },
     {
@@ -24,7 +24,7 @@
     {
       "name": "FDA databases (510k/PMA/MAUDE — openFDA)",
       "checked": true,
-      "count": 1,
+      "count": 0,
       "error": null
     },
     {
@@ -36,20 +36,20 @@
     {
       "name": "Guideline page watcher (AAO-HNSF, NICE)",
       "checked": true,
-      "count": 0,
+      "count": 1,
       "error": null
     }
   ],
-  "examined": 30,
-  "newItems": 5,
-  "published": 8,
+  "examined": 34,
+  "newItems": 31,
+  "published": 24,
   "rejectedDuplicates": 0,
-  "rejectedIrrelevant": 6,
-  "held": 0,
+  "rejectedIrrelevant": 21,
+  "held": 2,
   "publishedUnderEvaluation": 0,
-  "heldAwaitingEvaluation": 28,
+  "heldAwaitingEvaluation": 0,
   "trialStatusUpdates": 0,
   "errors": [],
-  "archived": 3,
-  "lastSuccess": "2026-09-07T17:59:45"
+  "archived": 12,
+  "lastSuccess": "2026-09-14T20:42:08"
 }

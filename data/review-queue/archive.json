@@ -1,6 +1,162 @@
 {
   "items": [
     {
+      "archivedAt": "2026-09-14T21:11:02",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "ctgov-NCT07798297-2026-09-01",
+        "kind": "trial",
+        "title": "Transitional Intervention for Hyperacusis in Autism",
+        "source": "University of Central Florida",
+        "date": "2026-09-01",
+        "url": "https://clinicaltrials.gov/study/NCT07798297"
+      }
+    },
+    {
+      "archivedAt": "2026-09-14T21:11:02",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "pubmed-42652880",
+        "kind": "study",
+        "title": "Impact of Pregnancy and the Postpartum Period on Sudden Sensorineural Hearing Loss and Other Audiological Changes.",
+        "source": "Journal of clinical medicine",
+        "date": "2026 Aug 21",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42652880/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-14T21:11:02",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "pubmed-42657200",
+        "kind": "study",
+        "title": "Clinical Characteristics of Patients With Symptomatic Sigmoid Sinus Wall Anomalies.",
+        "source": "OTO open",
+        "date": "2026 Aug 26",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42657200/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-14T21:11:02",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "pubmed-42666867",
+        "kind": "study",
+        "title": "Pathogenesis and management of idiopathic intracranial hypertension: A narrative review.",
+        "source": "Brain circulation",
+        "date": "2025 Nov 3",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42666867/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-14T21:11:02",
+      "reason": "relevance category 3 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 3,
+      "item": {
+        "id": "pubmed-42671881",
+        "kind": "study",
+        "title": "Tinnitus Burden Predicts Domain-Specific Quality of Life After Cochlear Implantation.",
+        "source": "Otology & neurotology : official publication of the American Otological Society, American Neurotology Society [and] European Academy of Otology and Neurotology",
+        "date": "2026 Aug 31",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42671881/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-14T21:11:02",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "pubmed-42673622",
+        "kind": "study",
+        "title": "Internal carotid artery anterior transposition for internal jugular vein decompression: illustrative case.",
+        "source": "Journal of neurosurgery. Case lessons",
+        "date": "2026 Aug 31",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42673622/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-14T21:11:02",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "pubmed-42675741",
+        "kind": "study",
+        "title": "Network analysis of symptoms and psychological distress in patients with sudden sensorineural hearing loss.",
+        "source": "Medicine",
+        "date": "2026 Aug 28",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42675741/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-14T21:11:02",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "pubmed-42676366",
+        "kind": "study",
+        "title": "Cognitive performance, dizziness and tinnitus among adults with unilateral audiovestibular disorders.",
+        "source": "Frontiers in neurology",
+        "date": "2026 Aug 17",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42676366/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-14T21:11:02",
+      "reason": "relevance category 3 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 3,
+      "item": {
+        "id": "ctgov-NCT07814677-2026-09-11",
+        "kind": "trial",
+        "title": "Efficacy and Safety of Intracochlear Injection of Glucocorticoid Through the Round Window Membrane in Patients With Profound or Complete Sudden Sensorineural Hearing Loss",
+        "source": "Eye & ENT Hospital of Fudan University",
+        "date": "2026-09-11",
+        "url": "https://clinicaltrials.gov/study/NCT07814677"
+      }
+    },
+    {
+      "archivedAt": "2026-09-14T21:11:02",
+      "reason": "relevance category 3 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 3,
+      "item": {
+        "id": "pubmed-42715356",
+        "kind": "study",
+        "title": "Labyrinthectomy and Cochlear Implantation in Patients With Meniere Disease: A Systematic Review.",
+        "source": "Otology & neurotology : official publication of the American Otological Society, American Neurotology Society [and] European Academy of Otology and Neurotology",
+        "date": "2026 Sep 9",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42715356/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-14T21:11:02",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "pubmed-42727938",
+        "kind": "study",
+        "title": "Monitoring Hearing Function in Patients With Sporadic Vestibular Schwannoma: A Feasibility Study to Inform a Future Randomized Controlled Trial.",
+        "source": "Otology & neurotology : official publication of the American Otological Society, American Neurotology Society [and] European Academy of Otology and Neurotology",
+        "date": "2026 Sep 11",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42727938/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-14T21:11:02",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "pubmed-42732621",
+        "kind": "study",
+        "title": "Pressure Therapy in Bilateral Ménière's Disease: A Prospective Study.",
+        "source": "The journal of international advanced otology",
+        "date": "2026 Aug 10",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42732621/"
+      }
+    },
+    {
       "archivedAt": "2026-09-07T18:09:04",
       "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
       "relevanceCategory": 4,

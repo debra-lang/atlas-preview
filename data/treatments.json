@@ -79,6 +79,11 @@
     ],
     "latest": [
       {
+        "date": "2026-09-14",
+        "text": "Small Turkish trial comparing group CBT, breathing exercises and psychoeducation for tinnitus distress now listed as completed; no results yet",
+        "url": "https://clinicaltrials.gov/study/NCT07631403"
+      },
+      {
         "date": "2025-11-01",
         "text": "UNITI-RCT published in Nature Communications: CBT and hearing aids alone showed the largest effect sizes; combining treatments was compensatory, not synergistic.",
         "url": "https://www.nature.com/articles/s41467-025-66165-1"
@@ -1324,6 +1329,11 @@
     ],
     "latest": [
       {
+        "date": "2026-09-14",
+        "text": "Uncontrolled Spanish cohort sorts 564 tinnitus patients into five phenotypes and reports distress improvement after four months of customised sound therapy",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42651203/"
+      },
+      {
         "date": "2024-06-01",
         "text": "Music-therapy meta-analysis (14 studies, N=1,239) reports THI and loudness improvements — evidence quality remains low.",
         "url": "https://www.sciencedirect.com/science/article/abs/pii/S0196070924001480"
@@ -1731,6 +1741,11 @@
     ],
     "latest": [
       {
+        "date": "2026-09-14",
+        "text": "Small feasibility trial: sound-paired non-invasive vagus nerve stimulation found safe, but no effect on tinnitus loudness or TFI",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42730729/"
+      },
+      {
         "date": "2021-08-27",
         "text": "Vivistim PMA for stroke — tinnitus program effectively shelved.",
         "url": "https://www.prnewswire.com/news-releases/microtransponder-receives-fda-approval-for-breakthrough-device-benefiting-stroke-survivors-301365864.html"
@@ -2006,6 +2021,11 @@
       }
     ],
     "latest": [
+      {
+        "date": "2026-09-14",
+        "text": "VA randomized trial of notched-noise therapy for tinnitus completes enrollment of 108; results not yet posted",
+        "url": "https://clinicaltrials.gov/study/NCT04661995"
+      },
       {
         "date": "2025-12-10",
         "text": "Newcastle University (Sedley/Yukhnovich, RNID-funded, N=77) reported a desynchronizing sound-therapy variant producing ~10% loudness reduction lasting ~3 weeks — an emerging cousin of the notched approach.",
@@ -2302,6 +2322,11 @@
       }
     ],
     "latest": [
+      {
+        "date": "2026-09-14",
+        "text": "Uncontrolled study of intratympanic dexamethasone reports questionnaire improvement in 65 tinnitus patients",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42732646/"
+      },
       {
         "date": "2026-06-01",
         "text": "Pipeline note: AudioCure's AC102 (intratympanic pyridoindole) is in Phase 2 for sudden hearing loss with tinnitus outcomes — preclinical tinnitus claims, no controlled human tinnitus data yet.",
@@ -2821,7 +2846,13 @@
         "event": "Longest follow-up cohort: 83.8% success at 5+ years; new intracranial hypertension in 8.6%."
       }
     ],
-    "latest": [],
+    "latest": [
+      {
+        "date": "2026-09-14",
+        "text": "Narrative review outlines surgical and endovascular options for pulsatile tinnitus from sigmoid sinus wall anomalies",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42669852/"
+      }
+    ],
     "history": [
       {
         "date": "2026-09-04",
@@ -2888,6 +2919,11 @@
       }
     ],
     "latest": [
+      {
+        "date": "2026-09-14",
+        "text": "Large sham-controlled trial of ear vagus nerve stimulation plus notched music therapy registered in China (not yet recruiting)",
+        "url": "https://clinicaltrials.gov/study/NCT07794462"
+      },
       {
         "date": "2026-09-03",
         "text": "Trial status change: NCT05417711 is now 'Unknown status'",
@@ -3339,7 +3375,13 @@
         "event": "Cochrane review: routine use for tinnitus cannot be justified."
       }
     ],
-    "latest": [],
+    "latest": [
+      {
+        "date": "2026-09-14",
+        "text": "New US registry study will track hyperbaric oxygen outcomes across 41 conditions, including tinnitus — no results before 2035",
+        "url": "https://clinicaltrials.gov/study/NCT07240649"
+      }
+    ],
     "history": [
       {
         "date": "2026-09-03",
