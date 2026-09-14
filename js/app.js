@@ -1,5 +1,28 @@
 /* Tinnitus Atlas — app.js: data layer + shared chrome + page renderers.
    All pages render from /data/*.json. No frameworks, no build step. */
+
+/* Google tag (gtag.js) — GA4, Measurement ID G-0EJFE7M8MQ.
+   Loaded from the shared bundle so every page carrying the site chrome gets
+   it exactly once (guarded); production-only so localhost, the github.io
+   mirror and single-file preview builds never pollute the data. 404.html
+   (no app.js) carries the same guarded snippet inline. */
+(function () {
+  if (window.__teGa) return;
+  var h = location.hostname;
+  if (h !== 'tinnitusevidence.com' && h !== 'www.tinnitusevidence.com') return;
+  window.__teGa = true;
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-0EJFE7M8MQ';
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  window.gtag = gtag;
+  gtag('js', new Date());
+
+  gtag('config', 'G-0EJFE7M8MQ');
+})();
+
 (function () {
   'use strict';
 

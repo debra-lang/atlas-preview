@@ -2,6 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<!-- Google tag (gtag.js) — same guarded GA4 install as js/app.js; this page
+     doesn't load the shared bundle, so it carries the snippet directly. -->
+<script>
+(function () {
+  var h = location.hostname;
+  if (h !== 'tinnitusevidence.com' && h !== 'www.tinnitusevidence.com') return;
+  window.__teGa = true;
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-0EJFE7M8MQ';
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  window.gtag = gtag;
+  gtag('js', new Date());
+
+  gtag('config', 'G-0EJFE7M8MQ');
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Page not found — Tinnitus Evidence</title>
 <meta name="robots" content="noindex">
