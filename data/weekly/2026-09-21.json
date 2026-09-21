@@ -1,0 +1,147 @@
+{
+  "date": "2026-09-21",
+  "title": "Automated weekly scan — 4 update(s)",
+  "automated": true,
+  "items": [
+    {
+      "kind": "study",
+      "treatment": "",
+      "title": "Veterans with tinnitus and sound intolerance show signs of hidden cochlear nerve damage despite normal hearing tests",
+      "importance": "Interesting but Early",
+      "whyMatters": "In Veterans whose standard hearing tests look normal, tinnitus and sound intolerance were linked to physiological signs of damage to the connections between the inner ear and the hearing nerve, plus subtle outer-hair-cell loss. This supports the idea that tinnitus can arise from hearing damage that routine audiograms miss, but it tests no treatment and changes nothing about which therapies work.",
+      "summary": "A VA case-control study adds physiological evidence that Veterans with normal audiograms who have constant tinnitus or decreased sound tolerance show reduced ABR wave I, EFR, and high-frequency DPOAE measures (suggesting cochlear deafferentation plus subclinical outer-hair-cell dysfunction), and specifically finds the wideband middle-ear muscle reflex to be an unreliable marker of deafferentation in tinnitus cases. none reported — abstract reports directional group differences only (reduced mean ABR wave I, EFR, and high-frequency DPOAEs in both Veteran groups vs controls; smaller mean MEMR in DST group; heterogeneous MEMR in tinnitus group with a small number of large values; elevated wave V/I ratios in Veterans). No effect sizes, confidence intervals, or p-values in the available record.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42743862/",
+      "detail": {
+        "studyType": "cohort",
+        "population": "US military Veterans with normal audiograms reporting constant tinnitus (n=22) or decreased sound tolerance (n=19), compared with young non-Veteran controls with minimal noise exposure (n=165)",
+        "sampleSize": "206 total (22 tinnitus, 19 DST, 165 controls)",
+        "control": "n/a",
+        "primaryEndpoint": "Group differences in three physiological indicators of cochlear deafferentation: ABR wave I amplitude, envelope following response (EFR) magnitude, and wideband middle ear muscle reflex (MEMR) magnitude",
+        "secondaryEndpoints": "Distortion product otoacoustic emissions (outer hair cell function) and ABR wave V/I amplitude ratio as an index of central gain",
+        "comparisonType": "between-group",
+        "loudnessOutcome": "none — this is a mechanistic/physiological study with no treatment and no psychoacoustic loudness matching or loudness rating outcome.",
+        "distressOutcome": "none — no THI/TFI/TQ or other distress, sleep, or quality-of-life outcomes were assessed.",
+        "otherOutcomes": "Hearing-related physiology only: high-frequency DPOAE reductions suggesting subclinical outer hair cell dysfunction despite normal clinical audiograms; elevated ABR wave V/I ratio consistent with increased central gain.",
+        "safety": "Not reported — observational measurement study with no intervention; no adverse events discussed.",
+        "limitations": [
+          "Small tinnitus (n=22) and DST (n=19) groups versus a much larger, differently constituted control group (n=165)",
+          "Controls were young non-Veterans with minimal noise exposure, so age and noise-exposure history are likely confounded with group membership",
+          "Cross-sectional and correlational — cannot establish that deafferentation causes tinnitus or DST",
+          "Reduced high-frequency DPOAEs indicate concurrent outer hair cell dysfunction, which complicates attributing ABR/EFR reductions purely to synaptopathy",
+          "ABR/EFR/MEMR are indirect proxies for synaptopathy with substantial individual variability; no histopathological confirmation possible in humans",
+          "No effect sizes or precision estimates available in the abstract record",
+          "Findings in Veterans with blast/noise exposure may not generalize to the broader tinnitus population"
+        ],
+        "funding": "independent — VA National Center for Rehabilitative Auditory Research / OHSU authors; authors declare no competing financial interests or personal relationships; no manufacturer involvement evident.",
+        "identifier": "pubmed-42743862",
+        "source": "Hearing research",
+        "changesAssessment": "No — this does not change our current evidence assessment."
+      }
+    },
+    {
+      "kind": "trial",
+      "treatment": "off-label-drugs",
+      "title": "Placebo-controlled crossover trial of olanzapine for tinnitus marked completed in Brazil; no results posted yet",
+      "importance": "Does Not Change Current Evidence",
+      "whyMatters": "A small, well-designed, independently run trial testing the antipsychotic olanzapine against placebo for tinnitus has finished, but no results have been published, so it tells us nothing yet about whether the drug helps. It is worth watching because the design (randomized, placebo-controlled, fully blinded, crossover) is stronger than most off-label drug evidence for tinnitus.",
+      "summary": "Registry status update: a Brazilian investigator-initiated, randomized, quadruple-blind, placebo-controlled crossover trial of olanzapine 5 mg/day (8 weeks per period, n=50 actual) is now marked COMPLETED (primary completion 20 Dec 2024, completion 20 Jan 2025). No results have been posted and no publication is linked, so this is a status change only — no efficacy or safety data are available.",
+      "url": "https://clinicaltrials.gov/study/NCT07190482",
+      "detail": {
+        "studyType": "registry update",
+        "population": "Adults 18–70 with subjective, non-pulsatile tinnitus of ≥6 months' duration, stable for 3 months; excluded active psychiatric illness, current antipsychotic/antidepressant/anticonvulsant use, severe bilateral hearing loss (≥80 dB), substance use disorders, pregnancy",
+        "sampleSize": "50 (actual enrollment)",
+        "control": "sham/placebo-controlled",
+        "primaryEndpoint": "Tinnitus Handicap Inventory (THI, 0–100) — tinnitus-related distress/handicap — from enrollment to end of treatment at 12 weeks",
+        "secondaryEndpoints": "Visual Analog Scales (0–10) for tinnitus loudness and for tinnitus distress; personality traits (NEO PI-R) as a moderator; audiometry/immittance for characterization",
+        "comparisonType": "Not reported — NEVER present within-group improvement as proof of efficacy",
+        "loudnessOutcome": "none — no outcome data have been posted; a VAS loudness rating is only a secondary endpoint and nothing about the tinnitus percept can be concluded at this stage.",
+        "distressOutcome": "none — the THI primary endpoint is a distress measure, but no results are available, so no distress effect can be claimed.",
+        "otherOutcomes": "Not reported",
+        "safety": "Not reported — no adverse event data posted; note the registry lists a data monitoring committee, and olanzapine carries well-known class risks (sedation, weight gain, metabolic effects) that will need explicit reporting when results appear.",
+        "limitations": [
+          "No results posted and no linked publication — status change only",
+          "Small single-centre trial (n=50) at one Brazilian site",
+          "Crossover design with an 8-week active period and possible carryover; washout not described in the record",
+          "Labelled Phase 1 despite an efficacy primary endpoint, so dosing/safety focus is ambiguous",
+          "Primary endpoint is distress (THI); loudness is only a secondary VAS, which is a weak measure of the percept",
+          "IPD sharing declined",
+          "Outcome descriptions written in past tense suggest analysis may be complete, but nothing is verifiable"
+        ],
+        "funding": "independent — academic sponsor (University of São Paulo), PI Jeanne Oiticica; no industry funding declared in the registry record; olanzapine is a generic off-patent drug",
+        "identifier": "ctgov-NCT07190482-2026-09-15",
+        "source": "University of Sao Paulo",
+        "changesAssessment": "No — this does not change our current evidence assessment."
+      }
+    },
+    {
+      "kind": "trial",
+      "treatment": "supplements",
+      "title": "Curcumin-for-tinnitus trial withdrawn before enrolling any participants",
+      "importance": "Does Not Change Current Evidence",
+      "whyMatters": "A planned placebo-controlled trial of a high-absorption curcumin supplement for tinnitus was cancelled for administrative reasons before anyone was enrolled, so it produces no evidence either way. Supplements for tinnitus remain unsupported, and the absence of this trial means one fewer chance of ever getting a real answer on curcumin.",
+      "summary": "ClinicalTrials.gov record NCT04800107 (curcumin-phosphatidylcholine + boswellia for subjective tinnitus, Michigan Ear Institute / Henry Ford Health) was updated to WITHDRAWN with 0 actual enrollment, stopped for administrative reasons ('Study was not pursued after joint venture completed with Henry Ford Health'), not for safety or futility. none reported (0 participants enrolled; no outcome data)",
+      "url": "https://clinicaltrials.gov/study/NCT04800107",
+      "detail": {
+        "studyType": "registry update",
+        "population": "Planned: adults 18-99 with severe subjective tinnitus attributed to sensorineural hearing loss; no participants were ever enrolled",
+        "sampleSize": "0 (actual enrollment)",
+        "control": "sham/placebo-controlled",
+        "primaryEndpoint": "Mean change on the Tinnitus Functional Index (TFI) from baseline to end of 30-day treatment (planned; never measured)",
+        "secondaryEndpoints": "Change in Tinnitus Handicap Inventory (THI) at 30 days (planned; never measured)",
+        "comparisonType": "none",
+        "loudnessOutcome": "none — the trial planned only TFI/THI distress questionnaires, with no psychoacoustic loudness matching at all, and in any case produced no data.",
+        "distressOutcome": "none — no participants enrolled, so no distress outcome information exists despite TFI/THI being the planned endpoints.",
+        "otherOutcomes": "Not reported",
+        "safety": "Not reported — no participants were dosed; withdrawal reason was administrative (joint venture), not a safety concern",
+        "limitations": [
+          "Withdrawn with 0 actual enrollment — no data whatsoever",
+          "Randomization, double-blinding and placebo control were design intentions only, never executed",
+          "Planned 30-day treatment and immediate post-treatment assessment only, with no follow-up — would have been too short to judge durability even if run",
+          "Planned endpoints were distress questionnaires (TFI/THI) only; no loudness or audiometric measures",
+          "Active and placebo product supplied by the manufacturer (Smartceuticals, Inc.), which was also to hold the master randomization code list — a blinding-integrity and independence weakness in the design",
+          "Registry record only; no publication, no results posting"
+        ],
+        "funding": "unclear / manufacturer-linked — study product and placebo were to be supplied by Smartceuticals, Inc., and the manufacturer was to maintain the treatment allocation code list; lead sponsor Henry Ford Health with PI at Michigan Ear Institute. No funding or personal financial disclosures are in the registry record.",
+        "identifier": "ctgov-NCT04800107-2026-09-18",
+        "source": "Henry Ford Health System",
+        "changesAssessment": "No — this does not change our current evidence assessment."
+      }
+    },
+    {
+      "kind": "trial",
+      "treatment": "neurofeedback",
+      "title": "Zurich registers sham-controlled crossover trial of a new individualized EEG neurofeedback protocol for tinnitus (no results yet)",
+      "importance": "Does Not Change Current Evidence",
+      "whyMatters": "A Swiss university has registered a small, sham-controlled trial of a new brain-training (neurofeedback) method for tinnitus, due to start in 2027. It is a plan, not a finding — nothing about whether neurofeedback works has changed, though the trial is unusual in also measuring the loudness of the tinnitus sound rather than only distress questionnaires.",
+      "summary": "First registry posting (ClinicalTrials.gov, Sept 2026) of ANTARES, a University of Zurich investigator-initiated trial of individualized, norm-based EEG neurofeedback using 'representational EEG signatures' in chronic subjective tinnitus — a newly developed, never-before-tested neurofeedback protocol. No participants enrolled yet (start estimated Jan 2027) and no results exist.",
+      "url": "https://clinicaltrials.gov/study/NCT07830069",
+      "detail": {
+        "studyType": "registry update",
+        "population": "Planned: adults 18–65 with chronic subjective tinnitus >3 months, THI grade 2–4 (18–76 points), German-speaking; excludes hyperacusis, somatic tinnitus, neurological/psychiatric comorbidity, CNS-active medication, asymmetric or >40 dB low/mid-frequency hearing loss",
+        "sampleSize": "24 (estimated)",
+        "control": "sham/placebo-controlled",
+        "primaryEndpoint": "Co-primary: change from baseline in Minimal Masking Level (dB SL) plus tinnitus NRS, TFI and THI, measured after each treatment block and after each wash-out (days 29, 113, 143, 227)",
+        "secondaryEndpoints": "Change in individually defined EEG neural features (power, connectivity) and correlation of neurophysiological change with behavioral change (NRS/TFI/THI)",
+        "comparisonType": "between-group",
+        "loudnessOutcome": "none — no data yet; notable, however, that Minimal Masking Level (a psychoacoustic measure) is a co-primary endpoint, so this trial could eventually produce percept-level rather than distress-only information.",
+        "distressOutcome": "none — no data yet; TFI/THI/NRS are co-primary distress and self-rated intensity endpoints.",
+        "otherOutcomes": "Not reported (no sleep or quality-of-life endpoints listed separately)",
+        "safety": "Not reported — the record states neurofeedback is non-invasive, that the specific protocol is untested, that no significant side effects are currently known, and that the trial is classified as low-risk; no data monitoring committee (oversightHasDmc = false).",
+        "limitations": [
+          "No results whatsoever — trial NOT_YET_RECRUITING, estimated start Jan 2027, completion Dec 2027",
+          "Very small planned sample (n=24) and explicitly BASIC_SCIENCE primary purpose",
+          "Four co-primary endpoints (MML, NRS, TFI, THI) with no stated hierarchy or multiplicity control",
+          "Crossover design with neurofeedback (a learning-based intervention) risks carryover despite ~12-week wash-outs",
+          "Single-centre, German-language only; excludes hyperacusis, somatic tinnitus and asymmetric hearing loss, limiting generalizability",
+          "Untested, newly developed protocol — sham credibility and blinding integrity not described",
+          "eligibilityModule flags 'healthyVolunteers: true' while requiring moderate-to-severe tinnitus, an internal inconsistency in the record",
+          "No DMC; timelines are estimates and registry dates frequently slip"
+        ],
+        "funding": "independent — academic lead sponsor (University of Zurich, responsible party = sponsor); no manufacturer or commercial collaborator listed; contact is Prof. Tobias Kleinjung (USZ). Device/hardware provenance and any equipment support are not disclosed in the record.",
+        "identifier": "ctgov-NCT07830069-2026-09-21",
+        "source": "University of Zurich",
+        "changesAssessment": "No — this does not change our current evidence assessment."
+      }
+    }
+  ]
+}

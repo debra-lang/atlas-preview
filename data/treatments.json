@@ -2437,6 +2437,11 @@
     ],
     "latest": [
       {
+        "date": "2026-09-21",
+        "text": "Placebo-controlled crossover trial of olanzapine for tinnitus marked completed in Brazil; no results posted yet",
+        "url": "https://clinicaltrials.gov/study/NCT07190482"
+      },
+      {
         "date": "2025-05-28",
         "text": "BMJ Open network meta-analysis reaffirms: no approved pharmacotherapy; evidence low to very low.",
         "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12121590/"
@@ -2528,7 +2533,13 @@
         "event": "Cochrane: ginkgo — little to no effect."
       }
     ],
-    "latest": [],
+    "latest": [
+      {
+        "date": "2026-09-21",
+        "text": "Curcumin-for-tinnitus trial withdrawn before enrolling any participants",
+        "url": "https://clinicaltrials.gov/study/NCT04800107"
+      }
+    ],
     "history": [
       {
         "date": "2026-09-03",
@@ -3204,7 +3215,13 @@
         "event": "Brain Communications RCT: opposite EEG protocols work equally — effect is non-specific."
       }
     ],
-    "latest": [],
+    "latest": [
+      {
+        "date": "2026-09-21",
+        "text": "Zurich registers sham-controlled crossover trial of a new individualized EEG neurofeedback protocol for tinnitus (no results yet)",
+        "url": "https://clinicaltrials.gov/study/NCT07830069"
+      }
+    ],
     "history": [
       {
         "date": "2026-09-03",

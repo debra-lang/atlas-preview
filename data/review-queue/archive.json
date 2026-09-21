@@ -1,6 +1,58 @@
 {
   "items": [
     {
+      "archivedAt": "2026-09-21T18:32:51",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "pubmed-42746638",
+        "kind": "study",
+        "title": "Sensorineural Hearing Loss and Phosphodiesterase-5 Inhibitors: A Systematic Review.",
+        "source": "International archives of otorhinolaryngology",
+        "date": "2026 Sep 15",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42746638/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-21T18:32:51",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "pubmed-42755114",
+        "kind": "study",
+        "title": "Virtual Reality Technology in Otolaryngology Patient Care Management: A Narrative Review of Current Evidence and Future Prospects.",
+        "source": "Medical science monitor : international medical journal of experimental and clinical research",
+        "date": "2026 Sep 18",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42755114/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-21T18:32:51",
+      "reason": "relevance category 3 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 3,
+      "item": {
+        "id": "pubmed-42764285",
+        "kind": "study",
+        "title": "Transcanal endoscopic excision of early-stage middle ear paragangliomas.",
+        "source": "Acta oto-laryngologica",
+        "date": "2026 Sep 20",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42764285/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-21T18:32:51",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "pubmed-42765581",
+        "kind": "study",
+        "title": "Restoring Cerebral Venous Outflow: Right Internal Jugular to Subclavian Vein Bypass After Ligation in Thoracic Outlet Syndrome.",
+        "source": "Vascular and endovascular surgery",
+        "date": "2026 Sep 21",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42765581/"
+      }
+    },
+    {
       "archivedAt": "2026-09-14T21:11:02",
       "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
       "relevanceCategory": 4,
