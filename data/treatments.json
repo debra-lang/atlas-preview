@@ -485,7 +485,7 @@
     "category": "hearing-tech",
     "tier": 2,
     "evidenceScore": 3,
-    "oneLiner": "For people with severe hearing loss, implantation often genuinely reduces the tinnitus sound itself — one of the few things that does. It is never done for tinnitus alone.",
+    "oneLiner": "For people with severe hearing loss, implantation often genuinely reduces the tinnitus sound itself — one of the few things that does. Outside research studies, it is never done for tinnitus alone.",
     "whatItIs": "A surgically implanted electrode array that bypasses damaged hair cells and stimulates the auditory nerve directly. Tinnitus reduction is a frequent side benefit of implantation for severe-to-profound hearing loss.",
     "howItWorks": "Restoring afferent auditory input reverses the deprivation-driven central gain and reorganization thought to generate tinnitus — the brain gets real signal again and turns the phantom down.",
     "mechanism": "Restored auditory input reducing central gain",
@@ -1081,7 +1081,7 @@
     },
     "regulatory": {
       "status": "Investigational (Phase 2 registered)",
-      "detail": "NCT07777549: Phase 2, N=100, not yet recruiting; estimated completion August 2027. One of only two Phase 2+ drug trials with tinnitus as the primary indication.",
+      "detail": "NCT07777549: Phase 2, N=100, not yet recruiting; estimated completion August 2027. Design note: the only placebo-controlled part is in healthy volunteers. The part in people with tinnitus is open-label (no placebo) and lasts 14 days; its main outcomes are safety measures, with tinnitus questionnaires and loudness ratings as secondary measures. It is a safety and dosing study, so it cannot show whether TRTL-913 reduces tinnitus. One of only two Phase 2+ drug trials with tinnitus as the primary indication.",
       "sourceUrl": "https://clinicaltrials.gov/study/NCT07777549"
     },
     "availability": {
@@ -2882,7 +2882,7 @@
     "category": "neuromodulation",
     "tier": 3,
     "evidenceScore": 2,
-    "oneLiner": "Non-surgical vagus nerve stimulation via an ear clip — small pilots so far, with the largest trial ever now running.",
+    "oneLiner": "Non-surgical vagus nerve stimulation via an ear clip — small pilots so far; larger sham-controlled trials are registered but none has reported.",
     "whatItIs": "Electrical stimulation of the vagus nerve's auricular branch through a clip on the tragus/concha, alone or paired with sound (e.g., notched music) — the non-invasive cousin of the implanted paired-VNS approach. Cheap consumer ear-clip stimulators are already sold online.",
     "howItWorks": "Vagal stimulation releases plasticity-promoting neuromodulators; pairing it with sound aims to steer auditory-circuit plasticity — same theory as implanted paired VNS, without surgery.",
     "mechanism": "Non-invasive vagal stimulation ± sound pairing",
@@ -2896,7 +2896,7 @@
     },
     "regulatory": {
       "status": "Investigational for tinnitus; consumer devices unregulated",
-      "detail": "No FDA clearance/authorization for tinnitus. Sun Yat-Sen Memorial Hospital runs a multicenter double-blind RCT of taVNS + notched music (NCT05417711), with a larger successor registered — the biggest taVNS tinnitus program to date.",
+      "detail": "No FDA clearance/authorization for tinnitus. Sun Yat-Sen Memorial Hospital registered a double-blind RCT of taVNS + notched music (NCT05417711; registry status unknown, not updated since 2023) and a larger successor (NCT07794462: 444 planned; real vs sham taVNS, with notched music in both groups — so it tests taVNS, not notched music itself; not yet recruiting; planned completion 2030). The successor’s main outcome is a composite ‘effective rate’, not a validated tinnitus questionnaire.",
       "sourceUrl": "https://clinicaltrials.gov/study/NCT05417711"
     },
     "availability": {
@@ -2958,7 +2958,7 @@
         "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
       }
     ],
-    "scoreRationale": "Plausible mechanism, pilots only: 2/5 pending the running double-blind RCT.",
+    "scoreRationale": "Plausible mechanism, pilots only: 2/5 until a larger sham-controlled trial reports.",
     "lastReviewed": "2026-09-03",
     "evidenceThrough": "2026-09-03",
     "confidence": "moderate",
