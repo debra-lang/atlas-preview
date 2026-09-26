@@ -79,6 +79,11 @@
     ],
     "latest": [
       {
+        "date": "2026-09-26",
+        "text": "US military trial recruiting to test whether PTSD therapy or tinnitus CBT should come first",
+        "url": "https://clinicaltrials.gov/study/NCT07106593"
+      },
+      {
         "date": "2026-09-14",
         "text": "Small Turkish trial comparing group CBT, breathing exercises and psychoeducation for tinnitus distress now listed as completed; no results yet",
         "url": "https://clinicaltrials.gov/study/NCT07631403"
@@ -438,6 +443,11 @@
       }
     ],
     "latest": [
+      {
+        "date": "2026-09-26",
+        "text": "Norwegian uncontrolled study: internet-delivered TRT plus CBT linked to modest tinnitus distress improvement over six months",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42787411/"
+      },
       {
         "date": "2026-05-07",
         "text": "JAMA Otolaryngology publishes a double-blind sham-controlled app RCT (N=60): THI −20.4 vs sham, 70% vs 27% meaningfully improved — small and industry-sponsored, but sham-controlled.",
@@ -1548,6 +1558,16 @@
       }
     ],
     "latest": [
+      {
+        "date": "2026-09-26",
+        "text": "Singapore neuronavigated rTMS tinnitus trial suspended for staffing reasons; no results reported",
+        "url": "https://clinicaltrials.gov/study/NCT07435298"
+      },
+      {
+        "date": "2026-09-26",
+        "text": "Trial status change: NCT07435298 is now 'Suspended'",
+        "url": "https://clinicaltrials.gov/study/NCT07435298"
+      },
       {
         "date": "2025-04-15",
         "text": "Frontiers meta-analysis: effect at 1 month, none at 6 months. Navigated-rTMS and personalized-target trials now recruiting.",
@@ -2941,6 +2961,11 @@
     ],
     "latest": [
       {
+        "date": "2026-09-26",
+        "text": "Scoping review maps noninvasive vagus nerve stimulation in ENT: tinnitus is the biggest but still exploratory evidence cluster",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42777476/"
+      },
+      {
         "date": "2026-09-14",
         "text": "Large sham-controlled trial of ear vagus nerve stimulation plus notched music therapy registered in China (not yet recruiting)",
         "url": "https://clinicaltrials.gov/study/NCT07794462"
@@ -3314,6 +3339,16 @@
       }
     ],
     "latest": [
+      {
+        "date": "2026-09-26",
+        "text": "Small uncontrolled study measures blood-flow changes during acupuncture for tinnitus; tinnitus scores did not track them",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42776772/"
+      },
+      {
+        "date": "2026-09-26",
+        "text": "Protocol published for a small uncontrolled acupuncture study using brainstem-response recordings in chronic tinnitus",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42787075/"
+      },
       {
         "date": "2026-09-07",
         "text": "Narrative review of acupuncture for tinnitus again finds evidence too weak and inconsistent to confirm efficacy",

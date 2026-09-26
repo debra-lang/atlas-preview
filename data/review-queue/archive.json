@@ -1,6 +1,58 @@
 {
   "items": [
     {
+      "archivedAt": "2026-09-26T06:09:12",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "pubmed-42766864",
+        "kind": "study",
+        "title": "A familial case series of refractory head noise, tinnitus, and sleep disorders caused by internal jugular vein stenosis: illustrative cases.",
+        "source": "Journal of neurosurgery. Case lessons",
+        "date": "2026 Sep 21",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42766864/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-26T06:09:12",
+      "reason": "relevance category 3 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 3,
+      "item": {
+        "id": "pubmed-42778038",
+        "kind": "study",
+        "title": "Incidence and characteristics of teprotumumab-associated ototoxicity in thyroid eye disease: A systematic review and meta-analysis.",
+        "source": "Survey of ophthalmology",
+        "date": "2026 Sep 23",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42778038/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-26T06:09:12",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "pubmed-42784282",
+        "kind": "study",
+        "title": "One Molecule, Different Circuits? What Botulinum Toxin Can and Cannot Reveal About Craniocervical Comorbidity.",
+        "source": "Toxins",
+        "date": "2026 Aug 23",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42784282/"
+      }
+    },
+    {
+      "archivedAt": "2026-09-26T06:09:12",
+      "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
+      "relevanceCategory": 4,
+      "item": {
+        "id": "pubmed-42790176",
+        "kind": "study",
+        "title": "Audiological outcomes and related clinical indicators of intratympanic steroid injection therapy in patients with sudden sensorineural hearing loss and alcohol consumption.",
+        "source": "American journal of otolaryngology",
+        "date": "2026 Sep 23",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42790176/"
+      }
+    },
+    {
       "archivedAt": "2026-09-21T18:32:51",
       "reason": "relevance category 4 (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence",
       "relevanceCategory": 4,
