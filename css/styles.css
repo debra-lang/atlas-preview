@@ -819,3 +819,143 @@ body[data-page=""] main.prose+.footer-links{padding-bottom:24px}
     box-shadow:var(--shadow),0 0 0 3px color-mix(in srgb,var(--hov-c) 22%,transparent)}
 }
 @media(max-width:639px){.card.tcard.rcard-rest{padding-top:18px}}
+
+/* ---------- Staging review round 1: evidence-situation accents + Emerging & Unproven entry ----------
+   Homepage section accents reuse the existing evidence palette: amber (--c-watch, weaker/negative evidence)
+   for "What hasn't worked", violet (--c-emerging) for the Emerging, Experimental & Unproven entry.
+   Heading text stays in --text, so text contrast is unchanged; only the accent bar, divider and a faint
+   wash change. The entry panel uses the site's shared wash-panel recipe. */
+body[data-page="index"] .section.sec-watch{border-top-color:color-mix(in srgb,var(--c-watch) 55%,var(--line));
+  /* warm wash on the heading side only; it fades out before the right-hand "See all" link so link contrast is unchanged */
+  background:linear-gradient(100deg,color-mix(in srgb,var(--c-watch) 9%,transparent) 0,transparent 58%) top left/100% 170px no-repeat}
+body[data-page="index"] .sec-watch .section-head h2::before{background:var(--c-watch);width:46px;height:4px}
+body[data-page="index"] .section.sec-eu{border-top-color:color-mix(in srgb,var(--c-emerging) 45%,var(--line))}
+body[data-page="index"] .sec-eu .section-head h2::before{background:var(--c-emerging);width:46px;height:4px}
+.eu-entry{--wash-c:var(--c-emerging);--hov-c:color-mix(in srgb,var(--wash-c) 60%,var(--line));
+  border-top-color:color-mix(in srgb,var(--wash-c) 48%,var(--line));
+  background:linear-gradient(180deg,color-mix(in srgb,var(--wash-c) 17%,var(--surface)) 0,color-mix(in srgb,var(--wash-c) 7%,var(--surface)) 35%,var(--surface) 80%)}
+.eu-entry p{max-width:62em}
+.eu-entry .btn{border-color:color-mix(in srgb,var(--wash-c) 45%,var(--line));min-height:44px}
+.eu-entry-t{margin:22px 0 4px}
+@media(max-width:639px){.eu-entry .btn{width:100%;justify-content:center}}
+
+/* ---------- Staging review round 2 ----------
+   (1) "What hasn't worked" takes the section's amber: --c-watch in dark; in light the same amber mixed 75% with
+       --text so the large heading keeps comfortable contrast. The rest of the heading keeps the normal color.
+   (2) Treatments-page Emerging, Experimental & Unproven panel: restrained crimson from the site's own palette
+       (#c23b5f, the "Pulsatile & Structural" category color) instead of violet; left accent as on other feature rows. */
+body[data-page="index"] .sec-watch .hw-em{color:var(--c-watch)}
+:root[data-theme="light"] body[data-page="index"] .sec-watch .hw-em{color:color-mix(in srgb,var(--c-watch) 75%,var(--text))}
+/* Review round 3: the panel is lit by a soft crimson glow (same #c23b5f) instead of only a red border:
+   a light crimson fill across the whole panel, diffused corner glows, and an inset edge glow that fades inward.
+   The outer halo stays within ~14px. No animation. Light mode uses lower strengths. */
+.eu-entry-t{--wash-c:#c23b5f;--g-fill:13%;--g-corner:30%;--g-edge:38%;--g-halo:50%;
+  border:1px solid color-mix(in srgb,var(--wash-c) 60%,var(--line));
+  border-left:4px solid color-mix(in srgb,var(--wash-c) 90%,var(--surface));
+  background:
+    radial-gradient(70% 150% at 0% 0%,color-mix(in srgb,var(--wash-c) var(--g-corner),transparent) 0,transparent 70%),
+    radial-gradient(70% 150% at 100% 100%,color-mix(in srgb,var(--wash-c) var(--g-corner),transparent) 0,transparent 70%),
+    color-mix(in srgb,var(--wash-c) var(--g-fill),var(--surface));
+  box-shadow:inset 0 0 34px 0 color-mix(in srgb,var(--wash-c) var(--g-edge),transparent),var(--shadow),0 0 18px -6px color-mix(in srgb,var(--wash-c) var(--g-halo),transparent)}
+:root[data-theme="light"] .eu-entry-t{--g-fill:7%;--g-corner:18%;--g-edge:22%;--g-halo:35%}
+/* description text a step stronger than --muted so it stays comfortably readable over the glow */
+.eu-entry-t p.muted{color:color-mix(in srgb,var(--muted) 55%,var(--text))}
+.eu-entry-t .btn{background:color-mix(in srgb,var(--wash-c) 18%,var(--surface));border-color:color-mix(in srgb,var(--wash-c) 70%,var(--line))}
+:root[data-theme="light"] .eu-entry-t .btn{background:color-mix(in srgb,var(--wash-c) 8%,var(--surface))}
+@media(hover:hover){
+  /* keep the glow on hover (the site-wide card hover would otherwise replace it) and add the usual hover ring */
+  .card.eu-entry.eu-entry-t:hover{border-color:color-mix(in srgb,var(--wash-c) 80%,var(--line));
+    box-shadow:inset 0 0 34px 0 color-mix(in srgb,var(--wash-c) var(--g-edge),transparent),var(--shadow),0 0 0 3px color-mix(in srgb,var(--wash-c) 22%,transparent),0 0 18px -6px color-mix(in srgb,var(--wash-c) var(--g-halo),transparent)}
+  .eu-entry-t .btn:hover{background:color-mix(in srgb,var(--wash-c) 28%,var(--surface))}
+  :root[data-theme="light"] .eu-entry-t .btn:hover{background:color-mix(in srgb,var(--wash-c) 14%,var(--surface))}
+}
+
+/* ---------- Staging: Search everything — Emerging, Experimental & Unproven results ----------
+   Same row/wash recipe as every other result type; the collection's crimson (as on the Treatments-page panel).
+   The type label mixes the crimson with --text so it keeps text contrast in both themes. */
+.sr-emerging-unproven{--wash-c:#c23b5f}
+.sr-emerging-unproven .type{color:color-mix(in srgb,var(--wash-c) 70%,var(--text))}
+
+/* ---------- Staging: homepage stats strip ----------
+   Every stat label may wrap inside its own cell (the strip used to keep labels on one line, which clipped
+   "research results screened" / "research records included" at tablet widths). Sizes and colors unchanged. */
+.stats-strip .stat span{display:block;white-space:normal;line-height:1.3}
+
+/* ---------- Staging review round 4: Treatments page hierarchy, Top-10 rank chip ----------
+   (1) The tracked-treatment results open with their own heading + count (.tres-head), so nothing above the
+       grid can be read as a heading for the cards; filter explanations render full-width above the grid
+       (#tnote), never as a cell inside it; the Emerging, Experimental & Unproven panel (unchanged design)
+       follows the results as a separate collection (.tres-end).
+   (2) Cards that are in the homepage Top 10 carry a quiet "#n Top 10" chip (rank from data/rankings.json,
+       the same source as the homepage). The list itself is not numbered. */
+.tres-head{margin:22px 0 14px;padding-top:18px;border-top:1px solid var(--line)}
+.tres-head h2{margin:0;font-size:1.15rem}
+.tres-ct{font-family:var(--font-body);font-weight:500;color:var(--muted);font-size:.9rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tres-sub{margin:4px 0 0;font-variant-numeric:tabular-nums}
+#tnote{margin:0 0 16px}
+#tnote:empty{display:none}
+.fnote{border:1px solid var(--c-watch-line);background:var(--c-watch-bg);color:var(--text);border-radius:var(--r-sm);padding:12px 16px 13px;font-size:.92rem;line-height:1.5}
+.fnote b{display:block;font-family:var(--font-display);font-size:.98rem;margin-bottom:3px}
+.fnote p{margin:0;max-width:78ch}
+.tres-end{margin-top:34px;padding-top:26px;border-top:1px solid var(--line)}
+.tres-end .eu-entry-t{margin:0}
+.top10-chip{margin-left:auto;display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:600;color:var(--text);
+  background:var(--surface-2);border:1px solid color-mix(in srgb,var(--c-promising) 35%,var(--line));border-radius:999px;padding:2px 9px;
+  white-space:nowrap;font-variant-numeric:tabular-nums;line-height:1.4}
+.top10-chip b{font-family:var(--font-display);font-weight:700}
+
+/* ---------- Staging review round 4: header between 1180px and 1319px ----------
+   The desktop nav appears at 1180px, but brand + twelve single-line links + theme button need ~1300px, so
+   from 1180px to ~1300px the theme button ran past the right edge (about 25px at 1280px). In that band the
+   links sit a little tighter (no gap, 6px side padding, slightly smaller text); from 1320px up, and on
+   phones/tablets, nothing changes. */
+@media(min-width:1180px) and (max-width:1319px){
+  .nav-desktop{gap:0}
+  .nav-desktop a{padding:7px 6px;font-size:.84rem}
+}
+
+/* ---------- Staging review round 5: evidence-profile rows on phones ----------
+   At phone widths the three-column row (label | bar | value) squeezed the bar to a few pixels — or to nothing —
+   whenever the value was long ("Clinical trials / research only", "Independence unclear"). Each row is now two
+   lines: label and value share the first line, the bar takes the full width of the second. Values may wrap.
+   The Independence row has no bar (segbar.hide), so it stays a single line. Tablet/desktop rows are unchanged. */
+@media(max-width:480px){
+  .eprow{grid-template-columns:minmax(0,1fr) fit-content(58%);grid-template-areas:"lab val" "bar bar";gap:5px 12px;padding:7px 0;align-items:start}
+  .eprow .lab{grid-area:lab}
+  .eprow .val{grid-area:val;text-align:right;white-space:normal;justify-self:end}
+  .eprow .segbar{grid-area:bar;max-width:none;width:100%}
+  .eprow .segbar.hide{display:none}
+}
+
+/* ---------- Staging review round 5: emphasised evidence phrases ----------
+   "evidence tier" (Treatments lead) and "available evidence" (homepage lead): the site's cyan evidence accent at
+   semibold — no box, pill, underline, glow or animation. Light mode mixes the accent with the text colour so the
+   phrase stays above 4.5:1 on the page background. */
+.ev-em{color:var(--brand-1);font-weight:600}
+:root[data-theme="light"] .ev-em{color:color-mix(in srgb,var(--brand-1) 62%,var(--text))}
+
+/* ---------- Staging review round 6: page-load gate (multi-page build) ----------
+   js/app.js adds html.ta-loading before the data request on pages whose main content is rendered from the
+   database, and removes it in the same task that inserts that content. Meanwhile the header and navigation are
+   already in place, the page body keeps its space (so the footer is never seen half-way up) and a small hint
+   fades in only if loading takes longer than ~0.4s. Nothing here is time-based: the gate lifts when the content
+   exists. Static prerendered pages are never gated. */
+html.ta-loading main{visibility:hidden;min-height:calc(100vh - 57px);position:relative;animation:ta-failsafe 0s linear 3s forwards}
+html.ta-loading .footer,html.ta-loading .footer-links{visibility:hidden}
+html.ta-loading main::before{content:"Loading the evidence database…";visibility:visible;position:absolute;left:18px;top:26px;
+  font-size:.86rem;color:var(--muted);opacity:0;animation:ta-hint .25s ease .4s forwards}
+@keyframes ta-hint{to{opacity:1}}
+/* fail-safe only: if js/app.js never runs (blocked or failed download), the page is shown after 3s anyway */
+@keyframes ta-failsafe{to{visibility:visible}}
+
+/* Emerging & Unproven: the static fallback list inside #eu-app (generated by tools/build_seo.py from the data
+   file) is what crawlers and no-JS readers see; the interactive renderer attaches a shadow root, which hides it. */
+.eu-static{padding:26px 0 30px}
+.eu-static h1{font-size:clamp(1.6rem,4.6vw,2.2rem)}
+.eu-static h2{font-size:1.2rem;margin-top:1.6em}
+.eu-static ul{padding-left:1.2em}
+.eu-static li{margin:0 0 12px;line-height:1.5}
+.eu-static li small{color:var(--muted);font-weight:600}
+
+/* homepage stats strip on small tablets (640–799px): the date value keeps to one line at a slightly smaller size */
+@media(min-width:640px) and (max-width:799px){.stats-strip .stat b{font-size:1.05rem}}

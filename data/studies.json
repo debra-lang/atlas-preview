@@ -630,18 +630,25 @@
     "journal": "ClinicalTrials.gov posted results (no peer-reviewed Phase 3 publication exists)",
     "year": 2018,
     "url": "https://clinicaltrials.gov/study/NCT01803646",
-    "n": "343 (TACTT2) + TACTT3 (NCT02040194)",
+    "n": "343 (TACTT2, registry) + 741 (TACTT3, sponsor-reported enrolment; the ClinicalTrials.gov record lists 893)",
     "design": "Randomized placebo-controlled Phase 3 trials (intratympanic esketamine gel)",
     "randomized": true,
     "sham": true,
     "independent": false,
     "primaryOutcome": "TACTT2: tinnitus loudness (TLQ) and TFI",
     "results": {
-      "summary": "FAILED. TACTT2 posted results: loudness change 0.80 vs 0.63 placebo (p=0.32); TFI 10.4 vs 9.6 (p=0.63) — both endpoints failed. TACTT3 (NCT02040194) also missed its primary endpoint; results never posted or published. Sponsor exited otology (now Altamira Therapeutics).",
+      "summary": "FAILED. TACTT2 posted results: loudness change 0.80 vs 0.63 placebo (p=0.32); TFI 10.4 vs 9.6 (p=0.63) — both endpoints failed. TACTT3 (NCT02040194; 741 patients enrolled per the sponsor — 373 acute, 368 post-acute — while the ClinicalTrials.gov record lists 893) also missed its primary endpoint (TFI, baseline to Day 84); results never posted or published. Sponsor exited otology (now Altamira Therapeutics).",
       "detail": "Failed on both a loudness construct and a distress construct. That no Phase 3 results were ever peer-review published is itself informative."
     },
     "coi": "Sponsor-run (Auris Medical).",
-    "limitations": "Registry-only reporting for TACTT3."
+    "limitations": "Registry-only reporting for TACTT3.",
+    "history": [
+      {
+        "date": "2026-09-25",
+        "change": "n and results.summary: TACTT3 enrolment stated as 741 per the sponsor (373 acute + 368 post-acute) with the ClinicalTrials.gov figure (893) alongside; primary endpoint named (TFI, Day 84).",
+        "reason": "TACTT3 sample size reconciled (ClinicalTrials.gov API NCT02040194: enrollment 893 ACTUAL, no results posted; Auris Medical Q3-2017 release, 28 Nov 2017: 741 enrolled = 373 acute + 368 post-acute; top-line 13 Mar 2018 / 6-K 15 May 2018: TFI endpoint not met). The two figures describe different counts, so both are stated with their source. Rating unchanged."
+      }
+    ]
   },
   {
     "id": "bmj-nma-2025",
@@ -957,7 +964,7 @@
   },
   {
     "id": "quiet1-aut00063",
-    "title": "QUIET-1: AUT00063 (Kv3 modulator) Phase 2a — terminated for futility",
+    "title": "QUIET-1: AUT00063 (Kv3 modulator) Phase 2a — stopped early for futility",
     "authors": "Hall DA, Ray J, Watson J, et al.",
     "journal": "Hearing Research",
     "year": 2019,
@@ -969,7 +976,7 @@
     "independent": false,
     "primaryOutcome": "TFI",
     "results": {
-      "summary": "Terminated early for futility; TFI change ~1.6 points despite therapeutic-range drug exposure.",
+      "summary": "Stopped early for futility after a planned interim analysis (91 of a planned 152 randomised; 76 in the primary analysis). TFI change −1.6 points in the AUT00063 arm vs −5.8 with placebo (p = 0.98) — no benefit despite drug exposure in the expected therapeutic range.",
       "detail": ""
     },
     "coi": "Sponsor-run (Autifony).",
@@ -986,6 +993,11 @@
         "date": "2026-09-04",
         "change": "Citation completion from re-verification: authors = Hall DA, Ray J, Watson J, et al.",
         "reason": "Phase-17 re-verification pass (independent agent, sources quoted in audit-improvement/reverification.md)."
+      },
+      {
+        "date": "2026-09-25",
+        "change": "title and results.summary: \"terminated\" → \"stopped early for futility after a planned interim analysis\"; randomised/analysed counts and the TFI result in both arms stated (drug −1.6 vs placebo −5.8, p = 0.98).",
+        "reason": "AUT00063 QUIET-1 re-verification (ClinicalTrials.gov API NCT02315508: 91 randomised, status \"Completed\"; EU CTR 2014-002179-27 results: prematurely ended after the planned interim analysis crossed the protocol futility boundary, 76 in the primary analysis, TFI -1.57 vs -5.8, p=0.98; Hall et al. Hear Res 2019, PMID 30939361; Autifony release 28 Apr 2016). \"Terminated for futility\" and \"91 people, 28 days, no benefit\" describe the same trial; wording now carries both. Rating unchanged."
       }
     ]
   },

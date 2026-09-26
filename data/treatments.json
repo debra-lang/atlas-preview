@@ -107,8 +107,8 @@
       }
     ],
     "scoreRationale": "28 RCTs and consistent replication earn a 4/5 — held back from 5/5 because certainty is mostly low, follow-up is short, and the benefit is confined to distress, not the percept.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -229,8 +229,8 @@
       }
     ],
     "scoreRationale": "A rigorous NIH-funded double-blind crossover with percept-level benefit earns a 3/5; independent replication, a pivotal trial, and regulatory progress would raise it.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "somatic"
@@ -351,8 +351,8 @@
       }
     ],
     "scoreRationale": "Three large trials, regulatory authorization and real-world consistency earn 3/5 — capped there because no sham-controlled arm exists, the pivotal full-cohort endpoint was missed (severe-subgroup benefit only), and there is no independent replication.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -467,8 +467,8 @@
       }
     ],
     "scoreRationale": "Multiple independent RCT wins and a first sham-controlled success earn 3/5; the category is heterogeneous — the score applies to the tested products, not to app stores at large.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -570,8 +570,8 @@
       }
     ],
     "scoreRationale": "Large consistent observational literature with genuine loudness effects earns 3/5; capped because the data are non-randomized and apply only to implant candidates.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "hearing-loss",
@@ -683,8 +683,8 @@
       }
     ],
     "scoreRationale": "Guideline recommendation and the UNITI head-to-head result earn 3/5; a trial isolating the tinnitus effect from the hearing benefit would settle it. Amplification-SPECIFIC randomized evidence is thin: Cochrane CD010151 found one RCT (N=91) and concluded there is no evidence to support or refute hearing aids as a routine tinnitus intervention; the rating rests on guideline consensus (all three major guidelines recommend aids with hearing loss), UNITI results and observational data.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "hearing-loss"
@@ -770,8 +770,8 @@
       }
     ],
     "scoreRationale": "One well-run RCT with sustained effects earns 3/5; multicenter replication would raise it.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "general"
@@ -861,8 +861,8 @@
       }
     ],
     "scoreRationale": "Meaningful pooled effect from randomized trials earns 3/5; the pooled N of ~100 keeps it from 4.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "general"
@@ -951,8 +951,8 @@
       }
     ],
     "scoreRationale": "Beating an active control with 6-month persistence earns 3/5; multicenter replication would raise it.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "general"
@@ -1049,8 +1049,8 @@
       }
     ],
     "scoreRationale": "A Phase 3 program with BTD earns 2/5 for tinnitus specifically: the tinnitus outcomes are open-label, company-reported, and in a Meniere's population. The ongoing Phase 3 (NCT06859788) is open-label single-group — it cannot produce controlled tinnitus evidence.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "meniere"
@@ -1134,8 +1134,8 @@
       }
     ],
     "scoreRationale": "Score 1/5: nothing but mechanism and money so far — which is exactly what the ranking rules say cannot earn a high score.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -1247,8 +1247,8 @@
       }
     ],
     "scoreRationale": "Real percept modulation and positive controlled studies earn 2/5; a proper multicenter RCT would move it.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "somatic"
@@ -1372,8 +1372,8 @@
       }
     ],
     "scoreRationale": "Score 2/5 CONFIRMED after formal re-evaluation of the MOST trial (N=440, the largest double-blind sound-therapy RCT, eClinicalMedicine 2025): all four active sound arms improved similarly; the customized (DFCRS) arm beat unmodified music by only ~4 THI points (statistically significant, clinically small, no multiplicity adjustment) and the trial has no no-sound arm, so placebo effects cannot be excluded — the authors say so themselves. This is consistent with Cochrane 2018 (no strong evidence) and the guideline split (AAO-HNSF: option; NICE/EU: research-only; German S3: against sound generators). A large trial does not raise a rating by size alone; what it shows is modest, possibly non-specific benefit.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -1469,8 +1469,8 @@
       }
     ],
     "scoreRationale": "Its own definitive trial found no advantage over standard care: 2/5, Tier 4.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -1577,8 +1577,8 @@
       }
     ],
     "scoreRationale": "Many RCTs but small effects at/below clinical meaningfulness, disputed durability, and guideline advice against routine use: 2/5.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -1667,8 +1667,8 @@
       }
     ],
     "scoreRationale": "Small effects in heterogeneous trials: 2/5.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "general"
@@ -1764,8 +1764,8 @@
       }
     ],
     "scoreRationale": "A single positive pilot with no follow-through: 2/5, dormant.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "general"
@@ -1854,8 +1854,8 @@
       }
     ],
     "scoreRationale": "Marketing currently exceeds evidence: 1/5 until independent controlled data exist.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "general"
@@ -1946,8 +1946,8 @@
       }
     ],
     "scoreRationale": "The definitive test failed: 1/5, Tier 5.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -2055,8 +2055,8 @@
       }
     ],
     "scoreRationale": "A plausible mechanism with mixed trials: 2/5.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "general"
@@ -2152,8 +2152,8 @@
       }
     ],
     "scoreRationale": "The hearing-aid core is sound; the tinnitus-specific claims are manufacturer-backed only: 2/5.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "hearing-loss"
@@ -2248,8 +2248,8 @@
       }
     ],
     "scoreRationale": "Respected research lineage with one supportive RCT for the prototype: 2/5 pending product-level trials.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "general"
@@ -2274,7 +2274,7 @@
     },
     "distress": {
       "level": "none",
-      "summary": "OTO-313: placebo beat drug numerically (36% vs 26% TFI responders). TACTT3 (N=893) failed its TFI endpoint. Positive results come only from small trials without placebo arms."
+      "summary": "OTO-313: placebo beat drug numerically (36% vs 26% TFI responders). TACTT3 (741 patients enrolled per the sponsor; the ClinicalTrials.gov record lists 893) failed its TFI endpoint. Positive results come only from small trials without placebo arms."
     },
     "regulatory": {
       "status": "Off-label (steroids); investigational (others)",
@@ -2329,7 +2329,7 @@
       },
       {
         "date": "2026-06-01",
-        "text": "Pipeline note: AudioCure's AC102 (intratympanic pyridoindole) is in Phase 2 for sudden hearing loss with tinnitus outcomes — preclinical tinnitus claims, no controlled human tinnitus data yet.",
+        "text": "Pipeline note: AudioCure's AC102 (intratympanic pyridoindole) has one patient trial — a Phase 2 study in sudden hearing loss (NCT05776459) whose registered primary and secondary outcomes are hearing measures; tinnitus was recorded only as an exploratory patient-rated scale. The trial ended in the EU in January 2026 and no results have been posted — preclinical tinnitus claims, no controlled human tinnitus data yet.",
         "url": "https://www.sciencedaily.com/releases/2023/06/230605181219.htm"
       },
       {
@@ -2348,11 +2348,16 @@
         "date": "2026-09-04",
         "change": "independence: 'primarily-sponsor' (new evidence-independence field)",
         "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-09-25",
+        "change": "Wording corrections (evidence consistency, no rating change): AC102 pipeline note now states that tinnitus was only an exploratory measure in its sudden-hearing-loss trial, which has ended without posted results; TACTT3 sample size stated as 741 enrolled per the sponsor with the registry figure (893) alongside.",
+        "reason": "AC102 re-verification (ClinicalTrials.gov API NCT05776459; EU CTIS 2024-513658-31-00; Dutch registry NL-OMON56096; AudioCure newsroom, 25 Sep 2026): registered primary/secondary outcomes are hearing measures; tinnitus is a pre-specified exploratory patient-rated VAS (Dutch registry) with VAS/eCRF forms filed in CTIS; trial ended in the EU 15 Jan 2026, ClinicalTrials.gov \"Active, not recruiting\", no results posted. Rating unchanged. TACTT3 sample size reconciled (ClinicalTrials.gov API NCT02040194: enrollment 893 ACTUAL, no results posted; Auris Medical Q3-2017 release, 28 Nov 2017: 741 enrolled = 373 acute + 368 post-acute; top-line 13 Mar 2018 / 6-K 15 May 2018: TFI endpoint not met). The two figures describe different counts, so both are stated with their source. Rating unchanged."
       }
     ],
     "scoreRationale": "The best-controlled data in the field are negative: 1/5, Tier 5.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general",
@@ -2428,7 +2433,7 @@
       },
       {
         "year": 2018,
-        "event": "AUT00063 (Kv3) terminated for futility."
+        "event": "AUT00063 (Kv3) Phase IIa trial stopped early for futility after a planned interim analysis; no benefit over placebo."
       },
       {
         "year": 2025,
@@ -2462,11 +2467,16 @@
         "date": "2026-09-04",
         "change": "Study records added: cochrane-antidepressants-2012, neramexane-program, piccirillo-2007-gabapentin, hoekstra-2011-anticonvulsants, guideline-aaohns-2014.",
         "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
+      },
+      {
+        "date": "2026-09-25",
+        "change": "Wording correction (evidence consistency, no rating change): AUT00063 timeline entry now reads \"Phase IIa trial stopped early for futility after a planned interim analysis; no benefit over placebo\".",
+        "reason": "AUT00063 QUIET-1 re-verification (ClinicalTrials.gov API NCT02315508: 91 randomised, status \"Completed\"; EU CTR 2014-002179-27 results: prematurely ended after the planned interim analysis crossed the protocol futility boundary, 76 in the primary analysis, TFI -1.57 vs -5.8, p=0.98; Hall et al. Hear Res 2019, PMID 30939361; Autifony release 28 Apr 2016). \"Terminated for futility\" and \"91 people, 28 days, no benefit\" describe the same trial; wording now carries both. Rating unchanged."
       }
     ],
     "scoreRationale": "Half a century of trials without a single confirmatory win: 1/5 for tinnitus itself (comorbidity treatment is a separate, legitimate decision).",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -2563,8 +2573,8 @@
       }
     ],
     "scoreRationale": "Multiple Cochrane reviews found nothing: 1/5, Tier 5 — the clearest marketing-vs-evidence gap on the site.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -2676,8 +2686,8 @@
       }
     ],
     "scoreRationale": "Scored for tinnitus specifically: 1/5 (no data), Tier 3 as a legitimate emerging field to watch.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "hearing-loss"
@@ -2775,8 +2785,8 @@
       }
     ],
     "scoreRationale": "Consistent ~90% resolution across 28 observational studies earns 3/5; no RCT and strict subgroup applicability cap it there.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "pulsatile"
@@ -2959,8 +2969,8 @@
       }
     ],
     "scoreRationale": "Plausible mechanism, pilots only: 2/5 until a larger sham-controlled trial reports.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "general"
@@ -3058,8 +3068,8 @@
       }
     ],
     "scoreRationale": "One small sponsor-linked RCT behind a cleared device: 2/5.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "general"
@@ -3148,8 +3158,8 @@
       }
     ],
     "scoreRationale": "1/5 — no human data; listed because the engaged tinnitus community actively follows it.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -3235,8 +3245,8 @@
       }
     ],
     "scoreRationale": "Real but non-specific benefit, best explained by its CBT/relaxation content: 2/5, Tier 4.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "general"
@@ -3328,8 +3338,8 @@
       }
     ],
     "scoreRationale": "Many trials exist (hence 2 not 1), but quality-weighted evidence is null: Tier 5.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -3412,8 +3422,8 @@
       }
     ],
     "scoreRationale": "Cochrane-reviewed and unsupported for chronic tinnitus: Tier 5.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -3487,8 +3497,8 @@
       }
     ],
     "scoreRationale": "Meta-analytically null with sequential analysis saying it's settled: Tier 5.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -3567,8 +3577,8 @@
       }
     ],
     "scoreRationale": "No human evidence and a signal in the wrong direction: 1/5, Tier 5.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -3640,8 +3650,8 @@
       }
     ],
     "scoreRationale": "No usable evidence: 1/5, Tier 5.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "high",
     "subtypeTags": [
       "general"
@@ -3735,8 +3745,8 @@
       }
     ],
     "scoreRationale": "Weak sponsor-only evidence and a defunct delivery network: Tier 5.",
-    "lastReviewed": "2026-09-03",
-    "evidenceThrough": "2026-09-03",
+    "lastReviewed": "2026-09-04",
+    "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
     "subtypeTags": [
       "general"

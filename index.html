@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>document.documentElement.classList.add("ta-loading")</script><!-- page-load gate: lifted by js/app.js once the page content is rendered; see css "Staging review round 6" -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Tinnitus Evidence: Research, Treatments & Clinical Trials</title>
 <meta name="description" content="Explore independent evidence on tinnitus treatments, clinical trials and emerging research, with separate ratings for loudness, distress, safety and replication.">
@@ -31,7 +32,7 @@
   <section class="hero">
     <span class="kicker">Tinnitus Evidence · updated weekly from verified research sources</span>
     <h1>What does the science actually show?</h1>
-    <p class="lead">Major tinnitus treatments and emerging approaches — ranked by the available evidence,
+    <p class="lead">Major tinnitus treatments and emerging approaches — ranked by the <span class="ev-em">available evidence</span>,
     in plain English, with the full research one tap deeper. Independent, free, and honest about what we don't know.</p>
 
     <div class="paths">
@@ -57,7 +58,7 @@
       <div class="stat"><b>Hundreds</b><span>research results screened</span></div>
       <div class="stat"><b id="stat-studies" data-stat="records">73</b><span>research records included</span></div>
       <div class="stat"><b id="stat-trials" data-stat="trials">21</b><span>trials watched</span></div>
-      <div class="stat"><b id="stat-updated" data-stat="lastScan">Sep 7, 2026</b><span>last research scan</span></div>
+      <div class="stat"><b id="stat-updated" data-stat="lastScan">Sep 21, 2026</b><span>latest automated research scan</span></div>
     </div>
 
     <div class="duo ld-key" role="group" aria-label="Two different questions, always kept separate here">
@@ -93,9 +94,17 @@
     <div class="card" id="evstand"></div>
   </section>
 
+  <section class="section sec-eu" aria-labelledby="eu-home-h">
+    <div class="section-head"><h2 id="eu-home-h">Emerging, Experimental &amp; Unproven Treatments</h2></div>
+    <div class="card ask-row eu-entry">
+      <div class="txt"><p>What about the treatments you hear about online, from clinics, or in early research? Explore 39 emerging, experimental and unproven approaches and see what has actually been tested in people with tinnitus, what’s still being studied, and what remains uncertain.</p></div>
+      <a class="btn" href="emerging-unproven/">Explore Emerging &amp; Unproven →</a>
+    </div>
+  </section>
+
   <section class="section">
-    <div class="section-head"><h2>Best options available today</h2></div>
-    <p class="section-sub">Treatments you can actually access now, with exact regulatory wording.</p>
+    <div class="section-head"><h2>Available options with stronger evidence</h2></div>
+    <p class="section-sub">Treatments you can access now that also have at least moderate evidence (3 of 5) in our database, shown with exact regulatory wording — a measure of the evidence, not of what’s right for you.</p>
     <details class="method">
       <summary>What the regulatory terms mean — they are NOT interchangeable</summary>
       <p><strong>approved</strong> = passed the FDA's strictest review · <strong>cleared</strong> = judged similar to an existing device
@@ -126,8 +135,8 @@
     <div id="coming" class="grid grid-2"></div>
   </section>
 
-  <section class="section">
-    <div class="section-head"><h2>What hasn't worked — and what remains uncertain</h2>
+  <section class="section sec-watch">
+    <div class="section-head"><h2><span class="hw-em">What hasn't worked</span> — and what remains uncertain</h2>
       <a class="more" href="treatments.html?flag=negative">See all →</a></div>
     <p class="section-sub">An honest evidence site shows the failures too: treatments that lost their trials,
     never beat placebo, or are sold on marketing instead of science. No ridicule — just the evidence,

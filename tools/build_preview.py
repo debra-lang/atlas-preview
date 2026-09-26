@@ -5,9 +5,9 @@ Inlines styles + app.js, embeds the entire data/ database, and packages every pa
 <main> as a <template> driven by app.js's hash router (window.__TA_SINGLE__ mode).
 Used for hosted previews (e.g., publishing as a Claude artifact). Excludes admin.html.
 
-Usage: python tools/build_preview.py   → writes preview.html at the repo root.
+Usage: python tools/build_preview.py [OUT]   → writes preview.html at the repo root (or OUT).
 """
-import json, re
+import json, re, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -49,7 +49,7 @@ def main():
     # prerendered static pages (treatments/<id>/, research/<id>/, trials/<nct>/, guides, research
     # questions, ask) are embedded under their clean path so the preview covers every page type
     n_static = 0
-    for sub in ("treatments", "trials", "research", "guides", "research-questions", "ask"):
+    for sub in ("treatments", "trials", "research", "guides", "research-questions", "ask", "emerging-unproven"):
         for f in sorted((ROOT / sub).rglob("index.html")):
             rel = f.relative_to(ROOT).parent.as_posix()
             html = f.read_text(encoding="utf-8")
@@ -59,8 +59,14 @@ def main():
             templates.append(f'<template id="page-{rel}">{m.group(0)}</template>')
             n_static += 1
 
+    # Emerging & Unproven: page script, data and styles are embedded (the page renders them into a shadow root)
+    eu = {"data": json.loads((ROOT / "data" / "emerging-unproven.json").read_text(encoding="utf-8")),
+          "css": (ROOT / "css" / "emerging-unproven.css").read_text(encoding="utf-8")}
+    eu_js = (ROOT / "js" / "emerging-unproven.js").read_text(encoding="utf-8")
+
     out = f"""<meta charset="utf-8">
-<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
 <title>{meta['name']}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -72,12 +78,16 @@ def main():
 <script>
 window.__TA_SINGLE__ = true;
 window.__TA_DATA__ = {esc_json(json.dumps(data, ensure_ascii=False, separators=(',', ':')))};
+window.__TA_EU__ = {esc_json(json.dumps(eu, ensure_ascii=False, separators=(',', ':')))};
+</script>
+<script>
+{esc_js(eu_js)}
 </script>
 <script>
 {esc_js(js)}
 </script>
 """
-    dest = ROOT / "preview.html"
+    dest = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else ROOT / "preview.html"
     dest.write_text(out, encoding="utf-8")
     print(f"Wrote {dest} ({dest.stat().st_size / 1024:.0f} KB) — "
           f"{len(PAGES)} pages + {n_static} static pages, {len(data['treatments'])} treatments embedded.")

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>document.documentElement.classList.add("ta-loading")</script><!-- page-load gate: lifted by js/app.js once the page content is rendered; see css "Staging review round 6" -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>All Tinnitus Treatments — Interactive Evidence Browser | Tinnitus Evidence</title>
 <meta name="description" content="Filter and search every tracked tinnitus treatment by evidence score, category, loudness and distress outcomes, and availability.">
@@ -27,7 +28,8 @@
 <main id="content" class="wrap">
   <section class="hero" style="padding-bottom:0">
     <h1>Treatments</h1>
-    <p class="lead">Every treatment we track, sorted by evidence tier. <span id="tcount">–</span> shown.</p>
+    <p class="lead">Every treatment we track, sorted by <span class="ev-em">evidence tier</span>.</p>
+    <p class="small" style="margin:6px 0 14px">Newer, experimental or unproven? See <a href="emerging-unproven/">Emerging &amp; unproven treatments</a> — what has actually been tested, and what hasn’t.</p>
   </section>
   <div class="searchbar" role="search"><span aria-hidden="true">🔎</span>
     <input id="tsearch" type="search" placeholder="Search treatments, devices, drugs, researchers, mechanisms…" aria-label="Search treatments"></div>
@@ -40,7 +42,19 @@
     <button class="chip" data-flag="negative">🚫 What hasn't worked</button>
     <button class="chip" data-flag="profile">👤 Relevant to my profile</button>
   </div>
-  <div id="tlist" class="grid grid-3" style="row-gap:22px;margin-top:26px"></div>
+  <!-- results open with their own heading + count, so nothing above the grid can read as a heading for the cards -->
+  <div class="tres-head"><h2><span id="tres-h">All tracked treatments</span> — <span class="tres-ct" id="tcount">38 shown</span></h2>
+    <p class="tres-sub small muted" id="tres-sub" hidden></p></div>
+  <div id="tnote"></div>
+  <div id="tlist" class="grid grid-3" style="row-gap:22px"></div>
+  <!-- separate collection: linked after the tracked-treatment results, not above them -->
+  <div class="tres-end">
+  <aside class="card ask-row eu-entry eu-entry-t" aria-labelledby="eu-entry-h">
+    <div class="txt"><h2 id="eu-entry-h">Emerging, Experimental &amp; Unproven Treatments</h2>
+    <p class="small muted">Explore 39 treatments and claims — from ideas with no direct human evidence to approaches already tested in controlled trials. See what’s actually been studied, what’s underway, and what remains uncertain.</p></div>
+    <a class="btn" href="emerging-unproven/">Explore Emerging &amp; Unproven →</a>
+  </aside>
+  </div>
 </main>
 <footer class="footer-links"><div class="wrap"><p class="small">
 <a href="treatments/">Tinnitus treatments</a> · <a href="trials/">Clinical trials</a> ·

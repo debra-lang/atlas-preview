@@ -204,7 +204,7 @@
   }
   function evidenceProfile(t) {
     const dims = epDims(t);
-    const ind = t.independence ? `<div class="eprow"><span class="lab">Independence</span><span class="segbar" style="visibility:hidden" aria-hidden="true"></span>
+    const ind = t.independence ? `<div class="eprow"><span class="lab">Independence</span><span class="segbar hide" style="visibility:hidden" aria-hidden="true"></span>
         <span class="val">${esc(IND_LABELS[t.independence] || cap(t.independence))}</span></div>` : '';
     const notes = [t.replicationNote && 'Replication: ' + t.replicationNote, t.independenceNote && 'Independence: ' + t.independenceNote].filter(Boolean);
     return `<div class="eprofile"><div class="k">Evidence profile</div>
@@ -304,7 +304,7 @@
     const cat = DB.catById[t.category] || {};
     return `<div class="card tcard" style="--cat-c:${esc(cat.color || '#888')}">
       <div class="rhead">${opts.rank ? `<span class="rank">#${opts.rank}</span>` : ''}
-        <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span></div>
+        <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span>${opts.top10 ? `<span class="top10-chip" title="Ranked #${opts.top10} in the homepage Top 10 most promising developments"><b>#${opts.top10}</b> Top 10</span>` : ''}</div>
       <h3>${updatedRecently(t) ? '<span class="updated-dot" title="Updated recently"></span>' : ''}<a href="treatment.html?id=${esc(t.id)}">${esc(t.name)}</a></h3>
       <p class="one">${esc(t.oneLiner)}</p>
       ${duo(t, true)}
@@ -329,9 +329,17 @@
   ];
   const NAV_MORE = [['search.html', 'Search'], ['ask/', 'Ask'], ['profile.html', 'My Profile'], ['compare.html', 'Compare'], ['research-questions/', 'Research Questions'], ['institutions.html', 'Institutions'], ['about.html', 'About']];
 
+  // Before the database has loaded (multi-page first paint) the brand comes from the page itself:
+  // og:site_name, else the "… | Brand" / "… — Brand" tail of the document title.
+  function brandFromDocument() {
+    const og = document.querySelector('meta[property="og:site_name"]');
+    if (og && og.content) return og.content;
+    const m = document.title.match(/(?:\||—|–)\s*([^|—–]+)$/);
+    return m ? m[1].trim() : 'Tinnitus Atlas';
+  }
   function chrome() {
     $$('.topbar, .bottomnav, .footer, .footer-links').forEach(el => el.remove()); // idempotent (static footer-links block is folded into the JS footer below)
-    const brand = (DB && DB.meta && DB.meta.name) || 'Tinnitus Atlas';
+    const brand = (DB && DB.meta && DB.meta.name) || brandFromDocument();
     // keep the brand configurable: page titles follow data/meta.json
     if (DB && document.title.includes('Tinnitus Atlas')) {
       document.title = document.title.replace(/Tinnitus Atlas/g, brand);
@@ -384,7 +392,7 @@
     $('#stat-treatments').textContent = treatments.length;
     $('#stat-studies').textContent = DB.studies.length;
     $('#stat-trials').textContent = trials.length;
-    // "last research scan" = date of the newest weekly report (the automated scan); the separate
+    // "latest automated research scan" = date of the newest weekly report; the separate
     // full-review date (meta.lastFullReview) is still shown in the footer and on About
     const lastScan = (DB.weeklyIndex && DB.weeklyIndex.reports && DB.weeklyIndex.reports[0] && DB.weeklyIndex.reports[0].date) || meta.lastFullReview;
     $('#stat-updated').textContent = fmtDate(lastScan);
@@ -400,8 +408,9 @@
       }).join('');
 
     // Available now
+    // every treatment that meets the rule is shown (no cut-off, so equal scores are never split by data-file order)
     const avail = treatments.filter(t => t.availability && t.availability.availableNow && t.tier <= 4 && t.evidenceScore >= 3)
-      .sort((a, b) => b.evidenceScore - a.evidenceScore).slice(0, 6);
+      .sort((a, b) => b.evidenceScore - a.evidenceScore);
     $('#available').innerHTML = avail.map(t => treatmentCard(t)).join('');
 
     // What's new this week
@@ -573,6 +582,9 @@
     }
     const profChip = $('[data-flag="profile"]');
     if (profChip && !getProfile()) profChip.hidden = true;
+    // Top-10 rank shown on the card comes from the same source as the homepage list (data/rankings.json)
+    const topRank = {}; ((DB.rankings && DB.rankings.top) || []).forEach(r => { topRank[r.id] = r.rank; });
+    const noteEl = $('#tnote'), resH = $('#tres-h');
 
     function render() {
       $$('#cat-chips .chip').forEach(ch => ch.setAttribute('aria-pressed', ch.dataset.cat === state.cat));
@@ -592,13 +604,36 @@
       }
       if (state.loud) list.sort((a, b) => lvRank(b.loudness.level) - lvRank(a.loudness.level) || b.evidenceScore - a.evidenceScore);
       else list.sort((a, b) => a.tier - b.tier || b.evidenceScore - a.evidenceScore || a.name.localeCompare(b.name));
+      // filter explanations render above the grid (#tnote), never as a cell inside it
       const note =
-        state.loud ? `<div class="notice" style="margin-bottom:14px">🔉 <strong>Honest note:</strong> very few treatments have credible evidence of making the tinnitus sound itself quieter — and most of those apply only to specific tinnitus types. Sorted by strength of loudness evidence; check each card's population.</div>` :
-        state.negative ? `<div class="notice" style="margin-bottom:14px">These treatments have failed trials, never beat placebo, or are marketed well beyond their evidence. No judgment if you've tried them — the marketing is persuasive. The evidence just isn't.</div>` :
-        state.profile ? `<div class="match-note" style="margin-bottom:14px">👤 Showing research studied in people who share characteristics with your Tinnitus Profile. This is evidence navigation, not a recommendation.</div>` : '';
-      listEl.innerHTML = note + (list.length ? list.map(t => treatmentCard(t)).join('') :
+        state.loud ? `<div class="notice">🔉 <strong>Honest note:</strong> very few treatments have credible evidence of making the tinnitus sound itself quieter — and most of those apply only to specific tinnitus types. Sorted by strength of loudness evidence; check each card's population.</div>` :
+        state.negative ? `<div class="fnote" role="note"><b>What the evidence has shown</b><p>These treatments have failed trials, never beat placebo, or are marketed well beyond their evidence. No judgment if you've tried them — the marketing is persuasive. The evidence just isn't.</p></div>` :
+        state.profile ? `<div class="match-note">👤 Showing research studied in people who share characteristics with your Tinnitus Profile. This is evidence navigation, not a recommendation.</div>` : '';
+      if (noteEl) noteEl.innerHTML = note;
+      listEl.innerHTML = (noteEl ? '' : note) + (list.length ? list.map(t => treatmentCard(t, { top10: topRank[t.id] })).join('') :
         '<div class="empty">Nothing matches those filters.</div>');
-      $('#tcount').textContent = list.length;
+      // results heading names the active filter: "All tracked treatments — 38 shown", "Available now — 28 treatments"
+      // (+ "28 of 38 tracked treatments match this filter."), or "Matching treatments — n treatments" when several
+      // filters are combined (the supporting line then lists them). Counts always come from the filtered list.
+      const FLAG_LABELS = { avail: 'Available now', loud: 'Loudness evidence', distress: 'Distress evidence', negative: "What hasn't worked", profile: 'Relevant to my profile' };
+      const active = [];
+      if (state.cat) active.push((DB.catById[state.cat] || {}).name || state.cat);
+      if (state.type) active.push(SUBTYPE_LABELS[state.type] || state.type);
+      Object.keys(FLAG_LABELS).forEach(f => { if (state[f]) active.push(FLAG_LABELS[f]); });
+      if (state.q) active.push(`Search “${state.q}”`);
+      const n = list.length, total = DB.treatments.length, word = `treatment${n === 1 ? '' : 's'}`;
+      const sub = $('#tres-sub');
+      if (!active.length) {
+        if (resH) resH.textContent = 'All tracked treatments';
+        $('#tcount').textContent = `${n} shown`;
+        if (sub) { sub.textContent = ''; sub.hidden = true; }
+      } else {
+        if (resH) resH.textContent = active.length === 1 ? active[0] : 'Matching treatments';
+        $('#tcount').textContent = `${n} ${word}`;
+        if (sub) { sub.textContent = active.length === 1 ? `${n} of ${total} tracked treatments match this filter.` : `${n} of ${total} tracked treatments match these filters: ${active.join(' · ')}.`; sub.hidden = false; }
+      }
+      // the heading names the subset while the "What hasn't worked" filter is on
+      const h1 = $('.hero h1'); if (h1) h1.textContent = state.negative ? "Treatments That Haven't Worked" : 'Treatments';
     }
     const lvRank = l => ({ strong: 3, moderate: 2, limited: 1 }[l] || 0);
     catChips.addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) { state.cat = b.dataset.cat; render(); } });
@@ -998,12 +1033,33 @@
   /* ----- unified search ----- */
   PAGES.search = function () {
     const input = $('#gsearch'), out = $('#gresults');
+    // Emerging, Experimental & Unproven Treatments: searched from the same finalized data file the page itself
+    // renders from (embedded in single-file previews; otherwise fetched once, only when Search is opened)
+    let EU = null;
+    (window.__TA_EU__ ? Promise.resolve(window.__TA_EU__.data)
+      : fetch('data/emerging-unproven.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null))
+      .then(d => { if (d && d.T) { EU = d; render(); } }).catch(() => {});
+    // punctuation- and accent-tolerant matching that never joins separate words:
+    // "NAD" finds "NAD+", "bpc157" / "BPC 157" find "BPC-157", "AC 102" finds "AC102", "meniere" finds "Menière"
+    const fold = s => (s || '').toLowerCase().normalize('NFD').replace(/\p{M}/gu, '');
+    const tight = s => fold(s).replace(/[^\p{L}\p{N}\s]+/gu, '').replace(/\s+/g, ' ');   // drop punctuation, keep word gaps
+    const loose = s => fold(s).replace(/[^\p{L}\p{N}]+/gu, ' ').replace(/\s+/g, ' ');    // punctuation counts as a word gap
     function rows(q) {
-      q = q.toLowerCase();
-      const hit = s => (s || '').toLowerCase().includes(q);
+      const qf = fold(q), qt = tight(q).trim(), ql = loose(q).trim(), qs = qt.replace(/ /g, '');
+      // punctuation-insensitive matches must start at the beginning of a word, so a hyphenated code such as
+      // "NITESGON-ADT" (→ "nitesgonadt") is never matched by "nad"
+      const hit = s => { const f = fold(s); if (f.includes(qf)) return true; const t = tight(f);
+        return (ql.length >= 2 && loose(f).includes(ql)) || (qt.length >= 2 && (' ' + t).includes(' ' + qt)) ||
+          (qs.length >= 2 && t.split(' ').some(w => w.startsWith(qs))); };
       const r = [];
       DB.treatments.forEach(t => { if (hit(t.name + ' ' + t.oneLiner + ' ' + t.mechanism + ' ' + t.developer + ' ' + (t.researchers || []).join(' ')))
         r.push(['Treatment', t.name, `treatment.html?id=${t.id}`, t.oneLiner]); });
+      // same fields the Emerging page's own search uses: name, other names, description
+      // (exact name first, then name matches, then other-name/description matches)
+      if (EU) EU.T.filter(t => hit(t.name + ' ' + (t.alt || '') + ' ' + t.desc))
+        .map(t => [fold(t.name) === qf ? 0 : hit(t.name) ? 1 : 2, t]).sort((a, b) => a[0] - b[0])
+        .forEach(([, t]) => r.push(['Emerging & unproven', t.name, `emerging-unproven/#${t.id}`,
+          'Emerging, Experimental & Unproven Treatments · ' + ((EU.SIT[t.cat] || {}).short || '')]));
       DB.studies.forEach(s => { if (hit(s.title + ' ' + s.authors + ' ' + s.journal))
         r.push(['Study', s.title, s.url, `${s.authors} · ${s.journal} · ${s.year}`, true]); });
       DB.trials.forEach(tr => { if (hit(tr.title + ' ' + tr.sponsor + ' ' + tr.nctId))
@@ -1022,7 +1078,7 @@
         out.innerHTML = '<div class="empty">' + (q.length ? 'Type at least two characters.' : 'Search across treatments, research, clinical trials, researchers and institutions.') + '</div>'; return; }
       const r = rows(q);
       out.innerHTML = r.length ? r.map(([type, title, href, sub, ext]) =>
-        `<div class="sr-row sr-${type.toLowerCase()}"><span class="type">${type}</span>
+        `<div class="sr-row sr-${type.toLowerCase().replace(/[^a-z]+/g, '-')}"><span class="type">${type}</span>
           <span><a href="${esc(href)}"${ext ? ' rel="noopener" target="_blank"' : ''}>${esc(title)}${ext ? ' ↗' : ''}</a>
           ${sub ? `<br><span class="small muted">${esc(sub)}</span>` : ''}</span></div>`).join('')
         : '<div class="empty">No matches across treatments, studies, trials, institutions, categories or updates.</div>';
@@ -1159,7 +1215,13 @@
   /* ---------------- single-file router ---------------- */
   function setFootMeta() {
     const fm = $('#foot-meta');
-    if (fm) fm.textContent = `Database: ${DB.treatments.length} treatments · ${DB.studies.length} studies · ${DB.trials.length} trials · last full review ${fmtDate(DB.meta.lastFullReview)}. Routine updates publish automatically after source verification; evidence ratings, rankings and safety assessments never change automatically.`;
+    // counts stay live from the data; "selected" = the main evaluated treatment database (the separate
+    // Emerging & Unproven collection is not added in). Two different dates: the manual full evidence review
+    // (meta.lastFullReview) and the latest automated research scan (newest weekly report).
+    const scan = (DB.weeklyIndex && DB.weeklyIndex.reports && DB.weeklyIndex.reports[0] && DB.weeklyIndex.reports[0].date) || '';
+    if (fm) fm.innerHTML = esc(`Evidence database: hundreds of research results screened · ${DB.treatments.length} selected treatments · ${DB.studies.length} research records · ${DB.trials.length} trials watched`) +
+      '<br>' + esc(`Last full evidence review: ${fmtDate(DB.meta.lastFullReview)}` + (scan ? ` · Latest automated research scan: ${fmtDate(scan)}` : '')) +
+      '<br>' + esc('Routine updates publish automatically after source verification; evidence ratings, rankings and safety assessments never change automatically.');
   }
   /* Deep links into collapsed sections: open every <details> ancestor of the target so
      about.html#rankings, #timeline etc. never land on a closed expander. */
@@ -1183,6 +1245,7 @@
     chrome();
     setFootMeta();
     if (PAGES[page]) PAGES[page]();
+    else if (window.TA_PAGE_HOOKS && window.TA_PAGE_HOOKS[page]) window.TA_PAGE_HOOKS[page]({ anchor: pendingAnchor }); // pages with their own script (emerging-unproven); anchor = card to open
     if (pendingAnchor) {
       const el = revealTarget(pendingAnchor); pendingAnchor = null;
       if (el) { el.scrollIntoView(); return; }
@@ -1192,17 +1255,20 @@
   function pageTitle(p) {
     return { index: 'Home', treatments: 'Treatments', treatment: 'Treatment', compare: 'Compare',
       trials: 'Clinical Trials', research: 'This Week in Research', institutions: 'Institutions',
-      watchlist: 'Watchlist', about: 'About', search: 'Search', profile: 'My Tinnitus Profile' }[p] || p;
+      watchlist: 'Watchlist', about: 'About', search: 'Search', profile: 'My Tinnitus Profile',
+      'emerging-unproven': 'Emerging & Unproven Treatments' }[p] || p;
   }
   function initRouter() {
     document.addEventListener('click', e => {
-      const a = e.target.closest('a[href]');
+      // composedPath: links inside a page's shadow root (emerging-unproven) are routed too
+      const tgt = (e.composedPath && e.composedPath()[0] instanceof Element) ? e.composedPath()[0] : e.target;
+      const a = tgt.closest('a[href]');
       if (!a) return;
       const href = a.getAttribute('href') || '';
       let m = href.match(/^([a-z-]+)\.html(?:\?([^#]*))?(?:#(.*))?$/);
       if (!m) {
         // clean static URLs ("treatments/cbt/", "research/", "./") → embedded prerendered page
-        const s = href.match(/^(?:\.\/|((?:treatments|trials|research|guides|research-questions|ask)(?:\/[A-Za-z0-9_.-]+)?)\/?)(?:#(.*))?$/);
+        const s = href.match(/^(?:\.\/|((?:treatments|trials|research|guides|research-questions|ask|emerging-unproven)(?:\/[A-Za-z0-9_.-]+)?)\/?)(?:#(.*))?$/);
         if (!s) return;
         e.preventDefault();
         pendingAnchor = s[2] || null;
@@ -1229,13 +1295,22 @@
 
   /* ---------------- boot ---------------- */
   async function boot() {
+    const page = document.body.dataset.page;
+    // Multi-page build: the header, navigation and footer are built before the data request, so they are part of
+    // the first paint. A page whose main content is rendered from the database (or by its own renderer, e.g.
+    // emerging-unproven) is held behind html.ta-loading (css) until that content has been inserted; the gate is
+    // lifted in the same task, so the browser never paints the shell with empty grids and the footer half-way up.
+    // Static prerendered pages (data-page="") are not gated — their content is already in the HTML.
+    const gated = !SINGLE && !!(PAGES[page] || (window.TA_PAGE_HOOKS && window.TA_PAGE_HOOKS[page]));
+    if (gated) document.documentElement.classList.add('ta-loading');
+    if (!SINGLE) chrome();
     try {
       await load();
       if (SINGLE) { initRouter(); return; }
-      chrome();
+      if (DB.meta && DB.meta.name && DB.meta.name !== brandFromDocument()) chrome();   // brand follows data/meta.json
       setFootMeta();
-      const page = document.body.dataset.page;
       if (PAGES[page]) PAGES[page]();
+      if (window.__TA_PAGE_READY) await window.__TA_PAGE_READY.catch(() => {});      // page with its own renderer
       // deep links into collapsed <details> sections (about.html#rankings, #timeline …)
       const open = () => { const el = revealTarget(decodeURIComponent(location.hash.slice(1))); if (el) el.scrollIntoView(); };
       if (location.hash) open();
@@ -1246,6 +1321,8 @@
       m.className = 'wrap notice'; m.style.margin = '20px auto';
       m.textContent = 'Could not load the research database (' + err.message + '). If you opened this file directly, serve the folder over HTTP instead.';
       document.body.insertBefore(m, document.body.children[1]);
+    } finally {
+      document.documentElement.classList.remove('ta-loading');
     }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

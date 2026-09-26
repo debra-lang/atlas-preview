@@ -12,7 +12,7 @@ an automated update can never silently break SEO. Checks:
   * sitemap parses, contains only production URLs, no admin/preview/noindexed pages,
     and matches the generated page set
 """
-import json, re, sys
+import html, json, re, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -97,6 +97,22 @@ missing = sitemap_expect - sm_urls
 extra = sm_urls - sitemap_expect
 if missing: errors.append(f"sitemap missing {len(missing)} canonical pages (e.g. {sorted(missing)[:3]})")
 if extra: warns.append(f"sitemap has {len(extra)} URLs with no generated page counterpart: {sorted(extra)[:4]}")
+
+# Emerging & Unproven: the static fallback list must mirror the data file (one source of truth)
+eu_page = ROOT / "emerging-unproven" / "index.html"
+if eu_page.exists():
+    eu = json.loads((ROOT / "data" / "emerging-unproven.json").read_text(encoding="utf-8"))
+    eh = eu_page.read_text(encoding="utf-8")
+    m = re.search(r"<!-- eu-static:start[\s\S]*?-->([\s\S]*?)<!-- eu-static:end -->", eh)
+    if not m:
+        errors.append("emerging-unproven/index.html: static fallback block missing (run tools/build_seo.py)")
+    else:
+        found = re.findall(r'<li id="([^"]+)"><strong><a href="#[^"]+">(.*?)</a>', m.group(1))
+        want = [(t["id"], html.escape(t["name"])) for t in eu["T"]]
+        if len(found) != len(want) or sorted(found) != sorted(want):
+            errors.append(f"emerging-unproven/index.html: static fallback has {len(found)} entries, data has {len(want)} (or ids/names differ) — run tools/build_seo.py")
+        else:
+            print(f"emerging static fallback: {len(found)} entries match data/emerging-unproven.json")
 
 print(f"checked {len(gen) + len(root_indexable)} indexable pages, sitemap {len(sm_urls)} URLs")
 for w in warns: print("WARN:", w)
