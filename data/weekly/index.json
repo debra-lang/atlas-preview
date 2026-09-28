@@ -1,6 +1,11 @@
 {
   "reports": [
     {
+      "date": "2026-09-28",
+      "file": "2026-09-28.json",
+      "title": "Automated weekly scan — 1 update(s)"
+    },
+    {
       "date": "2026-09-26",
       "file": "2026-09-26.json",
       "title": "Automated weekly scan — 14 update(s)"

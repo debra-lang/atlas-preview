@@ -1,12 +1,12 @@
 {
   "schedule": "Every Monday 06:00 America/Los_Angeles (timezone-aware — stays 6 AM Pacific through PST/PDT) via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled",
-  "nextScheduled": "2026-09-28 06:00 America/Los_Angeles",
-  "lastAttempt": "2026-09-26T05:56:51",
+  "nextScheduled": "2026-10-05 06:00 America/Los_Angeles",
+  "lastAttempt": "2026-09-28T19:54:31",
   "sources": [
     {
       "name": "PubMed (title/abstract + MeSH)",
       "checked": true,
-      "count": 22,
+      "count": 24,
       "error": null
     },
     {
@@ -40,16 +40,15 @@
       "error": null
     }
   ],
-  "examined": 30,
-  "newItems": 26,
-  "published": 13,
+  "examined": 32,
+  "newItems": 2,
+  "published": 0,
   "rejectedDuplicates": 0,
-  "rejectedIrrelevant": 9,
+  "rejectedIrrelevant": 0,
   "held": 0,
   "publishedUnderEvaluation": 0,
-  "heldAwaitingEvaluation": 0,
-  "trialStatusUpdates": 1,
+  "heldAwaitingEvaluation": 2,
+  "trialStatusUpdates": 0,
   "errors": [],
-  "archived": 4,
-  "lastSuccess": "2026-09-26T05:56:51"
+  "lastSuccess": "2026-09-28T19:54:31"
 }

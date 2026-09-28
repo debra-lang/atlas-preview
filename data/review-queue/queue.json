@@ -1,4 +1,29 @@
 {
-  "lastScan": "2026-09-26",
-  "items": []
+  "lastScan": "2026-09-28",
+  "items": [
+    {
+      "id": "pubmed-42793632",
+      "kind": "study",
+      "title": "Sedentary Time and Current Tinnitus in Midlife Korean Women (Aged 40 to 64 Years): A Cross-Sectional Analysis from KNHANES 2014-2018.",
+      "source": "Healthcare (Basel, Switzerland)",
+      "date": "2026 Sep 20",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42793632/",
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    },
+    {
+      "id": "pubmed-42791858",
+      "kind": "study",
+      "title": "An Explainable Machine Learning Framework for Predicting Hearing Aid Satisfaction: Integrating the HATASS Instrument and Clinical Insights.",
+      "source": "Bioengineering (Basel, Switzerland)",
+      "date": "2026 Aug 26",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42791858/",
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    }
+  ]
 }
