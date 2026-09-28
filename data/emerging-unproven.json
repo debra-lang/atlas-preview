@@ -486,6 +486,21 @@
    "sources",
    "bluegrey",
    "book"
+  ],
+  [
+   "three different questions",
+   "indigo",
+   "scale"
+  ],
+  [
+   "regulatory status (us fda)",
+   "blue",
+   "book"
+  ],
+  [
+   "the hearing trial in detail",
+   "amber",
+   "tri"
   ]
  ],
  "TSTATE": {
@@ -1133,6 +1148,34 @@
    "cdate": "30 December 2023",
    "rres": "Yes — posted 16 April 2026",
    "pubf": "Abouzari et al. 2025 (PMID 39588680)"
+  },
+  "tscA": {
+   "t": "Developer study: sound stimulation at the lowest audible level and hearing thresholds (Korea) — not a tinnitus trial",
+   "id": "NCT01184248",
+   "size": "30 (estimated)",
+   "design": "Non-randomized, single group, no masking; sound played at “the lowest audible level”; sponsor Earlogic Korea, Inc.",
+   "tin": "No — pure-tone hearing thresholds only (4–6 weeks)",
+   "status": "Completed January 2011 · no results posted · no publication found in our search",
+   "when": "Completed",
+   "st": "done",
+   "rstat": "Completed (last registry update September 2011)",
+   "cdate": "January 2011",
+   "checked": "28 Sep 2026",
+   "pubf": "None identified in our search"
+  },
+  "tscB": {
+   "t": "Developer study: sound stimulation and hearing ability (Korea) — not a tinnitus trial",
+   "id": "NCT01434446",
+   "size": "21 (actual)",
+   "design": "Non-randomized, single group, no masking; sound played at “the lowest audible level”; sponsor Earlogic Korea, Inc.",
+   "tin": "No — pure-tone hearing thresholds only (2–6 months)",
+   "status": "Completed April 2012 · no results posted · no publication found in our search",
+   "when": "Completed",
+   "st": "done",
+   "rstat": "Completed (last registry update April 2012)",
+   "cdate": "April 2012",
+   "checked": "28 Sep 2026",
+   "pubf": "None identified in our search"
   }
  },
  "T": [
@@ -2899,6 +2942,72 @@
      "Regulator",
      "US Code of Federal Regulations, 21 CFR 801.415",
      ""
+    ]
+   ]
+  },
+  {
+   "id": "threshold-sound-conditioning",
+   "cat": "untested",
+   "type": [
+    "device"
+   ],
+   "name": "Threshold sound conditioning (TSC)",
+   "alt": "REVE134 · Tinnitogram Signal Generator · “precision sound therapy” (Frequency Health, formerly AudioCardio)",
+   "desc": "A sound-based approach in which a person listens, for short daily sessions, to very quiet sound in chosen frequency bands, set at or near their own hearing threshold. Its inventors propose that this can activate plasticity in the hearing pathway. Two of the software programs used to deliver threshold-level sound have FDA clearance as tinnitus sound generators (“maskers”); clearance of that kind is not evidence that the method treats tinnitus.",
+   "human": [
+    "No published human tinnitus study of TSC identified in our search (28 Sep 2026)",
+    "1 small randomized study in hearing loss (39 analysed): hearing thresholds only, no tinnitus measure"
+   ],
+   "best": "One small randomized study in hearing loss, by the method’s inventors (no tinnitus measure)",
+   "repl": "no",
+   "cov": "Moderate",
+   "badges": [
+    "maker",
+    "nopub"
+   ],
+   "nop": "Two earlier developer-run studies of hearing thresholds (NCT01184248, NCT01434446) are listed as completed; no results were posted and no publication was found in our search.",
+   "qual": "Its only randomized trial was in hearing loss; tinnitus was not measured",
+   "tells": "No published human tinnitus study of TSC, REVE134, or Tinnitogram was identified in our search (28 September 2026). Its one randomized trial, run by the method’s inventors, tested hearing thresholds in people with hearing loss (39 analysed, 2–3 weeks) and did not measure tinnitus. Two software programs that deliver threshold-level sound are FDA-cleared as tinnitus sound generators on the basis of equivalence to earlier devices, not tinnitus trial data.",
+   "facts": [
+    "The two FDA clearances (2015, 2023) are for tinnitus sound generators giving “temporary relief.” They do not establish that TSC improves tinnitus or produces durable benefit. Neither FDA summary reports a clinical trial, and no FDA record identified in our search uses the term “Threshold Sound Conditioning.”",
+    "The hearing trial’s conflict-of-interest statement originally read “No potential conflict of interest was reported by the authors.” A 2021 erratum states that the authors lead the companies involved and that one of them holds intellectual-property ownership of the method.",
+    "In our search, the tinnitus-improvement percentages used in the protocol’s marketing (for example “84% of tinnitus patients”) could not be traced to a peer-reviewed publication or trial-registry record."
+   ],
+   "trials": [
+    "tscA",
+    "tscB"
+   ],
+   "com": "Documented in the published record: the 2020 trial lists one affiliation, Sound Vaccine, Inc. (Seoul), and originally stated no conflict of interest. A 2021 erratum corrected this: Sangyeop Kwak is the founder/CEO of Earlogic Korea, Inc. and Chief Science Officer of Sound Vaccine, Inc., and “holds intellectual property ownership over the treatment method described in this study, Threshold Sound Conditioning”; Eunyee Kwak is CEO of Sound Vaccine, Inc. Two registered hearing-threshold studies were sponsored by Earlogic Korea, Inc. A 2026 paper by authors from Sound Vaccine and AudioCardio, Inc. says they are “co-inventors on the TSC-related US patents and applications.” US 11,070,924 B2 (inventors Daehee Lee, Sangyeop Kwak, Sungshin Jang) is listed on Google Patents as assigned to Goldenear Company, Inc., the applicant for the Tinnitogram FDA clearance (K221168). The REVE134 clearance (K151719) was filed by KW Ear Lab, Inc.; its ownership, and any link to the TSC developers, is not stated in the FDA record or in the papers identified in our search. The company’s and a clinic’s web pages describe REVE134 and Tinnitogram as used together in one protocol.",
+   "src": [
+    [
+     "Randomized trial (hearing loss, not tinnitus)",
+     "Kwak E, Kwak S. <em>Laryngoscope Investig Otolaryngol</em> 2020;5(3):438–444",
+     "PMID 32596485"
+    ],
+    [
+     "Erratum (conflict-of-interest correction)",
+     "<em>Laryngoscope Investig Otolaryngol</em> 2021;6(6):1489",
+     "PMID 34938892"
+    ],
+    [
+     "FDA 510(k)",
+     "REVE134, KW Ear Lab, Inc. — <a href=\"https://www.accessdata.fda.gov/cdrh_docs/pdf15/K151719.pdf\" target=\"_blank\" rel=\"noopener\">K151719</a> (9 Oct 2015)",
+     ""
+    ],
+    [
+     "FDA 510(k)",
+     "Tinnitogram Signal Generator, Goldenear Company, Inc. — <a href=\"https://www.accessdata.fda.gov/cdrh_docs/pdf22/K221168.pdf\" target=\"_blank\" rel=\"noopener\">K221168</a> (1 Feb 2023)",
+     ""
+    ],
+    [
+     "Registry, developer study",
+     "Earlogic Korea, Inc. — hearing thresholds, no results",
+     "NCT01184248"
+    ],
+    [
+     "Registry, developer study",
+     "Earlogic Korea, Inc. — hearing thresholds, no results",
+     "NCT01434446"
     ]
    ]
   }
@@ -8821,6 +8930,200 @@
     [
      "EU device register",
      "EUDAMED — Cleanhearing Sono (Cleanhearing GmbH), accessed 24 September 2026",
+     ""
+    ]
+   ]
+  },
+  "threshold-sound-conditioning": {
+   "chips": [
+    [
+     "gap",
+     "No human tinnitus study identified"
+    ],
+    [
+     "people",
+     "1 randomized trial · hearing loss · 39 analysed"
+    ],
+    [
+     "time",
+     "2–3 weeks of listening, 1 hour a day"
+    ],
+    [
+     "design",
+     "Control-group figures differ between two tables"
+    ],
+    [
+     "status",
+     "Developed and tested by the inventors’ companies"
+    ],
+    [
+     "status",
+     "FDA-cleared tinnitus sound generators (equivalence)"
+    ]
+   ],
+   "claimed": "<p>The method’s authors describe threshold sound conditioning as having “the potential to activate auditory pathway plasticity and improve basal frequency hearing” (2020 paper) and the related programs are marketed for tinnitus. A clinic’s web page describing the Frequency Health (formerly AudioCardio) protocol says that “84% of tinnitus patients experienced a reduction in tinnitus severity,” that “70% of patients experienced a significant improvement in hearing thresholds (10 dB+),” and that the University of Oxford gave the research an “Evidence Level 1A” rating. The company’s medical page calls its software “FDA Cleared” and says threshold sound conditioning “Has Been Clinically Proven.” In our search (28 September 2026), the tinnitus percentage could not be traced to a peer-reviewed publication or trial-registry record, and the hearing percentage did not match the trial’s reported figures. “Level of Evidence 1a” is the label the authors gave their own hearing trial; no Oxford assessment was identified in our search.</p>",
+   "studied": [
+    {
+     "k": "tin",
+     "title": "People with tinnitus",
+     "m": "n",
+     "ml": "none identified in our search",
+     "text": "No published human tinnitus study of TSC, REVE134, or Tinnitogram was identified in our search of PubMed, Europe PMC and ClinicalTrials.gov (28 September 2026). A 2023 preprint (not peer-reviewed) from the same group modelled hearing-threshold measurements in 196 people with chronic tinnitus; it reports no treatment."
+    },
+    {
+     "k": "hear",
+     "title": "People with hearing loss",
+     "m": "r",
+     "ml": "hearing thresholds only — tinnitus not measured",
+     "text": "One randomized trial delivered through a hearing aid (42 randomized, 39 analysed; 2–3 weeks) and two earlier non-randomized developer studies (30 and 21 people; registered, no results posted). All measured pure-tone hearing thresholds. None measured tinnitus."
+    },
+    {
+     "k": "animal",
+     "title": "Animals",
+     "m": "n",
+     "ml": "none identified in our search",
+     "text": "No animal study of threshold sound conditioning itself was identified in our search. The 2020 paper cites earlier animal work on low-level sound “conditioning” by other groups; that is background, not a test of this method."
+    },
+    {
+     "k": "product",
+     "title": "The cleared programs",
+     "m": "n",
+     "ml": "no clinical data in the FDA files",
+     "text": "The FDA summaries for REVE134 and Tinnitogram report software verification only; the Tinnitogram file states that no clinical testing was required. No published study of either program was identified in our search."
+    }
+   ],
+   "special": "<details class=\"xs\" open><summary>Three different questions: hearing, tinnitus and regulation</summary><div><div class=\"stream\"><div class=\"sh\">Hearing evidence <span class=\"tm\">1 small randomized trial — not tinnitus</span></div><dl class=\"glance\"><dt>Question</dt><dd>Do hearing thresholds change after 2–3 weeks of listening to threshold-level sound?</dd><dt>Evidence</dt><dd>One randomized trial by the method’s inventors reported more people with a change of 10 dB or more at some test frequency in the TSC group (78% vs 44%, as reported). The trial is small and reports differing control-group figures in two tables (see below). No independent replication was identified in our search.</dd></dl></div><div class=\"stream\"><div class=\"sh\">Tinnitus evidence <span class=\"tm\">none identified in our search</span></div><dl class=\"glance\"><dt>Question</dt><dd>Does the method reduce tinnitus loudness or bother, and does any benefit last?</dd><dt>Evidence</dt><dd>No published human tinnitus study of TSC, REVE134, or Tinnitogram was identified in our search (28 September 2026). The hearing trial did not measure tinnitus. In our search, tinnitus-benefit claims in marketing could not be traced to a peer-reviewed publication or trial-registry record.</dd></dl></div><div class=\"stream\"><div class=\"sh\">Regulatory status <span class=\"tm\">cleared as tinnitus sound generators</span></div><dl class=\"glance\"><dt>Question</dt><dd>What has the US FDA decided?</dd><dt>Decision</dt><dd>Two software programs were cleared through the 510(k) route as tinnitus maskers, for “temporary relief.” This is a finding of equivalence to earlier sound generators. The clearances do not establish that TSC improves tinnitus or produces durable benefit. Details in the next section.</dd></dl></div></div></details><details class=\"xs\"><summary>Regulatory status (US FDA)</summary><div><ul><li><strong>REVE134 — 510(k) K151719, KW Ear Lab, Inc.:</strong> “substantially equivalent” decision dated 9 October 2015; product code KLW (“Masker, Tinnitus”), 21 CFR 874.3400, Class II; prescription use. Cleared indication (quoted): “a sound generating software used in a Tinnitus Management Program designed to provide temporary relief for people experiencing tinnitus symptoms,” for use by hearing healthcare professionals, who should recommend listening “for 30 minutes twice a day at the barely audible level (minimally detectable level).” Performance data in the summary: software verification under IEC 62304 and ISO 14971, and an equivalence argument against Oticon Tinnitus SoundSupport (K133308) and GN Resound Tinnitus Sound Generator (K110932).</li><li><strong>Tinnitogram Signal Generator — 510(k) K221168, Goldenear Company, Inc.:</strong> decision dated 1 February 2023; same product code and regulation; the only predicate is REVE134 (K151719); the cleared indication is near-identical. The FDA file states: “There was no clinical testing required to support the medical device as the indications for use is equivalent to the predicate device.”</li><li><strong>What a 510(k) clearance is:</strong> FDA’s decision letters find the device “substantially equivalent (for the indications for use stated in the enclosure)” to a legally marketed predicate. FDA’s regulation defines a tinnitus masker as a device “intended to generate noise of sufficient intensity and bandwidth to mask ringing in the ears or internal head noises,” and sets one special control: patient labelling. Clearance is not FDA approval. These clearances do not establish that TSC improves tinnitus or produces durable benefit. <span class=\"ours\">our interpretation</span></li><li><strong>Naming:</strong> no FDA record identified in our search (openFDA and the decision documents, 28 September 2026) uses the term “Threshold Sound Conditioning,” and neither applicant has another 510(k) in that database. The link between the method and the cleared programs comes from the developers’ materials and from shared inventors and companies (see Commercial involvement). The cleared instructions mention only listening at the “barely audible level.”</li><li><strong>Other regulatory status:</strong> the FDA device registration and listing database was not searched directly. Non-US regulatory status was not investigated.</li></ul></div></details><details class=\"xs\"><summary>The hearing trial in detail</summary><div><ul><li><strong>Who and what:</strong> adults with sensorineural hearing loss (at least one test frequency above 40 dB HL). 96 people were screened, 52 excluded and 2 dropped out before randomization; 42 were randomized and 39 analysed (23 TSC, 16 control; 3 excluded for reasons such as ear wax and unreliable responses). TSC group: a behind-the-ear hearing aid delivering TSC for 1 hour a day “at the lowest audible level (i.e., the hearing threshold level)” for 2–3 weeks, in one narrow frequency region (3, 4 or 6 kHz) matched to each person’s poorest threshold. Control group: an identical hearing aid without TSC. Hearing was measured at eight to nine frequencies in both ears, once before and once after.</li><li><strong>Result as reported:</strong> people were grouped by whether any test frequency changed by 10 dB or more. Counting “ameliorated” plus “mixed” (some frequencies improved, some worsened), the TSC group had 18 of 23 (78%) and the control group 7 of 16 (44%); p = 0.008 and p = 0.0005 as reported by the authors (ANOVA with Scheffé post-hoc tests). Improvement <em>without</em> any 10 dB worsening: 10 of 23 (43%) vs 4 of 16 (25%). At least one frequency worsened by 10 dB or more in 11 of 23 (48%) TSC and 10 of 16 (63%) control participants (Table 2). The paper does not report how many decibels thresholds changed, at which frequencies, or whether the treated frequency region improved.</li><li><strong>Control-group figures differ between two tables:</strong> Table 2 and the abstract give the control group 4 improved, 3 mixed, 2 no change and 7 worsened; the subject-level Table 1 gives 4, 0, 5 and 7. That changes the control “ameliorated or mixed” figure from 7 of 16 (44%) to 4 of 16 (25%). The TSC group is the same in both tables. The reason for the difference is not stated in the paper, and we did not find a published correction addressing it. <span class=\"ours\">our recount</span></li></ul></div></details>",
+   "best": [
+    [
+     "Study in people with tinnitus",
+     "None identified in our search (28 Sep 2026)"
+    ],
+    [
+     "Closest evidence",
+     "Kwak E, Kwak S, 2020 — <em>Laryngoscope Investigative Otolaryngology</em> 5(3):438–444: randomized trial in sensorineural hearing loss (hearing thresholds only)"
+    ],
+    [
+     "Design",
+     "Randomized; described by the authors as double-blind and placebo-controlled. The paper does not describe how people were allocated or how blinding was kept"
+    ],
+    [
+     "Participants",
+     "42 randomized, 39 analysed (23 TSC, 16 control); adults with hearing loss; one clinic"
+    ],
+    [
+     "Comparison",
+     "Identical hearing aid without TSC"
+    ],
+    [
+     "Treatment",
+     "TSC for 1 hour a day for 2–3 weeks, at the hearing-threshold level"
+    ],
+    [
+     "Outcomes",
+     "Pure-tone hearing thresholds at baseline and once after treatment. 🧠 Tinnitus: not measured. Adverse events: none reported"
+    ],
+    [
+     "Registration",
+     "None identified for this trial (ClinicalTrials.gov search). Two earlier developer studies of hearing thresholds are registered"
+    ],
+    [
+     "Publication",
+     "Peer-reviewed; open access, full text read. Conflict-of-interest statement corrected by a 2021 erratum"
+    ],
+    [
+     "Independent replication",
+     "None identified in our search"
+    ]
+   ],
+   "found": {
+    "plain": "The one randomized trial reported more people with a 10 dB or greater hearing-threshold change in the TSC group. It measured hearing, not tinnitus, and reports differing control-group figures in two of its tables. It has no tinnitus results.",
+    "numbers": [
+     "Hearing (not tinnitus), as reported: 18 of 23 (78%) TSC vs 7 of 16 (44%) control had a change of 10 dB or more at some frequency counted as “ameliorated” or “mixed.”",
+     "Improved without any 10 dB worsening: 10 of 23 (43%) vs 4 of 16 (25%). At least one frequency worsened by 10 dB or more (Table 2): 11 of 23 (48%) vs 10 of 16 (63%).",
+     "The paper’s Table 2 and its subject-level Table 1 give different control-group figures: 7 of 16 (44%) versus 4 of 16 (25%) — see “The hearing trial in detail.”",
+     "Not reported: the size in decibels, the frequencies that changed, or any tinnitus outcome."
+    ]
+   },
+   "limits": [
+    "No published human tinnitus study of TSC, REVE134, or Tinnitogram was identified in our search (28 September 2026); tinnitus was not measured in the randomized trial.",
+    "The trial is small (39 analysed), short (2–3 weeks), from one clinic, with one measurement after treatment and no follow-up to show whether any change lasts.",
+    "The outcome counts a change of 10 dB or more at any one of eight to nine frequencies in either ear — a rule that is exposed to ordinary test-to-test variation and to chance findings. Worsening of that size was common in both groups.",
+    "Control-group figures differ between two tables in the paper (see “The hearing trial in detail”), and the reported improvement rate depends on how “improved” is defined (78% vs 44% counting “mixed” outcomes; 43% vs 25% counting improvement without any worsening).",
+    "It calls itself double-blind, randomized and placebo-controlled but does not describe allocation or blinding methods, and reports no adverse events although safety was an aim.",
+    "It was not registered, was analysed with ANOVA on ordinal codes, and its “Level of Evidence 1a” is the authors’ own label.",
+    "Run by the method’s inventors; the paper’s conflict-of-interest statement was corrected by a 2021 erratum.",
+    "No independent replication was identified in our search."
+   ],
+   "repl": "No study of threshold sound conditioning by an independent research group was identified in our search. The randomized trial and the registered studies come from the inventors’ own companies.",
+   "safety": "<ul><li><strong>In the hearing trial:</strong> the authors set out to assess safety but report no adverse events. A worsening of 10 dB or more at one or more frequencies occurred in 11 of 23 TSC and 10 of 16 control participants; the paper does not say how much of this is normal test-to-test variation. <span class=\"ours\">our reading of Table 2</span></li><li><strong>Cleared programs:</strong> the cleared instructions are 30 minutes twice a day at the barely audible level, on the recommendation of a hearing healthcare professional. Beyond software verification, no safety data are reported in the 510(k) summaries we read. For tinnitus maskers, FDA’s classification requires patient labelling on professional fitting, risks, benefits, warnings and specifications.</li></ul>",
+   "guide": "<p><strong>No guideline position was identified in our search.</strong> Threshold sound conditioning, REVE134 and Tinnitogram are not named in the European (2019) or German (2021) tinnitus guidelines. Other national guidelines were not searched for this entry. General guideline statements about sound therapy are not applied to this method.</p>",
+   "com": "<ul><li><strong>Authors and companies:</strong> the 2020 trial’s only listed affiliation is Sound Vaccine, Inc. (Seoul). It stated “No potential conflict of interest was reported by the authors.” A 2021 erratum corrected this: Sangyeop Kwak is founder/CEO of Earlogic Korea, Inc. and Chief Science Officer of Sound Vaccine, Inc., and holds intellectual-property ownership of the method; Eunyee Kwak is CEO of Sound Vaccine, Inc. Funding listed: Korea-Seoul Life Science Fund.</li><li><strong>Registered studies:</strong> both hearing-threshold studies (NCT01184248, NCT01434446) were sponsored by Earlogic Korea, Inc.</li><li><strong>Patents:</strong> a 2026 paper by authors from Sound Vaccine and AudioCardio, Inc. states they are “co-inventors on the TSC-related US patents and applications.” US 11,070,924 B2 (inventors Daehee Lee, Sangyeop Kwak, Sungshin Jang; issued 20 July 2021) is listed on Google Patents as assigned to Goldenear Company, Inc., the applicant for the Tinnitogram clearance; its text describes “threshold sound conditioning (TSC)” and tinnitus and presents no clinical data. EP 2265319, “Method and system for search/treatment of tinnitus” (inventor Sang-Yeop Kwak), is listed as assigned to Earlogic Korea Inc.</li><li><strong>Device manufacturers:</strong> Tinnitogram — Goldenear Company, Inc. (CEO named in the FDA file: Daehee Lee). REVE134 — KW Ear Lab, Inc.; its ownership and any link to the TSC developers is not stated in the FDA record or in the papers identified in our search. The companies’ and a clinic’s web pages describe the two as tools in one protocol.</li></ul><p class=\"muted\">Company involvement does not by itself make a result wrong.</p>",
+   "trials": [
+    "tscA",
+    "tscB"
+   ],
+   "underway": "No registered trial of threshold sound conditioning in people with tinnitus, and no TSC trial that is currently recruiting, was identified in our search (28 September 2026). The two registered studies below are earlier hearing-threshold studies by the developer, completed in 2011 and 2012; no results were posted.",
+   "why": "No published human tinnitus study of TSC, REVE134, or Tinnitogram was identified in our search. The one randomized trial measured hearing thresholds only, is small and short, was run by the method’s inventors, and reports differing control-group figures in two of its tables. The FDA clearances of the related tinnitus programs rest on equivalence to earlier devices, not on tinnitus trial data, and do not establish that TSC improves tinnitus or produces durable benefit. In our search, tinnitus-benefit claims in marketing could not be traced to a peer-reviewed publication or trial-registry record.",
+   "cov": "Checked 28 September 2026: PubMed, Europe PMC (including full text), ClinicalTrials.gov, FDA 510(k) records (openFDA and the decision documents), Crossref, Google Patents, the eCFR and the companies’ and a clinic’s web pages (read for claims only). <strong>Not accessed:</strong> the 2015 <em>Neurology</em> conference abstract (blocked), a 2013 conference abstract (not indexed), the preprint’s full text (only its abstract was read), the FDA device registration database, and UMIN-CTR, jRCT, ISRCTN and WHO ICTRP by direct search. Korean- and Chinese-language databases were not searched.",
+   "src": [
+    [
+     "Randomized trial (hearing loss, not tinnitus)",
+     "Kwak E, Kwak S. <em>Laryngoscope Investig Otolaryngol</em> 2020;5(3):438–444 (open access)",
+     "PMID 32596485"
+    ],
+    [
+     "Erratum (conflict-of-interest correction)",
+     "<em>Laryngoscope Investig Otolaryngol</em> 2021;6(6):1489",
+     "PMID 34938892"
+    ],
+    [
+     "Computational paper by the same group (no patients)",
+     "Lee D, et al. <em>Front Neurol</em> 2026;17:1903374 — conflict-of-interest and patent statement",
+     "PMID 42630574"
+    ],
+    [
+     "Preprint, not peer-reviewed (tinnitus loudness modelling, no treatment)",
+     "Kwak S, et al. bioRxiv 2023",
+     "DOI 10.1101/2023.02.09.527783"
+    ],
+    [
+     "FDA 510(k) decision",
+     "REVE134 — KW Ear Lab, Inc. — <a href=\"https://www.accessdata.fda.gov/cdrh_docs/pdf15/K151719.pdf\" target=\"_blank\" rel=\"noopener\">K151719</a>, decision 9 Oct 2015",
+     ""
+    ],
+    [
+     "FDA 510(k) decision",
+     "Tinnitogram Signal Generator — Goldenear Company, Inc. — <a href=\"https://www.accessdata.fda.gov/cdrh_docs/pdf22/K221168.pdf\" target=\"_blank\" rel=\"noopener\">K221168</a>, decision 1 Feb 2023",
+     ""
+    ],
+    [
+     "Regulation",
+     "<a href=\"https://www.ecfr.gov/current/title-21/chapter-I/subchapter-H/part-874/subpart-D/section-874.3400\" target=\"_blank\" rel=\"noopener\">21 CFR 874.3400 — tinnitus masker</a>",
+     ""
+    ],
+    [
+     "Registry, developer study",
+     "Earlogic Korea, Inc. — hearing thresholds, non-randomized, results not posted",
+     "NCT01184248"
+    ],
+    [
+     "Registry, developer study",
+     "Earlogic Korea, Inc. — hearing thresholds, non-randomized, results not posted",
+     "NCT01434446"
+    ],
+    [
+     "Patent",
+     "<a href=\"https://patents.google.com/patent/US11070924B2/en\" target=\"_blank\" rel=\"noopener\">US 11,070,924 B2</a> — Method and apparatus for hearing improvement based on cochlear model",
+     ""
+    ],
+    [
+     "Patent",
+     "<a href=\"https://patents.google.com/patent/EP2265319A1/en\" target=\"_blank\" rel=\"noopener\">EP 2265319</a> — Method and system for search/treatment of tinnitus",
+     ""
+    ],
+    [
+     "Company and clinic web pages (read for claims only — not evidence)",
+     "audiocardio.com/medical; Sound Relief Tinnitus &amp; Hearing Center page on the Frequency Health protocol",
      ""
     ]
    ]
