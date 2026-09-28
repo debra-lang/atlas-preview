@@ -959,3 +959,27 @@ html.ta-loading main::before{content:"Loading the evidence database…";visibili
 
 /* homepage stats strip on small tablets (640–799px): the date value keeps to one line at a slightly smaller size */
 @media(min-width:640px) and (max-width:799px){.stats-strip .stat b{font-size:1.05rem}}
+
+/* ---------- Treatments page: compact top entry to Emerging, Experimental & Unproven Treatments ----------
+   Same crimson recipe as the full-size panel at the foot of the page (.eu-entry-t: glow fill, 4px accent edge, button),
+   with tighter padding, a one-line description and a smaller heading. The whole card is one link: the CTA anchor is
+   stretched over the card (::after), so there is a single link for keyboard and screen-reader users. */
+.eu-entry-top{position:relative;margin:12px 0 18px;padding:10px 16px 10px 14px;gap:8px 16px;cursor:pointer}
+.eu-entry-top .txt{flex:1 1 280px}
+.eu-entry-top h2{font-size:1rem;line-height:1.3;margin:0 0 1px}
+.eu-entry-top p{font-size:.88rem;line-height:1.4}
+.eu-entry-top .btn{min-height:40px;padding:7px 16px;font-size:.88rem}
+.eu-entry-top .btn::after{content:"";position:absolute;inset:0;border-radius:var(--r)}
+.eu-entry-top:has(.btn:focus-visible){outline:2px solid var(--c-promising);outline-offset:3px}
+@media(hover:hover){
+  .eu-entry-top:hover .btn{background:color-mix(in srgb,var(--wash-c) 28%,var(--surface))}
+  :root[data-theme="light"] .eu-entry-top:hover .btn{background:color-mix(in srgb,var(--wash-c) 14%,var(--surface))}
+}
+@media(max-width:639px){.eu-entry-top{padding:10px 12px 12px}.eu-entry-top .btn{min-height:44px}}
+
+/* Treatments page: the primary collection heading takes the site's green (--c-strong) so the tracked-treatment results keep
+   their emphasis beside the crimson Emerging entry. Only the colour changes; the "— 38 shown" count keeps its muted colour.
+   In light mode the same green is mixed 70% with --text (as the amber heading on the home page is) so the 18px heading
+   reaches 4.5:1 on the light background. */
+#tres-h{color:var(--c-strong)}
+:root[data-theme="light"] #tres-h{color:color-mix(in srgb,var(--c-strong) 70%,var(--text))}
