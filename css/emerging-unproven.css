@@ -66,10 +66,13 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 @media(max-width:899px){
   .jbrackets{display:none}
   .jsteps{grid-template-columns:1fr;gap:0}
-  .jstep{display:grid;grid-template-columns:48px 1fr;gap:4px 12px;text-align:left;border-radius:0;border-width:0 0 0 0;background:none;padding:6px 0 14px}
+  /* two columns: a fixed icon + connector-line column, and a text column (band, title, description and the
+     "↓ …" transition note all live in it, so the note can never fall into the narrow icon column) */
+  .jstep{display:grid;grid-template-columns:48px minmax(0,1fr);gap:2px 12px;align-content:start;text-align:left;border-radius:0;border-width:0 0 0 0;background:none;padding:6px 0 12px}
+  .jstep>*{grid-column:2}
   .jstep:not(:last-child)::after{left:23px;right:auto;top:50px;width:2px;height:calc(100% - 50px)}
-  .jstep .ic{grid-row:span 3;margin:0}
-  .jstep .exit{border:0;padding:0;margin:2px 0 0}
+  .jstep .ic{grid-column:1;grid-row:1 / span 4;align-self:start;margin:0}
+  .jstep .exit{border:0;padding:0;margin:4px 0 0}
   .jstep .band{display:inline-block;font-size:.82rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
 }
 @media(min-width:900px){.jstep .band{display:none}}
@@ -514,3 +517,12 @@ h5.thead{margin:14px 0 4px;font-size:.95rem;font-family:var(--font-display)}
    the page states that colour is never used to rank. */
 .card>.cardin>h3{color:color-mix(in srgb,var(--wash-c) 68%,var(--text));font-weight:700}
 :host([data-theme="light"]) .card>.cardin>h3{color:color-mix(in srgb,var(--wash-c) 55%,var(--text))}
+
+/* Phones and small tablets: the section cards sit on the page gutter, in line with the surrounding text. They used to
+   reach 16px outward into an 18px gutter, which left the rounded border ~2px from the screen edge. Desktop is unchanged. */
+@media(max-width:899px){
+  .sec[data-tone]{margin-left:0;margin-right:0;padding-left:16px;padding-right:16px}
+}
+@media(max-width:360px){
+  .sec[data-tone]{padding-left:14px;padding-right:14px}
+}
