@@ -1,18 +1,18 @@
 {
   "schedule": "Every Monday 06:00 America/Los_Angeles (timezone-aware — stays 6 AM Pacific through PST/PDT) via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled",
-  "nextScheduled": "2026-10-05 06:00 America/Los_Angeles",
-  "lastAttempt": "2026-09-28T19:54:31",
+  "nextScheduled": "2026-10-12 06:00 America/Los_Angeles",
+  "lastAttempt": "2026-10-05T20:53:06",
   "sources": [
     {
       "name": "PubMed (title/abstract + MeSH)",
       "checked": true,
-      "count": 24,
+      "count": 15,
       "error": null
     },
     {
       "name": "ClinicalTrials.gov (condition + full-text)",
       "checked": true,
-      "count": 8,
+      "count": 6,
       "error": null
     },
     {
@@ -40,15 +40,16 @@
       "error": null
     }
   ],
-  "examined": 32,
-  "newItems": 2,
+  "examined": 21,
+  "newItems": 21,
   "published": 0,
   "rejectedDuplicates": 0,
   "rejectedIrrelevant": 0,
-  "held": 0,
+  "held": 3,
   "publishedUnderEvaluation": 0,
-  "heldAwaitingEvaluation": 2,
+  "heldAwaitingEvaluation": 23,
   "trialStatusUpdates": 0,
   "errors": [],
-  "lastSuccess": "2026-09-28T19:54:31"
+  "retractionFindings": 3,
+  "lastSuccess": "2026-10-05T20:53:06"
 }

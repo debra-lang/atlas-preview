@@ -1,7 +1,7 @@
 {
-  "lastRun": "2026-09-04",
-  "checkedPmids": 20,
-  "checkedDois": 19,
+  "lastRun": "2026-10-05",
+  "checkedPmids": 67,
+  "checkedDois": 2,
   "findings": [
     {
       "identifier": "PMID 35773272",
@@ -11,6 +11,28 @@
       ],
       "studyIds": [
         "tent-a2-2022"
+      ],
+      "source": "PubMed CommentsCorrections/PublicationType"
+    },
+    {
+      "identifier": "PMID 35939312",
+      "severity": "erratum",
+      "notices": [
+        "erratum — ErratumIn: JAMA Neurol. 2023 Feb 1;80(2):216. doi: 10.1001/jamaneurol.2022.4248. (notice PMID 36342699)"
+      ],
+      "studyIds": [
+        "jarach-2022-prevalence"
+      ],
+      "source": "PubMed CommentsCorrections/PublicationType"
+    },
+    {
+      "identifier": "PMID 22156949",
+      "severity": "erratum",
+      "notices": [
+        "erratum — ErratumIn: Ear Hear. 2012 May;33(3):443"
+      ],
+      "studyIds": [
+        "meikle-2012-tfi"
       ],
       "source": "PubMed CommentsCorrections/PublicationType"
     }
