@@ -2898,8 +2898,8 @@
    },
    "reg": "Mayo Clinic placebo-controlled trial (NCT01273883): results posted on ClinicalTrials.gov; no journal publication found in our search.",
    "nop": "ACEMg open-label study (NCT06477354): completed December 2025; no public results found in our search.",
-   "qual": "Based on 1 small placebo-controlled trial",
-   "tells": "In the only placebo-controlled trial, people rated their tinnitus about the same after magnesium as after placebo. The trial was small and short, and we found its results only in a trial registry."
+   "qual": "Based on 1 small, unpublished placebo-controlled trial (rated Insufficient Evidence in Tinnitus Claims)",
+   "tells": "In the only placebo-controlled trial, people rated their tinnitus about the same after magnesium as after placebo. The trial was small (38 people) and short, and we found its results only in a trial registry. That is too little to show either a benefit or a lack of one, so our Tinnitus Claims section rates the claim that magnesium helps tinnitus Insufficient Evidence."
   },
   {
    "id": "ozone",
