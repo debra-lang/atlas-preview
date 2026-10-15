@@ -1075,9 +1075,9 @@ html{scroll-padding-top:calc(var(--hdr-h,72px) + 8px)}
 @media(min-width:1180px){.featnav{position:sticky;top:var(--tb-h,57px)}}
 .feat-grid{display:grid;gap:14px;grid-template-columns:1fr}
 @media(min-width:640px){.feat-grid{grid-template-columns:1fr 1fr}}
-.feat-card{--fc:var(--brand-1);display:flex;flex-direction:column;gap:8px;height:100%;padding:18px;color:var(--text)}
+.feat-card{--fc:var(--brand-1);display:flex;flex-direction:column;gap:8px;height:100%;padding:17px;color:var(--text);border:2px solid color-mix(in srgb,var(--fc) 62%,var(--line))}
 .feat-card.feat-cl{--fc:var(--brand-2)}
-.feat-card:hover{text-decoration:none;border-color:color-mix(in srgb,var(--fc) 50%,var(--line))}
+.feat-card:hover{text-decoration:none;border-color:var(--fc)}
 .feat-card h3{margin:0;font-size:1.1rem;line-height:1.3;display:flex;gap:10px;align-items:flex-start}
 .feat-card h3::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--fc);margin-top:.42em;flex:none}
 .feat-card p{margin:0;color:var(--muted);font-size:.93rem}
