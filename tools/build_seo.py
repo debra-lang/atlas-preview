@@ -143,6 +143,8 @@ def page(path_rel, title, desc, h1, crumbs, body, jsonld_extra=None, article=Non
                "url": canon, "description": desc, "datePublished": article.get("published", TODAY), "dateModified": article.get("modified", TODAY),
                "author": {"@type": "Organization", "name": "Tinnitus Evidence"},
                "publisher": {"@type": "Organization", "name": "Tinnitus Evidence", "url": PROD + "/"}}]
+    if article and article.get("published", TODAY) is None:
+        ld[0].pop("datePublished", None)   # unreleased page: never represent a build date as a publication date
     if crumb_ld: ld.append(crumb_ld)
     if jsonld_extra: ld.append(jsonld_extra)
     ld_html = "\n".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in ld)
@@ -628,13 +630,14 @@ def claim_body(c):
     terms = "".join(f'<tr><th scope="row">{E(a)}</th><td>{E(b)}</td><td>{d}</td></tr>' for a, b, d in c["distinctions"])
     research = "".join(f"<h3>{s[0]}</h3>{s[1]}" for s in inner)
     tops_html = "".join(f'<section id="top{i}"><h2>{s[0]}</h2>{s[1]}</section>' for i, s in enumerate(tops))
+    publine = f'First published <time datetime="{E(CL["meta"]["published"])}">{_long_date(CL["meta"]["published"])}</time> · ' if CL["meta"].get("published") else ""
     safety = f'<aside class="cl-safety" role="note" aria-label="Safety note"><p class="cl-safety-h"><span aria-hidden="true">⚠</span> Safety note</p>{c["safety"]}</aside>' if c.get("safety") else ""
     body = f"""
 <div class="cl-verdict cl-v-{cls}" role="note" aria-label="Evidence verdict">
 <p class="cl-kicker small"><a href="claims/">Tinnitus Claims: Fact vs. Evidence</a></p>
 <p class="cl-vline">{vchip(c['verdict'])} <span class="cl-vtext">Evidence verdict</span></p>
 <p class="cl-vexp">{E(c['verdictLine'])}</p>
-<p class="cl-meta small muted">Evidence through <time datetime="{E(c['evidenceThrough'])}">{_long_date(c['evidenceThrough'])}</time> ·
+<p class="cl-meta small muted">{publine}Evidence through <time datetime="{E(c['evidenceThrough'])}">{_long_date(c['evidenceThrough'])}</time> ·
 Last reviewed <time datetime="{E(c['lastReviewed'])}">{_long_date(c['lastReviewed'])}</time> ·
 <a href="claims/verdicts/">What the verdicts mean</a> · “Unsupported” does not necessarily mean disproven.</p>
 </div>
@@ -681,7 +684,7 @@ if CL:
     land = f"""
 <p class="lead">{E(CL['landing']['lead'])}</p>
 <p>{E(CL['landing']['intro'])}</p>
-<p class="cl-meta small muted">Evidence through {_long_date(CL['meta']['evidenceThrough'])} · Last reviewed {_long_date(CL['meta']['lastReviewed'])}</p>
+<p class="cl-meta small muted">{('First published ' + _long_date(CL['meta']['published']) + ' · ') if CL['meta'].get('published') else ''}Evidence through {_long_date(CL['meta']['evidenceThrough'])} · Last reviewed {_long_date(CL['meta']['lastReviewed'])}</p>
 <div class="grid grid-2 cl-grid">{cards}</div>
 <section id="how"><h2>How to read a verdict</h2>
 <ul class="cl-vdefs">{vdefs}</ul>

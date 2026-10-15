@@ -124,6 +124,11 @@ if cl_path.exists():
     VER = {v["name"] for v in CL["verdicts"]}
     if VER != {"Supported", "Partly Supported", "Misleading", "Unsupported", "Insufficient Evidence"}:
         errors.append(f"claims: verdict vocabulary changed: {sorted(VER)}")
+    from datetime import date as _d
+    _m = CL["meta"]
+    if _m.get("published") and _d.fromisoformat(_m["published"]) > _d.today(): errors.append("claims: meta.published is in the future")
+    if _m["evidenceThrough"] > _m["lastReviewed"]: errors.append("claims: evidenceThrough is later than lastReviewed")
+    if not _m.get("published"): print("claims: private build (meta.published is null; no publication date is emitted)")
     t_ids = {t["id"] for t in treatments}
     eu_ids = {t["id"] for t in json.loads((ROOT / "data" / "emerging-unproven.json").read_text(encoding="utf-8"))["T"]}
     g_ids = {p.parent.name for p in ROOT.glob("guides/*/index.html")}
