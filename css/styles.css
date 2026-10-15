@@ -1060,10 +1060,10 @@ body:not(:has(.topbar)):has(main.cl-page)::before{content:"";display:block;heigh
 html{scroll-padding-top:calc(var(--hdr-h,72px) + 8px)}
 .featnav{background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);z-index:49}
 .featnav-in{display:flex;gap:6px;padding:4px 12px}
-.feat{--fc:var(--brand-1);flex:1 1 0;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:4px 6px;
-  border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface);color:var(--text);font-weight:600;font-size:.78rem;line-height:1.2;text-align:center}
+.feat{--fc:var(--brand-1);flex:1 1 0;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:4px 4px;
+  border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface);color:var(--text);font-weight:600;font-size:.76rem;line-height:1.2;text-align:center}
 .feat-cl{--fc:var(--brand-2)}
-.feat{gap:6px}
+.feat{gap:5px}
 .feat .dot{width:8px;height:8px;border-radius:50%;background:var(--fc);flex:none}
 .feat:hover{text-decoration:none;border-color:color-mix(in srgb,var(--fc) 55%,var(--line))}
 .feat[aria-current]{border-color:var(--fc);background:color-mix(in srgb,var(--fc) 14%,var(--surface))}
