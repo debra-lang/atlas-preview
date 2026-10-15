@@ -135,8 +135,11 @@ sources, trial info and red-flag guidance stay free permanently.
 **Find My Quiet Sound integration** (`meta.json → relatedProduct`):
 - Outbound: treatments with an `fmqs` field render a visually distinct product box ("product link,
   not evidence") + the mandatory disclosure. Currently: notched-sound, sound-therapy.
-- Disclosure (verbatim, from meta.json): "Find My Quiet Sound is a related product operated by the
-  same organization. Its inclusion does not affect the evidence rating shown here."
+- Disclosure (verbatim, from meta.json): "Find My Quiet Sound is a tinnitus sound app operated by
+  the same owner as Tinnitus Evidence. It offers sound masking and an experimental personalized
+  notched-sound tool, is currently free, and may add optional paid features. It is not presented
+  here as a scientifically established treatment, and no clinical efficacy claim is made for it. Its
+  inclusion does not affect the evidence rating shown here."
 - Inbound (DEFERRED — do not modify the live Softwave codebase casually): relevant FMQS features
   (Notched Sound, masking, sound therapy, residual-inhibition experiments) get a
   "What does the evidence say?" link → `https://<TE domain>/treatment.html?id=<id>`.
