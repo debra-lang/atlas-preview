@@ -372,7 +372,7 @@
     return m ? m[1].trim() : 'Tinnitus Atlas';
   }
   function chrome() {
-    $$('.topbar, .bottomnav, .footer, .footer-links').forEach(el => el.remove()); // idempotent (static footer-links block is folded into the JS footer below)
+    $$('.topbar, .featnav, .bottomnav, .footer, .footer-links').forEach(el => el.remove()); // idempotent (static footer-links block is folded into the JS footer below)
     const brand = (DB && DB.meta && DB.meta.name) || brandFromDocument();
     // keep the brand configurable: page titles follow data/meta.json
     if (DB && document.title.includes('Tinnitus Atlas')) {
@@ -389,6 +389,22 @@
       </nav>
       <button class="theme-btn" type="button" aria-label="Toggle dark mode">◐</button>`;
     document.body.prepend(top);
+    // featured evidence navigation: second row (desktop) / compact strip (phones). aria-current="page" on a section's
+    // landing page, "true" on pages inside the section (e.g. a Claims article).
+    const inSec = k => page === k || page.startsWith(k + '/') || (!SINGLE && new RegExp('/' + k + '(/|$)').test(location.pathname));
+    const isTop = k => page === k || (!SINGLE && new RegExp('/' + k + '/?(index\\.html)?$').test(location.pathname));
+    const feat = document.createElement('nav');
+    feat.className = 'featnav'; feat.setAttribute('aria-label', 'Featured evidence sections');
+    feat.innerHTML = '<div class="featnav-in">' + [['emerging-unproven/', 'Emerging Treatments', 'feat-em', 'emerging-unproven'], ['claims/', 'Claims: Fact vs. Evidence', 'feat-cl', 'claims']].map(([h, n, c, k]) =>
+      `<a class="feat ${c}" href="${h}"${isTop(k) ? ' aria-current="page"' : inSec(k) ? ' aria-current="true"' : ''}><span class="dot" aria-hidden="true"></span><span>${n}</span></a>`).join('') + '</div>';
+    top.after(feat);
+    const sizeHeader = () => {
+      const r = document.documentElement.style, t = top.offsetHeight;
+      r.setProperty('--tb-h', t + 'px');
+      r.setProperty('--hdr-h', (t + (getComputedStyle(feat).position === 'sticky' ? feat.offsetHeight : 0)) + 'px');
+    };
+    sizeHeader();
+    if (!window.__featNavResize) { window.__featNavResize = true; addEventListener('resize', () => { const f = $('.featnav'), t = $('.topbar'); if (f && t) { const r = document.documentElement.style; r.setProperty('--tb-h', t.offsetHeight + 'px'); r.setProperty('--hdr-h', (t.offsetHeight + (getComputedStyle(f).position === 'sticky' ? f.offsetHeight : 0)) + 'px'); } }); }
     $('.theme-btn', top).addEventListener('click', () => {
       const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
       applyTheme(t); try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
