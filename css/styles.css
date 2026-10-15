@@ -1047,8 +1047,11 @@ blockquote.cl-q{margin:.5em 0;padding:12px 16px;border:1px solid var(--line);bor
 .cl-xlink .cl-chip{margin-left:6px}
 .cl-entry{margin-top:0}
 .tres-end .cl-entry{margin:14px 0 0}
-/* reserve the space the script-injected top bar will occupy, so Claims pages do not jump when it appears */
-body:not(:has(.topbar)):has(main.cl-page)::before{content:"";display:block;height:calc(57px + 53px)}
+/* reserve the space the script-injected header (top bar + featured strip) will occupy on static pages, so they do not jump when it appears; only when scripting is on, so no-JS visitors see no blank band */
+@media (scripting:enabled){
+  body[data-page=""]:not(:has(.topbar))::before{content:"";display:block;height:110px}
+  @media(min-width:600px){body[data-page=""]:not(:has(.topbar))::before{height:107px}}
+}
 /* inline links are underlined (never colour alone); light-theme link colour is darkened to reach 4.5:1 */
 .cl-page p a,.cl-page li a,.cl-page td a,.cl-page th a,.cl-page blockquote a{text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
 :root[data-theme="light"] .cl-page a:not(.btn):not(.cl-chip){color:color-mix(in srgb,var(--c-promising) 70%,var(--text))}
