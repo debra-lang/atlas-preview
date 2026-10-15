@@ -103,6 +103,8 @@ FOOTER_LINKS = [
     ("ask/", "Ask Tinnitus Evidence"), ("research-questions/", "Research questions"),
     ("guides/tinnitus-treatments/", "What has the strongest evidence?"),
     ("guides/tinnitus-loudness-vs-distress/", "Loudness vs distress"),
+    ("emerging-unproven/", "Emerging, experimental & unproven treatments"),
+    ("claims/", "Tinnitus claims: fact vs. evidence"),
     ("research.html", "This week in tinnitus research"),
     ("about.html", "About & methodology"), ("about.html#limitations", "Research limitations"),
     ("about.html#corrections", "Corrections & editorial integrity"), ("about.html#disclaimer", "Medical disclaimer"),

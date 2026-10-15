@@ -428,6 +428,8 @@
       <a href="research-questions/">Research questions</a> ·
       <a href="guides/tinnitus-treatments/">Strongest evidence</a> ·
       <a href="guides/tinnitus-loudness-vs-distress/">Loudness vs distress</a> ·
+      <a href="emerging-unproven/">Emerging, experimental &amp; unproven treatments</a> ·
+      <a href="claims/">Tinnitus claims: fact vs. evidence</a> ·
       <a href="about.html#limitations">Research limitations</a> · <a href="about.html#corrections">Corrections &amp; editorial integrity</a></p>
       <p class="small" id="foot-meta"></p></div>`;
     document.body.append(foot);
