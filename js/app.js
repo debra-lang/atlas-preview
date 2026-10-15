@@ -75,6 +75,40 @@
     return DB;
   }
 
+  /* ---------------- Tinnitus Claims cross-links (private V14) ----------------
+     The interactive treatment page lists the claim checks that mention a treatment. Loaded lazily and
+     non-blocking: if data/claims.json is unavailable the page is unchanged. Static pages get the same block at build time. */
+  let CLAIMS = null;
+  async function loadClaims() {
+    if (CLAIMS) return CLAIMS;
+    try {
+      if (window.__TA_DATA__ && window.__TA_DATA__.claims) CLAIMS = window.__TA_DATA__.claims;
+      else {
+        const r = await fetch('data/claims.json', { cache: 'no-cache' });
+        if (!r.ok) return null;
+        CLAIMS = await r.json();
+      }
+    } catch (e) { return null; }
+    return CLAIMS;
+  }
+  function attachClaimChecks(root, id) {
+    loadClaims().then(C => {
+      if (!C || !root.isConnected) return;
+      const sym = { supported: '✓', partly: '◐', misleading: '!', unsupported: '✕', insufficient: '?' };
+      const cls = Object.fromEntries((C.verdicts || []).map(v => [v.name, v.cls]));
+      const hits = (C.claims || []).filter(c => ((c.related || {}).treatments || []).includes(id));
+      if (!hits.length || root.querySelector('.cl-xlink')) return;
+      const box = document.createElement('section');
+      box.className = 'card sec-card cl-xlink'; box.id = 'claim-checks';
+      box.innerHTML = '<h2>Claim checks that mention this treatment</h2><ul>' + hits.map(c => {
+        const k = cls[c.verdict] || 'insufficient';
+        return '<li><a href="claims/' + esc(c.slug) + '/">' + esc(c.question) + '</a> <span class="cl-chip cl-' + k + '"><span aria-hidden="true">' +
+          sym[k] + '</span> ' + esc(c.verdict) + '</span></li>';
+      }).join('') + '</ul><p class="small muted">From <a href="claims/">Tinnitus Claims: Fact vs. Evidence</a>, which checks popular claims against the research. It does not change this treatment’s evidence rating.</p>';
+      root.appendChild(box);
+    });
+  }
+
   /* ---------------- watchlist (v2: treatments + trials + institutions) ---------------- */
   const WL_KEY = 'ta:watchlist', SEEN_KEY = 'ta:lastSeen';
   function wlGet() {
@@ -788,6 +822,7 @@
       this.setAttribute('aria-pressed', on);
       $('span:last-child', this).textContent = on ? 'On your watchlist' : 'Add to watchlist';
     });
+    attachClaimChecks(root, t.id);
   };
 
   function plainBlock(t) {
@@ -1268,7 +1303,7 @@
       let m = href.match(/^([a-z-]+)\.html(?:\?([^#]*))?(?:#(.*))?$/);
       if (!m) {
         // clean static URLs ("treatments/cbt/", "research/", "./") → embedded prerendered page
-        const s = href.match(/^(?:\.\/|((?:treatments|trials|research|guides|research-questions|ask|emerging-unproven)(?:\/[A-Za-z0-9_.-]+)?)\/?)(?:#(.*))?$/);
+        const s = href.match(/^(?:\.\/|((?:treatments|trials|research|guides|research-questions|ask|emerging-unproven|claims)(?:\/[A-Za-z0-9_.-]+)?)\/?)(?:#(.*))?$/);
         if (!s) return;
         e.preventDefault();
         pendingAnchor = s[2] || null;

@@ -983,3 +983,73 @@ html.ta-loading main::before{content:"Loading the evidence database…";visibili
    reaches 4.5:1 on the light background. */
 #tres-h{color:var(--c-strong)}
 :root[data-theme="light"] #tres-h{color:color-mix(in srgb,var(--c-strong) 70%,var(--text))}
+/* ---------- Tinnitus Claims: Fact vs. Evidence (V14) ----------
+   Uses the existing tokens only. Verdicts are never colour-alone: every chip carries a symbol and its full name. */
+:root{--cl-bad:#ff9a9a;--cl-bad-bg:#33171d;--cl-bad-line:#5c2a33}
+:root[data-theme="light"]{--cl-bad:#b3261e;--cl-bad-bg:#fdecea;--cl-bad-line:#f2bcb7}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.cl-chip{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:700;line-height:1.25;border:1px solid;border-radius:999px;padding:3px 10px;vertical-align:baseline}
+.cl-supported,.cl-v-supported{--vc:var(--c-strong);--vbg:var(--c-strong-bg);--vline:var(--c-strong-line)}
+.cl-partly,.cl-v-partly{--vc:var(--c-promising);--vbg:var(--c-promising-bg);--vline:var(--c-promising-line)}
+.cl-misleading,.cl-v-misleading{--vc:var(--c-watch);--vbg:var(--c-watch-bg);--vline:var(--c-watch-line)}
+.cl-unsupported,.cl-v-unsupported{--vc:var(--cl-bad);--vbg:var(--cl-bad-bg);--vline:var(--cl-bad-line)}
+.cl-insufficient,.cl-v-insufficient{--vc:var(--c-weak);--vbg:var(--c-weak-bg);--vline:var(--c-weak-line)}
+.cl-chip{color:var(--vc);background:var(--vbg);border-color:var(--vline)}
+:root[data-theme="light"] .cl-chip{color:color-mix(in srgb,var(--vc) 62%,var(--text))}
+.cl-verdict{background:var(--vbg);border:1px solid var(--vline);border-radius:var(--r);padding:16px 18px;margin:14px 0 18px;color:var(--text)}
+.cl-verdict p{margin:.3em 0}
+.cl-kicker{margin:0 0 8px!important}
+.cl-vline{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cl-vtext{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.cl-vexp{font-size:1.08rem;font-weight:600;line-height:1.45;margin:.5em 0!important}
+.cl-meta{margin-top:.6em!important}
+.cl-safety{border:2px solid var(--cl-bad-line);background:var(--cl-bad-bg);border-radius:var(--r);padding:14px 18px;margin:16px 0;color:var(--text)}
+.cl-safety p{margin:.45em 0}
+.cl-safety-h{font-family:var(--font-display);font-weight:700;font-size:.95rem;margin:0 0 .3em!important}
+blockquote.cl-q{margin:.5em 0;padding:12px 16px;border:1px solid var(--line);border-left:3px solid var(--vline,var(--line));background:var(--surface-2);border-radius:0 var(--r-sm) var(--r-sm) 0;font-size:1.04rem}
+.cl-tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface);margin:12px 0}
+.cl-table{width:100%;border-collapse:collapse;font-size:.92rem}
+.cl-table th,.cl-table td{padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+.cl-table thead th{background:var(--surface-2);font-family:var(--font-display);font-size:.8rem;font-weight:600;color:var(--muted)}
+.cl-table tbody th{font-weight:600;min-width:9em}
+.cl-table tbody tr:last-child th,.cl-table tbody tr:last-child td{border-bottom:0}
+.cl-table td p{margin:.2em 0}
+@media(max-width:640px){
+  .cl-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .cl-table,.cl-table tbody,.cl-table tr,.cl-table th,.cl-table td{display:block;width:100%}
+  .cl-table tr{padding:8px 0;border-bottom:1px solid var(--line)}
+  .cl-table tbody tr:last-child{border-bottom:0}
+  .cl-table th,.cl-table td{border-bottom:0;padding:5px 13px}
+  .cl-table tbody th{min-width:0}
+  .cl-table td::before{content:attr(data-label);display:block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+}
+.cl-cite{font-size:.72em;line-height:0;white-space:nowrap;margin-left:1px}
+.cl-cite a{font-weight:600;padding:0 1px}
+.cl-circ,.cl-rel,.cl-vdefs{padding-left:1.15em}
+.cl-circ li,.cl-rel li{margin:.35em 0}
+.cl-vdefs{list-style:none;padding-left:0}
+.cl-vdefs li{margin:.7em 0}
+.cl-checklist{padding-left:1.3em}
+.cl-checklist li{margin:.55em 0}
+.cl-note{border:1px solid var(--line);background:var(--surface-2);border-radius:var(--r-sm);padding:12px 14px}
+.cl-refs{font-size:.88rem;padding-left:1.5em}
+.cl-refs li{margin:.5em 0;overflow-wrap:anywhere}
+.cl-refs li:target{background:color-mix(in srgb,var(--brand-1) 16%,transparent);border-radius:6px;outline:2px solid color-mix(in srgb,var(--brand-1) 45%,transparent)}
+.cl-grid{margin:18px 0}
+.cl-card{display:flex;flex-direction:column;gap:2px;background:var(--surface)}
+.cl-card h2{font-size:1.14rem;margin:.35em 0 .3em;line-height:1.3}
+.cl-card p{margin:.25em 0}
+.cl-cardv{margin:0!important}
+.cl-claimq{color:var(--muted);font-size:.92rem}
+.cl-card .cl-claimq{margin:.2em 0 .5em!important}
+.cl-xlink ul{padding-left:1.2em;margin:.4em 0}
+.cl-xlink li{margin:.4em 0}
+.cl-xlink .cl-chip{margin-left:6px}
+.cl-entry{margin-top:0}
+.tres-end .cl-entry{margin:14px 0 0}
+.cl-verdict ~ section,.cl-grid ~ section{scroll-margin-top:72px}
+/* reserve the space the script-injected top bar will occupy, so Claims pages do not jump when it appears */
+body:not(:has(.topbar)):has(main.cl-page)::before{content:"";display:block;height:57px}
+/* inline links are underlined (never colour alone); light-theme link colour is darkened to reach 4.5:1 */
+.cl-page p a,.cl-page li a,.cl-page td a,.cl-page th a,.cl-page blockquote a{text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+:root[data-theme="light"] .cl-page a:not(.btn):not(.cl-chip){color:color-mix(in srgb,var(--c-promising) 70%,var(--text))}

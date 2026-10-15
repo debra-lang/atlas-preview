@@ -11,6 +11,9 @@ an automated update can never silently break SEO. Checks:
   * no indexable page carries noindex; utility pages DO carry noindex
   * sitemap parses, contains only production URLs, no admin/preview/noindexed pages,
     and matches the generated page set
+  * Tinnitus Claims (data/claims.json): every claim has a static page; every verdict is one of the five
+    defined terms; verdict, evidence-through and last-reviewed dates, references and the "unsupported does
+    not mean disproven" explanation are present; every citation resolves to a reference; related links resolve
 """
 import html, json, re, sys
 from pathlib import Path
@@ -25,7 +28,7 @@ if isinstance(treatments, dict): treatments = treatments["treatments"]
 # collect indexable pages: generated dirs + root indexable pages
 gen = sorted(ROOT.glob("treatments/**/index.html")) + sorted(ROOT.glob("trials/**/index.html")) + \
       sorted(ROOT.glob("research/**/index.html")) + sorted(ROOT.glob("guides/**/index.html")) + \
-      sorted(ROOT.glob("research-questions/**/index.html")) + sorted(ROOT.glob("ask/index.html"))
+      sorted(ROOT.glob("research-questions/**/index.html")) + sorted(ROOT.glob("ask/index.html")) +       sorted(ROOT.glob("claims/**/index.html"))
 
 # Research Questions integrity: every page in the section MUST carry the hypothesis banner
 # (they are hypotheses, never evidence) — and the section must never be empty once launched.
@@ -113,6 +116,58 @@ if eu_page.exists():
             errors.append(f"emerging-unproven/index.html: static fallback has {len(found)} entries, data has {len(want)} (or ids/names differ) — run tools/build_seo.py")
         else:
             print(f"emerging static fallback: {len(found)} entries match data/emerging-unproven.json")
+
+# Tinnitus Claims: Fact vs. Evidence — integrity of the static section and its data
+cl_path = ROOT / "data" / "claims.json"
+if cl_path.exists():
+    CL = json.loads(cl_path.read_text(encoding="utf-8"))
+    VER = {v["name"] for v in CL["verdicts"]}
+    if VER != {"Supported", "Partly Supported", "Misleading", "Unsupported", "Insufficient Evidence"}:
+        errors.append(f"claims: verdict vocabulary changed: {sorted(VER)}")
+    t_ids = {t["id"] for t in treatments}
+    eu_ids = {t["id"] for t in json.loads((ROOT / "data" / "emerging-unproven.json").read_text(encoding="utf-8"))["T"]}
+    g_ids = {p.parent.name for p in ROOT.glob("guides/*/index.html")}
+    land = ROOT / "claims" / "index.html"
+    lh = land.read_text(encoding="utf-8") if land.exists() else ""
+    if not land.exists(): errors.append("claims/index.html missing")
+    if not (ROOT / "claims" / "verdicts" / "index.html").exists(): errors.append("claims/verdicts/index.html missing")
+    for c in CL["claims"]:
+        rel = f"claims/{c['slug']}/index.html"
+        pp = ROOT / rel
+        if not pp.exists():
+            errors.append(f"{rel}: missing"); continue
+        h = pp.read_text(encoding="utf-8")
+        if c["verdict"] not in VER: errors.append(f"{rel}: undefined verdict {c['verdict']!r}")
+        for sv in c["subverdicts"]:
+            if sv[1] not in VER: errors.append(f"{rel}: undefined sub-verdict {sv[1]!r}")
+        for need in ("Evidence through", "Last reviewed", 'id="references"', "Evidence verdict", "does not necessarily mean disproven"):
+            if need not in h: errors.append(f"{rel}: missing '{need}'")
+        if len(re.findall(r'class="cl-verdict ', h)) != 1: errors.append(f"{rel}: expected exactly one verdict block")
+        refs = set(re.findall(r'<li id="ref-(\d+)">', h))
+        cites = set(re.findall(r'<a href="claims/' + re.escape(c["slug"]) + r'/#ref-(\d+)" aria-label', h))
+        if re.search(r'href="#(?!content")', h): errors.append(f"{rel}: bare '#' link (breaks under <base href>) — use the full page path")
+        if len(refs) < 5: errors.append(f"{rel}: only {len(refs)} references listed")
+        if not cites: errors.append(f"{rel}: no inline citations")
+        if cites - refs: errors.append(f"{rel}: citations without reference entries: {sorted(cites - refs)[:5]}")
+        if refs - cites: warns.append(f"{rel}: references never cited inline: {sorted(refs - cites)[:5]}")
+        for r in c["references"]:
+            if not r.get("links"): errors.append(f"{rel}: reference {r['n']} has no link")
+        d = re.search(r'<meta name="description" content="([^"]*)"', h)
+        if d and len(d.group(1)) > 200: warns.append(f"{rel}: meta description {len(d.group(1))} chars")
+        rr = c.get("related", {})
+        for tid in rr.get("treatments", []):
+            if tid not in t_ids: errors.append(f"{rel}: unknown related treatment {tid}")
+        for eid in rr.get("emerging", []):
+            if eid not in eu_ids: errors.append(f"{rel}: unknown related Emerging id {eid}")
+        for gid in rr.get("guides", []):
+            if gid not in g_ids: errors.append(f"{rel}: unknown related guide {gid}")
+        if f'href="claims/{c["slug"]}/"' not in lh: errors.append(f"claims/index.html does not link to {c['slug']}")
+        if f"https://tinnitusevidence.com/claims/{c['slug']}/" not in sm_urls: errors.append(f"sitemap missing claims/{c['slug']}/")
+        if c.get("safety") and "cl-safety" not in h: errors.append(f"{rel}: safety note not rendered")
+    s5 = [c for c in CL["claims"] if c["slug"] == "does-tinnitus-go-away"]
+    if s5 and "sudden hearing loss" not in (ROOT / "claims/does-tinnitus-go-away/index.html").read_text(encoding="utf-8").split('id="claim"')[0].lower():
+        errors.append("does-tinnitus-go-away: sudden-hearing-loss safety note must appear before the article body")
+    print(f"claims: {len(CL['claims'])} claim pages + landing + verdicts checked")
 
 print(f"checked {len(gen) + len(root_indexable)} indexable pages, sitemap {len(sm_urls)} URLs")
 for w in warns: print("WARN:", w)

@@ -1,0 +1,2318 @@
+{
+ "meta": {
+  "title": "Tinnitus Claims: Fact vs. Evidence",
+  "tagline": "What the headlines say. What the research actually shows.",
+  "evidenceThrough": "2026-10-15",
+  "lastReviewed": "2026-10-15",
+  "published": "2026-10-15"
+ },
+ "landing": {
+  "metaTitle": "Tinnitus Claims: Fact vs. Evidence | Tinnitus Evidence",
+  "metaDesc": "What the headlines say about tinnitus cures, frequencies, supplements and quick fixes, and what the research actually shows, with an evidence verdict and primary sources for each claim.",
+  "lead": "What the headlines say. What the research actually shows. Widely shared tinnitus claims, each judged against the primary research with a plain-language verdict, an explanation of what is true, what is not, and what you can do.",
+  "intro": "Tinnitus attracts bold claims: miracle frequencies, 30-second fixes, “ear formulas”, new cures. Some contain a real kernel. This section takes the claims people actually meet, traces them to the original research, and gives each an evidence verdict. It is education, not medical advice, and verdicts describe the evidence rather than the people making the claims."
+ },
+ "verdictsPage": {
+  "metaTitle": "How We Judge Tinnitus Claims: Evidence Verdicts Explained | Tinnitus Evidence",
+  "metaDesc": "What Supported, Partly Supported, Misleading, Unsupported and Insufficient Evidence mean on Tinnitus Evidence, and why unsupported does not necessarily mean disproven."
+ },
+ "entry": {
+  "title": "Tinnitus claims: fact vs. evidence",
+  "text": "Frequencies, 30-second fixes, supplements, “cure discovered” headlines: each judged against the research, with an evidence verdict."
+ },
+ "verdicts": [
+  {
+   "name": "Supported",
+   "cls": "supported",
+   "meaning": "Good-quality evidence, ideally repeated by independent research groups, supports the claim as it is usually stated.",
+   "notmean": "It does not mean the approach works for everyone, is risk-free, or that the evidence cannot change."
+  },
+  {
+   "name": "Partly Supported",
+   "cls": "partly",
+   "meaning": "A real part of the claim holds up, but the claim as it is usually made goes further than the evidence does.",
+   "notmean": "It does not mean the claim is “half right” in a way that makes the rest acceptable. We say which part holds up and which does not."
+  },
+  {
+   "name": "Misleading",
+   "cls": "misleading",
+   "meaning": "The claim contains a real kernel, but the usual way it is presented leads people to a wrong conclusion, for example by treating temporary relief as a cure, a result in mice as a human treatment, or a questionnaire improvement as a quieter sound.",
+   "notmean": "It does not mean the person making the claim intends to mislead. We judge the claim, not the speaker."
+  },
+  {
+   "name": "Unsupported",
+   "cls": "unsupported",
+   "meaning": "We found no good evidence for the claim. This covers two quite different situations: the claim <em>was tested</em> and did not show a benefit, or it <em>has not been tested well enough</em> to know. Each claim page says which applies.",
+   "notmean": "<strong>Unsupported does not necessarily mean disproven.</strong> It means the evidence needed to believe the claim is missing. A claim can be unsupported today and supported after better research."
+  },
+  {
+   "name": "Insufficient Evidence",
+   "cls": "insufficient",
+   "meaning": "There is too little, too small or too inconsistent evidence to say yes or no. Early or conflicting findings are in this group.",
+   "notmean": "It does not mean the approach fails, or that it works. It means we cannot tell yet, and more research could change the answer."
+  }
+ ],
+ "terms": [
+  [
+   "Loudness",
+   "How loud or intrusive the tinnitus sound itself is, usually rated by the person or matched to an external sound. A treatment that lowers loudness changes the sound."
+  ],
+  [
+   "Distress",
+   "How much tinnitus upsets, worries or frustrates a person. It is measured by questionnaires (for example the Tinnitus Handicap Inventory) and can improve while the sound stays the same."
+  ],
+  [
+   "Functional impact",
+   "How much tinnitus interferes with sleep, concentration, work, hearing in noise and relationships (for example the Tinnitus Functional Index)."
+  ],
+  [
+   "Temporary relief",
+   "Feeling better for a short time, such as while a masking sound plays or for hours afterwards. It is real, but it is not the same as lasting change."
+  ],
+  [
+   "Sustained improvement",
+   "Benefit that is still present weeks or months after a treatment, measured against a comparison group."
+  ],
+  [
+   "Cure",
+   "Tinnitus that is gone and stays gone because of the treatment, shown in controlled studies and repeated independently. No treatment has met this standard for tinnitus."
+  ]
+ ],
+ "how": [
+  "We judge each claim as it is commonly stated, not the topic in general. A topic can contain true statements and misleading ones, so each page also gives a verdict for each part of the claim.",
+  "We rely on primary sources: the trials and reviews themselves, guideline texts, regulator records and trial registries. Every page lists them, with links.",
+  "We keep loudness, distress, functional impact, temporary relief, sustained improvement and cure apart, because a claim often wins its credibility by blurring them.",
+  "We date every page. “Evidence through” is the date up to which we searched; “last reviewed” is when a person last checked the page. Verdicts can change when new evidence appears, and corrections are logged on our methodology page.",
+  "We name a product, company or person only when a regulator, a published study or a documented fact-check supports the specific statement, and we do not accuse anyone of fraud. We distinguish “tested and shown not to help” from “never tested”."
+ ],
+ "claims": [
+  {
+   "slug": "sound-frequency-tinnitus-cure",
+   "num": 1,
+   "question": "Can a Certain Sound Frequency or “Hz” Video Cure Tinnitus?",
+   "short": "Sound frequencies and “Hz” videos",
+   "claim": "“A specific frequency, such as 432 Hz, 528 Hz or a binaural-beat track, can retrain your brain and cure your tinnitus, and a free video can do it.”",
+   "verdict": "Misleading",
+   "verdictLine": "Sound can give real, temporary relief. Nothing in the research shows that a particular frequency or a video permanently cures tinnitus.",
+   "metaTitle": "Can a Sound Frequency or Hz Video Cure Tinnitus? The Evidence | Tinnitus Evidence",
+   "metaDesc": "432 Hz, 528 Hz, binaural beats and notched sound: what the research shows about tinnitus sound claims, temporary relief versus lasting change, and what to look for.",
+   "answer": "<p>Sound can change how tinnitus <em>feels while you listen</em>. That part is real, and it is why sound is used in tinnitus clinics. What is <strong>not</strong> supported is the idea that one “healing” frequency, or a video, removes tinnitus for good.</p>\n<ul>\n<li><strong>432 Hz and 528 Hz:</strong> we found no published study testing either frequency as a tinnitus treatment (PubMed search, 15 October 2026).</li>\n<li><strong>Binaural beats:</strong> two small studies found no clear advantage over the same sound without the beats.<sup class=\"cl-cite\">[<a href=\"#ref-1\" aria-label=\"Reference 1\">1</a>, <a href=\"#ref-2\" aria-label=\"Reference 2\">2</a>]</sup></li>\n<li><strong>Notched (“gap”) music:</strong> an early small study was positive, but larger controlled trials mostly did not find it better than ordinary music.<sup class=\"cl-cite\">[<a href=\"#ref-3\" aria-label=\"Reference 3\">3</a>, <a href=\"#ref-4\" aria-label=\"Reference 4\">4</a>, <a href=\"#ref-5\" aria-label=\"Reference 5\">5</a>, <a href=\"#ref-6\" aria-label=\"Reference 6\">6</a>]</sup></li>\n<li><strong>Masking and sound enrichment:</strong> regulators accept sound devices for <em>temporary relief</em>, and guidelines disagree about longer-term value.<sup class=\"cl-cite\">[<a href=\"#ref-7\" aria-label=\"Reference 7\">7</a>, <a href=\"#ref-8\" aria-label=\"Reference 8\">8</a>, <a href=\"#ref-9\" aria-label=\"Reference 9\">9</a>, <a href=\"#ref-10\" aria-label=\"Reference 10\">10</a>, <a href=\"#ref-11\" aria-label=\"Reference 11\">11</a>]</sup></li>\n</ul>\n<p>“Unsupported” here does not mean every sound has been shown not to work. For 432 Hz and 528 Hz, it means nobody has tested them.</p>",
+   "subverdicts": [
+    [
+     "“A sound or video can cure tinnitus”",
+     "Unsupported",
+     "No sound-based approach has been shown to remove tinnitus permanently. Trials report group averages, not cures."
+    ],
+    [
+     "“432 Hz / 528 Hz ‘healing’ frequencies work”",
+     "Insufficient Evidence",
+     "No published tinnitus study of either frequency was found. Untested, not disproven."
+    ],
+    [
+     "“Binaural beats reduce tinnitus”",
+     "Insufficient Evidence",
+     "Two small studies; the beats did not do better than the same sound without them."
+    ],
+    [
+     "“Notched or custom music retrains the brain”",
+     "Insufficient Evidence",
+     "One small positive study; later, larger trials did not show an advantage over ordinary music."
+    ],
+    [
+     "“Sound can give temporary relief”",
+     "Partly Supported",
+     "Sound can cover or reduce tinnitus while it plays; regulators clear devices for “temporary relief”. Lasting benefit is not shown."
+    ]
+   ],
+   "circulation_intro": "We searched YouTube for tinnitus “frequency”, “Hz”, “sound fix” and “cure” phrases on 15 October 2026. Titles below are quoted briefly; view counts and upload ages are what YouTube displayed that day. We leave out channel names and links on purpose: this is about the claim, not about any one creator’s intent.",
+   "circulation": [
+    [
+     "A 30-minute binaural-beats video titled “Tinnitus Cure In 30 Minutes”",
+     "about 3.6 million views; uploaded about 7 years earlier"
+    ],
+    [
+     "A short video titled “528 Hz Healing Frequency”",
+     "about 1.9 million views; uploaded about 1 year earlier"
+    ],
+    [
+     "A masking-sound video whose title promises “Sound Therapy Relief That WORKS”",
+     "about 5.6 million views; uploaded about 3 years earlier"
+    ],
+    [
+     "A one-hour video titled “Most Powerful Tinnitus Sound Therapy”",
+     "about 10.6 million views; uploaded about 9 years earlier"
+    ]
+   ],
+   "sections": [
+    [
+     "What “Hz” claims are really claiming",
+     "<p>Hertz (Hz) is the pitch of a tone. Tinnitus pitch differs from person to person, and we found no research linking a tone chosen for its supposed “healing” properties to a person’s tinnitus. The 432 Hz and 528 Hz claims we found in videos rest on assertion, not on tinnitus research: a PubMed search on 15 October 2026 for tinnitus with either number returned no trial of either frequency (the hits were unrelated papers).</p>\n<p>Clinical sound research uses frequencies matched to a person’s own tinnitus or hearing loss, tested against a comparison sound. That is a different thing from a single “universal” frequency.</p>"
+    ],
+    [
+     "What sound can do: masking and temporary relief",
+     "<p>A tinnitus masker is a regulated medical device. U.S. regulations describe it as a device “intended to generate noise of sufficient intensity and bandwidth to mask ringing in the ears”, in Class II.<sup class=\"cl-cite\">[<a href=\"#ref-7\" aria-label=\"Reference 7\">7</a>]</sup> Cleared sound devices are indicated for the <strong>temporary relief</strong> of tinnitus symptoms, for use as part of a management programme with a hearing professional.<sup class=\"cl-cite\">[<a href=\"#ref-8\" aria-label=\"Reference 8\">8</a>, <a href=\"#ref-12\" aria-label=\"Reference 12\">12</a>]</sup></p>\n<p>Some people also get a short-lived drop in tinnitus loudness after certain sounds. In one laboratory study of 20 people with chronic tinnitus, at least one of 17 sounds reduced loudness in 90% of them, most often amplitude-modulated tones near the tinnitus pitch. The authors described this as <em>temporary</em> and said the long-term effects remained to be investigated.<sup class=\"cl-cite\">[<a href=\"#ref-13\" aria-label=\"Reference 13\">13</a>]</sup></p>"
+    ],
+    [
+     "Does long-term listening help? Reviews and guidelines disagree",
+     "<p>Cochrane reviewers looked for controlled trials of sound devices. In 2012 they found six trials (553 people) and no significant change in tinnitus loudness or overall severity compared with other approaches, adding that the absence of conclusive evidence “should not be interpreted as evidence of lack of effectiveness”.<sup class=\"cl-cite\">[<a href=\"#ref-14\" aria-label=\"Reference 14\">14</a>]</sup> A 2018 Cochrane review of hearing aids and sound generators found eight studies (590 people) and no data on the main comparisons against waiting list, placebo or information only.<sup class=\"cl-cite\">[<a href=\"#ref-15\" aria-label=\"Reference 15\">15</a>]</sup></p>\n<p>Guidelines read the same gap differently:</p>\n<ul>\n<li>The 2026 U.S. guideline says clinicians <em>may</em> recommend sound enrichment (an option, not a firm recommendation).<sup class=\"cl-cite\">[<a href=\"#ref-9\" aria-label=\"Reference 9\">9</a>]</sup></li>\n<li>The 2019 European guideline says sound therapy “may be useful for acute relief purposes but is not considered an effective intervention with long-term results”.<sup class=\"cl-cite\">[<a href=\"#ref-16\" aria-label=\"Reference 16\">16</a>]</sup></li>\n<li>The German guideline says sound therapy “should not be practiced”, noting that comparison conditions are often missing and changes may reflect normal habituation.<sup class=\"cl-cite\">[<a href=\"#ref-10\" aria-label=\"Reference 10\">10</a>]</sup></li>\n<li>The UK’s NICE guideline made no recommendation on sound therapy and called for research.<sup class=\"cl-cite\">[<a href=\"#ref-11\" aria-label=\"Reference 11\">11</a>]</sup></li>\n</ul>\n<p>Taken together: sound is a reasonable <em>comfort</em> tool for many people, and nobody has shown it is a cure.</p>"
+    ],
+    [
+     "Binaural beats",
+     "<p>A binaural beat is an illusion: two slightly different tones, one in each ear, make you hear a pulsing third tone. Two small studies tested it. In 20 adults, an 8 Hz binaural beat added to ocean sound showed no significant group benefit beyond the ocean sound alone.<sup class=\"cl-cite\">[<a href=\"#ref-1\" aria-label=\"Reference 1\">1</a>]</sup> In a trial of 30 men, listening for 15 minutes twice a day for four weeks, both the music-only group and the music-plus-beats group improved on tinnitus questionnaires, and the groups did not differ on nearly every measure; the authors wrote that the study “failed to demonstrate the superiority” of adding beats.<sup class=\"cl-cite\">[<a href=\"#ref-2\" aria-label=\"Reference 2\">2</a>]</sup></p>\n<p>That both groups improved is the point: relaxing sound, time and expectation can all lower how much tinnitus bothers a person, which is why a comparison group is essential.</p>"
+    ],
+    [
+     "Notched music and “brain retraining” sounds",
+     "<p>Notched music removes a band of frequencies around the tinnitus pitch, on the theory that the brain’s overactive area calms down. The first small controlled study (16 people, 12 months of listening) reported reduced loudness and reduced auditory-cortex activity.<sup class=\"cl-cite\">[<a href=\"#ref-3\" aria-label=\"Reference 3\">3</a>]</sup> Later trials were less encouraging. In a double-blind trial of 100 people, 3 months of listening did not change the main outcomes.<sup class=\"cl-cite\">[<a href=\"#ref-4\" aria-label=\"Reference 4\">4</a>]</sup> A trial of 104 people found no significant difference in handicap scores against ordinary music.<sup class=\"cl-cite\">[<a href=\"#ref-5\" aria-label=\"Reference 5\">5</a>]</sup> A 2024 meta-analysis of three studies (99 notched-music and 109 comparison participants) found no significant difference in distress against listening to music, with the authors calling for more research.<sup class=\"cl-cite\">[<a href=\"#ref-6\" aria-label=\"Reference 6\">6</a>]</sup> The German guideline recommends against it.<sup class=\"cl-cite\">[<a href=\"#ref-10\" aria-label=\"Reference 10\">10</a>]</sup></p>\n<p>Newer designs are still being tested. In a 2025 blinded online crossover trial, 53 people who completed it reported lower tinnitus loudness after a specially modulated sound but not after a near-identical sham sound, while distress fell in both periods; the authors list further optimisation as the next step.<sup class=\"cl-cite\">[<a href=\"#ref-17\" aria-label=\"Reference 17\">17</a>]</sup> That is an encouraging early result from one study, not an established treatment.</p>"
+    ],
+    [
+     "Why a video can feel like it works",
+     "<p>Tinnitus naturally rises and falls. Many people also feel better simply from relaxing, from sleeping better, or from expecting relief. In the binaural-beat trial above and in the 2025 online trial, distress improved in the comparison condition too. A video that makes you feel calmer for an hour has done something real, but it has not shown that it changed the underlying tinnitus.</p>"
+    ]
+   ],
+   "distinctions": [
+    [
+     "Loudness",
+     "Is the tinnitus sound itself quieter?",
+     "Brief reductions during or just after some sounds. Lower rated loudness in a few small trials, not consistently across controlled trials."
+    ],
+    [
+     "Distress",
+     "How much does it upset or worry me?",
+     "Often improves with sound, but comparison groups improve too, so it cannot be credited to a particular frequency."
+    ],
+    [
+     "Functional impact",
+     "Does it disrupt sleep, focus or daily life?",
+     "Sound can help some people sleep or concentrate. Studies of any single frequency are lacking."
+    ],
+    [
+     "Temporary relief",
+     "Better while the sound plays",
+     "Plausible and accepted by regulators for masking devices."
+    ],
+    [
+     "Sustained improvement",
+     "Still better weeks or months later",
+     "Not shown for any single frequency or video. Mixed results for notched music; early results for newer designs."
+    ],
+    [
+     "Cure",
+     "Tinnitus gone and stays gone",
+     "No published evidence for any sound."
+    ]
+   ],
+   "limits": "<p>Sound studies are mostly small and short, use different questionnaires and comparison sounds, and are hard to blind (you can tell what you are hearing). Several programmes were designed by the people who tested them or by companies that sell them, so funding and independence matter; each treatment page on this site rates them. Most “Hz” claims have no study behind them at all, so there is nothing to appraise. One 2025 trial received a different participant count in press coverage than in its published abstract; we use the abstract.</p>",
+   "coi": "<p><strong>Disclosure.</strong> Tinnitus Evidence is independently operated, carries no advertising and no affiliate links, and no company can pay for a rating or coverage. Tinnitus Evidence and a consumer sound-exploration app, <em>Find My Quiet Sound</em>, are operated under the same independent ownership. That product does not influence any rating, and the sound-therapy category on this site is itself rated Tier 4 with limited evidence. We make no claim that any app or recording cures tinnitus.</p>",
+   "practical": "<ul>\n<li>If tinnitus is new, in one ear, pulsing, or comes with hearing loss or dizziness, have it checked by a clinician first. A hearing test is the usual starting point.<sup class=\"cl-cite\">[<a href=\"#ref-9\" aria-label=\"Reference 9\">9</a>]</sup></li>\n<li>Low-level background sound at bedtime or in quiet rooms is a sensible, low-risk comfort measure for many people. Keep volume comfortable, never loud enough to risk hearing damage, and stop if it makes tinnitus worse.</li>\n<li>If tinnitus bothers you, the best-supported approaches target distress: cognitive behavioural therapy (recommended in both the 2026 U.S. and 2019 European guidelines) and a hearing-aid evaluation for people with hearing difficulties (recommended in the 2026 U.S. guideline).<sup class=\"cl-cite\">[<a href=\"#ref-9\" aria-label=\"Reference 9\">9</a>, <a href=\"#ref-16\" aria-label=\"Reference 16\">16</a>]</sup></li>\n<li>Be cautious of any recording promising a cure, a “universal” frequency, or results in minutes, and of anything that asks you to pay for it.</li>\n</ul>",
+   "related": {
+    "treatments": [
+     "sound-therapy",
+     "notched-sound",
+     "acoustic-cr",
+     "truesilence",
+     "hearing-aids",
+     "cbt"
+    ],
+    "emerging": [
+     "threshold-sound-conditioning"
+    ],
+    "guides": [
+     "tinnitus-loudness-vs-distress"
+    ]
+   },
+   "notes": "Hz/432/528 statement rests on a PubMed query run 15 October 2026 (tinnitus AND 432 Hz / 528 Hz / Solfeggio) that returned only unrelated papers; re-run before publication.",
+   "references": [
+    {
+     "key": "munro2019",
+     "cite": "Munro et al. The short-term effects of recorded ocean sound with and without alpha frequency binaural beats on tinnitus perception. Complement Ther Med. 2019.",
+     "links": [
+      [
+       "PubMed 31126569",
+       "https://pubmed.ncbi.nlm.nih.gov/31126569/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1016/j.ctim.2019.05.005"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "31126569",
+     "n": 1
+    },
+    {
+     "key": "bakhtarikia2024",
+     "cite": "Bakhtarikia et al. Investigating the effectiveness of music therapy combined with binaural beats on chronic tinnitus: A randomized controlled trial. Am J Otolaryngol. 2024.",
+     "links": [
+      [
+       "PubMed 38723376",
+       "https://pubmed.ncbi.nlm.nih.gov/38723376/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1016/j.amjoto.2024.104308"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "38723376",
+     "n": 2
+    },
+    {
+     "key": "okamoto2010",
+     "cite": "Okamoto et al. Listening to tailor-made notched music reduces tinnitus loudness and tinnitus-related auditory cortex activity. Proc Natl Acad Sci U S A. 2010.",
+     "links": [
+      [
+       "PubMed 20080545",
+       "https://pubmed.ncbi.nlm.nih.gov/20080545/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1073/pnas.0911268107"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "20080545",
+     "n": 3
+    },
+    {
+     "key": "stein2016",
+     "cite": "Stein et al. Clinical trial on tonal tinnitus with tailor-made notched music training. BMC Neurol. 2016.",
+     "links": [
+      [
+       "PubMed 26987755",
+       "https://pubmed.ncbi.nlm.nih.gov/26987755/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1186/s12883-016-0558-7"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "26987755",
+     "n": 4
+    },
+    {
+     "key": "therdphaothai2021",
+     "cite": "Therdphaothai et al. A Randomized, Controlled Trial of Notched Music Therapy for Tinnitus Patients. J Int Adv Otol. 2021.",
+     "links": [
+      [
+       "PubMed 34100746",
+       "https://pubmed.ncbi.nlm.nih.gov/34100746/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.5152/iao.2021.9385"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "34100746",
+     "n": 5
+    },
+    {
+     "key": "alfonso2024",
+     "cite": "Alfonso et al. Efficacy of tailor-made notched music training for primary tinnitus: A systematic review and meta-analysis. Am J Otolaryngol. 2024.",
+     "links": [
+      [
+       "PubMed 39106683",
+       "https://pubmed.ncbi.nlm.nih.gov/39106683/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1016/j.amjoto.2024.104467"
+      ]
+     ],
+     "kind": "systematic review",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "39106683",
+     "n": 6
+    },
+    {
+     "key": "cfr3400",
+     "cite": "U.S. Code of Federal Regulations, Title 21, section 874.3400 (Tinnitus masker). Class II.",
+     "links": [
+      [
+       "eCFR",
+       "https://www.ecfr.gov/current/title-21/section-874.3400"
+      ]
+     ],
+     "kind": "regulator",
+     "verified": "Regulation text retrieved from the eCFR API 2026-10-15",
+     "note": "",
+     "supports": "",
+     "n": 7
+    },
+    {
+     "key": "k140845",
+     "cite": "FDA 510(k) K140845, LEVO Tinnitus Masking Device (indicated for the temporary relief of tinnitus symptoms). Product code KLW, 21 CFR 874.3400.",
+     "links": [
+      [
+       "FDA clearance letter",
+       "https://www.accessdata.fda.gov/cdrh_docs/pdf14/K140845.pdf"
+      ]
+     ],
+     "kind": "regulator",
+     "verified": "Clearance document downloaded and read 2026-10-15; Indications for Use quoted",
+     "note": "",
+     "supports": "",
+     "n": 8
+    },
+    {
+     "key": "aao2026",
+     "cite": "Adams ME, Cramer JD, Tunkel DE, et al. Executive Summary of the Clinical Practice Guideline on Tinnitus Update. Otolaryngol Head Neck Surg. 2026;175(4):739-756.",
+     "links": [
+      [
+       "PubMed 42861486",
+       "https://pubmed.ncbi.nlm.nih.gov/42861486/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1002/ohn.70418"
+      ]
+     ],
+     "kind": "guideline",
+     "verified": "Executive-summary text (Europe PMC XML) read 2026-10-15; every key action statement quoted or paraphrased was checked against it",
+     "note": "Published online 12-13 October 2026, two days before the evidence-through date; KAS 4, 7, 8, 10, 11, 13 and 14 used. Full guideline: Adams ME et al., doi:10.1002/ohn.70417 (PMID 42861423).",
+     "supports": "",
+     "n": 9
+    },
+    {
+     "key": "s3",
+     "cite": "Mazurek B, Hesse G, Sattel H, et al. S3 Guideline: Chronic Tinnitus (German Society for Otorhinolaryngology, Head and Neck Surgery). HNO. 2022;70(Suppl 1):1-31. English translation in PMC.",
+     "links": [
+      [
+       "PubMed 36227338",
+       "https://pubmed.ncbi.nlm.nih.gov/36227338/"
+      ],
+      [
+       "Full text (PMC)",
+       "https://pmc.ncbi.nlm.nih.gov/articles/PMC9581878/"
+      ]
+     ],
+     "kind": "guideline",
+     "verified": "Full English text read 2026-10-15 (sections 4.1.5.2, 4.1.5.3, 4.1.6.4, 4.1.6.5, 4.1.9, 4.1.10 quoted or paraphrased)",
+     "note": "Guideline dated 2021 in the German original; the 2022 HNO publication is the English version.",
+     "supports": "",
+     "n": 10
+    },
+    {
+     "key": "nice",
+     "cite": "National Institute for Health and Care Excellence. Tinnitus: assessment and management (NICE guideline NG155). Published 11 March 2020.",
+     "links": [
+      [
+       "NICE NG155",
+       "https://www.nice.org.uk/guidance/ng155"
+      ]
+     ],
+     "kind": "guideline",
+     "verified": "Recommendations chapter read 2026-10-15 (1.2.1-1.2.7 referral; amplification; sound therapy; psychological therapies)",
+     "note": "",
+     "supports": "",
+     "n": 11
+    },
+    {
+     "key": "k221168",
+     "cite": "FDA 510(k) K221168, Tinnitogram Signal Generator (sound-generating software 'designed to provide temporary relief for people experiencing tinnitus symptoms'). Product code KLW, 21 CFR 874.3400.",
+     "links": [
+      [
+       "FDA clearance letter",
+       "https://www.accessdata.fda.gov/cdrh_docs/pdf22/K221168.pdf"
+      ]
+     ],
+     "kind": "regulator",
+     "verified": "Clearance document downloaded and read 2026-10-15; Indications for Use quoted",
+     "note": "",
+     "supports": "",
+     "n": 12
+    },
+    {
+     "key": "reavis2012",
+     "cite": "Reavis et al. Temporary suppression of tinnitus by modulated sounds. J Assoc Res Otolaryngol. 2012.",
+     "links": [
+      [
+       "PubMed 22526737",
+       "https://pubmed.ncbi.nlm.nih.gov/22526737/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1007/s10162-012-0331-6"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "22526737",
+     "n": 13
+    },
+    {
+     "key": "cochrane2012",
+     "cite": "Hobson et al. Sound therapy (masking) in the management of tinnitus in adults. Cochrane Database Syst Rev. 2012.",
+     "links": [
+      [
+       "PubMed 23152235",
+       "https://pubmed.ncbi.nlm.nih.gov/23152235/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1002/14651858.CD006371.pub3"
+      ]
+     ],
+     "kind": "systematic review",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "23152235",
+     "n": 14
+    },
+    {
+     "key": "cochrane2018",
+     "cite": "Sereda et al. Sound therapy (using amplification devices and/or sound generators) for tinnitus. Cochrane Database Syst Rev. 2018.",
+     "links": [
+      [
+       "PubMed 30589445",
+       "https://pubmed.ncbi.nlm.nih.gov/30589445/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1002/14651858.CD013094.pub2"
+      ]
+     ],
+     "kind": "systematic review",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "30589445",
+     "n": 15
+    },
+    {
+     "key": "euro2019",
+     "cite": "Cima RFF, Mazurek B, Haider H, et al. A multidisciplinary European guideline for tinnitus: diagnostics, assessment, and treatment. HNO. 2019;67(Suppl 1):10-42.",
+     "links": [
+      [
+       "PubMed 30847513",
+       "https://pubmed.ncbi.nlm.nih.gov/30847513/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1007/s00106-019-0633-7"
+      ]
+     ],
+     "kind": "guideline",
+     "verified": "Full text read 2026-10-15 (sound therapy, dietary and alternative therapies, CBT recommendations)",
+     "note": "",
+     "supports": "",
+     "n": 16
+    },
+    {
+     "key": "yukhnovich2025",
+     "cite": "Yukhnovich et al. Chronic tinnitus is quietened by sound therapy using a novel cross-frequency de-correlating stimulus modulation. Hear Res. 2025.",
+     "links": [
+      [
+       "PubMed 40505169",
+       "https://pubmed.ncbi.nlm.nih.gov/40505169/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1016/j.heares.2025.109335"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "The abstract states that 53 participants completed the trial; one press account gave a different participant number. We use the published abstract figure; the discrepancy is unresolved.",
+     "supports": "",
+     "pmid": "40505169",
+     "n": 17
+    }
+   ],
+   "evidenceThrough": "2026-10-15",
+   "lastReviewed": "2026-10-15"
+  },
+  {
+   "slug": "neck-jaw-move-stop-tinnitus",
+   "num": 2,
+   "question": "Can a 30-Second Neck or Jaw Move Stop Tinnitus?",
+   "short": "Quick neck or jaw moves",
+   "claim": "“One quick neck, jaw or pressure-point move can silence the ringing in about 30 seconds.”",
+   "verdict": "Misleading",
+   "verdictLine": "For some people tinnitus really does change with neck or jaw movement. A quick move that stops it has not been shown to work, and forceful neck manipulation carries its own risks.",
+   "metaTitle": "Can a 30-Second Neck or Jaw Move Stop Tinnitus? The Evidence | Tinnitus Evidence",
+   "metaDesc": "Somatic (somatosensory) tinnitus is real for some people, but quick neck or jaw moves are not proven to stop it. What physiotherapy trials show, and safety points.",
+   "safety": "<p><strong>Safety first.</strong> Do not twist, crack, hold or force your neck to try to stop tinnitus. Forceful neck manipulation can, rarely, injure the arteries in the neck; an American Heart Association / American Stroke Association statement found that most population studies link manipulative neck therapy with vertebral-artery stroke in young patients, though it says the evidence is insufficient to establish that manipulation causes artery tears.<sup class=\"cl-cite\">[<a href=\"#ref-1\" aria-label=\"Reference 1\">1</a>]</sup></p>\n<p><strong>Get urgent medical help</strong> if tinnitus comes with sudden severe neck pain or headache, dizziness, facial weakness, vision changes or other stroke signs. The same statement lists pulsatile (heartbeat-like) tinnitus among the ways an artery tear can show itself, and the UK’s NICE guideline says tinnitus with suspected stroke or sudden neurological signs needs immediate referral.<sup class=\"cl-cite\">[<a href=\"#ref-1\" aria-label=\"Reference 1\">1</a>, <a href=\"#ref-2\" aria-label=\"Reference 2\">2</a>]</sup></p>",
+   "answer": "<p>There is a real kernel here. In some people, tinnitus gets louder, quieter or changes pitch when they clench the jaw, turn the head or press on certain muscles. Clinicians call this <strong>somatosensory</strong> (or somatic) tinnitus, because signals from the neck, jaw and face are interacting with the hearing system.</p>\n<ul>\n<li>In a study of 121 tinnitus patients, 65% could change their tinnitus with muscle contractions of the head, neck or limbs; only 14% of 100 healthy volunteers could start a sound that way.<sup class=\"cl-cite\">[<a href=\"#ref-3\" aria-label=\"Reference 3\">3</a>]</sup></li>\n<li>But <strong>changing in the moment is not the same as stopping</strong>. In a clinic study of 81 patients, neck movements made tinnitus quieter in 30% and <em>louder</em> in 27%, and being able to modulate it did not predict a better outcome.<sup class=\"cl-cite\">[<a href=\"#ref-4\" aria-label=\"Reference 4\">4</a>]</sup></li>\n<li>Structured physiotherapy, jaw treatment or manual therapy, delivered over weeks by a trained clinician after assessment, helped some people in small trials. That is a treatment programme, not a 30-second trick.<sup class=\"cl-cite\">[<a href=\"#ref-5\" aria-label=\"Reference 5\">5</a>, <a href=\"#ref-6\" aria-label=\"Reference 6\">6</a>, <a href=\"#ref-7\" aria-label=\"Reference 7\">7</a>, <a href=\"#ref-8\" aria-label=\"Reference 8\">8</a>]</sup></li>\n</ul>",
+   "subverdicts": [
+    [
+     "“A 30-second neck or jaw move stops tinnitus”",
+     "Unsupported",
+     "No controlled study of a quick self-administered move was found. Maneuvers change tinnitus briefly in some people, and in some people make it worse."
+    ],
+    [
+     "“Tinnitus can change with neck or jaw movement”",
+     "Supported",
+     "Documented in several studies; more than half of the patients in some clinic and veteran samples showed it."
+    ],
+    [
+     "“Structured physiotherapy or jaw treatment can help some people”",
+     "Partly Supported",
+     "Several small randomised trials and a guideline option; evidence is of low certainty, with short follow-up."
+    ],
+    [
+     "“Neck cracking or chiropractic manipulation treats tinnitus”",
+     "Insufficient Evidence",
+     "Not adequately tested for tinnitus, and forceful neck manipulation has recognised rare risks."
+    ]
+   ],
+   "circulation_intro": "We searched YouTube for tinnitus “30 seconds”, “neck”, “jaw” and “stop ringing” phrases on 15 October 2026. Titles are quoted briefly (presenter names removed); view counts and upload ages are what YouTube displayed that day. Some were posted by clinics or practitioners who offer related services. That is not wrongdoing, but it is a commercial interest to weigh. We leave out channel names and links.",
+   "circulation": [
+    [
+     "A video titled “…30-Second Technique to Silence Ringing in the Ears”",
+     "about 5.7 million views; uploaded about 4 years earlier"
+    ],
+    [
+     "A video titled “How to Stop Tinnitus in 30 SECONDS”",
+     "about 4.2 million views; uploaded about 3 years earlier"
+    ],
+    [
+     "A short titled “One Move for Instant Tinnitus Relief”",
+     "about 3.2 million views; uploaded about 3 years earlier"
+    ],
+    [
+     "A video titled “Fix your tinnitus in 20 seconds”",
+     "about 0.8 million views; uploaded about 3 years earlier"
+    ],
+    [
+     "A video titled “3 Neck Moves That Quiet Tinnitus”",
+     "about 0.3 million views; uploaded about 2 months earlier"
+    ]
+   ],
+   "sections": [
+    [
+     "What somatosensory tinnitus is, and how common it may be",
+     "<p>The brain’s hearing pathways receive input from the neck, jaw and facial nerves. In some people that input appears to feed into tinnitus. Experts only agreed international diagnostic criteria for it in 2018, after finding that differing definitions produced very different prevalence figures between studies.<sup class=\"cl-cite\">[<a href=\"#ref-9\" aria-label=\"Reference 9\">9</a>]</sup> One U.S. study of 304 veterans with tinnitus estimated that 56% (90% interval 45% to 65%) had a somatosensory component, using head, neck and jaw maneuvers as the screen.<sup class=\"cl-cite\">[<a href=\"#ref-10\" aria-label=\"Reference 10\">10</a>]</sup> Having the feature does not mean the maneuver is a treatment: it is a clue that a neck or jaw problem may be worth examining.</p>"
+    ],
+    [
+     "Why a quick move does not equal a treatment",
+     "<p>In the clinic study of 81 patients, 62% showed some change with a neck or jaw maneuver. Neck maneuvers reduced loudness in about 30% and made it worse in about 27%; jaw maneuvers suppressed tinnitus in about 24%. Being able to modulate tinnitus, or being treated for it, was not related to improvement afterwards.<sup class=\"cl-cite\">[<a href=\"#ref-4\" aria-label=\"Reference 4\">4</a>]</sup> A brief change while a muscle is tensed says little about what happens when the muscle is released a minute later, and the studies of quick maneuvers we found measured changes during the maneuver, not lasting relief.</p>"
+    ],
+    [
+     "What structured treatment trials found",
+     "<p>Several randomised trials tested treatment programmes, not quick moves:</p>\n<ul>\n<li><strong>Neck physiotherapy.</strong> In 38 people with tinnitus and neck complaints, 12 sessions over six weeks lowered tinnitus questionnaire scores. 53% reported substantial improvement right after treatment, and 24% still did six weeks later. The authors said larger studies were needed.<sup class=\"cl-cite\">[<a href=\"#ref-5\" aria-label=\"Reference 5\">5</a>]</sup></li>\n<li><strong>Jaw (orofacial) treatment.</strong> In 80 people with jaw-related tinnitus, treatment with physiotherapy and, where needed, a bite splint, produced a larger clinically relevant improvement on one questionnaire (Tinnitus Functional Index) than delayed treatment; another questionnaire showed no clinically relevant reduction.<sup class=\"cl-cite\">[<a href=\"#ref-6\" aria-label=\"Reference 6\">6</a>]</sup></li>\n<li><strong>Manual therapy.</strong> In 61 people with jaw-related tinnitus, adding hands-on neck and jaw therapy to exercise and education gave better tinnitus-severity and handicap scores than exercise and education alone, assessed by a blinded examiner.<sup class=\"cl-cite\">[<a href=\"#ref-7\" aria-label=\"Reference 7\">7</a>]</sup></li>\n<li><strong>Trigger-point treatment.</strong> In 71 people with muscle pain and tinnitus, ten sessions of real trigger-point deactivation gave more tinnitus relief than sham treatment in a double-blind trial.<sup class=\"cl-cite\">[<a href=\"#ref-8\" aria-label=\"Reference 8\">8</a>]</sup></li>\n</ul>\n<p>Reviews are cautious. A 2016 review of six studies called the risk of bias high.<sup class=\"cl-cite\">[<a href=\"#ref-11\" aria-label=\"Reference 11\">11</a>]</sup> A 2023 review of four trials in jaw-related tinnitus found that physiotherapy reduced tinnitus intensity or severity, with low certainty.<sup class=\"cl-cite\">[<a href=\"#ref-12\" aria-label=\"Reference 12\">12</a>]</sup></p>"
+    ],
+    [
+     "What the guidelines say",
+     "<p>The German guideline recommends offering manual and physiotherapy treatment when examination shows that tinnitus is modulated by findings in the neck or jaw.<sup class=\"cl-cite\">[<a href=\"#ref-13\" aria-label=\"Reference 13\">13</a>]</sup> The 2026 U.S. guideline says clinicians <em>may</em> ask about somatosensory features in people with persistent, bothersome tinnitus (an option).<sup class=\"cl-cite\">[<a href=\"#ref-14\" aria-label=\"Reference 14\">14</a>]</sup> Neither recommends a self-applied quick move.</p>"
+    ]
+   ],
+   "distinctions": [
+    [
+     "Loudness",
+     "Is the sound itself quieter?",
+     "Maneuvers can lower, raise or not change loudness briefly. In treatment trials, some people reported lower severity after weeks of therapy."
+    ],
+    [
+     "Distress",
+     "How much does it bother me?",
+     "Questionnaire scores improved in several small trials of structured treatment, often alongside neck or jaw pain improvement."
+    ],
+    [
+     "Functional impact",
+     "Does it affect sleep, work or daily life?",
+     "Measured by questionnaires such as the Tinnitus Functional Index; benefits were modest and not always clinically relevant."
+    ],
+    [
+     "Temporary relief",
+     "Better for a short time",
+     "Seen in some people during or just after a maneuver. Others get worse."
+    ],
+    [
+     "Sustained improvement",
+     "Still better weeks later",
+     "Some people after a treatment programme; follow-up was short (for example six weeks)."
+    ],
+    [
+     "Cure",
+     "Gone for good",
+     "Not shown. No study reports tinnitus eliminated by a quick move."
+    ]
+   ],
+   "limits": "<p>Trials in this area are small (38 to 80 people), usually cannot blind participants, often use a delayed-start comparison rather than a sham, and use different treatments and questionnaires, so they are hard to combine. Reviews rate the risk of bias as high or the certainty as low. Follow-up is short. Diagnostic criteria for somatosensory tinnitus were only agreed in 2018, so older studies defined it differently. Studies of the “instant” maneuvers shown in videos are essentially absent.</p>",
+   "coi": "<p>Tinnitus Evidence is independently operated, takes no advertising or affiliate payments, and sells no treatment. Several of the videos described above were posted by clinics or practitioners who offer neck, spine or jaw services, which gives them a commercial interest in the claim. Some of the trials cited were run by research groups that also deliver the treatment studied; each study page on this site records funding where it is reported.</p>",
+   "practical": "<ul>\n<li>Notice whether jaw clenching, neck turning or pressing near the ear changes your tinnitus, and tell your clinician. Gentle observation is low-risk; forceful pulling, twisting or cracking is not.</li>\n<li>Ask for a proper assessment first: a hearing test and an ear, jaw and neck examination.<sup class=\"cl-cite\">[<a href=\"#ref-14\" aria-label=\"Reference 14\">14</a>]</sup> If neck or jaw findings are present, a physiotherapist or dentist experienced in jaw and neck disorders can design a programme for you, and teach exercises that are safe for your neck.</li>\n<li>If jaw clenching or teeth grinding is part of the picture, a dentist can assess it and discuss options such as a bite splint.<sup class=\"cl-cite\">[<a href=\"#ref-6\" aria-label=\"Reference 6\">6</a>]</sup></li>\n<li>Whatever the cause, approaches that reduce how much tinnitus bothers you, such as cognitive behavioural therapy and, with hearing difficulties, a hearing-aid assessment, remain the best-supported options.<sup class=\"cl-cite\">[<a href=\"#ref-14\" aria-label=\"Reference 14\">14</a>]</sup></li>\n</ul>",
+   "related": {
+    "treatments": [
+     "somatic-physio",
+     "acupuncture",
+     "cbt",
+     "hearing-aids"
+    ],
+    "emerging": [
+     "upper-cervical",
+     "neural-therapy",
+     "rf-nerve-blocks",
+     "tens"
+    ],
+    "guides": [
+     "tinnitus-loudness-vs-distress"
+    ]
+   },
+   "notes": "No controlled trial of a self-applied 30-second maneuver was found in the sources reviewed; the statement is “none found”, not “none exist”. Re-run a PubMed search before publication.",
+   "references": [
+    {
+     "key": "biller2014",
+     "cite": "Biller et al. Cervical arterial dissections and association with cervical manipulative therapy: a statement for healthcare professionals from the american heart association/american stroke association. Stroke. 2014.",
+     "links": [
+      [
+       "PubMed 25104849",
+       "https://pubmed.ncbi.nlm.nih.gov/25104849/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1161/STR.0000000000000016"
+      ]
+     ],
+     "kind": "scientific statement",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "25104849",
+     "n": 1
+    },
+    {
+     "key": "nice",
+     "cite": "National Institute for Health and Care Excellence. Tinnitus: assessment and management (NICE guideline NG155). Published 11 March 2020.",
+     "links": [
+      [
+       "NICE NG155",
+       "https://www.nice.org.uk/guidance/ng155"
+      ]
+     ],
+     "kind": "guideline",
+     "verified": "Recommendations chapter read 2026-10-15 (1.2.1-1.2.7 referral; amplification; sound therapy; psychological therapies)",
+     "note": "",
+     "supports": "",
+     "n": 2
+    },
+    {
+     "key": "sanchez2002",
+     "cite": "Sanchez et al. The influence of voluntary muscle contractions upon the onset and modulation of tinnitus. Audiol Neurootol. 2002.",
+     "links": [
+      [
+       "PubMed 12401968",
+       "https://pubmed.ncbi.nlm.nih.gov/12401968/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1159/000066155"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "12401968",
+     "n": 3
+    },
+    {
+     "key": "lee2020",
+     "cite": "Lee et al. Somatic Modulation in Tinnitus: Clinical Characteristics and Treatment Outcomes. J Int Adv Otol. 2020.",
+     "links": [
+      [
+       "PubMed 32784160",
+       "https://pubmed.ncbi.nlm.nih.gov/32784160/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.5152/iao.2020.8067"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "32784160",
+     "n": 4
+    },
+    {
+     "key": "michiels2016",
+     "cite": "Michiels et al. Does multi-modal cervical physical therapy improve tinnitus in patients with cervicogenic somatic tinnitus?. Man Ther. 2016.",
+     "links": [
+      [
+       "PubMed 27592038",
+       "https://pubmed.ncbi.nlm.nih.gov/27592038/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1016/j.math.2016.08.005"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "27592038",
+     "n": 5
+    },
+    {
+     "key": "vanderwal2020",
+     "cite": "Van der Wal et al. Treatment of Somatosensory Tinnitus: A Randomized Controlled Trial Studying the Effect of Orofacial Treatment as Part of a Multidisciplinary Program. J Clin Med. 2020.",
+     "links": [
+      [
+       "PubMed 32150992",
+       "https://pubmed.ncbi.nlm.nih.gov/32150992/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.3390/jcm9030705"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "32150992",
+     "n": 6
+    },
+    {
+     "key": "delgado2020",
+     "cite": "Delgado de la Serna et al. Effects of Cervico-Mandibular Manual Therapy in Patients with Temporomandibular Pain Disorders and Associated Somatic Tinnitus: A Randomized Clinical Trial. Pain Med. 2020.",
+     "links": [
+      [
+       "PubMed 31665507",
+       "https://pubmed.ncbi.nlm.nih.gov/31665507/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1093/pm/pnz278"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "31665507",
+     "n": 7
+    },
+    {
+     "key": "rocha2012",
+     "cite": "Rocha et al. Efficacy of myofascial trigger point deactivation for tinnitus control. Braz J Otorhinolaryngol. 2012.",
+     "links": [
+      [
+       "PubMed 23306563",
+       "https://pubmed.ncbi.nlm.nih.gov/23306563/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.5935/1808-8694.20120028"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "23306563",
+     "n": 8
+    },
+    {
+     "key": "michiels2018",
+     "cite": "Michiels et al. Diagnostic Criteria for Somatosensory Tinnitus: A Delphi Process and Face-to-Face Meeting to Establish Consensus. Trends Hear. 2018.",
+     "links": [
+      [
+       "PubMed 30213235",
+       "https://pubmed.ncbi.nlm.nih.gov/30213235/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1177/2331216518796403"
+      ]
+     ],
+     "kind": "consensus",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "30213235",
+     "n": 9
+    },
+    {
+     "key": "theodoroff2022",
+     "cite": "Theodoroff et al. Prevalence of Somatosensory Tinnitus in Veterans With Tinnitus. Ear Hear. 2022.",
+     "links": [
+      [
+       "PubMed 35234171",
+       "https://pubmed.ncbi.nlm.nih.gov/35234171/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1097/AUD.0000000000001210"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "35234171",
+     "n": 10
+    },
+    {
+     "key": "michiels2016rev",
+     "cite": "Michiels et al. The Effect of Physical Therapy Treatment in Patients with Subjective Tinnitus: A Systematic Review. Front Neurosci. 2016.",
+     "links": [
+      [
+       "PubMed 27965530",
+       "https://pubmed.ncbi.nlm.nih.gov/27965530/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.3389/fnins.2016.00545"
+      ]
+     ],
+     "kind": "systematic review",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "27965530",
+     "n": 11
+    },
+    {
+     "key": "dasilva2023",
+     "cite": "da Silva et al. Effectiveness of Physical Therapy Interventions for Temporomandibular Disorders Associated with Tinnitus: A Systematic Review. J Clin Med. 2023.",
+     "links": [
+      [
+       "PubMed 37445364",
+       "https://pubmed.ncbi.nlm.nih.gov/37445364/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.3390/jcm12134329"
+      ]
+     ],
+     "kind": "systematic review",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "37445364",
+     "n": 12
+    },
+    {
+     "key": "s3",
+     "cite": "Mazurek B, Hesse G, Sattel H, et al. S3 Guideline: Chronic Tinnitus (German Society for Otorhinolaryngology, Head and Neck Surgery). HNO. 2022;70(Suppl 1):1-31. English translation in PMC.",
+     "links": [
+      [
+       "PubMed 36227338",
+       "https://pubmed.ncbi.nlm.nih.gov/36227338/"
+      ],
+      [
+       "Full text (PMC)",
+       "https://pmc.ncbi.nlm.nih.gov/articles/PMC9581878/"
+      ]
+     ],
+     "kind": "guideline",
+     "verified": "Full English text read 2026-10-15 (sections 4.1.5.2, 4.1.5.3, 4.1.6.4, 4.1.6.5, 4.1.9, 4.1.10 quoted or paraphrased)",
+     "note": "Guideline dated 2021 in the German original; the 2022 HNO publication is the English version.",
+     "supports": "",
+     "n": 13
+    },
+    {
+     "key": "aao2026",
+     "cite": "Adams ME, Cramer JD, Tunkel DE, et al. Executive Summary of the Clinical Practice Guideline on Tinnitus Update. Otolaryngol Head Neck Surg. 2026;175(4):739-756.",
+     "links": [
+      [
+       "PubMed 42861486",
+       "https://pubmed.ncbi.nlm.nih.gov/42861486/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1002/ohn.70418"
+      ]
+     ],
+     "kind": "guideline",
+     "verified": "Executive-summary text (Europe PMC XML) read 2026-10-15; every key action statement quoted or paraphrased was checked against it",
+     "note": "Published online 12-13 October 2026, two days before the evidence-through date; KAS 4, 7, 8, 10, 11, 13 and 14 used. Full guideline: Adams ME et al., doi:10.1002/ohn.70417 (PMID 42861423).",
+     "supports": "",
+     "n": 14
+    }
+   ],
+   "evidenceThrough": "2026-10-15",
+   "lastReviewed": "2026-10-15"
+  },
+  {
+   "slug": "vitamins-supplements-tinnitus",
+   "num": 3,
+   "question": "Do Vitamins, Herbs, or “Ear Formula” Supplements Work for Tinnitus?",
+   "short": "Vitamins, herbs and “ear formulas”",
+   "claim": "“A natural vitamin, herb or ear formula can repair your ears or brain and stop the ringing, and doctors recommend it.”",
+   "verdict": "Unsupported",
+   "verdictLine": "No supplement has been shown, in repeated good-quality trials, to relieve tinnitus. Some were tested without benefit; many marketed formulas were never tested. Unsupported is not the same as disproven.",
+   "metaTitle": "Do Vitamins, Herbs or Ear Formula Supplements Work for Tinnitus? | Tinnitus Evidence",
+   "metaDesc": "Ginkgo, zinc, magnesium, B12, Lipo-Flavonoid and marketed ear formulas: what trials and 2026 guidelines say, which were tested without benefit and which were never tested.",
+   "answer": "<p>Supplements are among the most heavily advertised tinnitus products, and the evidence behind them is thin.</p>\n<ul>\n<li><strong>Guidelines:</strong> the 2026 U.S. guideline says clinicians “should not recommend dietary supplements” for persistent, bothersome tinnitus.<sup class=\"cl-cite\">[<a href=\"#ref-1\" aria-label=\"Reference 1\">1</a>]</sup> The 2019 European guideline recommends against them<sup class=\"cl-cite\">[<a href=\"#ref-2\" aria-label=\"Reference 2\">2</a>]</sup> and the German guideline says they “are to be omitted”.<sup class=\"cl-cite\">[<a href=\"#ref-3\" aria-label=\"Reference 3\">3</a>]</sup></li>\n<li><strong>Tested, no benefit shown:</strong> ginkgo, zinc, vitamin B12 and magnesium were each compared with placebo and did not show a reliable benefit.<sup class=\"cl-cite\">[<a href=\"#ref-4\" aria-label=\"Reference 4\">4</a>, <a href=\"#ref-5\" aria-label=\"Reference 5\">5</a>, <a href=\"#ref-6\" aria-label=\"Reference 6\">6</a>, <a href=\"#ref-7\" aria-label=\"Reference 7\">7</a>]</sup></li>\n<li><strong>Inadequately tested:</strong> bioflavonoid formulas and most branded “ear formulas” have little or no placebo-controlled evidence.</li>\n<li><strong>One exception worth knowing:</strong> a single manufacturer-funded trial of one multi-ingredient formula beat placebo on a handicap questionnaire; it has not been independently repeated.<sup class=\"cl-cite\">[<a href=\"#ref-8\" aria-label=\"Reference 8\">8</a>]</sup></li>\n</ul>\n<p>“Unsupported” here covers two different situations, and the table below keeps them apart: <em>tested without benefit</em> and <em>not adequately tested</em>.</p>",
+   "subverdicts": [
+    [
+     "“A supplement can cure or reverse tinnitus”",
+     "Unsupported",
+     "No trial shows it; the 2026 U.S. guideline advises against recommending supplements."
+    ],
+    [
+     "“Ginkgo helps tinnitus”",
+     "Unsupported",
+     "Tested in many trials; Cochrane found little to no effect, with very uncertain evidence."
+    ],
+    [
+     "“Zinc helps tinnitus”",
+     "Unsupported",
+     "Tested against placebo; no significant benefit."
+    ],
+    [
+     "“Vitamin B12 helps tinnitus”",
+     "Unsupported",
+     "A 140-person double-blind trial found no difference from placebo."
+    ],
+    [
+     "“Magnesium helps tinnitus”",
+     "Unsupported",
+     "The only placebo-controlled result we found (registry only, small) showed no difference; an earlier open-label study had no placebo group."
+    ],
+    [
+     "“Marketed ear formulas work, and doctors recommend them”",
+     "Insufficient Evidence",
+     "One formula has one sponsor-run placebo-controlled trial; most were never tested. Advertising claims have been challenged."
+    ]
+   ],
+   "circulation_intro": "We searched YouTube and a fact-checking database for tinnitus “supplement”, “natural”, “home remedy” and “ear drops” phrases on 15 October 2026. Titles are quoted briefly; view counts and upload ages are what YouTube displayed that day. We leave out channel names, product names and links.",
+   "circulation": [
+    [
+     "A video titled “1 Supplement Can Help Heal Tinnitus”",
+     "about 1.3 million views; uploaded about 3 years earlier"
+    ],
+    [
+     "A video titled “Home Remedies for Tinnitus – Get Rid of the Ringing in the Ears”",
+     "about 1.2 million views; uploaded about 5 years earlier"
+    ],
+    [
+     "A video titled “Do Tinnitus Ear Drops Stop Ringing in the Ears?”",
+     "about 0.7 million views; uploaded about 4 years earlier"
+    ],
+    [
+     "A video titled “How to cure Tinnitus fast and naturally”",
+     "about 0.6 million views; uploaded about 6 years earlier"
+    ],
+    [
+     "Facebook advertisements, reviewed 22 May 2024, for a tinnitus product using an AI-altered celebrity video",
+     "Fact-checkers rated the claim that the product cures tinnitus “Unsupported”<sup class=\"cl-cite\">[<a href=\"#ref-9\" aria-label=\"Reference 9\">9</a>]</sup>"
+    ]
+   ],
+   "sections": [
+    [
+     "Ingredient by ingredient",
+     "<p>This table separates what has been tested from what has not. It is a summary of the best evidence we checked, not an exhaustive list.</p><div class=\"cl-tablewrap\"><table class=\"cl-table\">\n<caption class=\"sr-only\">Evidence for individual supplements and formulas in tinnitus</caption>\n<thead><tr><th scope=\"col\">Ingredient or product type</th><th scope=\"col\">Best evidence found</th><th scope=\"col\">Where it stands</th></tr></thead>\n<tbody>\n<tr><th scope=\"row\">Ginkgo biloba</th><td>Cochrane review (2022): 12 trials, 1,915 people. Pooled data from two studies suggested little to no effect on tinnitus severity; the evidence was very uncertain.<sup class=\"cl-cite\">[<a href=\"#ref-4\" aria-label=\"Reference 4\">4</a>]</sup></td><td><span class=\"cl-chip cl-unsupported\">Tested</span> little or no effect shown</td></tr>\n<tr><th scope=\"row\">Zinc</th><td>Cochrane review (2016): 3 trials, 209 people, moderate to high risk of bias. The one trial using a validated questionnaire (elderly adults, 50 mg a day for 4 months) found that 5% improved meaningfully on zinc and 2% on placebo, not a significant difference.<sup class=\"cl-cite\">[<a href=\"#ref-5\" aria-label=\"Reference 5\">5</a>, <a href=\"#ref-10\" aria-label=\"Reference 10\">10</a>]</sup></td><td><span class=\"cl-chip cl-unsupported\">Tested</span> no benefit shown</td></tr>\n<tr><th scope=\"row\">Vitamin B12</th><td>Double-blind trial of 140 people with tinnitus: no significant difference from placebo on handicap or visual-analogue severity scores at 1 or 3 months.<sup class=\"cl-cite\">[<a href=\"#ref-6\" aria-label=\"Reference 6\">6</a>]</sup></td><td><span class=\"cl-chip cl-unsupported\">Tested</span> no benefit shown</td></tr>\n<tr><th scope=\"row\">Melatonin</th><td>Placebo-controlled crossover trial of 30 people: the difference in handicap scores between melatonin and placebo was not significant. The authors saw a possible benefit in people whose tinnitus disturbed sleep, a subgroup finding in one small trial.<sup class=\"cl-cite\">[<a href=\"#ref-11\" aria-label=\"Reference 11\">11</a>]</sup></td><td><span class=\"cl-chip cl-unsupported\">Tested</span> no overall benefit; sleep subgroup untested</td></tr>\n<tr><th scope=\"row\">Magnesium</th><td>A randomised, double-blind, placebo-controlled crossover trial at Mayo Clinic (38 enrolled) posted its results only to the trial registry: tinnitus distress ratings after magnesium (5.36 out of 10) and after placebo (5.46), and average handicap scores (24.1 and 23.2), were essentially the same.<sup class=\"cl-cite\">[<a href=\"#ref-7\" aria-label=\"Reference 7\">7</a>]</sup> An earlier open-label study of 26 people (19 completed) at the same centre, with no placebo group, had reported lower scores.<sup class=\"cl-cite\">[<a href=\"#ref-12\" aria-label=\"Reference 12\">12</a>]</sup></td><td><span class=\"cl-chip cl-unsupported\">Tested</span> no benefit in the only placebo-controlled result found (small; registry only)</td></tr>\n<tr><th scope=\"row\">Lipo-Flavonoid (bioflavonoid formula)</th><td>The only randomised study we found used it as the <em>comparison</em> treatment (40 people, 12 dropped out); the authors could not conclude it works. We found no placebo-controlled trial. Advertising claims about it were reviewed by an industry self-regulatory board in 2016.<sup class=\"cl-cite\">[<a href=\"#ref-13\" aria-label=\"Reference 13\">13</a>, <a href=\"#ref-14\" aria-label=\"Reference 14\">14</a>]</sup></td><td><span class=\"cl-chip cl-insufficient\">Inadequately tested</span></td></tr>\n<tr><th scope=\"row\">One multi-ingredient formula with a placebo-controlled trial</th><td>114 adults analysed; handicap score fell by 13.2 points on the formula versus 6.2 on placebo over 3 months (p = 0.016). The trial was manufacturer-funded, and we found no independent repeat. Because many ingredients were combined, it cannot show which, if any, helped.<sup class=\"cl-cite\">[<a href=\"#ref-8\" aria-label=\"Reference 8\">8</a>]</sup></td><td><span class=\"cl-chip cl-insufficient\">Early, single, sponsor-run trial</span></td></tr>\n<tr><th scope=\"row\">Most branded “ear formulas” and drops</th><td>A survey of over-the-counter tinnitus products found that all made unfounded relief claims and most were mixtures of inexpensive, common vitamins, minerals and herbs sold at a premium.<sup class=\"cl-cite\">[<a href=\"#ref-15\" aria-label=\"Reference 15\">15</a>]</sup> We found no tinnitus study of most branded formulas.</td><td><span class=\"cl-chip cl-unsupported\">Untested</span></td></tr>\n</tbody></table></div>"
+    ],
+    [
+     "Reviews that pool the evidence",
+     "<p>A 2026 systematic review of nine randomised trials (390 adults) of over-the-counter oral treatments, including melatonin, ginkgo, alpha-lipoic acid, açaí and combination formulas, concluded that findings were “inconsistent and limited”, placebo responses were common, most products were studied in only one small trial, and no firm conclusions could be drawn about whether any provides benefit.<sup class=\"cl-cite\">[<a href=\"#ref-16\" aria-label=\"Reference 16\">16</a>]</sup> A 2025 network meta-analysis of 60 drug and supplement trials ranked ginkgo with vitamins first for tinnitus severity, but the certainty of that evidence was very low and the analysis found several inconsistent comparisons, so the authors described such antioxidants only as “promising” and called for better trials.<sup class=\"cl-cite\">[<a href=\"#ref-17\" aria-label=\"Reference 17\">17</a>]</sup></p>\n<p>Observational surveys can mislead too. A U.S. national survey linked low blood manganese, but not low zinc or vitamin B12, with more frequent and more disruptive tinnitus. The authors read this as a reason for further research, not as proof that taking a supplement helps.<sup class=\"cl-cite\">[<a href=\"#ref-18\" aria-label=\"Reference 18\">18</a>]</sup></p>"
+    ],
+    [
+     "What regulators do and do not check",
+     "<p>In the United States, supplement makers may describe an effect on the body’s structure or function without FDA pre-approval; these claims must carry a notice that FDA has not evaluated them and that the product is not intended to diagnose, treat, cure or prevent any disease.<sup class=\"cl-cite\">[<a href=\"#ref-19\" aria-label=\"Reference 19\">19</a>]</sup> A 2019 survey of over-the-counter tinnitus remedies noted that some brands advertise in ear, nose and throat journals and prominently feature supposed endorsement by ENT doctors; the authors described the remedies as unproven.<sup class=\"cl-cite\">[<a href=\"#ref-15\" aria-label=\"Reference 15\">15</a>]</sup></p>\n<p>A documented example: in 2016 the advertising industry’s National Advertising Review Board recommended that the maker of one bioflavonoid supplement stop claims that it eases or quiets the ringing. It found support only for the narrower statement that the product “may provide relief for some people who suffer from tinnitus”. A recommendation to modify advertising is not a finding of wrongdoing.<sup class=\"cl-cite\">[<a href=\"#ref-14\" aria-label=\"Reference 14\">14</a>]</sup></p>"
+    ],
+    [
+     "Safety: “natural” does not mean risk-free",
+     "<p>The 2019 European guideline says dietary and alternative therapies “pose potential harm” as well as lacking proven efficacy.<sup class=\"cl-cite\">[<a href=\"#ref-2\" aria-label=\"Reference 2\">2</a>]</sup> The German guideline notes that ginkgo can interact with blood thinners and increase bleeding risk in people with clotting problems.<sup class=\"cl-cite\">[<a href=\"#ref-3\" aria-label=\"Reference 3\">3</a>]</sup> The Cochrane review found little to no difference in bleeding or seizure risk in trials, with low certainty.<sup class=\"cl-cite\">[<a href=\"#ref-4\" aria-label=\"Reference 4\">4</a>]</sup> Ask a pharmacist or doctor before combining any supplement with other medicines.</p>"
+    ]
+   ],
+   "distinctions": [
+    [
+     "Loudness",
+     "Is the tinnitus sound quieter?",
+     "No supplement has been shown to reduce loudness reliably. Where loudness was measured (ginkgo, zinc), differences were not significant and certainty was very low."
+    ],
+    [
+     "Distress",
+     "How much does it bother me?",
+     "A few trials report lower questionnaire scores, but placebo groups often improve too.<sup class=\"cl-cite\">[<a href=\"#ref-16\" aria-label=\"Reference 16\">16</a>]</sup>"
+    ],
+    [
+     "Functional impact",
+     "Sleep, focus and daily life",
+     "Little evidence either way. Some melatonin data hint at a sleep subgroup; this has not been tested properly."
+    ],
+    [
+     "Temporary relief",
+     "Better for a while",
+     "Personal reports are common; they cannot be told apart from expectation or natural change."
+    ],
+    [
+     "Sustained improvement",
+     "Better for months",
+     "Not shown for any supplement in independently repeated trials."
+    ],
+    [
+     "Cure",
+     "Gone and stays gone",
+     "No supplement has been shown to cure tinnitus."
+    ]
+   ],
+   "limits": "<p>Most supplement trials are small and short, use different doses, formulas and questionnaires, and some report only before-and-after changes without a placebo group. Some have been run or funded by the product’s maker. For the individual ingredients above, “no benefit shown” means that the best available trials did not detect one, which is not proof that no individual could ever benefit. Several widely sold formulas have never been tested in people with tinnitus, so no conclusion can be drawn about them either way. Some details on funding come from the study report itself and from our Emerging page records; we flag where they have not been independently confirmed.</p>",
+   "coi": "<p>Tinnitus Evidence is independently operated, carries no advertising or affiliate links, sells no supplements and receives no payment from any maker named here. We name a product or company only where a regulator, a published study or a documented fact-check supports the specific statement. Several of the trials above were funded by the product’s manufacturer, which we say where the study reports it. The Cochrane reviews were not.</p>",
+   "practical": "<ul>\n<li>Before spending money, ask what the label claims, whether a trial of <em>that exact product</em> in people with tinnitus exists, and who paid for it. “Doctor recommended” and “clinically proven” need a named study.</li>\n<li>Do not stop prescribed medicines for a supplement. Tell your doctor or pharmacist what you take, especially ginkgo with blood thinners.<sup class=\"cl-cite\">[<a href=\"#ref-3\" aria-label=\"Reference 3\">3</a>]</sup></li>\n<li>If a blood test shows a deficiency of a vitamin or mineral, treating it is a separate medical decision, not a tinnitus treatment.</li>\n<li>If tinnitus bothers you, the better-supported options reduce distress: cognitive behavioural therapy and, with hearing difficulties, hearing aids.<sup class=\"cl-cite\">[<a href=\"#ref-1\" aria-label=\"Reference 1\">1</a>]</sup></li>\n<li>If someone endorses a product with a celebrity or a “Harvard discovery”, check the claim on a fact-checking site before paying.<sup class=\"cl-cite\">[<a href=\"#ref-9\" aria-label=\"Reference 9\">9</a>]</sup></li>\n</ul>",
+   "related": {
+    "treatments": [
+     "supplements",
+     "cbt",
+     "hearing-aids",
+     "cannabis-cbd"
+    ],
+    "emerging": [
+     "online-formulas",
+     "lipo-flavonoid",
+     "magnesium",
+     "b12",
+     "audistim",
+     "coq10",
+     "nac",
+     "molecular-hydrogen",
+     "nad-iv",
+     "nad-precursors"
+    ],
+    "guides": [
+     "tinnitus-treatments"
+    ]
+   },
+   "notes": "Manufacturer-funding detail for the multi-ingredient formula trial carries over from the Emerging page record (paper funding statement); recheck against the paper before publication. The “most branded formulas untested” statement is “none found in our searches”.",
+   "references": [
+    {
+     "key": "aao2026",
+     "cite": "Adams ME, Cramer JD, Tunkel DE, et al. Executive Summary of the Clinical Practice Guideline on Tinnitus Update. Otolaryngol Head Neck Surg. 2026;175(4):739-756.",
+     "links": [
+      [
+       "PubMed 42861486",
+       "https://pubmed.ncbi.nlm.nih.gov/42861486/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1002/ohn.70418"
+      ]
+     ],
+     "kind": "guideline",
+     "verified": "Executive-summary text (Europe PMC XML) read 2026-10-15; every key action statement quoted or paraphrased was checked against it",
+     "note": "Published online 12-13 October 2026, two days before the evidence-through date; KAS 4, 7, 8, 10, 11, 13 and 14 used. Full guideline: Adams ME et al., doi:10.1002/ohn.70417 (PMID 42861423).",
+     "supports": "",
+     "n": 1
+    },
+    {
+     "key": "euro2019",
+     "cite": "Cima RFF, Mazurek B, Haider H, et al. A multidisciplinary European guideline for tinnitus: diagnostics, assessment, and treatment. HNO. 2019;67(Suppl 1):10-42.",
+     "links": [
+      [
+       "PubMed 30847513",
+       "https://pubmed.ncbi.nlm.nih.gov/30847513/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1007/s00106-019-0633-7"
+      ]
+     ],
+     "kind": "guideline",
+     "verified": "Full text read 2026-10-15 (sound therapy, dietary and alternative therapies, CBT recommendations)",
+     "note": "",
+     "supports": "",
+     "n": 2
+    },
+    {
+     "key": "s3",
+     "cite": "Mazurek B, Hesse G, Sattel H, et al. S3 Guideline: Chronic Tinnitus (German Society for Otorhinolaryngology, Head and Neck Surgery). HNO. 2022;70(Suppl 1):1-31. English translation in PMC.",
+     "links": [
+      [
+       "PubMed 36227338",
+       "https://pubmed.ncbi.nlm.nih.gov/36227338/"
+      ],
+      [
+       "Full text (PMC)",
+       "https://pmc.ncbi.nlm.nih.gov/articles/PMC9581878/"
+      ]
+     ],
+     "kind": "guideline",
+     "verified": "Full English text read 2026-10-15 (sections 4.1.5.2, 4.1.5.3, 4.1.6.4, 4.1.6.5, 4.1.9, 4.1.10 quoted or paraphrased)",
+     "note": "Guideline dated 2021 in the German original; the 2022 HNO publication is the English version.",
+     "supports": "",
+     "n": 3
+    },
+    {
+     "key": "ginkgo2022",
+     "cite": "Sereda et al. Ginkgo biloba for tinnitus. Cochrane Database Syst Rev. 2022.",
+     "links": [
+      [
+       "PubMed 36383762",
+       "https://pubmed.ncbi.nlm.nih.gov/36383762/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1002/14651858.CD013514.pub2"
+      ]
+     ],
+     "kind": "systematic review",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "36383762",
+     "n": 4
+    },
+    {
+     "key": "zinc2016",
+     "cite": "Person et al. Zinc supplementation for tinnitus. Cochrane Database Syst Rev. 2016.",
+     "links": [
+      [
+       "PubMed 27879981",
+       "https://pubmed.ncbi.nlm.nih.gov/27879981/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1002/14651858.CD009832.pub2"
+      ]
+     ],
+     "kind": "systematic review",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "27879981",
+     "n": 5
+    },
+    {
+     "key": "dadgarnia2024",
+     "cite": "Dadgarnia et al. The effect of vitamin B12 on idiopathic tinnitus. Am J Otolaryngol. 2024.",
+     "links": [
+      [
+       "PubMed 37647778",
+       "https://pubmed.ncbi.nlm.nih.gov/37647778/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1016/j.amjoto.2023.104028"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "37647778",
+     "n": 6
+    },
+    {
+     "key": "nct01273883",
+     "cite": "ClinicalTrials.gov NCT01273883. A Trial of Magnesium Dependent Tinnitus (Mayo Clinic). Randomised, double-blind crossover, magnesium 532 mg a day versus placebo for 25 days; 38 enrolled; completed October 2013; results posted to the registry. No journal publication of this trial was found.",
+     "links": [
+      [
+       "ClinicalTrials.gov",
+       "https://clinicaltrials.gov/study/NCT01273883"
+      ]
+     ],
+     "kind": "registry",
+     "verified": "Registry record and posted results read via the ClinicalTrials.gov API 2026-10-15 (tinnitus distress rating post-treatment 5.36 magnesium vs 5.46 placebo; mean THI 24.1 vs 23.2)",
+     "note": "Registry results are not peer reviewed; no statistical test between arms is reported in the summary we read. We found no journal paper.",
+     "supports": "",
+     "n": 7
+    },
+    {
+     "key": "portmann2024",
+     "cite": "Portmann et al. AUDISTIM® Day/Night Alleviates Tinnitus-Related Handicap in Patients with Chronic Tinnitus: A Double-Blind Randomized Placebo-Controlled Trial. Audiol Res. 2024.",
+     "links": [
+      [
+       "PubMed 38666902",
+       "https://pubmed.ncbi.nlm.nih.gov/38666902/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.3390/audiolres14020031"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15; open-access full text read via Europe PMC (PMC11047585): funding statement \"This research was funded by MEDIWEB-AUDISTIMPHARMA, France\"; conflict statement \"The authors declare no conflicts of interest\"",
+     "note": "Manufacturer-funded (the paper's own funding statement). The Emerging page record also notes authors affiliated with the contract research centre.",
+     "supports": "",
+     "pmid": "38666902",
+     "n": 8
+    },
+    {
+     "key": "sciencefeedback",
+     "cite": "Science Feedback. AI celebrity endorsement videos in Facebook ads promote unproven tinnitus 'cure'. 22 May 2024.",
+     "links": [
+      [
+       "Science Feedback",
+       "https://science.feedback.org/review/ai-celebrity-endorsement-videos-facebook-ads-promote-unproven-tinnitus-cure/"
+      ]
+     ],
+     "kind": "fact-check",
+     "verified": "Review page read 2026-10-15: claim rated Unsupported; the celebrity video found to be AI-modified",
+     "note": "",
+     "supports": "",
+     "n": 9
+    },
+    {
+     "key": "coelho2013",
+     "cite": "Coelho et al. Zinc to treat tinnitus in the elderly: a randomized placebo controlled crossover trial. Otol Neurotol. 2013.",
+     "links": [
+      [
+       "PubMed 23598691",
+       "https://pubmed.ncbi.nlm.nih.gov/23598691/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1097/MAO.0b013e31827e609e"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "23598691",
+     "n": 10
+    },
+    {
+     "key": "rosenberg1998",
+     "cite": "Rosenberg et al. Effect of melatonin on tinnitus. Laryngoscope. 1998.",
+     "links": [
+      [
+       "PubMed 9504599",
+       "https://pubmed.ncbi.nlm.nih.gov/9504599/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1097/00005537-199803000-00001"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "9504599",
+     "n": 11
+    },
+    {
+     "key": "cevette2011",
+     "cite": "Cevette et al. Phase 2 study examining magnesium-dependent tinnitus. Int Tinnitus J. 2011.",
+     "links": [
+      [
+       "PubMed 22249877",
+       "https://pubmed.ncbi.nlm.nih.gov/22249877/"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "22249877",
+     "n": 12
+    },
+    {
+     "key": "rojas2016",
+     "cite": "Rojas-Roncancio et al. Manganese and Lipoflavonoid Plus(®) to Treat Tinnitus: A Randomized Controlled Trial. J Am Acad Audiol. 2016.",
+     "links": [
+      [
+       "PubMed 27564443",
+       "https://pubmed.ncbi.nlm.nih.gov/27564443/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.3766/jaaa.15106"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "27564443",
+     "n": 13
+    },
+    {
+     "key": "narb",
+     "cite": "National Advertising Review Board (BBB National Programs). NARB recommends Clarion Brands modify or discontinue claims that Lipo-Flavonoid Plus substantially reduces or eliminates tinnitus. 12 April 2016.",
+     "links": [
+      [
+       "BBB National Programs",
+       "https://bbbprograms.org/media/newsroom/decisions/narb-recommends-clarion-brands-modify-discontinue-claims-that-dietary-supplement-lipo-flavonoid-plus"
+      ]
+     ],
+     "kind": "advertising self-regulation",
+     "verified": "Decision page read 2026-10-15",
+     "note": "A recommendation to modify or discontinue advertising is not a finding of wrongdoing; the panel found sufficient support for the narrower claim that the product \"may provide relief for some people who suffer from tinnitus\".",
+     "supports": "",
+     "n": 14
+    },
+    {
+     "key": "vendra2019",
+     "cite": "Vendra et al. Over-the-Counter Tinnitus \"Cures\": Marketers' Promises Do Not Ring True. Laryngoscope. 2019.",
+     "links": [
+      [
+       "PubMed 30585322",
+       "https://pubmed.ncbi.nlm.nih.gov/30585322/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1002/lary.27677"
+      ]
+     ],
+     "kind": "survey of the market",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "30585322",
+     "n": 15
+    },
+    {
+     "key": "menon2026",
+     "cite": "Menon et al. Effectiveness of Over-The-Counter Treatments for Tinnitus Symptom Relief: A Systematic Review. Laryngoscope Investig Otolaryngol. 2026.",
+     "links": [
+      [
+       "PubMed 41948711",
+       "https://pubmed.ncbi.nlm.nih.gov/41948711/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1002/lio2.70398"
+      ]
+     ],
+     "kind": "systematic review",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "41948711",
+     "n": 16
+    },
+    {
+     "key": "li2025",
+     "cite": "Li et al. Pharmacotherapy options for the management of subjective tinnitus: a systematic review and network meta-analysis. BMJ Open. 2025.",
+     "links": [
+      [
+       "PubMed 40441764",
+       "https://pubmed.ncbi.nlm.nih.gov/40441764/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1136/bmjopen-2024-096995"
+      ]
+     ],
+     "kind": "systematic review",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "40441764",
+     "n": 17
+    },
+    {
+     "key": "narayanan2022",
+     "cite": "Narayanan et al. Micronutrients in tinnitus: A National Health and Nutrition Examination Survey analysis. Am J Otolaryngol. 2022.",
+     "links": [
+      [
+       "PubMed 35429847",
+       "https://pubmed.ncbi.nlm.nih.gov/35429847/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1016/j.amjoto.2022.103460"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "35429847",
+     "n": 18
+    },
+    {
+     "key": "fda_sf",
+     "cite": "U.S. Food and Drug Administration. Structure/Function Claims (dietary supplements).",
+     "links": [
+      [
+       "FDA",
+       "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/structurefunction-claims"
+      ]
+     ],
+     "kind": "regulator",
+     "verified": "Page read 2026-10-15: these claims are not pre-approved by FDA; labels carry a disclaimer that FDA has not evaluated the claim and that the product is not intended to diagnose, treat, cure or prevent any disease",
+     "note": "",
+     "supports": "",
+     "n": 19
+    }
+   ],
+   "evidenceThrough": "2026-10-15",
+   "lastReviewed": "2026-10-15"
+  },
+  {
+   "slug": "tinnitus-cure-discovered",
+   "num": 4,
+   "question": "Have Scientists Discovered a Tinnitus Cure or Its “Real Cause”?",
+   "short": "“Cure discovered” and “real cause” headlines",
+   "claim": "“Researchers have just discovered a cure for tinnitus, or the one real cause of it, and a treatment is almost here.”",
+   "verdict": "Unsupported",
+   "verdictLine": "Real research is under way and some of it is promising, but no cure has been shown in people, and tinnitus does not have a single “real cause”. Unsupported does not mean the research is worthless.",
+   "metaTitle": "Has a Tinnitus Cure or “Real Cause” Been Discovered? How to Read Headlines | Tinnitus Evidence",
+   "metaDesc": "How tinnitus breakthrough headlines grow from animal studies and pilots, what research really shows, a worked example of a viral post, and a short checklist for readers.",
+   "answer": "<p>New tinnitus discoveries are published every week, and many are genuine. Headlines turn them into “cure” or “real cause” stories by skipping the steps in between.</p>\n<ul>\n<li><strong>No cure has been shown.</strong> No treatment has been shown to remove tinnitus in controlled, repeated trials. Regulators have authorised devices for temporary relief or “relief of tinnitus”, not cure.<sup class=\"cl-cite\">[<a href=\"#ref-1\" aria-label=\"Reference 1\">1</a>, <a href=\"#ref-2\" aria-label=\"Reference 2\">2</a>]</sup> A 2021 review put it plainly: “neither full understanding, nor cure exists”.<sup class=\"cl-cite\">[<a href=\"#ref-3\" aria-label=\"Reference 3\">3</a>]</sup></li>\n<li><strong>There is no single “real cause”.</strong> Tinnitus is most often set off by hearing loss and kept going by changes in brain networks; exactly what is necessary and sufficient is still being worked out.<sup class=\"cl-cite\">[<a href=\"#ref-3\" aria-label=\"Reference 3\">3</a>]</sup></li>\n<li><strong>Most discoveries are early.</strong> They are mouse results, differences measured in blood, or small pilot studies. The table below shows where they sit.</li>\n</ul>\n<p>This is not a reason to ignore research. It is a reason to ask what step a finding has reached before believing a headline.</p>",
+   "subverdicts": [
+    [
+     "“A cure for tinnitus has been discovered”",
+     "Unsupported",
+     "No controlled, replicated study shows a cure. Early findings exist; none demonstrates one."
+    ],
+    [
+     "“Scientists have found the real cause of tinnitus”",
+     "Misleading",
+     "Several mechanisms are being studied; hearing loss plus brain-network changes is the usual picture. No single cause explains all tinnitus."
+    ],
+    [
+     "“Nerve stimulation cured tinnitus in clinical trials” (worked example)",
+     "Unsupported",
+     "The best controlled data are a small pilot that did not show a significant group difference."
+    ],
+    [
+     "“Early research may point to future treatments”",
+     "Partly Supported",
+     "True for several animal and early human findings, as leads rather than treatments."
+    ]
+   ],
+   "circulation_intro": "We searched YouTube for tinnitus “cure”, “real cause” and “breakthrough” phrases on 15 October 2026, and noted a Facebook post and a fact-checked advertising campaign. Titles are quoted briefly; view counts and upload ages are what YouTube displayed that day. We leave out channel names and links.",
+   "circulation": [
+    [
+     "A video titled “The Real Cause of Tinnitus (It’s Not in Your Ears)”",
+     "about 1.8 million views; uploaded about 1 month earlier"
+    ],
+    [
+     "A video titled “How I Cured My Tinnitus”",
+     "about 2.2 million views; uploaded about 4 years earlier"
+    ],
+    [
+     "A Facebook post, around 15 October 2026, attributing a vagus-nerve “cure” to Northwestern University",
+     "engagement not known; worked example below"
+    ],
+    [
+     "Facebook advertisements, reviewed 22 May 2024, claiming a “Harvard” compound and an AI-altered celebrity video for an inhaler",
+     "Fact-checkers rated the cure claim “Unsupported”<sup class=\"cl-cite\">[<a href=\"#ref-4\" aria-label=\"Reference 4\">4</a>]</sup>"
+    ]
+   ],
+   "sections": [
+    [
+     "What a “cure” would have to show",
+     "<p>For a claim that something cures tinnitus to hold up, people would need to be shown to lose their tinnitus and stay free of it, compared with a control group, and the result would need repeating by independent teams, with a regulator or guideline panel then reviewing it. None of that exists for tinnitus. In its 2026 guideline the American Academy of Otolaryngology–Head and Neck Surgery Foundation recommends cognitive behavioural therapy and hearing-aid evaluation, advises against dietary supplements and magnetic stimulation, and treats sound enrichment and bimodal neuromodulation as options; it does not describe any cure.<sup class=\"cl-cite\">[<a href=\"#ref-5\" aria-label=\"Reference 5\">5</a>]</sup></p>"
+    ],
+    [
+     "Why “the real cause” keeps being “found”",
+     "<p>A 2021 review in <em>Physiological Reviews</em> describes tinnitus as, in most cases, initiated by acquired hearing loss and maintained when that loss is coupled with distinct neuronal changes in auditory and non-auditory brain networks, with the exact mechanisms still incompletely understood.<sup class=\"cl-cite\">[<a href=\"#ref-3\" aria-label=\"Reference 3\">3</a>]</sup> Each new finding about one part of this picture (a circuit, a protein, an inflammation signal) can be reported as “the cause” when it is one piece. A blood marker that differs between groups, for example, may reflect hearing loss or noise exposure rather than cause tinnitus; the 2026 prestin studies adjusted for age, hearing thresholds and noise exposure, and their authors describe a candidate biomarker, not a cause or a treatment.<sup class=\"cl-cite\">[<a href=\"#ref-6\" aria-label=\"Reference 6\">6</a>, <a href=\"#ref-7\" aria-label=\"Reference 7\">7</a>]</sup></p>"
+    ],
+    [
+     "How a finding climbs from lab to clinic",
+     "<p>Use this ladder to place any headline. Most “breakthrough” stories describe step 1 or 2.</p><div class=\"cl-tablewrap\"><table class=\"cl-table\">\n<caption class=\"sr-only\">How far a tinnitus finding has travelled, from animal study to regulator decision</caption>\n<thead><tr><th scope=\"col\">Step</th><th scope=\"col\">What it means</th><th scope=\"col\">Where tinnitus findings sit</th></tr></thead>\n<tbody>\n<tr><th scope=\"row\">1. Animal or cell study</th><td>Shows a mechanism or a drug effect in mice, rats, gerbils or cells. Most such findings do not carry over to people.</td><td>A serotonin circuit linked to tinnitus-like behaviour in mice (2026);<sup class=\"cl-cite\">[<a href=\"#ref-8\" aria-label=\"Reference 8\">8</a>]</sup> a drug that reduced tinnitus-like behaviour in gerbils (2025);<sup class=\"cl-cite\">[<a href=\"#ref-9\" aria-label=\"Reference 9\">9</a>]</sup> inflammation signals in noise-exposed mice (2019).<sup class=\"cl-cite\">[<a href=\"#ref-10\" aria-label=\"Reference 10\">10</a>]</sup></td></tr>\n<tr><th scope=\"row\">2. Measured in people, no treatment</th><td>A difference between people with and without tinnitus. An association, not a cause, and not a treatment.</td><td>Higher blood levels of an inner-ear protein, prestin, in two 2026 studies of 89 and 82 people;<sup class=\"cl-cite\">[<a href=\"#ref-6\" aria-label=\"Reference 6\">6</a>, <a href=\"#ref-7\" aria-label=\"Reference 7\">7</a>]</sup> a screen of 96 inflammatory blood proteins in 548 people with tinnitus and 548 matched controls found no usable biomarker after correction for multiple testing.<sup class=\"cl-cite\">[<a href=\"#ref-11\" aria-label=\"Reference 11\">11</a>]</sup></td></tr>\n<tr><th scope=\"row\">3. Small uncontrolled or pilot study in people</th><td>Encouraging, but without a proper comparison group it cannot separate the treatment from time and expectation.</td><td>Ten people with an implanted vagus-nerve stimulator: four had clinically meaningful improvement (2014).<sup class=\"cl-cite\">[<a href=\"#ref-12\" aria-label=\"Reference 12\">12</a>]</sup></td></tr>\n<tr><th scope=\"row\">4. Controlled trial</th><td>Compares treatment with placebo or another comparison. Tinnitus trials often show large placebo responses.</td><td>An injected drug did not beat placebo in a phase 2 trial, with an “unexpectedly high placebo response” (2023);<sup class=\"cl-cite\">[<a href=\"#ref-13\" aria-label=\"Reference 13\">13</a>]</sup> a 30-person nerve-stimulation pilot found no significant difference between groups (2017).<sup class=\"cl-cite\">[<a href=\"#ref-14\" aria-label=\"Reference 14\">14</a>]</sup></td></tr>\n<tr><th scope=\"row\">5. Independent repeat</th><td>A different team, ideally larger, gets the same result. This is what makes a finding reliable.</td><td>None for any proposed tinnitus cure.</td></tr>\n<tr><th scope=\"row\">6. Regulator decision or guideline</th><td>An agency authorises a device or drug for a stated use, or a guideline recommends it.</td><td>FDA-authorised devices are for temporary relief or “relief of tinnitus”, not cure.<sup class=\"cl-cite\">[<a href=\"#ref-1\" aria-label=\"Reference 1\">1</a>, <a href=\"#ref-2\" aria-label=\"Reference 2\">2</a>]</sup></td></tr>\n</tbody></table></div>"
+    ],
+    [
+     "A worked example: the “Northwestern cure” post",
+     "<p class=\"cl-note\">About 15 October 2026 we saw a Facebook post, from a page that shares science news, saying that Northwestern researchers had developed a vagus-nerve-stimulation therapy that cured chronic tinnitus. It was about 14 hours old when we saw it; we do not know how widely it spread. We are not naming or linking the page, because the claim matters, not the account.</p>\n<div class=\"cl-tablewrap\"><table class=\"cl-table\">\n<caption class=\"sr-only\">Claims in a Facebook post about Northwestern University and tinnitus, compared with what we found</caption>\n<thead><tr><th scope=\"col\">What the post says</th><th scope=\"col\">What we found</th></tr></thead>\n<tbody>\n<tr><th scope=\"row\">“American doctors cured chronic tinnitus” in clinical trials</th><td>No trial reports a cure. The best controlled human data on this approach are a 30-person pilot in which the difference between groups was not statistically significant, and small case series.<sup class=\"cl-cite\">[<a href=\"#ref-14\" aria-label=\"Reference 14\">14</a>, <a href=\"#ref-12\" aria-label=\"Reference 12\">12</a>]</sup></td></tr>\n<tr><th scope=\"row\">“Northwestern researchers developed” it; “Source: Northwestern University, 2025”</th><td><strong>We found no matching Northwestern study.</strong> Of 17 tinnitus papers from Northwestern authors in 2020-2026, none concerned vagus-nerve stimulation or sound pairing, and the university’s two registered tinnitus studies tested electrical stimulation through the scalp.<sup class=\"cl-cite\">[<a href=\"#ref-15\" aria-label=\"Reference 15\">15</a>, <a href=\"#ref-16\" aria-label=\"Reference 16\">16</a>]</sup> The post names no paper, researcher or link. This is a “not found” result, not proof that no unpublished work exists.</td></tr>\n<tr><th scope=\"row\">“pairing sound with gentle electrical stimulation of the vagus nerve”</th><td>This matches research from the University of Texas at Dallas, which began in rats in 2011 (tones paired with brief vagus-nerve pulses; effects in noise-exposed rats, not people).<sup class=\"cl-cite\">[<a href=\"#ref-17\" aria-label=\"Reference 17\">17</a>]</sup> Human studies followed: an implanted-stimulator case series (2014)<sup class=\"cl-cite\">[<a href=\"#ref-12\" aria-label=\"Reference 12\">12</a>]</sup> and a 30-person implanted pilot with industry-linked authors (2017).<sup class=\"cl-cite\">[<a href=\"#ref-14\" aria-label=\"Reference 14\">14</a>]</sup></td></tr>\n<tr><th scope=\"row\">“a majority of participants reported significant improvement”</th><td>In the 2017 pilot, 50% of the paired group and 28% of controls improved by a clinically meaningful amount after six weeks; the difference between groups was 10.3% and not statistically significant (p = 0.34). The authors called for a larger pivotal study.<sup class=\"cl-cite\">[<a href=\"#ref-14\" aria-label=\"Reference 14\">14</a>]</sup></td></tr>\n<tr><th scope=\"row\">“no drug, no surgery, and no implant”</th><td>The published human studies of this approach used implanted stimulators.<sup class=\"cl-cite\">[<a href=\"#ref-12\" aria-label=\"Reference 12\">12</a>, <a href=\"#ref-14\" aria-label=\"Reference 14\">14</a>]</sup> Early non-invasive versions have not shown a group benefit: a 29-person controlled study of an ear-clip device found no improvement in loudness or frequency,<sup class=\"cl-cite\">[<a href=\"#ref-18\" aria-label=\"Reference 18\">18</a>]</sup> and a 30-person trial found no significant between-group differences in loudness or the Tinnitus Functional Index.<sup class=\"cl-cite\">[<a href=\"#ref-19\" aria-label=\"Reference 19\">19</a>]</sup></td></tr>\n<tr><th scope=\"row\">“Researchers are now working to make the therapy widely available”</th><td>The MicroTransponder paired-stimulation pilot registered for tinnitus finished in 2016, and a later University of Texas at Dallas follow-up study was withdrawn with no participants.<sup class=\"cl-cite\">[<a href=\"#ref-20\" aria-label=\"Reference 20\">20</a>, <a href=\"#ref-21\" aria-label=\"Reference 21\">21</a>]</sup> The FDA approval of the same paired-stimulation platform is for stroke arm rehabilitation, not tinnitus.<sup class=\"cl-cite\">[<a href=\"#ref-22\" aria-label=\"Reference 22\">22</a>]</sup> Registered trials of non-invasive versions are recruiting or planned at other centres.<sup class=\"cl-cite\">[<a href=\"#ref-16\" aria-label=\"Reference 16\">16</a>]</sup></td></tr>\n</tbody></table></div>\n<p>What Northwestern authors have published on tinnitus is real but different: a 20-person pilot of scalp electrical stimulation with MRI (2024), designed to study brain mechanisms rather than to test a treatment,<sup class=\"cl-cite\">[<a href=\"#ref-23\" aria-label=\"Reference 23\">23</a>]</sup> and a 2026 preprint (not yet peer reviewed) on brain-imaging markers whose opening sentence says chronic tinnitus has “few effective treatments and no cure”.<sup class=\"cl-cite\">[<a href=\"#ref-24\" aria-label=\"Reference 24\">24</a>]</sup></p>\n<p>We cannot tell who wrote the post, why, or what source they used. The accurate summary is: <em>the therapy described resembles University of Texas at Dallas research; we found no Northwestern version; and “cured” goes well beyond what any trial reports.</em> We have not contacted Northwestern University or the page.</p>",
+     "top"
+    ],
+    [
+     "A short checklist for any breakthrough claim",
+     "<ol class=\"cl-checklist\">\n<li><strong>Is a paper, researcher or registry number named?</strong> A famous university with no paper, name or link is a warning sign. Search PubMed or ClinicalTrials.gov for the topic plus the institution.</li>\n<li><strong>In whom was it tested?</strong> Mice, rats or cells are early steps. Look for human participants and how many.</li>\n<li><strong>Compared with what?</strong> Tinnitus improves with placebo and with time, so a result without a control group proves little.</li>\n<li><strong>Cured, or a questionnaire score?</strong> “Silence” needs numbers. Reduced distress is not the same as a quieter or absent sound.</li>\n<li><strong>Who paid for it, and who sells it?</strong> Sponsor-run results need independent repeats.</li>\n<li><strong>Has anyone else repeated it?</strong> One study is a lead, not an answer.</li>\n<li><strong>Is it actually available?</strong> “Soon” needs a registered trial or a regulator decision you can look up.</li>\n<li><strong>Is it built to be shared?</strong> Countdown claims, celebrity endorsements, “doctors don’t want you to know”, and an emotional last line are features of marketing. Check a fact-checking site before paying anything.<sup class=\"cl-cite\">[<a href=\"#ref-4\" aria-label=\"Reference 4\">4</a>]</sup></li>\n</ol>",
+     "top"
+    ]
+   ],
+   "distinctions": [
+    [
+     "Loudness",
+     "Is the sound itself quieter?",
+     "Reported in some early studies; no replicated controlled trial shows a lasting drop for the typical patient."
+    ],
+    [
+     "Distress",
+     "How much does it bother me?",
+     "Improves with several established treatments, and also with placebo. Questionnaire gains are not silence."
+    ],
+    [
+     "Functional impact",
+     "Sleep, work, daily life",
+     "Measured by questionnaires. Best evidence is for psychological and hearing-aid approaches, not for breakthrough claims."
+    ],
+    [
+     "Temporary relief",
+     "Better for a while",
+     "Real for some people with sound and some devices. Not a cure."
+    ],
+    [
+     "Sustained improvement",
+     "Better for months",
+     "Reported in a minority in small studies; needs controlled, repeated confirmation."
+    ],
+    [
+     "Cure",
+     "Tinnitus gone for good",
+     "Not shown for any treatment in people."
+    ]
+   ],
+   "limits": "<p>Our statements that we “found no” Northwestern study come from searches of PubMed, ClinicalTrials.gov and the web on 15 October 2026. That does not prove that no unpublished or unindexed work exists, and we have not contacted Northwestern University. We saw a single post and do not know its date beyond “14 hours old”, its reach or its author’s intent. Some of the human data on paired vagus-nerve stimulation come from abstracts and registry records rather than full papers. A press report’s details can differ from the published paper; we use the paper.</p>",
+   "coi": "<p>Tinnitus Evidence is independently operated, carries no advertising or affiliate links, and no company can pay for coverage. We have no commercial relationship with the researchers, universities or device companies named here. The 2017 pilot discussed was co-authored by employees of, and a paid consultant to, the device company that sponsored it.<sup class=\"cl-cite\">[<a href=\"#ref-14\" aria-label=\"Reference 14\">14</a>]</sup></p>",
+   "practical": "<ul>\n<li>Check where a story sits on the ladder before sharing it. If a post names a university but no paper, search PubMed for the topic and institution yourself.</li>\n<li>To follow real developments, see our pages on clinical trials and emerging treatments, which are checked against ClinicalTrials.gov every week.</li>\n<li>If you are interested in a trial, read its registry record, and talk to your clinician. Only the research team can tell you whether you are eligible.</li>\n<li>Be wary of any product or clinic sold on the strength of one study, a celebrity or a “discovery”. Treatments with the best current support are those that reduce distress.<sup class=\"cl-cite\">[<a href=\"#ref-5\" aria-label=\"Reference 5\">5</a>]</sup></li>\n</ul>",
+   "related": {
+    "treatments": [
+     "vns-paired",
+     "tavns",
+     "regenerative",
+     "spi-1005",
+     "trtl-913",
+     "lenire",
+     "shore-bimodal",
+     "cbt"
+    ],
+    "emerging": [
+     "stemcell-exosome",
+     "ac102",
+     "kv7",
+     "ketamine",
+     "online-formulas"
+    ],
+    "guides": [
+     "tinnitus-clinical-trials",
+     "new-tinnitus-treatments",
+     "bimodal-neuromodulation"
+    ]
+   },
+   "notes": "Worked example: no Facebook page named or linked; the screenshot is not reproduced; short quotations only. Search results (PubMed, ClinicalTrials.gov, web) dated 15 Oct 2026 should be re-run before publication.",
+   "references": [
+    {
+     "key": "cfr3400",
+     "cite": "U.S. Code of Federal Regulations, Title 21, section 874.3400 (Tinnitus masker). Class II.",
+     "links": [
+      [
+       "eCFR",
+       "https://www.ecfr.gov/current/title-21/section-874.3400"
+      ]
+     ],
+     "kind": "regulator",
+     "verified": "Regulation text retrieved from the eCFR API 2026-10-15",
+     "note": "",
+     "supports": "",
+     "n": 1
+    },
+    {
+     "key": "denovo",
+     "cite": "FDA De Novo DEN210033, Lenire Tinnitus Treatment Device ('combined acoustic and electrical external stimulation device for the relief of tinnitus'; 21 CFR 874.3410, product code QVN). Granted 6 March 2023.",
+     "links": [
+      [
+       "FDA De Novo database",
+       "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/denovo.cfm?id=DEN210033"
+      ]
+     ],
+     "kind": "regulator",
+     "verified": "Database entry read 2026-10-15 (device classification name, regulation number, decision date)",
+     "note": "",
+     "supports": "",
+     "n": 2
+    },
+    {
+     "key": "henton2021",
+     "cite": "Henton et al. What's the buzz? The neuroscience and the treatment of tinnitus. Physiol Rev. 2021.",
+     "links": [
+      [
+       "PubMed 33769102",
+       "https://pubmed.ncbi.nlm.nih.gov/33769102/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1152/physrev.00029.2020"
+      ]
+     ],
+     "kind": "review",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "33769102",
+     "n": 3
+    },
+    {
+     "key": "sciencefeedback",
+     "cite": "Science Feedback. AI celebrity endorsement videos in Facebook ads promote unproven tinnitus 'cure'. 22 May 2024.",
+     "links": [
+      [
+       "Science Feedback",
+       "https://science.feedback.org/review/ai-celebrity-endorsement-videos-facebook-ads-promote-unproven-tinnitus-cure/"
+      ]
+     ],
+     "kind": "fact-check",
+     "verified": "Review page read 2026-10-15: claim rated Unsupported; the celebrity video found to be AI-modified",
+     "note": "",
+     "supports": "",
+     "n": 4
+    },
+    {
+     "key": "aao2026",
+     "cite": "Adams ME, Cramer JD, Tunkel DE, et al. Executive Summary of the Clinical Practice Guideline on Tinnitus Update. Otolaryngol Head Neck Surg. 2026;175(4):739-756.",
+     "links": [
+      [
+       "PubMed 42861486",
+       "https://pubmed.ncbi.nlm.nih.gov/42861486/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1002/ohn.70418"
+      ]
+     ],
+     "kind": "guideline",
+     "verified": "Executive-summary text (Europe PMC XML) read 2026-10-15; every key action statement quoted or paraphrased was checked against it",
+     "note": "Published online 12-13 October 2026, two days before the evidence-through date; KAS 4, 7, 8, 10, 11, 13 and 14 used. Full guideline: Adams ME et al., doi:10.1002/ohn.70417 (PMID 42861423).",
+     "supports": "",
+     "n": 5
+    },
+    {
+     "key": "adamczyk2026a",
+     "cite": "Adamczyk et al. Elevation of Serum Prestin in Patients With Tinnitus: Pathophysiological Implications and Biomarker Potential. Otol Neurotol. 2026.",
+     "links": [
+      [
+       "PubMed 41398620",
+       "https://pubmed.ncbi.nlm.nih.gov/41398620/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1097/MAO.0000000000004789"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "41398620",
+     "n": 6
+    },
+    {
+     "key": "adamczyk2026b",
+     "cite": "Adamczyk et al. Serum Levels of Prestin, Otoferlin, Connexin 26, and Stereocilin: A Biomarker Approach to Tinnitus. Otolaryngol Head Neck Surg. 2026.",
+     "links": [
+      [
+       "PubMed 42605968",
+       "https://pubmed.ncbi.nlm.nih.gov/42605968/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1002/ohn.70382"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "42605968",
+     "n": 7
+    },
+    {
+     "key": "yu2026",
+     "cite": "Yu et al. A discrete serotonergic circuit involved in the generation of tinnitus behavior. Proc Natl Acad Sci U S A. 2026.",
+     "links": [
+      [
+       "PubMed 42008671",
+       "https://pubmed.ncbi.nlm.nih.gov/42008671/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1073/pnas.2509692123"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "42008671",
+     "n": 8
+    },
+    {
+     "key": "tziridis2025",
+     "cite": "Tziridis et al. A Single Dose of AC102 Reverts Tinnitus by Restoring Ribbon Synapses in Noise-Exposed Mongolian Gerbils. Int J Mol Sci. 2025.",
+     "links": [
+      [
+       "PubMed 40507934",
+       "https://pubmed.ncbi.nlm.nih.gov/40507934/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.3390/ijms26115124"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "40507934",
+     "n": 9
+    },
+    {
+     "key": "wang2019",
+     "cite": "Wang et al. Neuroinflammation mediates noise-induced synaptic imbalance and tinnitus in rodent models. PLoS Biol. 2019.",
+     "links": [
+      [
+       "PubMed 31211773",
+       "https://pubmed.ncbi.nlm.nih.gov/31211773/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1371/journal.pbio.3000307"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "31211773",
+     "n": 10
+    },
+    {
+     "key": "cederroth2023",
+     "cite": "Cederroth et al. Screening for Circulating Inflammatory Proteins Does Not Reveal Plasma Biomarkers of Constant Tinnitus. J Assoc Res Otolaryngol. 2023.",
+     "links": [
+      [
+       "PubMed 38079022",
+       "https://pubmed.ncbi.nlm.nih.gov/38079022/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1007/s10162-023-00920-3"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "38079022",
+     "n": 11
+    },
+    {
+     "key": "deridder2014",
+     "cite": "De Ridder et al. Safety and efficacy of vagus nerve stimulation paired with tones for the treatment of tinnitus: a case series. Neuromodulation. 2014.",
+     "links": [
+      [
+       "PubMed 24255953",
+       "https://pubmed.ncbi.nlm.nih.gov/24255953/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1111/ner.12127"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "24255953",
+     "n": 12
+    },
+    {
+     "key": "searchfield2023",
+     "cite": "Searchfield et al. A randomized, double-blind, placebo-controlled phase 2 study of intratympanic OTO-313 in patients with moderate to severe subjective tinnitus. Eur Arch Otorhinolaryngol. 2023.",
+     "links": [
+      [
+       "PubMed 37341760",
+       "https://pubmed.ncbi.nlm.nih.gov/37341760/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1007/s00405-023-08047-0"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "37341760",
+     "n": 13
+    },
+    {
+     "key": "tyler2017",
+     "cite": "Tyler et al. Vagus Nerve Stimulation Paired with Tones for the Treatment of Tinnitus: A Prospective Randomized Double-blind Controlled Pilot Study in Humans. Sci Rep. 2017.",
+     "links": [
+      [
+       "PubMed 28931943",
+       "https://pubmed.ncbi.nlm.nih.gov/28931943/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1038/s41598-017-12178-w"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "Industry-linked authors; see the vagus-nerve-stimulation treatment page for details.",
+     "supports": "",
+     "pmid": "28931943",
+     "n": 14
+    },
+    {
+     "key": "pubmed_nw",
+     "cite": "PubMed search run 15 October 2026 for tinnitus papers (2020-2026) with a Northwestern University affiliation: 17 records; none concerned vagus-nerve stimulation or sound pairing.",
+     "links": [
+      [
+       "PubMed",
+       "https://pubmed.ncbi.nlm.nih.gov/?term=tinnitus+AND+Northwestern%5BAffiliation%5D"
+      ]
+     ],
+     "kind": "database search",
+     "verified": "Search re-run 2026-10-15 during the build: 17 records returned (query: tinnitus[tiab] AND \"Northwestern University\"[ad] AND 2020:2026[dp]); titles screened, none about vagus-nerve stimulation or sound pairing; a separate query (tinnitus AND vagus/vagal AND Northwestern[ad], all years) returned 0 records",
+     "note": "Rerun immediately before publication; a search cannot prove that no unpublished or unindexed work exists.",
+     "supports": "",
+     "n": 15
+    },
+    {
+     "key": "ctgov_search",
+     "cite": "ClinicalTrials.gov searches run 15 October 2026: (1) tinnitus AND (vagus OR VNS), 23 records; (2) tinnitus with sponsor “Northwestern”, 3 records (two completed MRI studies of transcranial electrical stimulation, NCT03544359 and NCT05120037; one hearing-loss statin study).",
+     "links": [
+      [
+       "ClinicalTrials.gov",
+       "https://clinicaltrials.gov/search?cond=tinnitus&term=vagus"
+      ]
+     ],
+     "kind": "registry",
+     "verified": "Searches executed via the ClinicalTrials.gov API 2026-10-15 and the returned records read",
+     "note": "A registry search can miss unregistered work or records where the sponsor is listed differently.",
+     "supports": "",
+     "n": 16
+    },
+    {
+     "key": "engineer2011",
+     "cite": "Engineer et al. Reversing pathological neural activity using targeted plasticity. Nature. 2011.",
+     "links": [
+      [
+       "PubMed 21228773",
+       "https://pubmed.ncbi.nlm.nih.gov/21228773/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1038/nature09656"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "21228773",
+     "n": 17
+    },
+    {
+     "key": "rajkoziak2024",
+     "cite": "Raj-Koziak et al. Effectiveness of transcutaneous vagus nerve stimulation for the treatment of tinnitus: an interventional prospective controlled study. Int J Audiol. 2024.",
+     "links": [
+      [
+       "PubMed 36799648",
+       "https://pubmed.ncbi.nlm.nih.gov/36799648/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1080/14992027.2023.2177894"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "36799648",
+     "n": 18
+    },
+    {
+     "key": "deng2026",
+     "cite": "Deng et al. Sound-Paired Vagus Nerve Stimulation for Tinnitus: A Safety and Feasibility Trial. Neuromodulation. 2026.",
+     "links": [
+      [
+       "PubMed 42730729",
+       "https://pubmed.ncbi.nlm.nih.gov/42730729/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1016/j.neurom.2026.08.002"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "42730729",
+     "n": 19
+    },
+    {
+     "key": "nct01962558",
+     "cite": "ClinicalTrials.gov NCT01962558. Vagus Nerve Stimulation (VNS) Paired With Tones for Tinnitus (MicroTransponder). Completed May 2016; N = 30.",
+     "links": [
+      [
+       "ClinicalTrials.gov",
+       "https://clinicaltrials.gov/study/NCT01962558"
+      ]
+     ],
+     "kind": "registry",
+     "verified": "Registry record retrieved via the ClinicalTrials.gov API 2026-10-15 (status, dates, sponsor, enrollment)",
+     "note": "",
+     "supports": "",
+     "n": 20
+    },
+    {
+     "key": "nct03143842",
+     "cite": "ClinicalTrials.gov NCT03143842. Investigating Accelerated Learning in Tinnitus Participants Implanted With Vagus Nerve Stimulation (University of Texas at Dallas). Status: withdrawn (not enough participants); enrollment 0.",
+     "links": [
+      [
+       "ClinicalTrials.gov",
+       "https://clinicaltrials.gov/study/NCT03143842"
+      ]
+     ],
+     "kind": "registry",
+     "verified": "Registry record retrieved via the ClinicalTrials.gov API 2026-10-15",
+     "note": "",
+     "supports": "",
+     "n": 21
+    },
+    {
+     "key": "vivistim",
+     "cite": "FDA premarket approval P210007, Vivistim Paired VNS System, approved 27 August 2021 for chronic ischemic stroke arm and hand rehabilitation (not tinnitus).",
+     "links": [
+      [
+       "openFDA PMA record",
+       "https://api.fda.gov/device/pma.json?search=pma_number:P210007"
+      ]
+     ],
+     "kind": "regulator",
+     "verified": "openFDA PMA database record retrieved 2026-10-15 (intended-use statement of the original approval)",
+     "note": "",
+     "supports": "",
+     "n": 22
+    },
+    {
+     "key": "leaver2024",
+     "cite": "Leaver et al. Focal tDCS of auditory cortex in chronic tinnitus: A randomized controlled mechanistic trial. Clin Neurophysiol. 2024.",
+     "links": [
+      [
+       "PubMed 38198874",
+       "https://pubmed.ncbi.nlm.nih.gov/38198874/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1016/j.clinph.2023.11.021"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "38198874",
+     "n": 23
+    },
+    {
+     "key": "leaver2026",
+     "cite": "Leaver et al. Auditory Network Discoherence in Chronic Tinnitus. medRxiv. 2026.",
+     "links": [
+      [
+       "PubMed 42292020",
+       "https://pubmed.ncbi.nlm.nih.gov/42292020/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.64898/2026.06.01.26354620"
+      ]
+     ],
+     "kind": "preprint",
+     "verified": "PubMed record and abstract read 2026-10-15 (medRxiv preprint; not peer reviewed)",
+     "note": "",
+     "supports": "",
+     "pmid": "42292020",
+     "n": 24
+    }
+   ],
+   "evidenceThrough": "2026-10-15",
+   "lastReviewed": "2026-10-15"
+  },
+  {
+   "slug": "does-tinnitus-go-away",
+   "num": 5,
+   "question": "Does Tinnitus Ever Go Away, or Is It Permanent?",
+   "short": "Does tinnitus go away, or is it permanent?",
+   "claim": "“Tinnitus is permanent and nothing helps,” or the opposite: “it will go away on its own if you wait.”",
+   "verdict": "Misleading",
+   "verdictLine": "Both blanket claims mislead. Most tinnitus that lasts for months tends to persist, some does fade or disappear, and how much it bothers you can often be reduced.",
+   "metaTitle": "Does Tinnitus Go Away, or Is It Permanent? What the Research Shows | Tinnitus Evidence",
+   "metaDesc": "Does tinnitus go away on its own? Long-term studies show most persists, about 1 in 5 resolves, and distress can often be reduced. Plus when sudden hearing loss needs urgent care.",
+   "safety": "<p><strong>Important safety note: sudden hearing loss needs urgent medical evaluation, especially with new tinnitus.</strong> If your hearing drops or seems muffled over a few hours or days, in one ear or both, or new ringing starts together with a sudden change in hearing, do not wait to see whether it settles. The U.S. National Institute on Deafness and Other Communication Disorders says to treat sudden deafness symptoms as a medical emergency and to visit a doctor immediately.<sup class=\"cl-cite\">[<a href=\"#ref-1\" aria-label=\"Reference 1\">1</a>]</sup> UK NICE guidance says that a person with tinnitus whose hearing loss developed suddenly (over 3 days or less) in the past 30 days should be seen within 24 hours.<sup class=\"cl-cite\">[<a href=\"#ref-2\" aria-label=\"Reference 2\">2</a>]</sup></p>\n<p>Seek <strong>emergency help</strong> if tinnitus comes with facial weakness, sudden severe vertigo or other signs of stroke.<sup class=\"cl-cite\">[<a href=\"#ref-2\" aria-label=\"Reference 2\">2</a>]</sup> If tinnitus has you thinking about harming yourself, seek urgent help now: in the US call or text 988; elsewhere use your local emergency or crisis line (see <a href=\"about.html#severe-distress\">crisis support</a>). Clinical guidelines tell clinicians to ask about self-harm in people with bothersome tinnitus.<sup class=\"cl-cite\">[<a href=\"#ref-3\" aria-label=\"Reference 3\">3</a>]</sup></p>",
+   "answer": "<p>“It’s permanent” and “it will go away” each contain some truth, and each misleads when stated as a rule.</p>\n<ul>\n<li><strong>Very brief ringing is treated differently.</strong> The 2026 U.S. guideline excludes “transient ear noise”, a sudden ringing in one ear lasting under 5 minutes, because it does not typically need clinical management.<sup class=\"cl-cite\">[<a href=\"#ref-3\" aria-label=\"Reference 3\">3</a>]</sup></li>\n<li><strong>Established tinnitus tends to persist.</strong> In a five-year study of older adults, tinnitus persisted in 82% of those who had it at the start.<sup class=\"cl-cite\">[<a href=\"#ref-4\" aria-label=\"Reference 4\">4</a>]</sup> In a UK study of adults followed for four years, 18% of those who reported tinnitus reported none at follow-up; of those who still had it, 9% were less bothered, 9% were more bothered and the rest were unchanged.<sup class=\"cl-cite\">[<a href=\"#ref-5\" aria-label=\"Reference 5\">5</a>]</sup></li>\n<li><strong>How much it bothers you is different from whether it is there.</strong> Cognitive behavioural therapy and, for people with hearing difficulties, hearing aids are recommended in the 2026 U.S. guideline because they can reduce distress and daily impact even when the sound remains.<sup class=\"cl-cite\">[<a href=\"#ref-3\" aria-label=\"Reference 3\">3</a>]</sup></li>\n</ul>\n<p>No treatment has been shown to cure tinnitus, so “nothing can be done” is also wrong: a lot can be done about its <em>impact</em>.</p>",
+   "subverdicts": [
+    [
+     "“Tinnitus always goes away on its own”",
+     "Unsupported",
+     "In long-term studies most tinnitus that is present persists; resolution is “relatively uncommon”."
+    ],
+    [
+     "“Tinnitus is permanent and nothing can be done”",
+     "Misleading",
+     "It does persist for most people, but distress and daily impact can often be reduced."
+    ],
+    [
+     "“Some people’s tinnitus does go away”",
+     "Supported",
+     "About 1 in 5 people reporting tinnitus reported none four years later in a large UK cohort."
+    ],
+    [
+     "“Therapies can reduce how much tinnitus bothers you”",
+     "Partly Supported",
+     "Recommended in guidelines; effects are modest on average, vary by person, and long-term follow-up is thin."
+    ]
+   ],
+   "circulation_intro": "People ask this question often. On 15 October 2026 Google’s autocomplete offered completions such as “does tinnitus go away on its own”, “is tinnitus permanent after 3 months” and “can tinnitus be cured permanently”. On YouTube, titles include the following (quoted briefly; view counts and upload ages as YouTube displayed them that day; channel names and links left out).",
+   "circulation": [
+    [
+     "A video titled “How I Cured My Tinnitus”",
+     "about 2.2 million views; uploaded about 4 years earlier"
+    ],
+    [
+     "A video titled “TINNITUS DISAPPEARS! PRESS THIS POINT AND FORGET THE RINGING FOREVER”",
+     "about 0.3 million views; uploaded about 6 months earlier"
+    ]
+   ],
+   "sections": [
+    [
+     "What long-term studies show",
+     "<p>Two population studies followed people over several years.</p>\n<ul>\n<li><strong>Blue Mountains Hearing Study (Australia, older adults):</strong> over five years, tinnitus present at the start was still present in 81.6%. Among those with tinnitus that was only mildly annoying at the start, 39.6% became moderately annoying and 5.9% severely annoying by the follow-up. Hearing loss roughly doubled the odds of new tinnitus (odds ratio 2.13).<sup class=\"cl-cite\">[<a href=\"#ref-4\" aria-label=\"Reference 4\">4</a>]</sup></li>\n<li><strong>UK Biobank (adults aged 40-69, about 4,700 retested after four years):</strong> 18.3% of those who had reported tinnitus reported none at retest; of those who still had it, 9% reported improvement and 9% said it had become more bothersome. The authors concluded that resolution is relatively uncommon, and that improvement and worsening are equally likely.<sup class=\"cl-cite\">[<a href=\"#ref-5\" aria-label=\"Reference 5\">5</a>]</sup></li>\n</ul>\n<p>These are surveys of self-reported tinnitus, so some “resolution” may be fluctuation, and neither study followed people treated with a particular therapy. For most people, established tinnitus does not simply disappear; for some, it fades or becomes much less noticeable.</p>"
+    ],
+    [
+     "Why “permanent” is also an overstatement",
+     "<p>Two things get blurred: whether the sound is present, and whether it is a problem. A national guideline asks clinicians to distinguish people who are bothered by tinnitus from people who are not, and educate patients about its natural history and ways to manage it.<sup class=\"cl-cite\">[<a href=\"#ref-3\" aria-label=\"Reference 3\">3</a>]</sup> Many people live with tinnitus that does not trouble them. For those it does trouble, several approaches have evidence:</p>\n<ul>\n<li><strong>Cognitive behavioural therapy.</strong> A Cochrane review of 12 studies (966 people) found CBT may reduce the impact of tinnitus on quality of life compared with other active treatments (small average effect, low certainty), and no evidence yet on effects at 6 or 12 months.<sup class=\"cl-cite\">[<a href=\"#ref-6\" aria-label=\"Reference 6\">6</a>]</sup> The 2019 European guideline gives it a strong recommendation.<sup class=\"cl-cite\">[<a href=\"#ref-7\" aria-label=\"Reference 7\">7</a>]</sup></li>\n<li><strong>Hearing aids.</strong> For people with hearing loss, the 2026 U.S. guideline recommends a hearing-aid evaluation<sup class=\"cl-cite\">[<a href=\"#ref-3\" aria-label=\"Reference 3\">3</a>]</sup> and NICE says to offer amplification devices if hearing loss affects communication.<sup class=\"cl-cite\">[<a href=\"#ref-2\" aria-label=\"Reference 2\">2</a>]</sup> A Cochrane review found the evidence on hearing aids for tinnitus limited.<sup class=\"cl-cite\">[<a href=\"#ref-8\" aria-label=\"Reference 8\">8</a>]</sup></li>\n<li><strong>Combination treatment.</strong> In a 461-person multicentre trial, every arm improved by week 12 on the Tinnitus Handicap Inventory; CBT and hearing aids alone had large effects that combining treatments did not clearly add to.<sup class=\"cl-cite\">[<a href=\"#ref-9\" aria-label=\"Reference 9\">9</a>]</sup></li>\n</ul>\n<p>Improvement in these studies is mainly in distress and daily impact, not in the sound disappearing.</p>"
+    ],
+    [
+     "What this means for “cure” and “wait and see” claims",
+     "<p>“It will go away on its own” can delay getting hearing checked or treated, and can hide a treatable cause such as sudden hearing loss. “It’s permanent and nothing helps” can discourage people from the approaches most likely to make life easier. A balanced message is that tinnitus often persists, sometimes fades, and its impact can usually be reduced.</p>"
+    ]
+   ],
+   "distinctions": [
+    [
+     "Loudness",
+     "Is the sound itself quieter?",
+     "Some people report it fading over time; most with persisting tinnitus do not. Treatments rarely change loudness reliably."
+    ],
+    [
+     "Distress",
+     "How much does it upset or worry me?",
+     "The main target of CBT and related therapies, which can reduce it even if the sound stays."
+    ],
+    [
+     "Functional impact",
+     "Sleep, concentration, work, relationships",
+     "Improves with therapy and, where there is hearing loss, with hearing aids in many people."
+    ],
+    [
+     "Temporary relief",
+     "Better for a while",
+     "Common with sound, relaxation and time; fluctuates."
+    ],
+    [
+     "Sustained improvement",
+     "Better months later",
+     "Seen in a proportion of people over time (9% of those who still had tinnitus reported improvement in the UK cohort) and after therapy; follow-up in trials is often short."
+    ],
+    [
+     "Cure",
+     "Gone for good",
+     "About 18% of people reporting tinnitus reported none at four years in one cohort (natural resolution, not a treatment effect); no treatment has been shown to cure it."
+    ]
+   ],
+   "limits": "<p>The long-term data come from two population cohorts that relied on self-report and used single questions about tinnitus; their populations (older Australians; UK adults aged 40-69) may not match yours, and attrition between visits could bias the figures. Neither tested treatments. Trials of CBT and hearing aids are heterogeneous and usually follow people for weeks to months. Our percentage figures are as reported by the studies, not our own estimates, and different studies define “tinnitus” and “bothersome” differently.</p>",
+   "coi": "<p>Tinnitus Evidence is independently operated, carries no advertising or affiliate links and sells no treatment. The sources for this page are population cohorts, Cochrane reviews, one multicentre trial and clinical guidelines.</p>",
+   "practical": "<ul>\n<li>If tinnitus is new, one-sided, pulsing, or comes with hearing change or dizziness, get it checked. Start with a hearing test.<sup class=\"cl-cite\">[<a href=\"#ref-3\" aria-label=\"Reference 3\">3</a>]</sup></li>\n<li>If it has lasted beyond a few weeks and bothers you, ask your doctor or audiologist about support: tinnitus education, cognitive behavioural therapy (including online programmes), and a hearing-aid assessment if your hearing has changed.<sup class=\"cl-cite\">[<a href=\"#ref-2\" aria-label=\"Reference 2\">2</a>]</sup></li>\n<li>Do not judge a treatment by whether the sound disappears. Ask whether sleep, concentration, mood and daily life improve.</li>\n<li>Be wary of anyone promising to switch tinnitus off, or telling you it is hopeless. Both ignore what the evidence shows.</li>\n</ul>",
+   "related": {
+    "treatments": [
+     "cbt",
+     "digital-cbt",
+     "hearing-aids",
+     "trt",
+     "act",
+     "mbct",
+     "cochlear-implants"
+    ],
+    "emerging": [],
+    "guides": [
+     "tinnitus-treatments",
+     "tinnitus-loudness-vs-distress"
+    ]
+   },
+   "notes": "Safety-note wording verified against NIDCD (2018 page), NICE NG155 1.2.2/1.2.3 and the AAO-HNSF 2026 guideline; clinician review of the final wording is recommended before publication.",
+   "references": [
+    {
+     "key": "nidcd_sd",
+     "cite": "National Institute on Deafness and Other Communication Disorders. Sudden Deafness (NIH Pub. No. 00-4757, March 2018; page last updated 14 September 2018).",
+     "links": [
+      [
+       "NIDCD",
+       "https://www.nidcd.nih.gov/health/sudden-deafness"
+      ]
+     ],
+     "kind": "regulator/government",
+     "verified": "Page text read 2026-10-15; the sentence \"you should consider sudden deafness symptoms a medical emergency and visit a doctor immediately\" appears verbatim",
+     "note": "The page is dated 2018; the 2019 AAO-HNSF guideline and the 2020 NICE guideline give consistent timing advice.",
+     "supports": "",
+     "n": 1
+    },
+    {
+     "key": "nice",
+     "cite": "National Institute for Health and Care Excellence. Tinnitus: assessment and management (NICE guideline NG155). Published 11 March 2020.",
+     "links": [
+      [
+       "NICE NG155",
+       "https://www.nice.org.uk/guidance/ng155"
+      ]
+     ],
+     "kind": "guideline",
+     "verified": "Recommendations chapter read 2026-10-15 (1.2.1-1.2.7 referral; amplification; sound therapy; psychological therapies)",
+     "note": "",
+     "supports": "",
+     "n": 2
+    },
+    {
+     "key": "aao2026",
+     "cite": "Adams ME, Cramer JD, Tunkel DE, et al. Executive Summary of the Clinical Practice Guideline on Tinnitus Update. Otolaryngol Head Neck Surg. 2026;175(4):739-756.",
+     "links": [
+      [
+       "PubMed 42861486",
+       "https://pubmed.ncbi.nlm.nih.gov/42861486/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1002/ohn.70418"
+      ]
+     ],
+     "kind": "guideline",
+     "verified": "Executive-summary text (Europe PMC XML) read 2026-10-15; every key action statement quoted or paraphrased was checked against it",
+     "note": "Published online 12-13 October 2026, two days before the evidence-through date; KAS 4, 7, 8, 10, 11, 13 and 14 used. Full guideline: Adams ME et al., doi:10.1002/ohn.70417 (PMID 42861423).",
+     "supports": "",
+     "n": 3
+    },
+    {
+     "key": "gopinath2010",
+     "cite": "Gopinath et al. Incidence, persistence, and progression of tinnitus symptoms in older adults: the Blue Mountains Hearing Study. Ear Hear. 2010.",
+     "links": [
+      [
+       "PubMed 20124901",
+       "https://pubmed.ncbi.nlm.nih.gov/20124901/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1097/AUD.0b013e3181cdb2a2"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "20124901",
+     "n": 4
+    },
+    {
+     "key": "dawes2020",
+     "cite": "Dawes et al. Natural history of tinnitus in adults: a cross-sectional and longitudinal analysis. BMJ Open. 2020.",
+     "links": [
+      [
+       "PubMed 33303456",
+       "https://pubmed.ncbi.nlm.nih.gov/33303456/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1136/bmjopen-2020-041290"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "33303456",
+     "n": 5
+    },
+    {
+     "key": "fuller2020",
+     "cite": "Fuller et al. Cognitive behavioural therapy for tinnitus. Cochrane Database Syst Rev. 2020.",
+     "links": [
+      [
+       "PubMed 31912887",
+       "https://pubmed.ncbi.nlm.nih.gov/31912887/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1002/14651858.CD012614.pub2"
+      ]
+     ],
+     "kind": "systematic review",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "31912887",
+     "n": 6
+    },
+    {
+     "key": "euro2019",
+     "cite": "Cima RFF, Mazurek B, Haider H, et al. A multidisciplinary European guideline for tinnitus: diagnostics, assessment, and treatment. HNO. 2019;67(Suppl 1):10-42.",
+     "links": [
+      [
+       "PubMed 30847513",
+       "https://pubmed.ncbi.nlm.nih.gov/30847513/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1007/s00106-019-0633-7"
+      ]
+     ],
+     "kind": "guideline",
+     "verified": "Full text read 2026-10-15 (sound therapy, dietary and alternative therapies, CBT recommendations)",
+     "note": "",
+     "supports": "",
+     "n": 7
+    },
+    {
+     "key": "hoare2014",
+     "cite": "Hoare et al. Amplification with hearing aids for patients with tinnitus and co-existing hearing loss. Cochrane Database Syst Rev. 2014.",
+     "links": [
+      [
+       "PubMed 24482186",
+       "https://pubmed.ncbi.nlm.nih.gov/24482186/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1002/14651858.CD010151.pub2"
+      ]
+     ],
+     "kind": "systematic review",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "24482186",
+     "n": 8
+    },
+    {
+     "key": "schoisswohl2025",
+     "cite": "Schoisswohl et al. Single versus combination treatment in tinnitus: an international, multicentre, parallel-arm, superiority, randomised controlled trial. Nat Commun. 2025.",
+     "links": [
+      [
+       "PubMed 41271763",
+       "https://pubmed.ncbi.nlm.nih.gov/41271763/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1038/s41467-025-66165-1"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "41271763",
+     "n": 9
+    }
+   ],
+   "evidenceThrough": "2026-10-15",
+   "lastReviewed": "2026-10-15"
+  }
+ ]
+}

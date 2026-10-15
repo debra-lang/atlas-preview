@@ -7,6 +7,7 @@ Generates crawlable, canonical, self-contained HTML pages from the verified rese
   /trials/                directory landing + one page per registry trial
   /research/              directory landing + one page per research record
   /guides/                five evergreen evidence guides (database-driven, no invented claims)
+  /claims/                Tinnitus Claims: Fact vs. Evidence (authored, human-approved data/claims.json; static pages)
   sitemap.xml             all canonical indexable URLs (production domain)
   robots-production.txt   the robots.txt to deploy AT LAUNCH (current robots.txt keeps the block)
   docs/redirect-map.md    old URL -> new URL documentation
@@ -48,6 +49,35 @@ for t in treatments:
         CITED_BY.setdefault(sid, []).append(t["id"])
 
 E = html.escape
+
+# Claims: Fact vs. Evidence (data/claims.json is authored content, never produced by the research pipeline)
+_CLP = ROOT / "data" / "claims.json"
+CL = json.loads(_CLP.read_text(encoding="utf-8")) if _CLP.exists() else None
+EU = json.loads((ROOT / "data" / "emerging-unproven.json").read_text(encoding="utf-8"))
+EU_BY = {t["id"]: t for t in EU["T"]}
+VCLS = {v["name"]: v["cls"] for v in CL["verdicts"]} if CL else {}
+VSYM = {"supported": "\u2713", "partly": "\u25d0", "misleading": "!", "unsupported": "\u2715", "insufficient": "?"}
+LASTMOD = {}   # per-URL <lastmod> overrides for the sitemap (claims pages carry their review date, not the build date)
+
+def _long_date(iso):
+    y, m, d = iso.split("-")
+    months = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    return f"{int(d)} {months[int(m)]} {y}"
+
+def vchip(name):
+    cls = VCLS.get(name, "insufficient")
+    return f'<span class="cl-chip cl-{cls}"><span aria-hidden="true">{VSYM[cls]}</span> {E(name)}</span>'
+
+
+def claims_xlink(kind, tid):
+    """Compact 'claim checks that mention this page' block for static treatment pages (empty when none)."""
+    if not CL: return ""
+    hits = [c for c in CL["claims"] if tid in c.get("related", {}).get(kind, [])]
+    if not hits: return ""
+    items = "".join(f'<li><a href="claims/{E(c["slug"])}/">{E(c["question"])}</a> {vchip(c["verdict"])}</li>' for c in hits)
+    return (f'<section class="card sec-card cl-xlink" id="claim-checks"><h2>Claim checks that mention this treatment</h2><ul>{items}</ul>'
+            '<p class="small muted">From <a href="claims/">Tinnitus Claims: Fact vs. Evidence</a>, which checks popular claims against the research. '
+            'It does not change this treatment\u2019s evidence rating.</p></section>\n')
 RISKY = re.compile(r"\b(cure[sd]?|guaranteed|clinically proven|miracle|breakthrough cure|works for everyone)\b", re.I)
 
 def scrub(text, fallback):
@@ -85,7 +115,7 @@ def footer_html(depth):
 <p class="small muted">Tinnitus Evidence is an educational evidence-navigation resource — not medical advice.
 It does not diagnose, and never replaces an ENT physician, audiologist or other qualified professional.</p></div></footer>"""
 
-def page(path_rel, title, desc, h1, crumbs, body, jsonld_extra=None, article=None):
+def page(path_rel, title, desc, h1, crumbs, body, jsonld_extra=None, article=None, modified=None, main_cls=""):
     """path_rel like 'treatments/lenire/index.html' — canonical derives from it."""
     depth = path_rel.count("/")
     canon = PROD + "/" + path_rel.replace("index.html", "")
@@ -107,10 +137,10 @@ def page(path_rel, title, desc, h1, crumbs, body, jsonld_extra=None, article=Non
             for i, (href, name) in enumerate(crumbs)]}
     ld = [{"@context": "https://schema.org", "@type": "WebPage", "name": title.split(" | ")[0],
            "url": canon, "description": desc, "isPartOf": {"@type": "WebSite", "name": "Tinnitus Evidence", "url": PROD + "/"},
-           "dateModified": TODAY}]
+           "dateModified": modified or TODAY}]
     if article:
         ld = [{"@context": "https://schema.org", "@type": "Article", "headline": article["headline"],
-               "url": canon, "description": desc, "datePublished": article.get("published", TODAY), "dateModified": TODAY,
+               "url": canon, "description": desc, "datePublished": article.get("published", TODAY), "dateModified": article.get("modified", TODAY),
                "author": {"@type": "Organization", "name": "Tinnitus Evidence"},
                "publisher": {"@type": "Organization", "name": "Tinnitus Evidence", "url": PROD + "/"}}]
     if crumb_ld: ld.append(crumb_ld)
@@ -144,7 +174,7 @@ def page(path_rel, title, desc, h1, crumbs, body, jsonld_extra=None, article=Non
 </head>
 <body data-page="">
 <a class="skip-link" href="#content">Skip to content</a>
-<main id="content" class="wrap prose">
+<main id="content" class="wrap prose{main_cls}">
 {crumb_html}
 <h1 style="margin-top:14px">{h1}</h1>
 {body}
@@ -255,7 +285,7 @@ may be unchanged. A THI/TFI improvement is never evidence the tinnitus got quiet
 {f'''<details class="sec"><summary>Related clinical trials <span class="small">{len(rel_trials)}</span></summary><ul>{''.join(f'<li><a href="trials/{E(x["nctId"])}/">{E(x["title"])}</a> — {E(x.get("status", ""))}</li>' for x in rel_trials)}</ul>
 <p class="small muted">Tracked trials are research in progress, not recommended treatments.</p></details>''' if rel_trials else ''}
 {f'''<details class="sec"><summary>Related treatments <span class="small">{len(related)}</span></summary><ul>{''.join(f'<li><a href="treatments/{E(x["id"])}/">{E(x["name"])}</a> — {E(trunc(x.get("oneLiner", ""), 110))}</li>' for x in related)}</ul></details>''' if related else ''}
-<p class="small muted">Evidence last reviewed: {E(t.get('lastReviewed', ''))} · Evidence included through: {E(t.get('evidenceThrough', ''))} ·
+{claims_xlink("treatments", tid)}<p class="small muted">Evidence last reviewed: {E(t.get('lastReviewed', ''))} · Evidence included through: {E(t.get('evidenceThrough', ''))} ·
 Confidence: {E(t.get('confidence', ''))}. <a href="treatment.html?id={E(tid)}">Open the interactive evidence profile</a> ·
 <a href="about.html#methodology">How we rate evidence</a>.</p>
 <p class="small muted">This page summarizes published research for education. It is not medical advice; it cannot say
@@ -544,6 +574,138 @@ canon = page("guides/index.html", "Tinnitus Evidence Guides: Research Questions 
              "Evergreen evidence guides on tinnitus treatments, new research, loudness vs distress, bimodal neuromodulation and clinical trials — from the verified database.",
              "Tinnitus Evidence Guides", [("", "Home"), (None, "Guides")], guides_dir)
 sitemap_urls.append(canon)
+
+# ---------------- Claims: Fact vs. Evidence (V14) ----------------
+# CONTENT POLICY: data/claims.json is authored and human-approved, never generated from the research pipeline and
+# never writable by the weekly workflow. Pages are fully static (no JavaScript rendering), so crawlers and
+# no-JS readers see exactly what everyone else sees. Every verdict is one of the five defined terms.
+def label_tables(h):
+    """Give every body cell a data-label from its column header so tables stack readably on phones."""
+    def fix(m):
+        t = m.group(0)
+        heads = [re.sub(r"<[^>]+>", "", x).strip() for x in re.findall(r'<th scope="col">(.*?)</th>', t, re.S)]
+        i0 = t.find("<tbody>")
+        def row(rm):
+            idx = [0]
+            def td(tm):
+                i = idx[0]; idx[0] += 1
+                lab = heads[i + 1] if i + 1 < len(heads) else ""
+                return f'<td data-label="{E(lab)}"{tm.group(1)}>'
+            return re.sub(r"<td([^>]*)>", td, rm.group(0))
+        return t[:i0] + re.sub(r"<tr>.*?</tr>", row, t[i0:], flags=re.S)
+    return re.sub(r'<table class="cl-table">.*?</table>', fix, h, flags=re.S)
+
+GUIDE_NAMES = {"tinnitus-treatments": "Tinnitus Treatments: What Has the Strongest Evidence?",
+               "new-tinnitus-treatments": "New Tinnitus Treatments and Research",
+               "tinnitus-loudness-vs-distress": "Can Tinnitus Treatments Reduce Loudness, Distress, or Both?",
+               "bimodal-neuromodulation": "Bimodal Neuromodulation for Tinnitus: What the Evidence Shows",
+               "tinnitus-clinical-trials": "Tinnitus Clinical Trials: How to Understand Emerging Research"}
+
+def cl_ref_li(r):
+    links = " · ".join(f'<a href="{E(u)}" rel="noopener">{E(lab)}</a>' for lab, u in r["links"])
+    return f'<li id="ref-{r["n"]}">{E(r["cite"])} <span class="small muted">[{E(r["kind"])}]</span> <span class="small">{links}</span></li>'
+
+def claim_body(c):
+    cls = VCLS[c["verdict"]]
+    r = c.get("related", {})
+    rel = []
+    for tid in r.get("treatments", []):
+        if tid in T: rel.append(f'<li><a href="treatments/{E(tid)}/">{E(T[tid]["name"])}</a> <span class="muted">— treatment evidence review</span></li>')
+    for eid in r.get("emerging", []):
+        if eid in EU_BY: rel.append(f'<li><a href="emerging-unproven/#{E(eid)}">{E(EU_BY[eid]["name"])}</a> <span class="muted">— Emerging &amp; Unproven</span></li>')
+    for g in r.get("guides", []):
+        if g in GUIDE_NAMES: rel.append(f'<li><a href="guides/{E(g)}/">{E(GUIDE_NAMES[g])}</a> <span class="muted">— guide</span></li>')
+    tocs = [("claim", "The claim"), ("answer", "Short answer"), ("verdicts", "Claim by claim"), ("circulates", "Where it circulates"),
+            ("research", "What the research shows")]
+    tops = [s for s in c["sections"] if len(s) > 2]
+    inner = [s for s in c["sections"] if len(s) <= 2]
+    for i, s in enumerate(tops): tocs.append((f"top{i}", s[0].split(":")[0] if len(s[0]) > 40 else s[0]))
+    tocs += [("terms", "Loudness, distress, relief, cure"), ("limits", "Limits and conflicts"), ("practical", "What you can do"),
+             ("related", "Related pages"), ("references", "References")]
+    toc = '<nav class="toc" aria-label="On this page">' + "".join(f'<a href="claims/{E(c["slug"])}/#{a}">{E(l)}</a>' for a, l in tocs) + "</nav>"
+    sv = "".join(f'<tr><th scope="row">{claim}</th><td>{vchip(v)}</td><td>{E(why)}</td></tr>' for claim, v, why in c["subverdicts"])
+    circ = "".join(f'<li><strong>{t}</strong> <span class="muted">({n})</span></li>' for t, n in c["circulation"])
+    terms = "".join(f'<tr><th scope="row">{E(a)}</th><td>{E(b)}</td><td>{d}</td></tr>' for a, b, d in c["distinctions"])
+    research = "".join(f"<h3>{s[0]}</h3>{s[1]}" for s in inner)
+    tops_html = "".join(f'<section id="top{i}"><h2>{s[0]}</h2>{s[1]}</section>' for i, s in enumerate(tops))
+    safety = f'<aside class="cl-safety" role="note" aria-label="Safety note"><p class="cl-safety-h"><span aria-hidden="true">⚠</span> Safety note</p>{c["safety"]}</aside>' if c.get("safety") else ""
+    body = f"""
+<div class="cl-verdict cl-v-{cls}" role="note" aria-label="Evidence verdict">
+<p class="cl-kicker small"><a href="claims/">Tinnitus Claims: Fact vs. Evidence</a></p>
+<p class="cl-vline">{vchip(c['verdict'])} <span class="cl-vtext">Evidence verdict</span></p>
+<p class="cl-vexp">{E(c['verdictLine'])}</p>
+<p class="cl-meta small muted">Evidence through <time datetime="{E(c['evidenceThrough'])}">{_long_date(c['evidenceThrough'])}</time> ·
+Last reviewed <time datetime="{E(c['lastReviewed'])}">{_long_date(c['lastReviewed'])}</time> ·
+<a href="claims/verdicts/">What the verdicts mean</a> · “Unsupported” does not necessarily mean disproven.</p>
+</div>
+{safety}
+{toc}
+<section id="claim"><h2>The claim</h2><blockquote class="cl-q">{c['claim']}</blockquote></section>
+<section id="answer"><h2>The short answer</h2>{c['answer']}</section>
+<section id="verdicts"><h2>Claim by claim</h2>
+<div class="cl-tablewrap"><table class="cl-table"><caption class="sr-only">Verdict for each version of the claim</caption>
+<thead><tr><th scope="col">Version of the claim</th><th scope="col">Verdict</th><th scope="col">Why</th></tr></thead><tbody>{sv}</tbody></table></div></section>
+<section id="circulates"><h2>Where this claim circulates</h2><p>{E(c['circulation_intro'])}</p><ul class="cl-circ">{circ}</ul></section>
+<section id="research"><h2>What the research shows</h2>{research}</section>
+{tops_html}
+<section id="terms"><h2>Loudness, distress, relief or cure: what is being claimed?</h2>
+<p>Claims often blur these. Here is what the evidence supports for each. <a href="claims/verdicts/#terms">Definitions</a>.</p>
+<div class="cl-tablewrap"><table class="cl-table"><caption class="sr-only">What the evidence shows for each kind of benefit</caption>
+<thead><tr><th scope="col">What is claimed</th><th scope="col">What it means</th><th scope="col">What the evidence shows</th></tr></thead><tbody>{terms}</tbody></table></div></section>
+<section id="limits"><h2>Limitations and conflicts of interest</h2>{c['limits']}{c['coi']}</section>
+<section id="practical"><h2>What you can do</h2>{c['practical']}</section>
+<section id="related"><h2>Related pages on this site</h2>
+<ul class="cl-rel">{''.join(rel)}</ul>
+<p class="small muted">These pages are the full evidence reviews. Claim checks do not change any treatment’s evidence score or ranking.</p></section>
+<section id="references"><h2>References</h2>
+<ol class="cl-refs">{''.join(cl_ref_li(x) for x in c['references'])}</ol>
+<p class="small muted">Primary sources were opened and read for this page; the links go to PubMed, publisher DOIs, guideline texts, regulator or registry records. Evidence through {_long_date(c['evidenceThrough'])}. Last reviewed {_long_date(c['lastReviewed'])}.</p></section>
+<p class="small muted">This page evaluates a public claim against published research for education. It is not medical advice and cannot say what will work for any individual. See a qualified clinician for diagnosis and treatment. <a href="about.html#disclaimer">Medical disclaimer</a> · <a href="about.html#corrections">Corrections</a>.</p>"""
+    # <base href> is set on every page, so same-page fragment links must carry the full page path
+    body = body.replace('href="#ref-', f'href="claims/{c["slug"]}/#ref-')
+    return label_tables(body)
+
+if CL:
+    for c in CL["claims"]:
+        canon = page(f"claims/{c['slug']}/index.html", c["metaTitle"], c["metaDesc"], E(c["question"]),
+                     [("", "Home"), ("claims/", "Tinnitus Claims"), (None, c["short"])], claim_body(c),
+                     article={"headline": c["question"], "published": CL["meta"]["published"], "modified": c["lastReviewed"]}, main_cls=" cl-page")
+        sitemap_urls.append(canon); LASTMOD[canon] = c["lastReviewed"]
+    cards = "".join(f"""<article class="card cl-card cl-v-{VCLS[c['verdict']]}">
+<p class="cl-cardv">{vchip(c['verdict'])}</p>
+<h2><a href="claims/{E(c['slug'])}/">{E(c['question'])}</a></h2>
+<p class="cl-claimq">{c['claim']}</p>
+<p class="small">{E(c['verdictLine'])}</p>
+<p class="small"><a href="claims/{E(c['slug'])}/">Read the evidence →</a></p></article>""" for c in CL["claims"])
+    vdefs = "".join(f"<li>{vchip(v['name'])} {v['meaning']}</li>" for v in CL["verdicts"])
+    land = f"""
+<p class="lead">{E(CL['landing']['lead'])}</p>
+<p>{E(CL['landing']['intro'])}</p>
+<p class="cl-meta small muted">Evidence through {_long_date(CL['meta']['evidenceThrough'])} · Last reviewed {_long_date(CL['meta']['lastReviewed'])}</p>
+<div class="grid grid-2 cl-grid">{cards}</div>
+<section id="how"><h2>How to read a verdict</h2>
+<ul class="cl-vdefs">{vdefs}</ul>
+<p><strong>Unsupported does not necessarily mean disproven.</strong> It can mean a claim was tested and did not show a benefit, or that it has not been tested well enough to know. <a href="claims/verdicts/">Read the full explanation of the verdicts</a>.</p></section>
+<section><h2>How we check a claim</h2><ul>{''.join(f'<li>{E(x)}</li>' for x in CL['how'])}</ul>
+<p class="small muted">Tinnitus Evidence is independently operated and carries no advertising or affiliate links. This section is education, not medical advice. <a href="about.html#disclaimer">Medical disclaimer</a>.</p></section>"""
+    canon = page("claims/index.html", CL["landing"]["metaTitle"], CL["landing"]["metaDesc"], "Tinnitus Claims: Fact vs. Evidence",
+                 [("", "Home"), (None, "Tinnitus Claims")], land, modified=CL["meta"]["lastReviewed"], main_cls=" cl-page")
+    sitemap_urls.append(canon); LASTMOD[canon] = CL["meta"]["lastReviewed"]
+    vrows = "".join(f"""<section id="{E(v['cls'])}"><h2>{vchip(v['name'])}</h2><p>{v['meaning']}</p><p class="muted"><strong>What it does not mean.</strong> {v['notmean']}</p></section>""" for v in CL["verdicts"])
+    trows = "".join(f'<tr><th scope="row">{E(a)}</th><td>{E(b)}</td></tr>' for a, b in CL["terms"])
+    vpage = f"""
+<p class="lead">Every claim page ends with one of five verdicts. They describe the <em>evidence</em>, not the people making a claim.</p>
+{vrows}
+<section id="terms"><h2>Six outcomes that claims blur together</h2>
+<p>A claim can be true about one of these and misleading about another. Each claim page shows which applies.</p>
+<div class="cl-tablewrap"><table class="cl-table"><caption class="sr-only">Definitions of outcomes used on claim pages</caption>
+<thead><tr><th scope="col">Outcome</th><th scope="col">What it means</th></tr></thead><tbody>{trows}</tbody></table></div></section>
+<section><h2>How we assign a verdict</h2><ul>{''.join(f'<li>{E(x)}</li>' for x in CL['how'])}</ul>
+<p><a href="claims/">Back to Tinnitus Claims: Fact vs. Evidence</a> · <a href="about.html#methodology">Our evidence methodology</a> · <a href="about.html#corrections">Corrections</a></p></section>"""
+    canon = page("claims/verdicts/index.html", CL["verdictsPage"]["metaTitle"], CL["verdictsPage"]["metaDesc"],
+                 "How We Judge Tinnitus Claims: Evidence Verdicts",
+                 [("", "Home"), ("claims/", "Tinnitus Claims"), (None, "Verdicts")], label_tables(vpage), modified=CL["meta"]["lastReviewed"], main_cls=" cl-page")
+    sitemap_urls.append(canon); LASTMOD[canon] = CL["meta"]["lastReviewed"]
 
 # ---------------- Research Questions (hypotheses — NEVER data-driven) ----------------
 # CONTENT POLICY: this section is authored and human-approved IN THIS SCRIPT, never generated
@@ -923,7 +1085,7 @@ sync_emerging_static()
 # ---------------- sitemap + production robots + redirect map ----------------
 (ROOT / "sitemap.xml").write_text(
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-    "\n".join(f"  <url><loc>{E(u)}</loc><lastmod>{TODAY}</lastmod></url>" for u in sorted(set(sitemap_urls))) +
+    "\n".join(f"  <url><loc>{E(u)}</loc><lastmod>{LASTMOD.get(u, TODAY)}</lastmod></url>" for u in sorted(set(sitemap_urls))) +
     "\n</urlset>\n", encoding="utf-8")
 
 (ROOT / "robots-production.txt").write_text(f"""# Tinnitus Evidence — PRODUCTION robots.txt
@@ -957,4 +1119,4 @@ No redirect chains: every mapping is one hop. Never redirect unrelated missing p
 """, encoding="utf-8")
 
 print(f"SEO build: {len(treatments)} treatment pages, {len(trials)} trial pages, {len(studies)} research pages, "
-      f"6 guide/directory pages, sitemap {len(set(sitemap_urls))} URLs")
+      f"6 guide/directory pages, {len(CL['claims']) + 2 if CL else 0} claims pages, sitemap {len(set(sitemap_urls))} URLs")

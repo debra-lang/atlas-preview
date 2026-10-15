@@ -32,6 +32,10 @@ def main():
     for name in ["meta", "categories", "treatments", "studies", "trials",
                  "institutions", "rankings"]:
         data[name] = json.loads((ROOT / "data" / f"{name}.json").read_text(encoding="utf-8"))
+    # Tinnitus Claims data (cross-links on the interactive treatment page read it in single-file mode)
+    _cp = ROOT / "data" / "claims.json"
+    if _cp.exists():
+        data["claims"] = json.loads(_cp.read_text(encoding="utf-8"))
     data["weeklyIndex"] = json.loads((ROOT / "data" / "weekly" / "index.json").read_text(encoding="utf-8"))
     data["weeklyAll"] = {}
     for rep in data["weeklyIndex"]["reports"]:
@@ -49,7 +53,7 @@ def main():
     # prerendered static pages (treatments/<id>/, research/<id>/, trials/<nct>/, guides, research
     # questions, ask) are embedded under their clean path so the preview covers every page type
     n_static = 0
-    for sub in ("treatments", "trials", "research", "guides", "research-questions", "ask", "emerging-unproven"):
+    for sub in ("treatments", "trials", "research", "guides", "research-questions", "ask", "emerging-unproven", "claims"):
         for f in sorted((ROOT / sub).rglob("index.html")):
             rel = f.relative_to(ROOT).parent.as_posix()
             html = f.read_text(encoding="utf-8")
