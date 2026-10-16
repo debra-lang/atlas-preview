@@ -169,6 +169,8 @@ if cl_path.exists():
         if f'href="claims/{c["slug"]}/"' not in lh: errors.append(f"claims/index.html does not link to {c['slug']}")
         if f"https://tinnitusevidence.com/claims/{c['slug']}/" not in sm_urls: errors.append(f"sitemap missing claims/{c['slug']}/")
         if c.get("safety") and "cl-safety" not in h: errors.append(f"{rel}: safety note not rendered")
+        if h.count('class="cl-disclaimer"') != 1 or "has not been reviewed or approved by a physician or other qualified healthcare professional" not in h: errors.append(f"{rel}: medical disclaimer missing or duplicated")
+        if c.get("safety") and h.find("cl-safety") > h.find('class="cl-disclaimer"'): errors.append(f"{rel}: the safety note must come before the medical disclaimer")
     s5 = [c for c in CL["claims"] if c["slug"] == "does-tinnitus-go-away"]
     if s5 and "sudden hearing loss" not in (ROOT / "claims/does-tinnitus-go-away/index.html").read_text(encoding="utf-8").split('id="claim"')[0].lower():
         errors.append("does-tinnitus-go-away: sudden-hearing-loss safety note must appear before the article body")

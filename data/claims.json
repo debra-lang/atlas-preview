@@ -5,6 +5,8 @@
   "evidenceThrough": "2026-10-15",
   "lastReviewed": "2026-10-15",
   "published": null,
+  "disclaimer": "Medical disclaimer: This article is for educational and informational purposes only. It is not medical advice and has not been reviewed or approved by a physician or other qualified healthcare professional. It is not a substitute for professional medical evaluation, diagnosis or treatment. If you have symptoms that may require urgent medical attention, seek appropriate medical care.",
+  "landingDisclosure": "About these articles: The Tinnitus Claims articles are for educational and informational purposes only. They are not medical advice, and they have not been reviewed or approved by a physician or other qualified healthcare professional. They are not a substitute for professional medical evaluation, diagnosis or treatment. Articles that carry a safety note keep it separate from this disclosure.",
   "publishedNote": "null while private. At deployment set to the real public release date (YYYY-MM-DD); the build then adds datePublished to the structured data and a First published line."
  },
  "landing": {

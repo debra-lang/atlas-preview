@@ -634,6 +634,8 @@ def claim_body(c):
     tops_html = "".join(f'<section id="top{i}"><h2>{s[0]}</h2>{s[1]}</section>' for i, s in enumerate(tops))
     publine = f'First published <time datetime="{E(CL["meta"]["published"])}">{_long_date(CL["meta"]["published"])}</time> · ' if CL["meta"].get("published") else ""
     safety = f'<aside class="cl-safety" role="note" aria-label="Safety note"><p class="cl-safety-h"><span aria-hidden="true">⚠</span> Safety note</p>{c["safety"]}</aside>' if c.get("safety") else ""
+    _dl, _dr = CL["meta"]["disclaimer"].split(":", 1)
+    disclaimer = f'<aside class="cl-disclaimer" role="note" aria-label="Medical disclaimer"><p><strong>{E(_dl)}:</strong>{E(_dr)}</p></aside>'
     body = f"""
 <div class="cl-verdict cl-v-{cls}" role="note" aria-label="Evidence verdict">
 <p class="cl-kicker small"><a href="claims/">Tinnitus Claims: Fact vs. Evidence</a></p>
@@ -644,6 +646,7 @@ Last reviewed <time datetime="{E(c['lastReviewed'])}">{_long_date(c['lastReviewe
 <a href="claims/verdicts/">What the verdicts mean</a> · “Unsupported” does not necessarily mean disproven.</p>
 </div>
 {safety}
+{disclaimer}
 {toc}
 <section id="claim"><h2>The claim</h2><blockquote class="cl-q">{c['claim']}</blockquote></section>
 <section id="answer"><h2>The short answer</h2>{c['answer']}</section>
@@ -686,6 +689,7 @@ if CL:
     land = f"""
 <p class="lead">{E(CL['landing']['lead'])}</p>
 <p>{E(CL['landing']['intro'])}</p>
+<aside class="cl-disclaimer" role="note" aria-label="About these articles"><p><strong>{E(CL['meta']['landingDisclosure'].split(':', 1)[0])}:</strong>{E(CL['meta']['landingDisclosure'].split(':', 1)[1])}</p></aside>
 <p class="cl-meta small muted">{('First published ' + _long_date(CL['meta']['published']) + ' · ') if CL['meta'].get('published') else ''}Evidence through {_long_date(CL['meta']['evidenceThrough'])} · Last reviewed {_long_date(CL['meta']['lastReviewed'])}</p>
 <div class="grid grid-2 cl-grid">{cards}</div>
 <section id="how"><h2>How to read a verdict</h2>
