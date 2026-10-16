@@ -1008,6 +1008,8 @@ html.ta-loading main::before{content:"Loading the evidence database…";visibili
 .cl-safety-h{font-family:var(--font-display);font-weight:700;font-size:.95rem;margin:0 0 .3em!important}
 .cl-disclaimer{border:1px solid var(--line);border-left:4px solid var(--muted);background:var(--surface-2);border-radius:var(--r-sm);padding:12px 16px;margin:16px 0;color:var(--text);font-size:.95rem}
 .cl-disclaimer p{margin:0}
+/* table-of-contents pills on Claims pages may wrap (the shared .toc a rule is nowrap), so a long title cannot overflow narrow screens, larger text or increased text spacing */
+.cl-page .toc a{white-space:normal}
 blockquote.cl-q{margin:.5em 0;padding:12px 16px;border:1px solid var(--line);border-left:3px solid var(--vline,var(--line));background:var(--surface-2);border-radius:0 var(--r-sm) var(--r-sm) 0;font-size:1.04rem}
 .cl-tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface);margin:12px 0}
 .cl-table{width:100%;border-collapse:collapse;font-size:.92rem}
