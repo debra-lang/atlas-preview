@@ -1,3 +1,6 @@
+/* CLS: metric-matched local fallbacks for the Inter web font, limited to the characters the Inter latin subset covers. They are used only until Inter has loaded; Inter itself and the final typography are unchanged. If Arial is not installed the faces are ignored and the existing system-ui fallback applies. */
+@font-face{font-family:"Inter Fallback";src:local("Arial");font-weight:400 500;size-adjust:107.2%;ascent-override:90.5%;descent-override:22.4%;line-gap-override:0%;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215}
+@font-face{font-family:"Inter Fallback";src:local("Arial Bold"),local("Arial-BoldMT");font-weight:600 700;size-adjust:102%;ascent-override:95.1%;descent-override:23.5%;line-gap-override:0%;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215}
 /* Tinnitus Atlas — design system. Mobile-first, DARK by default, light via [data-theme=light]. */
 
 :root{
@@ -12,7 +15,7 @@
   --c-weak:#8b96ad;    --c-weak-bg:#1b2236;    --c-weak-line:#2c3552;
   --r:16px; --r-sm:10px;
   --font-display:"Sora",system-ui,sans-serif;
-  --font-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-body:"Inter","Inter Fallback",system-ui,-apple-system,"Segoe UI",sans-serif;
   color-scheme:dark;
 }
 :root[data-theme="light"]{
