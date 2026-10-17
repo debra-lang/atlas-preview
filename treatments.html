@@ -30,21 +30,32 @@
     <h1>Treatments</h1>
     <p class="lead">Every treatment we track, sorted by <span class="ev-em">evidence tier</span>.</p>
     <aside class="card ask-row eu-entry eu-entry-t eu-entry-top" aria-labelledby="eu-top-h">
-      <div class="txt"><h2 id="eu-top-h">Emerging, Experimental &amp; Unproven Treatments</h2>
-      <p class="small muted">Explore 40 treatments and claims — including approaches with limited or no direct human tinnitus evidence.</p></div>
-      <a class="btn" href="emerging-unproven/">Explore Emerging &amp; Unproven →</a>
+      <div class="txt"><h2 id="eu-top-h"><span class="d-only">Emerging, Experimental &amp; Unproven Treatments</span><span class="m-only">Emerging &amp; Unproven Treatments</span></h2>
+      <p class="small muted"><span class="d-only">Explore 40 treatments and claims — including approaches with limited or no direct human tinnitus evidence.</span><span class="m-only">Explore 40 experimental approaches and claims, some with no direct human evidence.</span></p></div>
+      <a class="btn" href="emerging-unproven/"><span class="d-only">Explore Emerging &amp; Unproven →</span><span class="m-only"><span class="vh">Explore Emerging &amp; Unproven</span><span aria-hidden="true">→</span></span></a>
     </aside>
   </section>
   <div class="searchbar" role="search"><span aria-hidden="true">🔎</span>
     <input id="tsearch" type="search" placeholder="Search treatments, devices, drugs, researchers, mechanisms…" aria-label="Search treatments"></div>
+  <div class="tfilter-bar">
+    <button type="button" class="tfilter-btn" id="tfilter-btn" aria-expanded="false" aria-controls="tfilters"><span aria-hidden="true">☰</span> Filters <span class="tfilter-n" id="tfilter-n" hidden></span><span class="tfilter-caret" aria-hidden="true">▾</span></button>
+    <button type="button" class="tfilter-clear" id="tfilter-clear" hidden>Clear filters</button>
+    <span class="tfilter-ct" id="tfilter-ct" aria-live="polite"></span>
+  </div>
+  <div class="tfilters" id="tfilters">
+  <div class="tfilter-h" aria-hidden="true">Treatment Category</div>
   <div class="chips" id="cat-chips" role="group" aria-label="Filter by category"></div>
+  <div class="tfilter-h" aria-hidden="true">Tinnitus Type</div>
   <div class="chips" id="type-chips" role="group" aria-label="Filter by tinnitus type"></div>
+  <div class="tfilter-h" aria-hidden="true">Evidence &amp; Availability</div>
   <div class="chips" id="flag-chips" role="group" aria-label="Filter by property">
     <button class="chip" data-flag="avail">✅ Available now</button>
     <button class="chip" data-flag="loud">🔉 Loudness evidence</button>
     <button class="chip" data-flag="distress">🧠 Distress evidence</button>
     <button class="chip" data-flag="negative">🚫 What hasn't worked</button>
     <button class="chip" data-flag="profile">👤 Relevant to my profile</button>
+  </div>
+  <div class="tfilter-done-row"><button type="button" class="btn tfilter-done" id="tfilter-done">Show treatments</button></div>
   </div>
   <!-- results open with their own heading + count, so nothing above the grid can read as a heading for the cards -->
   <div class="tres-head"><h2><span id="tres-h">All tracked treatments</span> — <span class="tres-ct" id="tcount">38 shown</span></h2>
@@ -73,5 +84,6 @@
 <a href="about.html#corrections">Corrections &amp; editorial integrity</a> · <a href="about.html#disclaimer">Medical disclaimer</a>
 </p></div></footer>
 <script src="js/app.js"></script>
+<script src="js/treatments-mobile.js"></script>
 </body>
 </html>

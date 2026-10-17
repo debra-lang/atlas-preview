@@ -623,7 +623,7 @@
       avail: flagParam === 'avail', loud: flagParam === 'loud', distress: flagParam === 'distress',
       negative: flagParam === 'negative', profile: flagParam === 'profile' };
     const catChips = $('#cat-chips'), listEl = $('#tlist');
-    catChips.innerHTML = `<button class="chip" data-cat="">All categories</button>` +
+    catChips.innerHTML = `<button class="chip" data-cat="">Any categories</button>` +
       DB.categories.map(c => `<button class="chip" data-cat="${esc(c.id)}">${esc(c.icon)} ${esc(c.name)}</button>`).join('');
     const typeChips = $('#type-chips');
     if (typeChips) {

@@ -1089,3 +1089,53 @@ html{scroll-padding-top:calc(var(--hdr-h,72px) + 8px)}
 .feat-card h3::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--fc);margin-top:.42em;flex:none}
 .feat-card p{margin:0;color:var(--muted);font-size:.93rem}
 .feat-go{margin-top:auto;padding-top:6px;font-weight:600;font-size:.9rem}
+
+/* ---------- Mobile treatments browser (phones only, private preview) ----------
+   Goal: reach the treatment cards sooner on a phone. Compact Emerging card, a tighter header, and the three filter rows
+   behind one "Filters" button. Everything is scoped to body[data-page="treatments"] and to max-width:639px, except the
+   rules that keep the new helper elements invisible on larger screens. Colours, fonts, cards and evidence data are unchanged. */
+body[data-page="treatments"] .m-only,body[data-page="treatments"] .tfilter-bar,body[data-page="treatments"] .tfilter-done-row,body[data-page="treatments"] .tfilter-h{display:none}
+/* all screen sizes: the page title shares the green of the results heading ("All tracked treatments"), so the two read as one section */
+body[data-page="treatments"] .hero h1{color:var(--c-strong)}
+:root[data-theme="light"] body[data-page="treatments"] .hero h1{color:color-mix(in srgb,var(--c-strong) 70%,var(--text))}
+body[data-page="treatments"] .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media(max-width:639px){
+  body[data-page="treatments"] .d-only{display:none}
+  body[data-page="treatments"] .m-only{display:inline}
+  /* header: smaller title, one-line lead, less air */
+  body[data-page="treatments"] .hero{padding:14px 0 0}
+  body[data-page="treatments"] .hero h1{font-size:1.55rem;margin:0 0 .15em}
+  body[data-page="treatments"] .hero p.lead{font-size:.92rem;margin:0 0 .55em}
+  /* compact Emerging card: title + two short lines + a round arrow; the whole card is the tap target */
+  body[data-page="treatments"] .eu-entry-top{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 12px;padding:11px 14px;margin:6px 0 10px}
+  body[data-page="treatments"] .eu-entry-top h2{font-size:.98rem;margin:0 0 2px;line-height:1.25}
+  body[data-page="treatments"] .eu-entry-top p{font-size:.8rem;line-height:1.4;margin:0}
+  body[data-page="treatments"] .eu-entry-top .txt{min-width:0}
+  body[data-page="treatments"] .eu-entry-top .btn{position:static;width:36px;height:36px;min-height:36px;padding:0;border-radius:50%;justify-content:center;font-size:1.05rem}
+  body[data-page="treatments"] .eu-entry-top .btn::after{content:"";position:absolute;inset:0;border-radius:inherit}
+  /* search */
+  body[data-page="treatments"] .searchbar{padding:7px 14px;font-size:.95rem}
+  /* filter bar */
+  body[data-page="treatments"] .tfilter-bar{display:flex;align-items:center;gap:10px;margin:10px 0 8px}
+  body[data-page="treatments"] .tfilter-btn{display:inline-flex;align-items:center;gap:7px;min-height:42px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2,var(--surface));color:var(--text);font:inherit;font-weight:600;font-size:.92rem;cursor:pointer}
+  body[data-page="treatments"] .tfilter-btn[aria-expanded="true"]{border-color:color-mix(in srgb,var(--c-promising) 60%,var(--line))}
+  body[data-page="treatments"] .tfilter-n{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--grad-brand);color:#fff;font-size:.75rem;font-weight:700}
+  body[data-page="treatments"] .tfilter-caret{font-size:.8rem;color:var(--muted);transition:transform .15s}
+  body[data-page="treatments"] .tfilter-btn[aria-expanded="true"] .tfilter-caret{transform:rotate(180deg)}
+  body[data-page="treatments"] .tfilter-clear{border:0;background:none;color:var(--c-promising);font:inherit;font-size:.85rem;font-weight:600;padding:10px 4px;cursor:pointer;min-height:42px}
+  body[data-page="treatments"] .tfilter-ct{margin-left:auto;font-size:.88rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+  /* filter panel: closed until the button is pressed; compact chips when open */
+  body[data-page="treatments"] .tfilters:not(.open){display:none}
+  body[data-page="treatments"] .tfilters{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:8px 12px 12px;margin:0 0 12px}
+  /* three labelled groups, each a two-column grid of equal-width buttons (rows share one height; long labels wrap; a last odd button takes one column) */
+  body[data-page="treatments"] .tfilter-h{display:block;margin:0 0 8px;font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  body[data-page="treatments"] .tfilters .tfilter-h:not(:first-child){margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  body[data-page="treatments"] .tfilters .chips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0}
+  body[data-page="treatments"] .tfilters .chip{display:flex;align-items:center;justify-content:flex-start;gap:7px;box-sizing:border-box;width:100%;min-height:44px;padding:8px 12px;border-radius:12px;font-size:.85rem;line-height:1.25;text-align:left;white-space:normal;overflow-wrap:anywhere}
+  body[data-page="treatments"] .tfilter-done-row{display:block;margin-top:10px}
+  body[data-page="treatments"] .tfilter-done{width:100%;justify-content:center;min-height:44px}
+  /* results heading: tighter */
+  body[data-page="treatments"] .tres-head{margin:10px 0 10px;padding-top:12px}
+  body[data-page="treatments"] .tres-head h2{font-size:1.05rem}
+  body[data-page="treatments"] .tres-end .eu-entry-t{margin-top:18px}
+}
