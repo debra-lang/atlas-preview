@@ -9,7 +9,7 @@
     "n": 100,
     "completionEst": "Aug 2027",
     "watch": true,
-    "whyItMatters": "One of only two Phase 2+ drug trials in the world targeting tinnitus as the primary indication. Note: Part A doses healthy volunteers; only Part B is in tinnitus patients. Tortugas launched April 2026 with $106M to develop the ex-Hansoh compound.",
+    "whyItMatters": "A Phase 2a drug trial targeting tinnitus as the primary indication. Part A doses healthy volunteers (double-blind, placebo-controlled); only Part B is in adults with tinnitus, and it is open-label with safety as the primary outcome (registry record updated 20 August 2026). Tortugas launched April 2026 with $106M to develop the ex-Hansoh compound.",
     "country": "USA"
   },
   {
@@ -20,9 +20,9 @@
     "status": "Recruiting",
     "sponsor": "Wayne State University",
     "n": 88,
-    "completionEst": "Sep 2026 (re-check in Oct 2026)",
+    "completionEst": "Sep 2026 (estimate; registry last updated Feb 2026)",
     "watch": true,
-    "whyItMatters": "Tests an anti-inflammatory mechanism in a defined subtype (blast-induced tinnitus) — primary completion is this month.",
+    "whyItMatters": "Tests an anti-inflammatory mechanism in a defined subtype (blast-induced tinnitus). ClinicalTrials.gov lists an estimated primary completion of September 2026 (record last updated 23 February 2026); current status has not been re-confirmed.",
     "country": "USA"
   },
   {
@@ -48,7 +48,7 @@
     "n": 120,
     "completionEst": "Jul 2031 (est.)",
     "watch": true,
-    "whyItMatters": "First randomized test of migraine biology as a tinnitus target: anti-CGRP agents (galcanezumab, erenumab, eptinezumab, atogepant) against conventional migraine preventives, open-label, in people with both tinnitus and migraine; primary outcome TFI at 24 weeks.",
+    "whyItMatters": "Randomized, open-label comparison in people who have both tinnitus and migraine: anti-CGRP agents (galcanezumab, erenumab, eptinezumab, atogepant) against conventional migraine preventives, open-label, in people with both tinnitus and migraine; primary outcome TFI at 24 weeks.",
     "country": "USA"
   },
   {
@@ -176,7 +176,7 @@
     "status": "Recruiting",
     "sponsor": "University of Nottingham",
     "n": 40,
-    "completionEst": "Sep 2026",
+    "completionEst": "Sep 2026 (estimate; registry last updated Feb 2026)",
     "watch": false,
     "whyItMatters": "Feasibility step toward a definitive UK tDCS trial.",
     "country": "UK"
@@ -228,7 +228,7 @@
     "status": "Recruiting",
     "sponsor": "University Hospital Grenoble",
     "n": 7,
-    "completionEst": "Oct 2026",
+    "completionEst": "Oct 2026 (estimate; registry last updated Dec 2024)",
     "watch": false,
     "whyItMatters": "Tiny first-in-kind study — invasive, for the most severe cases only.",
     "country": "France"

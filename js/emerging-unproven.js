@@ -85,6 +85,7 @@
     if(/^NCT\d{8}$/.test(id)) return `<a href="https://clinicaltrials.gov/study/${id}" target="_blank" rel="noopener">${id}</a>`;
     if(/^PMID \d+$/.test(id)) return `PMID <a href="https://pubmed.ncbi.nlm.nih.gov/${id.slice(5)}/" target="_blank" rel="noopener">${id.slice(5)}</a>`;
     if(/^DOI /.test(id)) return `DOI <a href="https://doi.org/${id.slice(4)}" target="_blank" rel="noopener">${id.slice(4)}</a>`;
+    if(/^LINK .+\|https?:\/\/\S+$/.test(id)){ const i=id.lastIndexOf('|'); return `<a href="${id.slice(i+1)}" target="_blank" rel="noopener">${id.slice(5,i)}</a>`; }
     if(/^ISRCTN\d+$/.test(id)) return `<a href="https://www.isrctn.com/${id}" target="_blank" rel="noopener">${id}</a>`;
     return id;
   }

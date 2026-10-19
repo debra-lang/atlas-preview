@@ -184,11 +184,12 @@
     const a = t.availability || {};
     if (a.availableNow) return /some|limited|scarce|select/i.test(a.usa || '') ? 'Limited availability' : 'Available';
     if (/investigational|pre-clinical|registered/i.test((t.regulatory || {}).status || '')) return 'Clinical trials / research only';
-    return 'Not yet available';
+    return 'Not currently available';
   }
   function whoStudied(t) {
     if (t.whoStudied) return t.whoStudied;
     const s = (t.subtypes || []).filter(Boolean);
+    if (s.some(x => /^to be defined/i.test(x))) return 'Target population not yet defined';
     return s.length ? 'Studied primarily in people with ' + s.join('; ') : 'Studied in broad or unspecified tinnitus populations';
   }
   /* ---------- Evidence Profile visuals (no chart library; CSS marks only) ----------
@@ -217,7 +218,7 @@
   }
   function epDims(t) {
     const availW = availWord(t);
-    const availSeg = { 'Available': 4, 'Limited availability': 3, 'Clinical trials / research only': 1, 'Not yet available': 0 }[availW] ?? 0;
+    const availSeg = { 'Available': 4, 'Limited availability': 3, 'Clinical trials / research only': 1, 'Not currently available': 0 }[availW] ?? 0;
     const lv = o => ({ segs: SEG[o.level] ?? 0, word: LV_LABELS[o.level] || cap(o.level), na: false });
     return [
       { label: 'Evidence quality', segs: t.evidenceScore, total: 5, word: `${EVIDENCE_WORDS[t.evidenceScore]} (${t.evidenceScore}/5)`, na: false,
@@ -326,7 +327,7 @@
   function availBadge(t) {
     return t.availability && t.availability.availableNow
       ? '<span class="badge b-strong">Available now</span>'
-      : '<span class="badge b-emerging">Not yet available</span>';
+      : '<span class="badge b-emerging">Not currently available</span>';
   }
   function updatedRecently(t, days) {
     const cutoff = Date.now() - (days || 45) * 864e5;
@@ -832,7 +833,7 @@
           <ul class="small">${(t.studies || []).map(id => { const s = DB.sById[id]; return s ? `<li>${esc(s.authors)} — <a href="${esc(s.url)}" rel="noopener" target="_blank">${esc(s.title)}</a> (${esc(s.journal)}, ${esc(s.year)})</li>` : ''; }).join('')}
           ${(t.extraSources || []).map(s => `<li><a href="${esc(s.url)}" rel="noopener" target="_blank">${esc(s.title)}</a></li>`).join('')}</ul>
           <p class="small muted">Last reviewed ${fmtDate(t.lastReviewed)} · evidence included through ${fmtDate(t.evidenceThrough)} ·
-          tinnitus subtypes studied: ${esc((t.subtypes || []).join(', ') || 'not specified')} ·
+          tinnitus subtypes studied: ${esc((t.subtypes || []).map(x => /^to be defined/i.test(x) ? 'not yet defined' : x).join(', ') || 'not specified')} ·
           <a href="about.html#methodology">how we rate evidence</a> · <a href="about.html#profile-bars">how the profile bars work</a></p></details>
       </div>`;
 
@@ -878,8 +879,12 @@
       return s ? { date: h.date, rank: s.rank } : null;
     }).filter(Boolean);
     if (hist.length < 2) return '';
+    const steps = hist.filter((h, i) => i === 0 || h.rank !== hist[i - 1].rank);
+    if (steps.length === 1) return `<div><div class="k small muted" style="text-transform:uppercase;font-weight:700;letter-spacing:.06em">Ranking history</div>
+      <div class="rankhist"><span class="step">${fmtDate(steps[0].date)}: #${steps[0].rank}</span></div>
+      <p class="small muted" style="margin-top:2px">The rank has not changed at any later review.</p></div>`;
     return `<div><div class="k small muted" style="text-transform:uppercase;font-weight:700;letter-spacing:.06em">Ranking history</div>
-      <div class="rankhist">${hist.map((h, i) => `${i ? '<span class="arrow" aria-hidden="true">→</span>' : ''}<span class="step">${fmtDate(h.date)}: #${h.rank}</span>`).join('')}</div>
+      <div class="rankhist">${steps.map((h, i) => `${i ? '<span class="arrow" aria-hidden="true">→</span>' : ''}<span class="step">${fmtDate(h.date)}: #${h.rank}</span>`).join('')}</div>
       <p class="small muted" style="margin-top:2px">The rank is our platform's assessment weighing ten factors (evidence, replication, availability…) —
       rank movement reflects that assessment, not a measurement that the treatment itself got better or worse.</p></div>`;
   }
@@ -920,7 +925,7 @@
         ${s.randomized ? '<span class="tag">Randomized</span>' : '<span class="tag">Not randomized</span>'}
         ${s.sham ? '<span class="tag">Sham/placebo-controlled</span>' : ''}
         ${s.independent ? '<span class="tag">Independent</span>' : '<span class="tag">Manufacturer-involved</span>'}
-        <a class="tag" href="${esc(s.url)}" rel="noopener" target="_blank">${s.pmid ? 'PubMed' : s.doi ? 'DOI' : 'Source'} ↗</a>
+        <a class="tag" href="${esc(s.url)}" rel="noopener" target="_blank">${/pubmed\.ncbi\.nlm\.nih\.gov/i.test(s.url || '') ? 'PubMed' : /pmc\.ncbi\.nlm\.nih\.gov/i.test(s.url || '') ? 'Full text (PMC)' : /doi\.org/i.test(s.url || '') ? 'Publisher (DOI)' : 'Publisher / full text'} ↗</a>
       </div></div>`;
   }
 

@@ -464,7 +464,7 @@
     "primaryOutcome": "THI, VAS",
     "results": {
       "summary": "Active rTMS beat sham post-treatment (THI MD −11.5) and at 1 month (−11.0). At 6 months the two big meta-analyses DISAGREE: this 2025 analysis found no significant effect (MD −4.26, 95% CI −10.28 to 1.76), while the 2020 meta-analysis (29 RCTs, N=1,228; PMID 33228598) found a small significant one (−6.53, 95% CI −11.41 to −1.66).",
-      "detail": "Either way, even the significant estimates sit at or below the ~7-point THI clinical-meaningfulness threshold — the durability and magnitude problems are unresolved, not settled in either direction."
+      "detail": "The 6-month estimates are small and uncertain in either meta-analysis; durability and magnitude are unresolved, not settled in either direction. The immediate estimate comes from 11 studies (739 people) and the 1-month estimate from 3 studies."
     },
     "coi": "Independent.",
     "limitations": "High protocol heterogeneity; 6-month durability disputed between meta-analyses.",
@@ -630,23 +630,28 @@
     "journal": "ClinicalTrials.gov posted results (no peer-reviewed Phase 3 publication exists)",
     "year": 2018,
     "url": "https://clinicaltrials.gov/study/NCT01803646",
-    "n": "343 (TACTT2, registry) + 741 (TACTT3, sponsor-reported enrolment; the ClinicalTrials.gov record lists 893)",
+    "n": "343 (TACTT2, registry) + 741 randomized (TACTT3; EU register and sponsor; the ClinicalTrials.gov record lists 893)",
     "design": "Randomized placebo-controlled Phase 3 trials (intratympanic esketamine gel)",
     "randomized": true,
     "sham": true,
     "independent": false,
     "primaryOutcome": "TACTT2: tinnitus loudness (TLQ) and TFI",
     "results": {
-      "summary": "FAILED. TACTT2 posted results: loudness change 0.80 vs 0.63 placebo (p=0.32); TFI 10.4 vs 9.6 (p=0.63) — both endpoints failed. TACTT3 (NCT02040194; 741 patients enrolled per the sponsor — 373 acute, 368 post-acute — while the ClinicalTrials.gov record lists 893) also missed its primary endpoint (TFI, baseline to Day 84); results never posted or published. Sponsor exited otology (now Altamira Therapeutics).",
+      "summary": "FAILED. TACTT2 posted results: loudness change 0.80 vs 0.63 placebo (p=0.32); TFI 10.4 vs 9.6 (p=0.63) — both endpoints failed. TACTT3 (NCT02040194; EudraCT 2012-004099-20; 741 randomized — 373 acute, 368 post-acute per the sponsor — while the ClinicalTrials.gov record lists 893) also missed its primary endpoint (TFI change, baseline to Day 84): the EU Clinical Trials Register results (first posted 4 October 2019) show least-squares mean changes of 10.95 with AM-101 vs 12.44 with placebo in the main stratum (p=0.42); no journal publication was found. Sponsor exited otology (now Altamira Therapeutics).",
       "detail": "Failed on both a loudness construct and a distress construct. That no Phase 3 results were ever peer-review published is itself informative."
     },
     "coi": "Sponsor-run (Auris Medical).",
-    "limitations": "Registry-only reporting for TACTT3.",
+    "limitations": "Registry-only reporting for TACTT3 (EU register results; no journal publication found).",
     "history": [
       {
         "date": "2026-09-25",
         "change": "n and results.summary: TACTT3 enrolment stated as 741 per the sponsor (373 acute + 368 post-acute) with the ClinicalTrials.gov figure (893) alongside; primary endpoint named (TFI, Day 84).",
         "reason": "TACTT3 sample size reconciled (ClinicalTrials.gov API NCT02040194: enrollment 893 ACTUAL, no results posted; Auris Medical Q3-2017 release, 28 Nov 2017: 741 enrolled = 373 acute + 368 post-acute; top-line 13 Mar 2018 / 6-K 15 May 2018: TFI endpoint not met). The two figures describe different counts, so both are stated with their source. Rating unchanged."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "TACTT3 'results never posted' corrected: results are posted on the EU Clinical Trials Register (first posted 4 October 2019); primary-endpoint figures added.",
+        "reason": "Reviewer audit of 19 October 2026; EU register results page read directly."
       }
     ]
   },
@@ -1759,11 +1764,11 @@
     "sham": true,
     "independent": false,
     "results": {
-      "summary": "Phase 2: primary endpoint NOT met at any dose (50 mg p=0.098). The three Phase 3 trials completed ~2010–2011 and their efficacy results were NEVER PUBLISHED; the open-label extension was terminated (Dec 2011) and the program abandoned.",
-      "detail": "A cautionary publication-bias case: 'failure' cannot be verified from primary sources because no Phase 3 results exist in the literature — what is verifiable is completion, non-publication, termination of the extension, and abandonment."
+      "summary": "Phase 2: primary endpoint NOT met at any dose (50 mg p=0.098). The three Phase 3 trials completed ~2010–2011; no journal publication of their efficacy results was found (the EU Clinical Trials Register posts results for several of the Merz neramexane tinnitus trials, first posted December 2016); the open-label extension was terminated (Dec 2011) and the program abandoned.",
+      "detail": "A cautionary publication-bias case: no journal publication of the Phase 3 efficacy results was found. The EU Clinical Trials Register posts results for several Merz neramexane trials, and the Emerging section reports no difference from placebo in the one Phase III result it read there; those figures have not yet been extracted into this record, so the rating rests on the non-publication, the terminated extension and the abandoned program."
     },
     "coi": "Sponsor-run (Merz).",
-    "limitations": "Phase 3 efficacy data unpublished — unable to verify.",
+    "limitations": "No journal publication of Phase 3 efficacy data; EU-register results not yet extracted into this record.",
     "id": "neramexane-program",
     "title": "Neramexane for tinnitus: Phase 2 miss and unpublished Phase 3 program",
     "authors": "Suckfüll M, et al. (Phase 2); Merz Pharmaceuticals (Phase 3 program)",
@@ -1773,13 +1778,18 @@
     "pmid": "21223542",
     "url": "https://pubmed.ncbi.nlm.nih.gov/21223542/",
     "n": "Phase 2: 431; Phase 3 program: NCT00739635 (411), NCT00772980 (400), NCT00955799 (455)",
-    "design": "Phase 2 randomized placebo-controlled dose-ranging; three completed Phase 3 RCTs (results never published)",
+    "design": "Phase 2 randomized placebo-controlled dose-ranging; three completed Phase 3 RCTs (no journal publication found; results posted on the EU register)",
     "primaryOutcome": "THI-12 change at week 16 (Phase 2)",
     "history": [
       {
         "date": "2026-09-04",
         "change": "Record added.",
         "reason": "Research-quality improvement phase — audit-identified coverage gap; extraction verified against sources (see audit-improvement/acquisition-report.md)."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "'Never published' and 'cannot be verified' replaced: results are posted on the EU Clinical Trials Register; efficacy figures still to be extracted.",
+        "reason": "Reviewer audit of 19 October 2026; EU register entries checked."
       }
     ]
   },
@@ -2020,8 +2030,8 @@
     "sham": false,
     "independent": false,
     "results": {
-      "summary": "COMPANY-REPORTED ONLY: single intratympanic injection targeting cochlear synaptopathy; Phase 2a in chronic tinnitus planned/underway (2025–26); €40M Series A closed Dec 2024. No peer-reviewed efficacy data exist — every efficacy statement is unverified.",
-      "detail": "Tracked as pipeline intelligence, not evidence."
+      "summary": "COMPANY-REPORTED ONLY: single intratympanic injection targeting cochlear synaptopathy; the company describes a Phase 2a in chronic tinnitus (2025–26); €40M Series A closed Dec 2024. No peer-reviewed efficacy data exist — every efficacy statement is unverified.",
+      "detail": "Tracked as pipeline intelligence, not evidence. Registry check (ClinicalTrials.gov, 19 October 2026): paliroden (CIL001) NCT07826507 is Phase 1/2, not yet recruiting (estimated start January 2027); adverse events are the primary outcome and speech-in-noise is among the secondary outcomes; no tinnitus measure was found among the registered outcomes."
     },
     "coi": "Company-reported.",
     "limitations": "No peer-reviewed data.",
@@ -2039,6 +2049,11 @@
         "date": "2026-09-04",
         "change": "Record added.",
         "reason": "Research-quality improvement phase — audit-identified coverage gap; extraction verified against sources (see audit-improvement/acquisition-report.md)."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Company description of a chronic-tinnitus Phase 2a separated from the registry-confirmed design.",
+        "reason": "Reviewer audit of 19 October 2026; ClinicalTrials.gov record read."
       }
     ]
   },
@@ -2209,5 +2224,34 @@
     "n": "International expert Delphi",
     "design": "Consensus criteria (subtype-identification context record)",
     "primaryOutcome": "—"
+  },
+  {
+    "id": "cingle-2024",
+    "title": "Tinnitus reduction in single-sided deafness: cochlear implant, bone conduction device and CROS hearing aid (CINGLE randomized controlled trial)",
+    "authors": "Wendrich AW, Assouly KKS, van Heteren JAA, Peters JPM, Grolman W, Stokroos RJ, Versnel H, Smit AL",
+    "journal": "Frontiers in Neurology",
+    "year": 2024,
+    "doi": "10.3389/fneur.2024.1428106",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/39108653/",
+    "n": "120 adults with single-sided deafness randomized; at the start of follow-up: 28 implanted, 25 bone conduction device, 34 CROS, 26 no treatment",
+    "design": "Single-centre RCT: 2:3:3 allocation to cochlear implant, or to trial periods of a bone conduction device then CROS (or the reverse); after the trial periods patients chose a device or no treatment, so the non-implant comparison groups are self-selected",
+    "randomized": true,
+    "sham": false,
+    "independent": false,
+    "primaryOutcome": "Tinnitus outcomes (THI, TQ, VAS, HADS) were secondary; the trial was designed around hearing in single-sided deafness",
+    "results": {
+      "summary": "At 24 months the implant group improved by a median of 23 THI points, 17 TQ points and 60 VAS points from baseline (all p<0.001), already at 3 months; the bone conduction group improved on TQ and VAS; CROS and no treatment showed no significant change. Implant vs no treatment was significant on THI, TQ and VAS; implant vs the device groups was significant for VAS but not reported significant for THI or TQ.",
+      "detail": "Tinnitus was a secondary outcome in a single-centre trial; the significance threshold was Bonferroni-corrected, and missing data rose to about 20% by 24 months. This is a trial in people with single-sided deafness, not evidence for implantation in people without qualifying hearing loss."
+    },
+    "coi": "Funded by Cochlear Ltd, a cochlear implant manufacturer (the funder is reported to have had no role in design, analysis or publication); one author was employed by Cochlear Technology Centre Belgium; the trial used Cochlear implants and Baha devices.",
+    "limitations": "Secondary outcome; single centre; self-selected non-implant comparison groups; manufacturer funding; single-sided deafness only.",
+    "history": [
+      {
+        "date": "2026-10-19",
+        "change": "Record added.",
+        "reason": "Reviewer audit of 19 October 2026: the site had described cochlear-implant evidence as entirely observational. Abstract and full text read."
+      }
+    ],
+    "pmid": "39108653"
   }
 ]

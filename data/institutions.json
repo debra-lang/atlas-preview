@@ -8,7 +8,7 @@
     "researchers": ["Brendan Conlon", "Hubert Lim"], "treatments": ["lenire"],
     "url": "https://www.tcd.ie/research/profiles/?profile=conlonbr" },
   { "id": "regensburg", "name": "University of Regensburg / Tinnitus Research Initiative", "location": "Regensburg, Germany",
-    "focus": "Berthold Langguth's group is a hub of the Tinnitus Research Initiative and coordinated the EU UNITI-RCT (N=461, five countries; Nature Communications 2025) — the largest trial comparing single versus combined tinnitus treatments.",
+    "focus": "Berthold Langguth's group is a hub of the Tinnitus Research Initiative and coordinated the EU UNITI-RCT (N=461, five clinical sites across the EU; Nature Communications 2025) — the largest trial comparing single versus combined tinnitus treatments.",
     "researchers": ["Berthold Langguth", "Stefan Schoisswohl"], "treatments": ["cbt", "hearing-aids", "sound-therapy"],
     "url": "https://www.nature.com/articles/s41467-025-66165-1" },
   { "id": "auckland", "name": "University of Auckland — Hearing & Tinnitus Research", "location": "Auckland, New Zealand",

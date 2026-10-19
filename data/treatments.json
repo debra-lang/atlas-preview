@@ -120,7 +120,7 @@
     ],
     "replication": "strong-independent",
     "safetyLevel": "strong",
-    "replicationNote": "Positive findings reproduced by many independent groups worldwide (Cochrane 2020: 27 trials).",
+    "replicationNote": "Positive findings reproduced by many independent groups worldwide (Cochrane 2020: 28 trials).",
     "independence": "primarily-independent"
   },
   {
@@ -534,12 +534,13 @@
     "bestResult": "Complete tinnitus suppression in 8–45% of implanted patients across studies",
     "limitations": [
       "Only for implant candidates — not a general tinnitus treatment",
-      "Observational evidence; no one is implanted for tinnitus alone",
+      "Mostly observational evidence; one randomized single-sided-deafness trial (CINGLE, manufacturer-funded) reports tinnitus as a secondary outcome; no one is implanted for tinnitus alone",
       "Effects can wane over time; small risk of worsening"
     ],
     "conflicts": "",
     "studies": [
-      "ci-meta-2024"
+      "ci-meta-2024",
+      "cingle-2024"
     ],
     "timeline": [
       {
@@ -548,7 +549,11 @@
       },
       {
         "year": 2021,
-        "event": "UMC Utrecht begins an RCT of implantation for tinnitus in single-sided deafness."
+        "event": "UMC Utrecht begins CINGLE, an RCT of cochlear implantation versus hearing-device options in single-sided deafness (tinnitus a secondary outcome)."
+      },
+      {
+        "year": 2024,
+        "event": "CINGLE reports 24-month tinnitus outcomes (120 randomized): the implant group improved on THI, TQ and VAS; differences versus the device groups were significant for VAS, not for THI and TQ."
       },
       {
         "year": 2024,
@@ -577,6 +582,11 @@
         "date": "2026-09-04",
         "change": "replication: 'strong' → 'strong-independent' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
         "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Added the randomized CINGLE trial (tinnitus as a secondary outcome, manufacturer-funded) and replaced \"all observational\" with \"mostly observational\". Score (3/5) is unchanged.",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "Large consistent observational literature with genuine loudness effects earns 3/5; capped because the data are non-randomized and apply only to implant candidates.",
@@ -868,6 +878,11 @@
         "date": "2026-09-04",
         "change": "replication: 'moderate' → 'same-group' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
         "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Safety wording scoped to what the studies showed (\"benign\" and \"no reported harms\" replaced).",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "Meaningful pooled effect from randomized trials earns 3/5; the pooled N of ~100 keeps it from 4.",
@@ -958,6 +973,11 @@
         "date": "2026-09-04",
         "change": "replication: 'limited' → 'limited-independent' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
         "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Safety wording scoped to what the studies showed (\"benign\" and \"no reported harms\" replaced).",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "Beating an active control with 6-month persistence earns 3/5; multicenter replication would raise it.",
@@ -1379,6 +1399,11 @@
         "date": "2026-09-06",
         "change": "oneLiner: 'never proven' absolute → 'controlled trials have not established…' (also more precise: the largest trial compared active sounds, not placebo).",
         "reason": "Editorial precision pass (independent-audit follow-up): absolute/directive wording replaced with defensible evidence-framed wording. No change to any score, tier, level, ranking, or numerical result."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Regulatory status label made precise (no worldwide \"unregulated\"/\"no regulator\" absolutes).",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "Score 2/5 CONFIRMED after formal re-evaluation of the MOST trial (N=440, the largest double-blind sound-therapy RCT, eClinicalMedicine 2025): all four active sound arms improved similarly; the customized (DFCRS) arm beat unmodified music by only ~4 THI points (statistically significant, clinically small, no multiplicity adjustment) and the trial has no no-sound arm, so placebo effects cannot be excluded — the authors say so themselves. This is consistent with Cochrane 2018 (no strong evidence) and the guideline split (AAO-HNSF: option; NICE/EU: research-only; German S3: against sound generators). A large trial does not raise a rating by size alone; what it shows is modest, possibly non-specific benefit.",
@@ -1506,7 +1531,7 @@
     },
     "distress": {
       "level": "limited",
-      "summary": "Beats sham in the weeks after treatment (2025 meta: THI −11.5 post, −11.0 at 1 month across 16 RCTs). At 6 months the meta-analyses DISAGREE: 2020 (29 RCTs) found a small significant effect (−6.53), 2025 found none (−4.26, NS) — and even the significant estimates sit at/below the ~7-point meaningfulness threshold."
+      "summary": "Beats sham in the weeks after treatment (2025 meta-analysis of 16 RCTs: THI −11.5 immediately after treatment, from 11 studies and 739 people, and −11.0 at 1 month, from 3 studies). At 6 months the meta-analyses disagree: 2020 (29 RCTs) found a small significant effect (−6.5), 2025 found none (−4.3, not significant; 3 studies). Group averages are not directly comparable with the ~7-point THI change often cited as meaningful for an individual. Durability and protocol heterogeneity remain unresolved."
     },
     "regulatory": {
       "status": "Investigational for tinnitus (off-label)",
@@ -1532,7 +1557,7 @@
     "bestSuitedFor": "Research participation; short-term relief expectations only",
     "bestResult": "THI −11.5 vs sham post-treatment (2025 pooled estimate)",
     "limitations": [
-      "6-month durability disputed between meta-analyses; effect sizes at/below clinical meaningfulness",
+      "6-month durability disputed between meta-analyses; the 6-month estimates are small and uncertain",
       "Huge protocol heterogeneity",
       "Guideline recommends against routine use"
     ],
@@ -1594,9 +1619,14 @@
         "date": "2026-09-04",
         "change": "Study records added: folmer-2015-rtms, landgrebe-2017-rtms, guideline-aaohns-2014.",
         "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Wording corrected: the short-term pooled estimates (−11.5 and −11.0 THI) are not at or below the ~7-point figure; denominators and the 6-month disagreement stated. Score (2/5) is unchanged and flagged for owner review.",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
-    "scoreRationale": "Many RCTs but small effects at/below clinical meaningfulness, disputed durability, and guideline advice against routine use: 2/5.",
+    "scoreRationale": "Many RCTs with short-term benefit over sham, but disputed durability, heterogeneous protocols and guideline advice against routine use: 2/5.",
     "lastReviewed": "2026-09-04",
     "evidenceThrough": "2026-09-04",
     "confidence": "high",
@@ -1624,7 +1654,7 @@
     },
     "distress": {
       "level": "limited",
-      "summary": "Prefrontal stimulation mainly improved comorbid depression/anxiety; verdict — possible adjunct, not standalone."
+      "summary": "2022 meta-analysis of tDCS (14 studies, 1,031 people): tinnitus distress fell overall (SMD −0.50, 95% CI −0.91 to −0.10), but there was no significant effect on psychiatric symptoms such as depression or anxiety. Protocols varied and studies were small; verdict — possible adjunct, not standalone."
     },
     "regulatory": {
       "status": "Investigational for tinnitus",
@@ -1651,7 +1681,8 @@
     "bestResult": "Small-to-moderate pooled effects, montage-dependent",
     "limitations": [
       "Protocol heterogeneity blocks conclusions",
-      "No durable-benefit evidence"
+      "No durable-benefit evidence",
+      "The pooled results cover tDCS only; they do not cover tACS or tRNS"
     ],
     "conflicts": "",
     "studies": [
@@ -1684,6 +1715,11 @@
         "date": "2026-09-04",
         "change": "replication: 'limited' → 'conflicting' (new 5-category independent-replication semantics); independence: 'primarily-independent' (new evidence-independence field)",
         "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Distress summary corrected: the cited meta-analysis found no significant effect on psychiatric symptoms (it had been described as mainly improving depression/anxiety); 'cheap and safe' reworded to what the trials showed; tDCS-only scope added.",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "Small effects in heterogeneous trials: 2/5.",
@@ -1871,6 +1907,11 @@
         "date": "2026-09-04",
         "change": "independence: 'primarily-sponsor' (new evidence-independence field)",
         "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Safety wording scoped to what the studies showed (\"benign\" and \"no reported harms\" replaced).",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "Marketing currently exceeds evidence: 1/5 until independent controlled data exist.",
@@ -1891,7 +1932,7 @@
     "category": "neuromodulation",
     "tier": 5,
     "evidenceScore": 1,
-    "oneLiner": "A elegant theory whose confirmatory trial came back empty.",
+    "oneLiner": "An elegant theory whose confirmatory trial came back empty.",
     "whatItIs": "Patterned tone sequences around the tinnitus frequency intended to 'desynchronize' pathological neural firing (coordinated reset), delivered via a proprietary device.",
     "howItWorks": "Theory: brief tones at staggered frequencies break up synchronized firing in tinnitus-generating networks. The controlled RESET2 trial failed to confirm a benefit.",
     "mechanism": "Coordinated-reset desynchronization (unconfirmed clinically)",
@@ -1963,6 +2004,11 @@
         "date": "2026-09-04",
         "change": "replication: 'none' → 'conflicting' (new 5-category independent-replication semantics); independence: 'mixed' (new evidence-independence field)",
         "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Safety wording scoped to what the studies showed (\"benign\" and \"no reported harms\" replaced).",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "The definitive test failed: 1/5, Tier 5.",
@@ -2072,6 +2118,11 @@
         "date": "2026-09-04",
         "change": "Study records added: okamoto-2010-notched, stein-2016-tmnmt.",
         "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Regulatory status label made precise (no worldwide \"unregulated\"/\"no regulator\" absolutes).",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "A plausible mechanism with mixed trials: 2/5.",
@@ -2294,7 +2345,7 @@
     },
     "distress": {
       "level": "none",
-      "summary": "OTO-313: placebo beat drug numerically (36% vs 26% TFI responders). TACTT3 (741 patients enrolled per the sponsor; the ClinicalTrials.gov record lists 893) failed its TFI endpoint. Positive results come only from small trials without placebo arms."
+      "summary": "OTO-313: placebo beat drug numerically (36% vs 26% TFI responders). TACTT3 (741 randomized per the EU register; the ClinicalTrials.gov record lists 893) failed its TFI endpoint. Positive results come only from small trials without placebo arms."
     },
     "regulatory": {
       "status": "Off-label (steroids); investigational (others)",
@@ -2373,6 +2424,11 @@
         "date": "2026-09-25",
         "change": "Wording corrections (evidence consistency, no rating change): AC102 pipeline note now states that tinnitus was only an exploratory measure in its sudden-hearing-loss trial, which has ended without posted results; TACTT3 sample size stated as 741 enrolled per the sponsor with the registry figure (893) alongside.",
         "reason": "AC102 re-verification (ClinicalTrials.gov API NCT05776459; EU CTIS 2024-513658-31-00; Dutch registry NL-OMON56096; AudioCure newsroom, 25 Sep 2026): registered primary/secondary outcomes are hearing measures; tinnitus is a pre-specified exploratory patient-rated VAS (Dutch registry) with VAS/eCRF forms filed in CTIS; trial ended in the EU 15 Jan 2026, ClinicalTrials.gov \"Active, not recruiting\", no results posted. Rating unchanged. TACTT3 sample size reconciled (ClinicalTrials.gov API NCT02040194: enrollment 893 ACTUAL, no results posted; Auris Medical Q3-2017 release, 28 Nov 2017: 741 enrolled = 373 acute + 368 post-acute; top-line 13 Mar 2018 / 6-K 15 May 2018: TFI endpoint not met). The two figures describe different counts, so both are stated with their source. Rating unchanged."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Sudden-hearing-loss scope note added (AAO-HNSF 2019 and NICE NG155); one-liner no longer says the placebo response is \"doing the work\"; steroid injections separated from the failed experimental-drug programs.",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "The best-controlled data in the field are negative: 1/5, Tier 5.",
@@ -2458,7 +2514,7 @@
     "timeline": [
       {
         "year": 2011,
-        "event": "Neramexane Phase 3 fails; program abandoned (~2012)."
+        "event": "Neramexane Phase 3 trials complete (~2010–11) with no journal publication; program abandoned (~2012). The Emerging section reports no difference from placebo in the one Phase III result read on the EU trial register."
       },
       {
         "year": 2014,
@@ -2505,6 +2561,11 @@
         "date": "2026-09-25",
         "change": "Wording correction (evidence consistency, no rating change): AUT00063 timeline entry now reads \"Phase IIa trial stopped early for futility after a planned interim analysis; no benefit over placebo\".",
         "reason": "AUT00063 QUIET-1 re-verification (ClinicalTrials.gov API NCT02315508: 91 randomised, status \"Completed\"; EU CTR 2014-002179-27 results: prematurely ended after the planned interim analysis crossed the protocol futility boundary, 76 in the primary analysis, TFI -1.57 vs -5.8, p=0.98; Hall et al. Hear Res 2019, PMID 30939361; Autifony release 28 Apr 2016). \"Terminated for futility\" and \"91 people, 28 days, no benefit\" describe the same trial; wording now carries both. Rating unchanged."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "'No drug approved anywhere' corrected to FDA-specific wording with the Japanese and Indian licences; benzodiazepine withdrawal warning added; neramexane timeline entry aligned with its study record (no journal publication; EU-register results exist).",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "Half a century of trials without a single confirmatory win: 1/5 for tinnitus itself (comorbidity treatment is a separate, legitimate decision).",
@@ -2534,7 +2595,7 @@
     },
     "distress": {
       "level": "none",
-      "summary": "Cochrane on ginkgo (12 studies, N=1,915): 'little to no effect', very uncertain. Cochrane on zinc: no evidence of benefit. Melatonin: small studies suggest sleep benefit at best — not a tinnitus effect."
+      "summary": "Cochrane on ginkgo (12 studies, N=1,915): 'little to no effect', very uncertain. Cochrane on zinc: no evidence of benefit. Melatonin: two small crossover trials disagree — a 1998 trial (30 people) found no significant THI difference but more improvement among people whose tinnitus disturbed their sleep, and a 2011 trial (61 people) found larger falls in tinnitus matching and self-rated tinnitus than with placebo. Both are small and short; reliable tinnitus benefit is not established."
     },
     "regulatory": {
       "status": "Sold as supplements (no pre-sale approval for tinnitus)",
@@ -2603,6 +2664,16 @@
         "date": "2026-09-06",
         "change": "oneLiner: 'consistently unsupported' absolute → review-anchored phrasing (one small positive melatonin crossover exists in the record set).",
         "reason": "Editorial precision pass (independent-audit follow-up): absolute/directive wording replaced with defensible evidence-framed wording. No change to any score, tier, level, ranking, or numerical result."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Melatonin summary corrected to include both small trials (1998 and 2011) and their different outcomes, instead of \"not a tinnitus effect\".",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Regulatory status label made precise (no worldwide \"unregulated\"/\"no regulator\" absolutes).",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "Multiple Cochrane reviews found nothing: 1/5, Tier 5 — the clearest marketing-vs-evidence gap on the site.",
@@ -2657,7 +2728,7 @@
     "bestSuitedFor": "The long watch — this is where a real cure could eventually come from",
     "bestResult": "Hearing restoration in OTOF children (platform proof, not a tinnitus result)",
     "limitations": [
-      "No tinnitus endpoints anywhere in the pipeline",
+      "No published tinnitus efficacy data; where registered trials list tinnitus questionnaires, they are secondary measures (for example in sudden-hearing-loss trials of vesicles)",
       "FX-322's failure shows regeneration in adults is far harder than gene replacement in children",
       "Whether restoring input reverses established central tinnitus is an open question"
     ],
@@ -2716,6 +2787,11 @@
         "date": "2026-09-04",
         "change": "Study records added: fx322-2023, cilcare-cil001.",
         "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "'No tinnitus endpoints anywhere in the pipeline' narrowed to what the registries show.",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "Scored for tinnitus specifically: 1/5 (no data), Tier 3 as a legitimate emerging field to watch.",
@@ -3103,6 +3179,11 @@
         "date": "2026-09-04",
         "change": "independence: 'primarily-sponsor' (new evidence-independence field)",
         "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Safety wording scoped to what the studies showed (\"benign\" and \"no reported harms\" replaced).",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "One small sponsor-linked RCT behind a cleared device: 2/5.",
@@ -3306,7 +3387,7 @@
     "mechanism": "Unvalidated",
     "loudness": {
       "level": "none",
-      "summary": "2020 systematic review/meta-analysis (18 RCTs): no significant effect on the primary VAS outcome vs control."
+      "summary": "2020 systematic review/meta-analysis (8 RCTs, 504 people): no significant difference on the primary VAS outcome vs control (MD −1.81, 95% CI −3.69 to 0.07); the secondary THI and TSI scores favoured acupuncture, and the authors rated the evidence low quality."
     },
     "distress": {
       "level": "none",
@@ -3344,7 +3425,7 @@
     "timeline": [
       {
         "year": 2020,
-        "event": "SR/meta-analysis (18 RCTs): no significant effect on primary outcome."
+        "event": "SR/meta-analysis (8 RCTs, 504 people): primary VAS outcome not significant; secondary THI and TSI favoured acupuncture; low-quality evidence."
       },
       {
         "year": 2022,
@@ -3383,9 +3464,14 @@
         "date": "2026-09-04",
         "change": "Study records added: guideline-aaohns-2014.",
         "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Trial count corrected from 18 to 8 (504 people) to match the cited review; primary and secondary outcomes stated separately; \"quality-weighted evidence is null\" replaced.",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
-    "scoreRationale": "Many trials exist (hence 2 not 1), but quality-weighted evidence is null: Tier 5.",
+    "scoreRationale": "Many trials exist (hence 2 not 1), but the evidence is low quality and the primary outcome was not significant: Tier 5.",
     "lastReviewed": "2026-09-04",
     "evidenceThrough": "2026-09-04",
     "confidence": "high",
@@ -3431,7 +3517,7 @@
     "developer": "—",
     "researchers": [],
     "subtypes": [
-      "mainly studied in acute/sudden-onset settings"
+      "acute or sudden-onset tinnitus"
     ],
     "safety": "Barotrauma risk, temporary myopia, oxygen toxicity at extremes; plus significant cost.",
     "bestSuitedFor": "Nobody with chronic tinnitus, per Cochrane",
@@ -3467,6 +3553,11 @@
         "date": "2026-09-04",
         "change": "independence: 'primarily-independent' (new evidence-independence field)",
         "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Sudden-hearing-loss scope note added; population wording made grammatical.",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "Cochrane-reviewed and unsupported for chronic tinnitus: Tier 5.",
@@ -3499,13 +3590,13 @@
     "category": "complementary",
     "tier": 5,
     "evidenceScore": 2,
-    "oneLiner": "Home ear-lasers are sold online today; the meta-analysis verdict is null — and statistically unlikely to change.",
+    "oneLiner": "Home ear-lasers are sold online today; the meta-analysis found no significant benefit, and its authors say the value remains unclear.",
     "whatItIs": "Red/near-infrared laser applied to the ear or mastoid, claimed to boost cochlear cell function. Sold as home devices (TinniTool, TINNImed and generic 'red light therapy' products, ~$300–500).",
     "howItWorks": "Photobiomodulation can affect mitochondrial function in tissue; there is no validated pathway to reducing chronic tinnitus.",
     "mechanism": "Claimed cochlear photobiomodulation",
     "loudness": {
       "level": "none",
-      "summary": "2020 systematic review with meta-analysis and trial sequential analysis: no significant benefit — and TSA indicates more identical trials are unlikely to change that."
+      "summary": "2020 systematic review with meta-analysis and trial sequential analysis (11 RCTs, 670 people): no significant difference in THI (−2.85, 95% CI −8.99 to 3.28). The authors conclude the value of laser therapy remains unclear because of small samples and heterogeneity, and call for larger studies."
     },
     "distress": {
       "level": "none",
@@ -3531,7 +3622,7 @@
     "bestSuitedFor": "Not supported",
     "bestResult": "Isolated small positive trials, not replicated in aggregate",
     "limitations": [
-      "Meta-analysis with trial sequential analysis is null",
+      "No significant benefit in the meta-analysis; small samples and heterogeneity leave the value unclear",
       "Marketing heavily outruns evidence"
     ],
     "conflicts": "Several positive trials are vendor-affiliated.",
@@ -3555,9 +3646,14 @@
         "date": "2026-09-04",
         "change": "replication: 'none' → 'conflicting' (new 5-category independent-replication semantics); independence: 'mixed' (new evidence-independence field)",
         "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Wording corrected: removed 'settled' and the prediction that further trials are unlikely to change the result, which the review's abstract does not support (it concludes the value remains unclear). Tier is unchanged and flagged for owner review.",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
-    "scoreRationale": "Meta-analytically null with sequential analysis saying it's settled: Tier 5.",
+    "scoreRationale": "No significant benefit in the meta-analysis, with small samples leaving the question open, and marketing that outruns the evidence: Tier 5 on current evidence.",
     "lastReviewed": "2026-09-04",
     "evidenceThrough": "2026-09-04",
     "confidence": "high",
@@ -3635,6 +3731,11 @@
         "date": "2026-09-04",
         "change": "independence: 'unclear' (new evidence-independence field)",
         "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-10-19",
+        "change": "Regulatory status label made precise (no worldwide \"unregulated\"/\"no regulator\" absolutes).",
+        "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "No human evidence and a signal in the wrong direction: 1/5, Tier 5.",
