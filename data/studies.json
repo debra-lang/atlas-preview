@@ -2253,5 +2253,61 @@
       }
     ],
     "pmid": "39108653"
+  },
+  {
+    "id": "guideline-aaohns-2026",
+    "title": "AAO-HNSF Clinical Practice Guideline: Tinnitus Update (2026)",
+    "authors": "Adams ME, Cramer JD, Tunkel DE, et al. (21 authors)",
+    "journal": "Otolaryngology–Head and Neck Surgery",
+    "year": 2026,
+    "doi": "10.1002/ohn.70417",
+    "pmid": "42861423",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/42861423/",
+    "n": "Guideline update (professional society panel)",
+    "design": "Clinical practice guideline (US), update of the 2014 guideline; applies to adults with persistent, bothersome tinnitus",
+    "randomized": false,
+    "sham": false,
+    "independent": true,
+    "primaryOutcome": "—",
+    "results": {
+      "summary": "STRONG: distinguish bothersome from non-bothersome tinnitus; ask about risk of self-harm; do not order neuroimaging solely to evaluate tinnitus unless concerning features are present. RECOMMENDS: targeted history and examination; comprehensive audiologic evaluation; patient education; hearing-aid evaluation for hearing difficulty with persistent bothersome tinnitus; referral for cochlear-implant evaluation when audiologic criteria are met; CBT; documenting outcomes. AGAINST: routine antidepressants, anticonvulsants, anxiolytics or intratympanic medications for a primary tinnitus indication; dietary supplements; rTMS. OPTIONS: ask about somatosensory features; sound enrichment may be recommended; bimodal neuromodulation may be offered.",
+      "detail": "SOURCE MATERIAL ACTUALLY REVIEWED: the PubMed abstracts of the executive summary (PMID 42861486; doi 10.1002/ohn.70418) and of the full guideline (PMID 42861423), read on 19 October 2026. The full text was not accessible, so the strength of each statement is as listed in the abstract; the evidence profiles, rationale and caveats behind each statement have NOT been read. Guidelines are consensus documents, not new trial data. Published October 2026; the 2014 AAO-HNSF record is kept as the historical guideline."
+    },
+    "coi": "Professional society guideline; panel disclosures not reviewed.",
+    "limitations": "Abstract-level reading only (full text not accessible); US-focused; consensus recommendations rather than new evidence.",
+    "history": [
+      {
+        "date": "2026-10-19",
+        "change": "Record added (abstract-level).",
+        "reason": "Reviewer audit of 19 October 2026: the research index held only the 2014 US guideline. No treatment rating was changed; any rating review is held for the owner."
+      }
+    ]
+  },
+  {
+    "id": "guideline-vadod-2024",
+    "title": "VA/DoD Clinical Practice Guideline for Tinnitus (2024)",
+    "authors": "Department of Veterans Affairs and Department of Defense guideline work group",
+    "journal": "VA/DoD Clinical Practice Guidelines (June 2024)",
+    "year": 2024,
+    "url": "https://healthquality.va.gov/HEALTHQUALITY/guidelines/CD/tinnitus/VADoD-CPG-Tinnitus-Full-CPG-2024_Final_508.pdf",
+    "n": "Guideline (25 evidence-based recommendations)",
+    "design": "Clinical practice guideline (US Department of Veterans Affairs and Department of Defense), based on systematic reviews",
+    "randomized": false,
+    "sham": false,
+    "independent": true,
+    "primaryOutcome": "—",
+    "results": {
+      "summary": "WEAK FOR: validated questionnaires to monitor outcomes; educational counseling; hearing aids in adults with hearing loss; cochlear implantation for those who qualify; cochlear implants over bone-conduction devices or CROS aids in single-sided deafness; CBT by a trained provider; sound therapy combined with CBT by a multidisciplinary team; sound enrichment with ongoing audiologist-directed education; multidisciplinary care for tinnitus with temporomandibular or cervical-spine dysfunction. WEAK AGAINST: psychoacoustic measures to monitor effectiveness; low-level laser therapy; ginkgo, dietary or herbal supplements and nutraceuticals; anticonvulsants, antidepressants, antiemetics, antithrombotics, betahistine, intratympanic corticosteroid injections and NMDA-receptor antagonists. INSUFFICIENT EVIDENCE either way: web- or app-based self-management; computer games and training; CROS aids alone; bone-conduction devices alone; auditory cognitive training; ACT, mindfulness-based therapies and MBSR; rTMS; TENS; tDCS; acupuncture.",
+      "detail": "SOURCE MATERIAL ACTUALLY REVIEWED: the official 191-page PDF (June 2024): the full recommendation table (Table 6) with each recommendation's strength, and the discussion text of the recommendations, were read on 19 October 2026. The detailed evidence tables and appendices were not read line by line. Every recommendation is \"weak\" or \"neither for nor against\"; none is \"strong\". Guidelines are consensus documents, not new trial data."
+    },
+    "coi": "Government guideline (US Department of Veterans Affairs and Department of Defense).",
+    "limitations": "US veteran and military health-system context; evidence tables not read in full; all recommendations are weak.",
+    "history": [
+      {
+        "date": "2026-10-19",
+        "change": "Record added.",
+        "reason": "Reviewer audit of 19 October 2026: the site had no VA/DoD guideline record despite substantial veteran-trial coverage. No treatment rating was changed; any rating review is held for the owner."
+      }
+    ]
   }
 ]
