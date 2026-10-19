@@ -48,6 +48,7 @@ p{margin:.4em 0 .9em}
 .small{font-size:.86rem}.muted{color:var(--muted)}
 .skip-link{position:absolute;left:-999px}
 .skip-link:focus{left:12px;top:12px;background:var(--surface);padding:8px 14px;border-radius:8px;z-index:99}
+#content:focus{outline:none} /* programmatic focus target for the skip link: no visible ring on a landmark that is not interactive */
 
 .wrap{max-width:1120px;margin:0 auto;padding:0 18px}
 
@@ -1139,3 +1140,6 @@ body[data-page="treatments"] .vh{position:absolute;width:1px;height:1px;overflow
   body[data-page="treatments"] .tres-head h2{font-size:1.05rem}
   body[data-page="treatments"] .tres-end .eu-entry-t{margin-top:18px}
 }
+
+/* ===== V16 group 1 (no visible change): keyboard focus is never hidden behind the fixed bottom bar (WCAG 2.4.11) ===== */
+@media(max-width:1179px){html{scroll-padding-bottom:calc(72px + env(safe-area-inset-bottom) + 12px)}}

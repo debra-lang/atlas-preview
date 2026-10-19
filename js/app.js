@@ -40,6 +40,17 @@
   const esc = s => String(s == null ? '' : s)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   const $ = (sel, el) => (el || document).querySelector(sel);
+  // Polite status announcements for results that change without a page load (WCAG 4.1.3). One shared visually hidden live
+  // region; messages are ignored until the visitor has interacted, so nothing is spoken on first load.
+  let __announceTimer, __userActed = false;
+  ['pointerdown', 'keydown'].forEach(ev => addEventListener(ev, () => { __userActed = true; }, { once: true, capture: true }));
+  function announce(msg) {
+    if (!__userActed) return;
+    let el = document.getElementById('a11y-status');
+    if (!el) return;
+    clearTimeout(__announceTimer);
+    __announceTimer = setTimeout(() => { el.textContent = ''; setTimeout(() => { el.textContent = msg; }, 50); }, 350);
+  }
   const $$ = (sel, el) => Array.from((el || document).querySelectorAll(sel));
   const fmtDate = iso => {
     if (!iso) return '';
@@ -389,7 +400,17 @@
         ${NAV.concat(NAV_MORE.map(x => [x[0], x[1], ''])).map(([f, n]) => `<a href="${f}"${here(f)}>${n}</a>`).join('')}
       </nav>
       <button class="theme-btn" type="button" aria-label="Toggle dark mode">◐</button>`;
-    document.body.prepend(top);
+    // the skip link must stay the first Tab stop: place the header after it, not before (WCAG 2.4.1)
+    const skipLink = document.querySelector('.skip-link');
+    if (skipLink && skipLink.parentNode === document.body) skipLink.after(top); else document.body.prepend(top);
+    if (!document.getElementById('a11y-status')) {
+      const st = document.createElement('div');
+      st.id = 'a11y-status'; st.className = 'sr-only'; st.setAttribute('role', 'status'); st.setAttribute('aria-live', 'polite'); st.setAttribute('aria-atomic', 'true');
+      document.body.appendChild(st);
+    }
+    // make the skip-link target programmatically focusable so activating the link moves focus (not just scroll position)
+    const mainEl = document.getElementById('content');
+    if (mainEl && !mainEl.hasAttribute('tabindex')) mainEl.setAttribute('tabindex', '-1');
     // featured evidence navigation: second row (desktop) / compact strip (phones). aria-current="page" on a section's
     // landing page, "true" on pages inside the section (e.g. a Claims article).
     const inSec = k => page === k || page.startsWith(k + '/') || (!SINGLE && new RegExp('/' + k + '(/|$)').test(location.pathname));
@@ -406,9 +427,12 @@
     };
     sizeHeader();
     if (!window.__featNavResize) { window.__featNavResize = true; addEventListener('resize', () => { const f = $('.featnav'), t = $('.topbar'); if (f && t) { const r = document.documentElement.style; r.setProperty('--tb-h', t.offsetHeight + 'px'); r.setProperty('--hdr-h', (t.offsetHeight + (getComputedStyle(f).position === 'sticky' ? f.offsetHeight : 0)) + 'px'); } }); }
-    $('.theme-btn', top).addEventListener('click', () => {
+    const themeBtn = $('.theme-btn', top);
+    themeBtn.setAttribute('aria-pressed', String(document.documentElement.dataset.theme === 'dark'));   // announces the state, not only the action
+    themeBtn.addEventListener('click', () => {
       const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
       applyTheme(t); try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
+      themeBtn.setAttribute('aria-pressed', String(t === 'dark'));
     });
 
     const bottom = document.createElement('nav');
@@ -685,6 +709,7 @@
         $('#tcount').textContent = `${n} ${word}`;
         if (sub) { sub.textContent = active.length === 1 ? `${n} of ${total} tracked treatments match this filter.` : `${n} of ${total} tracked treatments match these filters: ${active.join(' · ')}.`; sub.hidden = false; }
       }
+      announce(`${n} ${word} ${active.length ? 'match' : 'shown'}`);
       // the heading names the subset while the "What hasn't worked" filter is on
       const h1 = $('.hero h1'); if (h1) h1.textContent = state.negative ? "Treatments That Haven't Worked" : 'Treatments';
     }
@@ -1026,6 +1051,7 @@
       $$('#trial-chips .chip').forEach(c => c.setAttribute('aria-pressed', state[c.dataset.k] === c.dataset.v));
       const l = list();
       $('#trlist').innerHTML = l.length ? l.map(tr => trialCard(tr, { follow: true, profileNotes: true })).join('') : '<div class="empty">No trials match.</div>';
+      announce(l.length ? `${l.length} trial${l.length === 1 ? '' : 's'} shown` : 'No trials match');
     }
     chipsEl.addEventListener('click', e => {
       const b = e.target.closest('.chip'); if (!b) return;
@@ -1141,6 +1167,7 @@
           <span><a href="${esc(href)}"${ext ? ' rel="noopener" target="_blank"' : ''}>${esc(title)}${ext ? ' ↗' : ''}</a>
           ${sub ? `<br><span class="small muted">${esc(sub)}</span>` : ''}</span></div>`).join('')
         : '<div class="empty">No matches across treatments, studies, trials, institutions, categories or updates.</div>';
+      announce(r.length ? `${r.length} result${r.length === 1 ? '' : 's'}` : 'No matches');
     }
     input.addEventListener('input', render);
     render();
