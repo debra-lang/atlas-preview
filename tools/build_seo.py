@@ -239,6 +239,10 @@ for t in treatments:
     rel_trials = [x for x in trials if x.get("treatment") == tid]
     rk = RANK.get(tid)
     warn = ""
+    if t.get("scopeNote"):
+        _sn = t["scopeNote"]
+        warn += ('<div class="notice" role="note" aria-label="Scope of this assessment"><strong>Scope of this assessment.</strong> ' + E(_sn["text"]) +
+                 (' <span class="small">Sources: ' + " · ".join(f'<a href="{E(l[1])}" rel="noopener">{E(l[0])}</a>' for l in _sn.get("links", [])) + "</span>" if _sn.get("links") else "") + "</div>")
     if t.get("narrowPopulation"):
         warn += f'<div class="notice">🎯 <strong>Applies only to a specific diagnosed tinnitus population.</strong> {E(t.get("narrowNote", ""))}</div>'
     if t.get("underReevaluation"):
@@ -482,7 +486,7 @@ guide("new-tinnitus-treatments",
       f"""
 <section><h2>The short answer</h2>
 <p>The most consequential recent developments are <strong>bimodal neuromodulation devices</strong> (Lenire's FDA De Novo
-authorization; the Shore/Auricle device awaiting FDA review), large head-to-head and sound-therapy trials
+authorization; the Shore/Auricle device, still investigational with no FDA authorization and no publicly documented submission), large head-to-head and sound-therapy trials
 (UNITI; the MOST trial, N=440), and a small pipeline of drug programs. "New" does not mean "better" — several heavily
 promoted approaches have failed their trials, and this page reflects the evidence as of our latest weekly review.</p></section>
 <section><h2>Recent developments from the evidence timeline ({YEAR - 2}–{YEAR})</h2>
@@ -522,7 +526,7 @@ guide("bimodal-neuromodulation",
 <section><h2>The short answer</h2>
 <p>Bimodal neuromodulation pairs sound with electrical stimulation (tongue or skin) to target the brain circuits behind
 tinnitus. Two device programs lead the field: <strong>Lenire</strong> (FDA De Novo authorized, available now) and the
-<strong>Shore/Auricle device</strong> (positive academic trial, awaiting FDA review). Trials report meaningful distress
+<strong>Shore/Auricle device</strong> (positive academic trial; investigational, not commercially available, with no publicly documented FDA submission). Trials report meaningful distress
 improvements; independent replication is still missing for both, and neither is established to make tinnitus quieter for
 the typical patient.</p></section>
 <section><h2>Lenire</h2>

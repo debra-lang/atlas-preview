@@ -830,7 +830,7 @@
     "subtypes": [
       "chronic subjective tinnitus"
     ],
-    "safety": "No reported harms.",
+    "safety": "No harms were reported in the trials (small samples, so rare harms cannot be excluded).",
     "bestSuitedFor": "People who feel stuck in a daily battle with the sound",
     "bestResult": "Pooled THI −17.7 (95% CI −23.5 to −11.8) vs untreated control",
     "limitations": [
@@ -920,7 +920,7 @@
     "subtypes": [
       "chronic subjective tinnitus"
     ],
-    "safety": "No reported harms.",
+    "safety": "No harms were reported in the trials (small samples, so rare harms cannot be excluded).",
     "bestSuitedFor": "People drawn to meditation-based approaches; rumination-heavy distress",
     "bestResult": "TQ −6.3 vs active relaxation control post-treatment, −7.2 at 6-month follow-up",
     "limitations": [
@@ -1287,7 +1287,7 @@
       "summary": "Cochrane 2018: NO usable trial data exist for sound therapy vs waitlist/placebo/information — the central question has simply never been answered; the 8 trials (N=590) only compared device types, with no differences found. Guideline status: 'Option'. Many individuals still find it genuinely helpful day to day."
     },
     "regulatory": {
-      "status": "Guideline 'option'; consumer products unregulated",
+      "status": "Guideline 'option'; some tinnitus maskers are FDA-cleared, other consumer sound products are not specifically authorized for tinnitus",
       "detail": "AAO-HNSF 2014 lists sound therapy as an option (benefit/harm balance, medium-quality evidence).",
       "sourceUrl": "https://pubmed.ncbi.nlm.nih.gov/30589445/"
     },
@@ -1614,7 +1614,7 @@
     "category": "brain-stimulation",
     "tier": 3,
     "evidenceScore": 2,
-    "oneLiner": "Cheap and safe, possibly a mild adjunct — the evidence is too heterogeneous to say more.",
+    "oneLiner": "Low-cost and generally well tolerated in trials, possibly a mild adjunct — the evidence is too heterogeneous to say more.",
     "whatItIs": "Weak electrical currents applied to the scalp (direct, alternating, or random-noise), in clinic or via emerging home-use protocols. tRNS has only small pilot studies (a 2024 systematic review of 7 calls it 'promising' but unproven). At the invasive extreme, deep brain stimulation for tinnitus exists only as tiny case series (a caudate Phase 1 of 6 patients) and a 7-patient Grenoble trial.",
     "howItWorks": "Shifts cortical excitability under the electrodes; temporal-lobe montages target auditory circuits, prefrontal montages target the distress network.",
     "mechanism": "Cortical excitability shift",
@@ -1646,7 +1646,7 @@
     "subtypes": [
       "chronic subjective tinnitus"
     ],
-    "safety": "Very safe at standard parameters; skin tingling.",
+    "safety": "Mild effects such as skin tingling at standard trial settings; the safety of other devices or settings is not established.",
     "bestSuitedFor": "Research participation",
     "bestResult": "Small-to-moderate pooled effects, montage-dependent",
     "limitations": [
@@ -1832,7 +1832,7 @@
     "subtypes": [
       "chronic subjective tinnitus"
     ],
-    "safety": "Benign (vibration + sound).",
+    "safety": "Vibration plus sound; no serious harms reported in the studies. Follow the manufacturer's instructions.",
     "bestSuitedFor": "Consumers who accept wellness-tier evidence",
     "bestResult": "TFI −17.9 (company study, unblinded)",
     "limitations": [
@@ -1923,7 +1923,7 @@
     "subtypes": [
       "tonal tinnitus"
     ],
-    "safety": "Benign sound exposure.",
+    "safety": "No serious harms reported in the studies; use sound devices at the volume and settings the manufacturer specifies.",
     "bestSuitedFor": "Nobody currently",
     "bestResult": "Positive 2012 pilot — refuted by the independent 2022 placebo-controlled trial",
     "limitations": [
@@ -1997,7 +1997,7 @@
       "summary": "Independent RCT (N=104, 6 months): THI difference 7.2 points favoring notched music — not statistically significant."
     },
     "regulatory": {
-      "status": "Unregulated audio approach",
+      "status": "Consumer audio approach; no tinnitus-specific authorization verified",
       "detail": "",
       "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9450089/"
     },
@@ -2284,8 +2284,8 @@
     "category": "drugs",
     "tier": 5,
     "evidenceScore": 1,
-    "oneLiner": "Injections through the eardrum keep failing their controlled tests — the placebo response is doing the work.",
-    "whatItIs": "Steroids, lidocaine or experimental drugs injected through the eardrum into the middle ear. Two of the largest placebo-controlled programs in tinnitus history used this route — and both failed.",
+    "oneLiner": "Injections through the eardrum keep failing their controlled tests: the experimental drugs did not beat placebo.",
+    "whatItIs": "Steroids, lidocaine or experimental drugs injected through the eardrum into the middle ear. The two largest placebo-controlled tinnitus programs on this route tested experimental drugs (AM-101 and OTO-313), and both failed. Steroid injections are used for sudden hearing loss, which is a separate indication (see the note above).",
     "howItWorks": "Delivers drug directly to the round window for inner-ear absorption. The rationale is sound; the controlled results are not.",
     "mechanism": "Local inner-ear drug delivery",
     "loudness": {
@@ -2386,7 +2386,20 @@
     "replication": "none",
     "safetyLevel": "limited",
     "replicationNote": "Positive early signals not reproduced; Phase 3 program failed.",
-    "independence": "primarily-sponsor"
+    "independence": "primarily-sponsor",
+    "scopeNote": {
+      "text": "This page assesses treatments for tinnitus itself. Sudden hearing loss, with or without tinnitus, is a different and urgent situation: get a medical evaluation right away if your hearing suddenly drops or seems muffled (all at once or over a few days), even if it began several days ago. Some treatments are time-limited, but that is a reason to be seen now, not permission to wait. For sudden sensorineural hearing loss, the 2019 U.S. guideline (AAO-HNSF) lists corticosteroids as an option within 2 weeks of onset and says clinicians should offer intratympanic steroids when recovery is incomplete 2 to 6 weeks after onset. That advice concerns hearing recovery; it is not evidence about tinnitus relief. In the UK, NICE says people with tinnitus and hearing loss that developed suddenly (over 3 days or less) in the past 30 days should be seen within 24 hours. This is not medical advice.",
+      "links": [
+        [
+          "AAO-HNSF sudden hearing loss guideline (2019)",
+          "https://pubmed.ncbi.nlm.nih.gov/31369359/"
+        ],
+        [
+          "NICE NG155 referral recommendations",
+          "https://www.nice.org.uk/guidance/ng155/chapter/Recommendations"
+        ]
+      ]
+    }
   },
   {
     "id": "off-label-drugs",
@@ -2394,7 +2407,7 @@
     "category": "drugs",
     "tier": 5,
     "evidenceScore": 1,
-    "oneLiner": "No drug is approved for tinnitus anywhere — and the systematic reviews say none of the usual suspects works on the tinnitus itself.",
+    "oneLiner": "No drug has an FDA-approved indication for tinnitus — and the systematic reviews say none of the usual suspects works on the tinnitus itself.",
     "whatItIs": "Commonly prescribed medications used off-label: tricyclics/SSRIs, benzodiazepines, anticonvulsants (gabapentin), betahistine and others. There is no FDA- or EMA-approved drug for tinnitus.",
     "howItWorks": "Various CNS mechanisms; in practice, any benefit usually reflects treatment of comorbid depression, anxiety or insomnia rather than the tinnitus percept.",
     "mechanism": "Various — none validated for tinnitus",
@@ -2407,8 +2420,8 @@
       "summary": "Antidepressants can help comorbid depression/anxiety; Cochrane finds tricyclics no better than placebo for tinnitus severity; insufficient evidence for benzodiazepines; gabapentin ineffective; betahistine — 'absence of evidence'."
     },
     "regulatory": {
-      "status": "No drug approved for tinnitus (all use off-label)",
-      "detail": "AAO-HNSF 2014 recommends against routine antidepressants, anticonvulsants, anxiolytics and intratympanic drugs for tinnitus.",
+      "status": "No FDA-approved drug for tinnitus (use is off-label)",
+      "detail": "AAO-HNSF 2014 recommends against routine antidepressants, anticonvulsants, anxiolytics and intratympanic drugs for tinnitus. A few drugs are licensed for tinnitus in other countries (Stomin A in Japan; caroverine in India, approved 2006), but the evidence that they work is limited or inconsistent.",
       "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12121590/"
     },
     "availability": {
@@ -2425,7 +2438,7 @@
       "chronic subjective tinnitus",
       "tinnitus with depression/anxiety (treat the comorbidity)"
     ],
-    "safety": "Real side-effect burdens — benzodiazepine dependence, anticholinergic effects, sedation. Weigh against absent tinnitus benefit.",
+    "safety": "Real side-effect burdens — benzodiazepine dependence, anticholinergic effects, sedation. Weigh against absent tinnitus benefit. Do not stop a benzodiazepine suddenly or lower the dose quickly: the FDA warns this can cause withdrawal reactions, including seizures, that can be life-threatening. Talk to the prescriber before any change.",
     "bestSuitedFor": "Treating genuine comorbid depression, anxiety or insomnia — not the tinnitus",
     "bestResult": "None on tinnitus-specific outcomes in quality trials",
     "limitations": [
@@ -2524,7 +2537,7 @@
       "summary": "Cochrane on ginkgo (12 studies, N=1,915): 'little to no effect', very uncertain. Cochrane on zinc: no evidence of benefit. Melatonin: small studies suggest sleep benefit at best — not a tinnitus effect."
     },
     "regulatory": {
-      "status": "Unregulated supplements",
+      "status": "Sold as supplements (no pre-sale approval for tinnitus)",
       "detail": "AAO-HNSF 2014 recommends against dietary supplements for tinnitus. Marketing claims on these products routinely exceed all evidence.",
       "sourceUrl": "https://doi.org/10.1002/14651858.CD013514.pub2"
     },
@@ -3043,7 +3056,7 @@
     "subtypes": [
       "chronic subjective tinnitus"
     ],
-    "safety": "Benign sound exposure.",
+    "safety": "No serious harms reported in the studies; use sound devices at the volume and settings the manufacturer specifies.",
     "bestSuitedFor": "People offered it through the VA; others should weigh cost vs one small trial",
     "bestResult": "Greatest intensity + TFI improvement vs comparators in an N=60 RCT",
     "limitations": [
@@ -3465,7 +3478,20 @@
     ],
     "replication": "none",
     "safetyLevel": "moderate",
-    "independence": "primarily-independent"
+    "independence": "primarily-independent",
+    "scopeNote": {
+      "text": "This page assesses treatments for tinnitus itself. Sudden hearing loss, with or without tinnitus, is a different and urgent situation: get a medical evaluation right away if your hearing suddenly drops or seems muffled (all at once or over a few days), even if it began several days ago. Some treatments are time-limited, but that is a reason to be seen now, not permission to wait. For sudden sensorineural hearing loss, the 2019 U.S. guideline (AAO-HNSF) lists hyperbaric oxygen combined with steroids as an option within 2 weeks of onset and as salvage therapy within 1 month of onset. That advice concerns hearing recovery; this page's negative conclusion applies to chronic tinnitus. In the UK, NICE says people with tinnitus and hearing loss that developed suddenly (over 3 days or less) in the past 30 days should be seen within 24 hours. This is not medical advice.",
+      "links": [
+        [
+          "AAO-HNSF sudden hearing loss guideline (2019)",
+          "https://pubmed.ncbi.nlm.nih.gov/31369359/"
+        ],
+        [
+          "NICE NG155 referral recommendations",
+          "https://www.nice.org.uk/guidance/ng155/chapter/Recommendations"
+        ]
+      ]
+    }
   },
   {
     "id": "lllt",
@@ -3563,8 +3589,8 @@
       "summary": "No human trials. NHANES population analysis: tinnitus prevalence is HIGHER among cannabis users (OR ~1.8 for high-volume use, adjusted)."
     },
     "regulatory": {
-      "status": "Unregulated supplements / state-legal cannabis",
-      "detail": "No product has any tinnitus authorization anywhere.",
+      "status": "Supplements and cannabis products (no tinnitus authorization; legal status varies)",
+      "detail": "No product with a tinnitus authorization was found.",
       "sourceUrl": "https://www.researchgate.net/publication/345943753_Does_cannabis_alleviate_tinnitus_A_review_of_the_current_literature"
     },
     "availability": {

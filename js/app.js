@@ -286,14 +286,14 @@
 
   function regExplain(status) {
     const s = (status || '').toLowerCase();
-    if (s.includes('de novo')) return 'De Novo authorized = the FDA reviewed it as a brand-new device type and allowed marketing. Stronger than "cleared", weaker than full "approval".';
+    if (s.includes('de novo')) return 'De Novo authorized = the FDA allowed marketing of a new type of lower-risk device that had no similar device to compare with. It is a different route from clearance or approval, not a ranking of how well it works.';
     if (s.includes('510(k)') || s.includes('cleared')) return 'FDA cleared (510(k)) = judged similar to an existing device. Clearance is NOT proof that it works.';
     if (s.includes('pma') || s.startsWith('fda approved')) return 'FDA approved = passed the FDA\'s strictest review (PMA) — for the indication on its label.';
     if (s.includes('off-label')) return 'Off-label = doctors may legally use an approved product for a purpose it wasn\'t originally approved for.' + (s.includes('investigational') ? ' A dedicated product for this use is still investigational (being tested).' : '');
     if (s.includes('investigational')) return 'Investigational = still being tested; not authorized for sale for this use.';
     if (s.includes('ce mark') || s.includes('ce-mark')) return 'CE marked = meets European safety requirements; for low-risk devices this is not proof of effectiveness.';
     if (s.includes('standard')) return 'An established therapy — no device/drug authorization applies.';
-    if (s.includes('unregulated') || s.includes('supplement') || s.includes('wellness')) return 'No regulator has evaluated this for tinnitus at all.';
+    if (s.includes('unregulated') || s.includes('supplement') || s.includes('wellness') || s.includes('no tinnitus-specific authorization')) return 'Not authorized as a tinnitus treatment. Products of this kind are generally sold without a regulator reviewing whether they work for tinnitus.';
     if (s.includes('off-label')) return 'Off-label = the product is approved for something else; using it for tinnitus is at the prescriber\'s discretion.';
     return '';
   }
@@ -743,6 +743,7 @@
       </div>
       <h1 style="margin:.2em 0 .3em">${esc(t.name)}</h1>
       <p class="muted" style="max-width:46em;margin-top:0">${esc(t.oneLiner)}</p>
+      ${t.scopeNote ? `<div class="notice" role="note" aria-label="Scope of this assessment" style="margin:10px 0"><strong>Scope of this assessment.</strong> ${esc(t.scopeNote.text)}${(t.scopeNote.links || []).length ? ` <span class="small">Sources: ${t.scopeNote.links.map(l => `<a href="${esc(l[1])}" rel="noopener" target="_blank">${esc(l[0])}</a>`).join(' · ')}</span>` : ''}</div>` : ''}
       ${t.narrowPopulation ? `<div class="narrow-note">🎯 <strong>Applies only to a specific diagnosed tinnitus population.</strong> ${esc(t.narrowNote || '')}</div>` : ''}
       ${t.underReevaluation ? `<div class="notice" style="margin:10px 0">🔎 <strong>Evidence rating under re-evaluation${t.underReevaluation.since ? ' since ' + fmtDate(t.underReevaluation.since) : ''}.</strong>
         ${esc(t.underReevaluation.reason || '')} The rating shown is the current published assessment; it changes only when the review completes.</div>` : ''}
