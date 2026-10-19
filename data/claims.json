@@ -1141,15 +1141,15 @@
    "sections": [
     [
      "Ingredient by ingredient",
-     "<p>This table separates what has been tested from what has not. It is a summary of the best evidence we checked, not an exhaustive list.</p><div class=\"cl-tablewrap\"><table class=\"cl-table\">\n<caption class=\"sr-only\">Evidence for individual supplements and formulas in tinnitus</caption>\n<thead><tr><th scope=\"col\">Ingredient or product type</th><th scope=\"col\">Best evidence found</th><th scope=\"col\">Where it stands</th></tr></thead>\n<tbody>\n<tr><th scope=\"row\">Ginkgo biloba</th><td>Cochrane review (2022): 12 trials, 1,915 people. Pooled data from two studies suggested little to no effect on tinnitus severity; the evidence was very uncertain.<sup class=\"cl-cite\">[<a href=\"#ref-4\" aria-label=\"Reference 4\">4</a>]</sup></td><td><span class=\"cl-chip cl-unsupported\">Tested</span> little or no effect shown</td></tr>\n<tr><th scope=\"row\">Zinc</th><td>Cochrane review (2016): 3 trials, 209 people, moderate to high risk of bias. The one trial using a validated questionnaire (elderly adults, 50 mg a day for 4 months) found that 5% improved meaningfully on zinc and 2% on placebo, not a significant difference.<sup class=\"cl-cite\">[<a href=\"#ref-5\" aria-label=\"Reference 5\">5</a>, <a href=\"#ref-10\" aria-label=\"Reference 10\">10</a>]</sup></td><td><span class=\"cl-chip cl-unsupported\">Tested</span> no benefit shown</td></tr>\n<tr><th scope=\"row\">Vitamin B12</th><td>Double-blind trial of 140 people with tinnitus: no significant difference from placebo on handicap or visual-analogue severity scores at 1 or 3 months.<sup class=\"cl-cite\">[<a href=\"#ref-6\" aria-label=\"Reference 6\">6</a>]</sup></td><td><span class=\"cl-chip cl-unsupported\">Tested</span> no benefit shown</td></tr>\n<tr><th scope=\"row\">Melatonin</th><td>Placebo-controlled crossover trial of 30 people: the difference in handicap scores between melatonin and placebo was not significant. The authors saw a possible benefit in people whose tinnitus disturbed sleep, a subgroup finding in one small trial.<sup class=\"cl-cite\">[<a href=\"#ref-11\" aria-label=\"Reference 11\">11</a>]</sup></td><td><span class=\"cl-chip cl-unsupported\">Tested</span> no overall benefit; sleep subgroup untested</td></tr>\n<tr><th scope=\"row\">Magnesium</th><td>A randomised, double-blind, placebo-controlled crossover trial at Mayo Clinic (38 enrolled) posted its results only to the trial registry: tinnitus distress ratings after magnesium (5.36 out of 10) and after placebo (5.46), and average handicap scores (24.1 and 23.2), were essentially the same.<sup class=\"cl-cite\">[<a href=\"#ref-7\" aria-label=\"Reference 7\">7</a>]</sup> An earlier open-label study of 26 people (19 completed) at the same centre, with no placebo group, had reported lower scores.<sup class=\"cl-cite\">[<a href=\"#ref-12\" aria-label=\"Reference 12\">12</a>]</sup></td><td><span class=\"cl-chip cl-insufficient\">Small, unpublished</span> no difference in the one placebo-controlled result found; too limited for a firm conclusion</td></tr>\n<tr><th scope=\"row\">Lipo-Flavonoid (bioflavonoid formula)</th><td>The only randomised study we found used it as the <em>comparison</em> treatment (40 people, 12 dropped out); the authors could not conclude it works. We found no placebo-controlled trial. Advertising claims about it were reviewed by an industry self-regulatory board in 2016.<sup class=\"cl-cite\">[<a href=\"#ref-13\" aria-label=\"Reference 13\">13</a>, <a href=\"#ref-14\" aria-label=\"Reference 14\">14</a>]</sup></td><td><span class=\"cl-chip cl-insufficient\">Inadequately tested</span></td></tr>\n<tr><th scope=\"row\">One multi-ingredient formula with a placebo-controlled trial</th><td>114 adults analysed; handicap score fell by 13.2 points on the formula versus 6.2 on placebo over 3 months (p = 0.016). The trial was manufacturer-funded, and we found no independent repeat. Because many ingredients were combined, it cannot show which, if any, helped.<sup class=\"cl-cite\">[<a href=\"#ref-8\" aria-label=\"Reference 8\">8</a>]</sup></td><td><span class=\"cl-chip cl-insufficient\">Early, single, sponsor-run trial</span></td></tr>\n<tr><th scope=\"row\">Most branded “ear formulas” and drops</th><td>A survey of over-the-counter tinnitus products found that all made unfounded relief claims and most were mixtures of inexpensive, common vitamins, minerals and herbs sold at a premium.<sup class=\"cl-cite\">[<a href=\"#ref-15\" aria-label=\"Reference 15\">15</a>]</sup> We found no tinnitus study of most branded formulas.</td><td><span class=\"cl-chip cl-unsupported\">Untested</span></td></tr>\n</tbody></table></div>"
+     "<p>This table separates what has been tested from what has not. It is a summary of the best evidence we checked, not an exhaustive list.</p><div class=\"cl-tablewrap\"><table class=\"cl-table\">\n<caption class=\"sr-only\">Evidence for individual supplements and formulas in tinnitus</caption>\n<thead><tr><th scope=\"col\">Ingredient or product type</th><th scope=\"col\">Best evidence found</th><th scope=\"col\">Where it stands</th></tr></thead>\n<tbody>\n<tr><th scope=\"row\">Ginkgo biloba</th><td>Cochrane review (2022): 12 trials, 1,915 people. Pooled data from two studies suggested little to no effect on tinnitus severity; the evidence was very uncertain.<sup class=\"cl-cite\">[<a href=\"#ref-4\" aria-label=\"Reference 4\">4</a>]</sup></td><td><span class=\"cl-chip cl-unsupported\">Tested</span> little or no effect shown</td></tr>\n<tr><th scope=\"row\">Zinc</th><td>Cochrane review (2016): 3 trials, 209 people, moderate to high risk of bias. The one trial using a validated questionnaire (elderly adults, 50 mg a day for 4 months) found that 5% improved meaningfully on zinc and 2% on placebo, not a significant difference.<sup class=\"cl-cite\">[<a href=\"#ref-5\" aria-label=\"Reference 5\">5</a>, <a href=\"#ref-10\" aria-label=\"Reference 10\">10</a>]</sup></td><td><span class=\"cl-chip cl-unsupported\">Tested</span> no benefit shown</td></tr>\n<tr><th scope=\"row\">Vitamin B12</th><td>Double-blind trial of 140 people with tinnitus: no significant difference from placebo on handicap or visual-analogue severity scores at 1 or 3 months.<sup class=\"cl-cite\">[<a href=\"#ref-6\" aria-label=\"Reference 6\">6</a>]</sup></td><td><span class=\"cl-chip cl-unsupported\">Tested</span> no benefit shown</td></tr>\n<tr><th scope=\"row\">Melatonin</th><td>Two small placebo-controlled crossover trials with different outcomes. A 1998 trial of 30 people found no significant difference in handicap scores between melatonin and placebo; the authors saw a possible benefit in people whose tinnitus disturbed sleep, a subgroup finding.<sup class=\"cl-cite\">[<a href=\"#ref-11\" aria-label=\"Reference 11\">11</a>]</sup> A 2011 trial of 61 people found larger falls in tinnitus matching and self-rated tinnitus after melatonin than after placebo.<sup class=\"cl-cite\">[<a href=\"#ref-12\" aria-label=\"Reference 12\">12</a>]</sup> Both trials were small and short, and they measured different things.</td><td><span class=\"cl-chip cl-insufficient\">Mixed, small trials</span> results differ between the two; reliable benefit not established</td></tr>\n<tr><th scope=\"row\">Magnesium</th><td>A randomised, double-blind, placebo-controlled crossover trial at Mayo Clinic (38 enrolled) posted its results only to the trial registry: tinnitus distress ratings after magnesium (5.36 out of 10) and after placebo (5.46), and average handicap scores (24.1 and 23.2), were essentially the same.<sup class=\"cl-cite\">[<a href=\"#ref-7\" aria-label=\"Reference 7\">7</a>]</sup> An earlier open-label study of 26 people (19 completed) at the same centre, with no placebo group, had reported lower scores.<sup class=\"cl-cite\">[<a href=\"#ref-13\" aria-label=\"Reference 13\">13</a>]</sup></td><td><span class=\"cl-chip cl-insufficient\">Small, unpublished</span> no difference in the one placebo-controlled result found; too limited for a firm conclusion</td></tr>\n<tr><th scope=\"row\">Lipo-Flavonoid (bioflavonoid formula)</th><td>The only randomised study we found used it as the <em>comparison</em> treatment (40 people, 12 dropped out); the authors could not conclude it works. We found no placebo-controlled trial. Advertising claims about it were reviewed by an industry self-regulatory board in 2016.<sup class=\"cl-cite\">[<a href=\"#ref-14\" aria-label=\"Reference 14\">14</a>, <a href=\"#ref-15\" aria-label=\"Reference 15\">15</a>]</sup></td><td><span class=\"cl-chip cl-insufficient\">Inadequately tested</span></td></tr>\n<tr><th scope=\"row\">One multi-ingredient formula with a placebo-controlled trial</th><td>114 adults analysed; handicap score fell by 13.2 points on the formula versus 6.2 on placebo over 3 months (p = 0.016). The trial was manufacturer-funded, and we found no independent repeat. Because many ingredients were combined, it cannot show which, if any, helped.<sup class=\"cl-cite\">[<a href=\"#ref-8\" aria-label=\"Reference 8\">8</a>]</sup></td><td><span class=\"cl-chip cl-insufficient\">Early, single, sponsor-run trial</span></td></tr>\n<tr><th scope=\"row\">Most branded “ear formulas” and drops</th><td>A survey of over-the-counter tinnitus products found that all made unfounded relief claims and most were mixtures of inexpensive, common vitamins, minerals and herbs sold at a premium.<sup class=\"cl-cite\">[<a href=\"#ref-16\" aria-label=\"Reference 16\">16</a>]</sup> We found no tinnitus study of most branded formulas.</td><td><span class=\"cl-chip cl-unsupported\">Untested</span></td></tr>\n</tbody></table></div>"
     ],
     [
      "Reviews that pool the evidence",
-     "<p>A 2026 systematic review of nine randomised trials (390 adults) of over-the-counter oral treatments, including melatonin, ginkgo, alpha-lipoic acid, açaí and combination formulas, concluded that findings were “inconsistent and limited”, placebo responses were common, most products were studied in only one small trial, and no firm conclusions could be drawn about whether any provides benefit.<sup class=\"cl-cite\">[<a href=\"#ref-16\" aria-label=\"Reference 16\">16</a>]</sup> A 2025 network meta-analysis of 60 drug and supplement trials ranked ginkgo with vitamins first for tinnitus severity, but the certainty of that evidence was very low and the analysis found several inconsistent comparisons, so the authors described such antioxidants only as “promising” and called for better trials.<sup class=\"cl-cite\">[<a href=\"#ref-17\" aria-label=\"Reference 17\">17</a>]</sup></p>\n<p>Observational surveys can mislead too. A U.S. national survey linked low blood manganese, but not low zinc or vitamin B12, with more frequent and more disruptive tinnitus. The authors read this as a reason for further research, not as proof that taking a supplement helps.<sup class=\"cl-cite\">[<a href=\"#ref-18\" aria-label=\"Reference 18\">18</a>]</sup></p>"
+     "<p>A 2026 systematic review of nine randomised trials (390 adults) of over-the-counter oral treatments, including melatonin, ginkgo, alpha-lipoic acid, açaí and combination formulas, concluded that findings were “inconsistent and limited”, placebo responses were common, most products were studied in only one small trial, and no firm conclusions could be drawn about whether any provides benefit.<sup class=\"cl-cite\">[<a href=\"#ref-17\" aria-label=\"Reference 17\">17</a>]</sup> A 2025 network meta-analysis of 60 drug and supplement trials ranked ginkgo with vitamins first for tinnitus severity, but the certainty of that evidence was very low and the analysis found several inconsistent comparisons, so the authors described such antioxidants only as “promising” and called for better trials.<sup class=\"cl-cite\">[<a href=\"#ref-18\" aria-label=\"Reference 18\">18</a>]</sup></p>\n<p>Observational surveys can mislead too. A U.S. national survey linked low blood manganese, but not low zinc or vitamin B12, with more frequent and more disruptive tinnitus. The authors read this as a reason for further research, not as proof that taking a supplement helps.<sup class=\"cl-cite\">[<a href=\"#ref-19\" aria-label=\"Reference 19\">19</a>]</sup></p>"
     ],
     [
      "What regulators do and do not check",
-     "<p>In the United States, supplement makers may describe an effect on the body’s structure or function without FDA pre-approval; these claims must carry a notice that FDA has not evaluated them and that the product is not intended to diagnose, treat, cure or prevent any disease.<sup class=\"cl-cite\">[<a href=\"#ref-19\" aria-label=\"Reference 19\">19</a>]</sup> A 2019 survey of over-the-counter tinnitus remedies noted that some brands advertise in ear, nose and throat journals and prominently feature supposed endorsement by ENT doctors; the authors described the remedies as unproven.<sup class=\"cl-cite\">[<a href=\"#ref-15\" aria-label=\"Reference 15\">15</a>]</sup></p>\n<p>A documented example: in 2016 the advertising industry’s National Advertising Review Board recommended that the maker of one bioflavonoid supplement stop claims that it eases or quiets the ringing. It found support only for the narrower statement that the product “may provide relief for some people who suffer from tinnitus”. A recommendation to modify advertising is not a finding of wrongdoing.<sup class=\"cl-cite\">[<a href=\"#ref-14\" aria-label=\"Reference 14\">14</a>]</sup></p>"
+     "<p>In the United States, supplement makers may describe an effect on the body’s structure or function without FDA pre-approval; these claims must carry a notice that FDA has not evaluated them and that the product is not intended to diagnose, treat, cure or prevent any disease.<sup class=\"cl-cite\">[<a href=\"#ref-20\" aria-label=\"Reference 20\">20</a>]</sup> A 2019 survey of over-the-counter tinnitus remedies noted that some brands advertise in ear, nose and throat journals and prominently feature supposed endorsement by ENT doctors; the authors described the remedies as unproven.<sup class=\"cl-cite\">[<a href=\"#ref-16\" aria-label=\"Reference 16\">16</a>]</sup></p>\n<p>A documented example: in 2016 the advertising industry’s National Advertising Review Board recommended that the maker of one bioflavonoid supplement stop claims that it eases or quiets the ringing. It found support only for the narrower statement that the product “may provide relief for some people who suffer from tinnitus”. A recommendation to modify advertising is not a finding of wrongdoing.<sup class=\"cl-cite\">[<a href=\"#ref-15\" aria-label=\"Reference 15\">15</a>]</sup></p>"
     ],
     [
      "Safety: “natural” does not mean risk-free",
@@ -1165,7 +1165,7 @@
     [
      "Distress",
      "How much does it bother me?",
-     "A few trials report lower questionnaire scores, but placebo groups often improve too.<sup class=\"cl-cite\">[<a href=\"#ref-16\" aria-label=\"Reference 16\">16</a>]</sup>"
+     "A few trials report lower questionnaire scores, but placebo groups often improve too.<sup class=\"cl-cite\">[<a href=\"#ref-17\" aria-label=\"Reference 17\">17</a>]</sup>"
     ],
     [
      "Functional impact",
@@ -1424,6 +1424,26 @@
      "n": 11
     },
     {
+     "key": "hurtuk2011",
+     "cite": "Hurtuk et al. Melatonin: can it stop the ringing?. Ann Otol Rhinol Laryngol. 2011.",
+     "links": [
+      [
+       "PubMed 21859051",
+       "https://pubmed.ncbi.nlm.nih.gov/21859051/"
+      ],
+      [
+       "DOI",
+       "https://doi.org/10.1177/000348941112000703"
+      ]
+     ],
+     "kind": "study",
+     "verified": "PubMed record and abstract read 2026-10-15",
+     "note": "",
+     "supports": "",
+     "pmid": "21859051",
+     "n": 12
+    },
+    {
      "key": "cevette2011",
      "cite": "Cevette et al. Phase 2 study examining magnesium-dependent tinnitus. Int Tinnitus J. 2011.",
      "links": [
@@ -1437,7 +1457,7 @@
      "note": "",
      "supports": "",
      "pmid": "22249877",
-     "n": 12
+     "n": 13
     },
     {
      "key": "rojas2016",
@@ -1457,7 +1477,7 @@
      "note": "",
      "supports": "",
      "pmid": "27564443",
-     "n": 13
+     "n": 14
     },
     {
      "key": "narb",
@@ -1472,7 +1492,7 @@
      "verified": "Decision page read 2026-10-15",
      "note": "A recommendation to modify or discontinue advertising is not a finding of wrongdoing; the panel found sufficient support for the narrower claim that the product \"may provide relief for some people who suffer from tinnitus\".",
      "supports": "",
-     "n": 14
+     "n": 15
     },
     {
      "key": "vendra2019",
@@ -1492,7 +1512,7 @@
      "note": "",
      "supports": "",
      "pmid": "30585322",
-     "n": 15
+     "n": 16
     },
     {
      "key": "menon2026",
@@ -1512,7 +1532,7 @@
      "note": "",
      "supports": "",
      "pmid": "41948711",
-     "n": 16
+     "n": 17
     },
     {
      "key": "li2025",
@@ -1532,7 +1552,7 @@
      "note": "",
      "supports": "",
      "pmid": "40441764",
-     "n": 17
+     "n": 18
     },
     {
      "key": "narayanan2022",
@@ -1552,7 +1572,7 @@
      "note": "",
      "supports": "",
      "pmid": "35429847",
-     "n": 18
+     "n": 19
     },
     {
      "key": "fda_sf",
@@ -1567,11 +1587,11 @@
      "verified": "Page read 2026-10-15: these claims are not pre-approved by FDA; labels carry a disclaimer that FDA has not evaluated the claim and that the product is not intended to diagnose, treat, cure or prevent any disease",
      "note": "",
      "supports": "",
-     "n": 19
+     "n": 20
     }
    ],
    "evidenceThrough": "2026-10-17",
-   "lastReviewed": "2026-10-17"
+   "lastReviewed": "2026-10-19"
   },
   {
    "slug": "tinnitus-cure-discovered",
