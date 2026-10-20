@@ -342,7 +342,7 @@
   }
   function updatedRecently(t, days) {
     const cutoff = Date.now() - (days || 45) * 864e5;
-    return (t.latest || []).some(l => new Date(l.date) >= cutoff);
+    return (t.latest || []).some(l => new Date(l.added || l.date) >= cutoff);   // 'added' (optional) = the day the entry reached the site, for entries whose own date is older or month-only
   }
 
   function treatmentCard(t, opts) {
@@ -870,7 +870,7 @@
         ${(t.timeline || []).length ? `<details class="sec" id="timeline"><summary>Research timeline <span class="small">${t.timeline.length} events</span></summary>${TL_KEY}<ul class="timeline">${t.timeline.map(ev => `<li class="${timelineClass(ev.event)}"><b>${esc(ev.year)}</b> — ${esc(ev.event)}</li>`).join('')}</ul></details>` : ''}
 
         ${(t.latest || []).length ? `<details class="sec" id="latest"${updatedRecently(t) ? ' open' : ''}><summary>Latest developments <span class="small">${t.latest.length}</span></summary>${t.latest.map(l =>
-          `<div class="week-item"><div class="t">${fmtDate(l.date)}</div><div class="small">${esc(l.text)}
+          `<div class="week-item"><div class="t">${esc(l.dateLabel || fmtDate(l.date))}</div><div class="small">${esc(l.text)}
            ${l.url ? ` <a href="${esc(l.url)}" rel="noopener" target="_blank">Source ↗</a>` : ''}</div></div>`).join('')}</details>` : ''}
 
         ${(t.history || []).length ? `<details class="sec" id="history"><summary>Change history <span class="small">${t.history.length}</span></summary>${t.history.map(h =>
@@ -1291,10 +1291,10 @@
     const inside = (card, extra) => card.replace(/<\/div>\s*$/, extra + '</div>');
     html += wl.treatments.map(id => {
       const t = DB.tById[id]; if (!t) return '';
-      const fresh = (t.latest || []).filter(l => new Date(l.date).getTime() > lastSeen);
+      const fresh = (t.latest || []).filter(l => new Date(l.added || l.date).getTime() > lastSeen);
       return inside(treatmentCard(t), `<div class="wl-extra">
         ${fresh.length ? `<span class="badge b-strong">🔔 New research available</span>` : ''}
-        ${fresh.map(l => `<div class="week-item"><div class="t small">${fmtDate(l.date)}</div><div class="small">${esc(l.text)}</div></div>`).join('')}
+        ${fresh.map(l => `<div class="week-item"><div class="t small">${esc(l.dateLabel || fmtDate(l.date))}</div><div class="small">${esc(l.text)}</div></div>`).join('')}
         <button class="btn small" data-unwatch="treatments" data-id="${esc(id)}" type="button">Remove</button></div>`);
     }).join('');
     html += wl.trials.map(nct => {
