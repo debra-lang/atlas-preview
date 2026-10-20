@@ -1169,3 +1169,8 @@ main p,main li{overflow-wrap:break-word}
 .pform fieldset{min-width:0}
 .pform label{min-width:0}
 .pform label select{min-width:min(9.5em,100%)}
+
+/* ===== V16 group 4 (visible change): keyboard focus is clearly visible on search boxes, selects, text areas and the Ask box (WCAG 2.4.7, 1.4.11, 2.4.13) ===== */
+.searchbar:focus-within{outline:2px solid var(--c-promising);outline-offset:2px}
+.searchbar input:focus-visible{outline:none}   /* the wrapper shows the ring; no second ring inside it */
+.ask-input:focus,.pform label select:focus,.pform input:focus,.pform textarea:focus,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--c-promising);outline-offset:2px}
