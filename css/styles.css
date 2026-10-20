@@ -1162,3 +1162,10 @@ details.sec>summary.wrap-fit{flex-wrap:wrap}   /* set by script only when the ro
 .inst-card .small>a[target="_blank"]{display:inline-block;padding-block:4px;margin-block:-4px}   /* 24 px hit area for the Website links, layout unchanged (WCAG 2.5.8) */
 main p,main li{overflow-wrap:break-word}
 
+
+/* ===== V16 group 3 (tiny visible change: 1-2 px on some link rows; otherwise no change at default settings): 24 px minimum height for stand-alone card links (WCAG 2.5.8); large text no longer pushes the Loudness/Distress cells or the Profile form sideways (WCAG 1.4.4, 1.4.10) ===== */
+.tcard a.see,.tcard .foot a,.more,.trial-card a,a.see{display:flex;align-items:center;min-height:24px}
+.duo .cell .k,.duo .cell .v{overflow-wrap:anywhere}
+.pform fieldset{min-width:0}
+.pform label{min-width:0}
+.pform label select{min-width:min(9.5em,100%)}
