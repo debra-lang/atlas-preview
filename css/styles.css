@@ -1177,3 +1177,14 @@ main p,main li{overflow-wrap:break-word}
 
 /* ===== V16 group 5 (visible change): links inside running text are underlined, not distinguished by colour alone (WCAG 1.4.1) ===== */
 :is(p,li,dd,td,figcaption,.small,.muted,.section-sub,.notice,.crumbs,.fnote) a:not(.btn,.chip,.see,.more,.cat,.brand,.feat,.catcard,.path-card,.cell,.feat-card,.top10-chip,[class*="card"]){text-decoration:underline;text-underline-offset:.16em;text-decoration-thickness:1px}
+
+/* ===== V16 group 6 (visible, slight): text colours reach 4.5:1 on every surface they sit on (WCAG 1.4.3). Light theme: link blue, status words, badges and category labels a little darker. Both themes: category labels mixed toward the text colour only as far as needed for 4.5:1, three dimmed text blocks (Research detail toggles, trials note, trial badges) at full strength ===== */
+:root[data-theme="light"]{--c-promising:#2b63ca;--t-strong:#117a5a;--t-watch:#995d1a;--t-weak:#616b81}
+:root[data-theme="light"] .b-strong,:root[data-theme="light"] .lv-strong{color:var(--t-strong)}
+:root[data-theme="light"] .b-watch,:root[data-theme="light"] .lv-limited{color:var(--t-watch)}
+:root[data-theme="light"] .b-weak,:root[data-theme="light"] .lv-none{color:var(--t-weak)}
+.cat{color:color-mix(in srgb,var(--cat-c,var(--muted)) var(--cat-sd,70%),var(--text))}   /* category colour set as a variable; the script sets how far each category is mixed toward the text colour per theme (--cat-sl light, --cat-sd dark), just enough for 4.5:1 */
+:root[data-theme="light"] .cat{color:color-mix(in srgb,var(--cat-c,var(--muted)) var(--cat-sl,62%),var(--text))}
+details.rmore summary,#near-note,.trial-card .tbadges .badge.sec{opacity:1}   /* dimming text with opacity pushed it below 4.5:1 */
+:root[data-theme="light"] strong[style*="color:var(--c-strong)"]{color:var(--t-strong)!important}   /* About page tier labels (inline colour) */
+:root[data-theme="light"] strong[style*="color:var(--c-watch)"]{color:var(--t-watch)!important}

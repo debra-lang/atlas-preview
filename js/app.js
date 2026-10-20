@@ -350,7 +350,7 @@
     const cat = DB.catById[t.category] || {};
     return `<div class="card tcard" style="--cat-c:${esc(cat.color || '#888')}">
       <div class="rhead">${opts.rank ? `<span class="rank">#${opts.rank}</span>` : ''}
-        <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span>${opts.top10 ? `<span class="top10-chip" title="Ranked #${opts.top10} in the homepage Top 10 most promising developments"><b>#${opts.top10}</b> Top 10</span>` : ''}</div>
+        <span class="cat" style="${catVars(cat.color)}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span>${opts.top10 ? `<span class="top10-chip" title="Ranked #${opts.top10} in the homepage Top 10 most promising developments"><b>#${opts.top10}</b> Top 10</span>` : ''}</div>
       <h3>${updatedRecently(t) ? '<span class="updated-dot" title="Updated recently"></span>' : ''}<a href="treatment.html?id=${esc(t.id)}">${esc(t.name)}</a></h3>
       <p class="one">${esc(t.oneLiner)}</p>
       ${duo(t, true)}
@@ -395,6 +395,27 @@
   const scheduleFit = () => { clearTimeout(__fitTimer); __fitTimer = setTimeout(fitSummaries, 120); };
   addEventListener('resize', scheduleFit);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleFit);
+  // Category labels: each colour is pulled toward the text colour (darker in the light theme, lighter in the dark theme) only as far as
+  // needed to reach 4.5:1 on the page surfaces and the tinted card washes (the darkest and lightest backdrops measured behind the labels), so every category keeps as much of its own colour as possible (WCAG 1.4.3).
+  const CAT_CACHE = {};
+  function catVars(color) {
+    const c = String(color || '');
+    if (!/^#[0-9a-f]{6}$/i.test(c)) return `--cat-c:${esc(c || 'var(--muted)')}`;
+    if (CAT_CACHE[c]) return CAT_CACHE[c];
+    const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+    const lin = v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); };
+    const lum = a => .2126 * lin(a[0]) + .7152 * lin(a[1]) + .0722 * lin(a[2]);
+    const cr = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); };
+    const share = (text, surfaces) => {
+      const base = rgb(c), t = rgb(text);
+      for (let s = 100; s >= 30; s -= 2) {
+        const m = base.map((v, i) => Math.round(v * s / 100 + t[i] * (100 - s) / 100));
+        if (surfaces.every(b => cr(m, rgb(b)) >= 4.7)) return s;
+      }
+      return 30;
+    };
+    return CAT_CACHE[c] = `--cat-c:${c};--cat-sl:${share('#151a2b', ['#f5f7fc', '#eef2fa', '#ffffff', '#f5dfe5'])}%;--cat-sd:${share('#e8ecf7', ['#0c1120', '#141b30', '#1b2340', '#143146', '#281e35'])}%`;
+  }
   function chrome() {
     $$('.topbar, .featnav, .bottomnav, .footer, .footer-links').forEach(el => el.remove()); // idempotent (static footer-links block is folded into the JS footer below)
     const brand = (DB && DB.meta && DB.meta.name) || brandFromDocument();
@@ -590,7 +611,7 @@
     const top = r.rank <= 3; // all 10 share the card style; #1–#3 carry the stronger 3px category top edge
     return `<div class="card tcard rcard ${top ? 'rcard-top' : 'rcard-rest'}" style="--cat-c:${esc(cat.color || '#888')}">
       <div class="rhead"><span class="rank">#${r.rank}</span>
-        <span class="cat" style="color:${esc(cat.color || 'var(--muted)')}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span></div>
+        <span class="cat" style="${catVars(cat.color)}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span></div>
       <h3>${updatedRecently(t) ? '<span class="updated-dot" title="Updated recently"></span>' : ''}<a href="treatment.html?id=${esc(t.id)}">${esc(t.name)}</a></h3>
       <p class="one">${esc(t.oneLiner)}</p>
       ${duo(t, true)}
@@ -785,7 +806,7 @@
     root.innerHTML = `
       <p class="small" style="margin-top:14px"><a href="treatments.html">‹ All treatments</a></p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <span class="cat" style="color:${esc(cat.color)};font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em">${esc(cat.icon)} ${esc(cat.name)}</span>
+        <span class="cat" style="${catVars(cat.color)};font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em">${esc(cat.icon)} ${esc(cat.name)}</span>
         ${rank ? `<span class="badge b-promising">#${rank} most promising</span>` : ''}
         ${rEntry ? stabilityBadge(rEntry) : ''}
       </div>
