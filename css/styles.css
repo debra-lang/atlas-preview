@@ -1143,3 +1143,22 @@ body[data-page="treatments"] .vh{position:absolute;width:1px;height:1px;overflow
 
 /* ===== V16 group 1 (no visible change): keyboard focus is never hidden behind the fixed bottom bar (WCAG 2.4.11) ===== */
 @media(max-width:1179px){html{scroll-padding-bottom:calc(72px + env(safe-area-inset-bottom) + 12px)}}
+
+/* ===== V16 group 2 (no change at default settings; pixel-identical to production): layout survives larger text, text-spacing and 200% text size (WCAG 1.4.4, 1.4.10, 1.4.12) ===== */
+.topbar{flex-wrap:wrap}
+.nav-desktop{flex-wrap:wrap}
+.brand{white-space:normal;min-width:0}
+.brand span:last-child{overflow-wrap:break-word}
+.bottomnav a{min-width:0;overflow-wrap:anywhere;text-align:center}
+.bottomnav a .ico{max-width:100%}
+h1,h2,h3,h4{overflow-wrap:break-word}
+.ask-row .btn{flex:0 1 auto;max-width:100%;white-space:normal}
+.btn{max-width:100%}
+body[data-page="treatments"] .tfilter-ct{white-space:normal}
+main .small{overflow-wrap:break-word}
+.tfilter-bar{flex-wrap:wrap}
+details.sec>summary.wrap-fit{flex-wrap:wrap}   /* set by script only when the row would overflow */
+.study,.res{overflow-wrap:break-word}
+.inst-card .small>a[target="_blank"]{display:inline-block;padding-block:4px;margin-block:-4px}   /* 24 px hit area for the Website links, layout unchanged (WCAG 2.5.8) */
+main p,main li{overflow-wrap:break-word}
+

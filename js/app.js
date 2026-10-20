@@ -383,6 +383,18 @@
     const m = document.title.match(/(?:\||—|–)\s*([^|—–]+)$/);
     return m ? m[1].trim() : 'Tinnitus Atlas';
   }
+  // Accordion headers (details.sec > summary) hold a title, helper text and a "+" in one row. At very large text sizes on narrow
+  // screens that row cannot fit, so it is allowed to wrap, but only then: at normal sizes the layout is untouched.
+  function fitSummaries() {
+    document.querySelectorAll('details.sec > summary').forEach(s => {
+      s.classList.remove('wrap-fit');
+      if (s.scrollWidth > s.clientWidth + 1 || [...s.children].some(c => c.scrollWidth > c.clientWidth + 1)) s.classList.add('wrap-fit');
+    });
+  }
+  let __fitTimer;
+  const scheduleFit = () => { clearTimeout(__fitTimer); __fitTimer = setTimeout(fitSummaries, 120); };
+  addEventListener('resize', scheduleFit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleFit);
   function chrome() {
     $$('.topbar, .featnav, .bottomnav, .footer, .footer-links').forEach(el => el.remove()); // idempotent (static footer-links block is folded into the JS footer below)
     const brand = (DB && DB.meta && DB.meta.name) || brandFromDocument();
@@ -1409,6 +1421,7 @@
       document.body.insertBefore(m, document.body.children[1]);
     } finally {
       document.documentElement.classList.remove('ta-loading');
+      scheduleFit();
     }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
