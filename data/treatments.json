@@ -19,7 +19,7 @@
     },
     "regulatory": {
       "status": "Standard of care",
-      "detail": "Recommended by the AAO-HNSF clinical practice guideline (2014, update in development) and international guidelines.",
+      "detail": "Recommended by the AAO-HNSF clinical practice guideline (2014; updated in 2026) and international guidelines.",
       "sourceUrl": "https://www.entnet.org/quality-practice/quality-products/clinical-practice-guidelines/tinnitus/"
     },
     "availability": {
@@ -79,6 +79,13 @@
     ],
     "latest": [
       {
+        "date": "2026-10-01",
+        "dateLabel": "October 2026",
+        "added": "2026-10-20",
+        "text": "2026 AAO-HNSF tinnitus guideline update: clinicians should recommend cognitive behavioral therapy (CBT) for persistent, bothersome tinnitus (key action statement 11, a recommendation; read from the abstract only).",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42861423/"
+      },
+      {
         "date": "2026-09-26",
         "text": "US military trial recruiting to test whether PTSD therapy or tinnitus CBT should come first",
         "url": "https://clinicaltrials.gov/study/NCT07106593"
@@ -92,6 +99,13 @@
         "date": "2025-11-01",
         "text": "UNITI-RCT published in Nature Communications: CBT and hearing aids alone showed the largest effect sizes; combining treatments was compensatory, not synergistic.",
         "url": "https://www.nature.com/articles/s41467-025-66165-1"
+      },
+      {
+        "date": "2024-06-01",
+        "dateLabel": "June 2024",
+        "added": "2026-10-20",
+        "text": "2024 VA/DoD tinnitus guideline: suggests CBT delivered by a trained provider for adults with bothersome tinnitus (weak recommendation; the guideline rated its confidence in the evidence as very low).",
+        "url": "https://healthquality.va.gov/HEALTHQUALITY/guidelines/CD/tinnitus/VADoD-CPG-Tinnitus-Full-CPG-2024_Final_508.pdf"
       }
     ],
     "history": [
@@ -109,6 +123,11 @@
         "date": "2026-09-04",
         "change": "Study records added: cima-2012, guideline-aaohns-2014, guideline-nice-ng155, guideline-eu-2019, juris-2014-hyperacusis-cbt.",
         "reason": "Audit-identified coverage gaps filled with verified extractions (see audit-improvement/acquisition-report.md). No score change from additions alone."
+      },
+      {
+        "date": "2026-10-20",
+        "change": "Guideline statements added to \"Latest developments\" (2026 AAO-HNSF update, abstract only; 2024 VA/DoD, recommendation table and discussion).",
+        "reason": "Guideline review of 19 October 2026. Text only: evidence score, tier, rank and levels unchanged."
       }
     ],
     "scoreRationale": "28 RCTs and consistent replication earn a 4/5 — held back from 5/5 because certainty is mostly low, follow-up is short, and the benefit is confined to distress, not the percept.",
@@ -562,6 +581,13 @@
     ],
     "latest": [
       {
+        "date": "2026-10-01",
+        "dateLabel": "October 2026",
+        "added": "2026-10-20",
+        "text": "2026 AAO-HNSF tinnitus guideline update: clinicians should refer people with persistent, bothersome tinnitus for cochlear-implant evaluation when they meet audiologic criteria for referral (key action statement 9, a recommendation; abstract only).",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42861423/"
+      },
+      {
         "date": "2026-09-03",
         "text": "Trial status change: NCT06641999 is now 'Recruiting'",
         "url": "https://clinicaltrials.gov/study/NCT06641999"
@@ -570,6 +596,13 @@
         "date": "2024-09-13",
         "text": "2024 meta-analysis confirms percept-level and distress improvements after implantation.",
         "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11431415/"
+      },
+      {
+        "date": "2024-06-01",
+        "dateLabel": "June 2024",
+        "added": "2026-10-20",
+        "text": "2024 VA/DoD tinnitus guideline: suggests cochlear implantation for tinnitus management in adults who meet candidacy requirements (weak recommendation; confidence low), and suggests cochlear implants over implantable bone-conduction devices or CROS hearing aids in single-sided deafness (weak recommendation; confidence very low).",
+        "url": "https://healthquality.va.gov/HEALTHQUALITY/guidelines/CD/tinnitus/VADoD-CPG-Tinnitus-Full-CPG-2024_Final_508.pdf"
       }
     ],
     "history": [
@@ -587,6 +620,11 @@
         "date": "2026-10-19",
         "change": "Added the randomized CINGLE trial (tinnitus as a secondary outcome, manufacturer-funded) and replaced \"all observational\" with \"mostly observational\". Score (3/5) is unchanged.",
         "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
+      },
+      {
+        "date": "2026-10-20",
+        "change": "Guideline statements added to \"Latest developments\" (2026 AAO-HNSF update, abstract only; 2024 VA/DoD, recommendation table and discussion).",
+        "reason": "Guideline review of 19 October 2026. Text only: evidence score, tier, rank and levels unchanged."
       }
     ],
     "scoreRationale": "Large consistent observational literature with genuine loudness effects earns 3/5; capped because the data are non-randomized and apply only to implant candidates.",
@@ -675,9 +713,23 @@
     ],
     "latest": [
       {
+        "date": "2026-10-01",
+        "dateLabel": "October 2026",
+        "added": "2026-10-20",
+        "text": "2026 AAO-HNSF tinnitus guideline update: clinicians should recommend a hearing-aid evaluation for people with hearing difficulties and persistent, bothersome tinnitus (key action statement 8, a recommendation; abstract only).",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42861423/"
+      },
+      {
         "date": "2025-11-01",
         "text": "UNITI-RCT: hearing aids among the largest single-treatment effect sizes.",
         "url": "https://www.nature.com/articles/s41467-025-66165-1"
+      },
+      {
+        "date": "2024-06-01",
+        "dateLabel": "June 2024",
+        "added": "2026-10-20",
+        "text": "2024 VA/DoD tinnitus guideline: suggests hearing aids for tinnitus management in adults with hearing loss (weak recommendation; confidence in the evidence rated low).",
+        "url": "https://healthquality.va.gov/HEALTHQUALITY/guidelines/CD/tinnitus/VADoD-CPG-Tinnitus-Full-CPG-2024_Final_508.pdf"
       }
     ],
     "history": [
@@ -700,6 +752,11 @@
         "date": "2026-09-06",
         "change": "oneLiner: directive second-person advice → evidence-framed description.",
         "reason": "Editorial precision pass (independent-audit follow-up): absolute/directive wording replaced with defensible evidence-framed wording. No change to any score, tier, level, ranking, or numerical result."
+      },
+      {
+        "date": "2026-10-20",
+        "change": "Guideline statements added to \"Latest developments\" (2026 AAO-HNSF update, abstract only; 2024 VA/DoD, recommendation table and discussion).",
+        "reason": "Guideline review of 19 October 2026. Text only: evidence score, tier, rank and levels unchanged."
       }
     ],
     "scoreRationale": "Guideline recommendation and the UNITI head-to-head result earn 3/5; a trial isolating the tinnitus effect from the hearing benefit would settle it. Amplification-SPECIFIC randomized evidence is thin: Cochrane CD010151 found one RCT (N=91) and concluded there is no evidence to support or refute hearing aids as a routine tinnitus intervention; the rating rests on guideline consensus (all three major guidelines recommend aids with hearing loss), UNITI results and observational data.",
@@ -1249,9 +1306,23 @@
     ],
     "latest": [
       {
+        "date": "2026-10-01",
+        "dateLabel": "October 2026",
+        "added": "2026-10-20",
+        "text": "2026 AAO-HNSF tinnitus guideline update: clinicians may ask about somatosensory features in people with persistent, bothersome tinnitus (key action statement 4, an option; abstract only). This concerns assessment; the abstract states no treatment recommendation.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42861423/"
+      },
+      {
         "date": "2026-06-01",
         "text": "VA somatosensory RCT continues recruiting; UCLH 'somatic tracking' attention trial also active.",
         "url": "https://clinicaltrials.gov/study/NCT05434637"
+      },
+      {
+        "date": "2024-06-01",
+        "dateLabel": "June 2024",
+        "added": "2026-10-20",
+        "text": "2024 VA/DoD tinnitus guideline: suggests a multidisciplinary approach to assessing and treating bothersome tinnitus with temporomandibular disorder, cervical-spine dysfunction or both (weak recommendation; confidence low), based on two randomized trials and one systematic review.",
+        "url": "https://healthquality.va.gov/HEALTHQUALITY/guidelines/CD/tinnitus/VADoD-CPG-Tinnitus-Full-CPG-2024_Final_508.pdf"
       }
     ],
     "history": [
@@ -1274,6 +1345,11 @@
         "date": "2026-09-06",
         "change": "oneLiner: universal causal phrasing → population-qualified evidence statement (also keeps established evidence separate from the somatic-modulation-predictor hypothesis).",
         "reason": "Editorial precision pass (independent-audit follow-up): absolute/directive wording replaced with defensible evidence-framed wording. No change to any score, tier, level, ranking, or numerical result."
+      },
+      {
+        "date": "2026-10-20",
+        "change": "Guideline statements added to \"Latest developments\" (2026 AAO-HNSF update, abstract only; 2024 VA/DoD, recommendation table and discussion).",
+        "reason": "Guideline review of 19 October 2026. Text only: evidence score, tier, rank and levels unchanged."
       }
     ],
     "scoreRationale": "Real percept modulation and positive controlled studies earn 2/5; a proper multicenter RCT would move it.",
@@ -1703,6 +1779,13 @@
         "date": "2026-09-01",
         "text": "WHITBY feasibility trial (N=40) approaching primary completion.",
         "url": "https://clinicaltrials.gov/study/NCT06628414"
+      },
+      {
+        "date": "2024-06-01",
+        "dateLabel": "June 2024",
+        "added": "2026-10-20",
+        "text": "2024 VA/DoD tinnitus guideline: insufficient evidence to recommend for or against tDCS for tinnitus management (confidence very low). The meta-analyses it reviewed gave conflicting results; it calls for larger placebo-controlled trials. The statement concerns tDCS only, not tACS or tRNS.",
+        "url": "https://healthquality.va.gov/HEALTHQUALITY/guidelines/CD/tinnitus/VADoD-CPG-Tinnitus-Full-CPG-2024_Final_508.pdf"
       }
     ],
     "history": [
@@ -1720,6 +1803,11 @@
         "date": "2026-10-19",
         "change": "Distress summary corrected: the cited meta-analysis found no significant effect on psychiatric symptoms (it had been described as mainly improving depression/anxiety); 'cheap and safe' reworded to what the trials showed; tDCS-only scope added.",
         "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
+      },
+      {
+        "date": "2026-10-20",
+        "change": "Guideline statement added to \"Latest developments\" (2024 VA/DoD, recommendation table and discussion).",
+        "reason": "Guideline review of 19 October 2026. Text only: evidence score, tier, rank and levels unchanged."
       }
     ],
     "scoreRationale": "Small effects in heterogeneous trials: 2/5.",
@@ -2394,6 +2482,13 @@
     ],
     "latest": [
       {
+        "date": "2026-10-01",
+        "dateLabel": "October 2026",
+        "added": "2026-10-20",
+        "text": "2026 AAO-HNSF tinnitus guideline update: clinicians should not routinely recommend intratympanic medications for the primary indication of treating persistent, bothersome tinnitus (key action statement 12, a recommendation against; abstract only). This concerns tinnitus, not treatment of sudden hearing loss (see the note above).",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42861423/"
+      },
+      {
         "date": "2026-09-14",
         "text": "Uncontrolled study of intratympanic dexamethasone reports questionnaire improvement in 65 tinnitus patients",
         "url": "https://pubmed.ncbi.nlm.nih.gov/42732646/"
@@ -2402,6 +2497,13 @@
         "date": "2026-06-01",
         "text": "Pipeline note: AudioCure's AC102 (intratympanic pyridoindole) has one patient trial — a Phase 2 study in sudden hearing loss (NCT05776459) whose registered primary and secondary outcomes are hearing measures; tinnitus was recorded only as an exploratory patient-rated scale. The trial ended in the EU in January 2026 and no results have been posted — preclinical tinnitus claims, no controlled human tinnitus data yet.",
         "url": "https://www.sciencedaily.com/releases/2023/06/230605181219.htm"
+      },
+      {
+        "date": "2024-06-01",
+        "dateLabel": "June 2024",
+        "added": "2026-10-20",
+        "text": "2024 VA/DoD tinnitus guideline: suggests against intratympanic corticosteroid injections for tinnitus management (weak recommendation; confidence very low). Of four placebo-controlled trials it reviewed, one found lower scores with dexamethasone at one and six months and three found no difference from placebo.",
+        "url": "https://healthquality.va.gov/HEALTHQUALITY/guidelines/CD/tinnitus/VADoD-CPG-Tinnitus-Full-CPG-2024_Final_508.pdf"
       },
       {
         "date": "2023-06-20",
@@ -2429,6 +2531,11 @@
         "date": "2026-10-19",
         "change": "Sudden-hearing-loss scope note added (AAO-HNSF 2019 and NICE NG155); one-liner no longer says the placebo response is \"doing the work\"; steroid injections separated from the failed experimental-drug programs.",
         "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
+      },
+      {
+        "date": "2026-10-20",
+        "change": "Guideline statements added to \"Latest developments\" (2026 AAO-HNSF update, abstract only; 2024 VA/DoD, recommendation table and discussion).",
+        "reason": "Guideline review of 19 October 2026. Text only: evidence score, tier, rank and levels unchanged."
       }
     ],
     "scoreRationale": "The best-controlled data in the field are negative: 1/5, Tier 5.",
@@ -2531,6 +2638,13 @@
     ],
     "latest": [
       {
+        "date": "2026-10-01",
+        "dateLabel": "October 2026",
+        "added": "2026-10-20",
+        "text": "2026 AAO-HNSF tinnitus guideline update: clinicians should not routinely recommend antidepressants, anticonvulsants, anxiolytics or intratympanic medications for the primary indication of treating persistent, bothersome tinnitus (key action statement 12, a recommendation against; abstract only). The statement concerns tinnitus as the reason for prescribing.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42861423/"
+      },
+      {
         "date": "2026-09-21",
         "text": "Placebo-controlled crossover trial of olanzapine for tinnitus marked completed in Brazil; no results posted yet",
         "url": "https://clinicaltrials.gov/study/NCT07190482"
@@ -2539,6 +2653,13 @@
         "date": "2025-05-28",
         "text": "BMJ Open network meta-analysis reaffirms: no approved pharmacotherapy; evidence low to very low.",
         "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12121590/"
+      },
+      {
+        "date": "2024-06-01",
+        "dateLabel": "June 2024",
+        "added": "2026-10-20",
+        "text": "2024 VA/DoD tinnitus guideline: suggests against anticonvulsants, antidepressants, antiemetics, antithrombotics, betahistine, intratympanic corticosteroid injections and NMDA-receptor antagonists for tinnitus management (weak recommendation; confidence very low). The guideline states that this does not apply to people with anxiety, seizure disorder or depression, for whom these medicines may be indicated.",
+        "url": "https://healthquality.va.gov/HEALTHQUALITY/guidelines/CD/tinnitus/VADoD-CPG-Tinnitus-Full-CPG-2024_Final_508.pdf"
       }
     ],
     "history": [
@@ -2566,6 +2687,11 @@
         "date": "2026-10-19",
         "change": "'No drug approved anywhere' corrected to FDA-specific wording with the Japanese and Indian licences; benzodiazepine withdrawal warning added; neramexane timeline entry aligned with its study record (no journal publication; EU-register results exist).",
         "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
+      },
+      {
+        "date": "2026-10-20",
+        "change": "Guideline statements added to \"Latest developments\" (2026 AAO-HNSF update, abstract only; 2024 VA/DoD, recommendation table and discussion).",
+        "reason": "Guideline review of 19 October 2026. Text only: evidence score, tier, rank and levels unchanged."
       }
     ],
     "scoreRationale": "Half a century of trials without a single confirmatory win: 1/5 for tinnitus itself (comorbidity treatment is a separate, legitimate decision).",
@@ -2639,9 +2765,23 @@
     ],
     "latest": [
       {
+        "date": "2026-10-01",
+        "dateLabel": "October 2026",
+        "added": "2026-10-20",
+        "text": "2026 AAO-HNSF tinnitus guideline update: clinicians should not recommend dietary supplements for the primary indication of persistent, bothersome tinnitus (key action statement 13, a recommendation against; abstract only).",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42861423/"
+      },
+      {
         "date": "2026-09-21",
         "text": "Curcumin-for-tinnitus trial withdrawn before enrolling any participants",
         "url": "https://clinicaltrials.gov/study/NCT04800107"
+      },
+      {
+        "date": "2024-06-01",
+        "dateLabel": "June 2024",
+        "added": "2026-10-20",
+        "text": "2024 VA/DoD tinnitus guideline: suggests against ginkgo biloba, dietary or herbal supplements and nutraceuticals for tinnitus management (weak recommendation; confidence very low).",
+        "url": "https://healthquality.va.gov/HEALTHQUALITY/guidelines/CD/tinnitus/VADoD-CPG-Tinnitus-Full-CPG-2024_Final_508.pdf"
       }
     ],
     "history": [
@@ -2674,6 +2814,11 @@
         "date": "2026-10-19",
         "change": "Regulatory status label made precise (no worldwide \"unregulated\"/\"no regulator\" absolutes).",
         "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
+      },
+      {
+        "date": "2026-10-20",
+        "change": "Guideline statements added to \"Latest developments\" (2026 AAO-HNSF update, abstract only; 2024 VA/DoD, recommendation table and discussion).",
+        "reason": "Guideline review of 19 October 2026. Text only: evidence score, tier, rank and levels unchanged."
       }
     ],
     "scoreRationale": "Multiple Cochrane reviews found nothing: 1/5, Tier 5 — the clearest marketing-vs-evidence gap on the site.",
@@ -3447,6 +3592,13 @@
         "date": "2026-09-07",
         "text": "Narrative review of acupuncture for tinnitus again finds evidence too weak and inconsistent to confirm efficacy",
         "url": "https://pubmed.ncbi.nlm.nih.gov/42703377/"
+      },
+      {
+        "date": "2024-06-01",
+        "dateLabel": "June 2024",
+        "added": "2026-10-20",
+        "text": "2024 VA/DoD tinnitus guideline: insufficient evidence to recommend for or against acupuncture for tinnitus management (confidence low), citing low-quality reviews and wide variation in the acupuncture methods used.",
+        "url": "https://healthquality.va.gov/HEALTHQUALITY/guidelines/CD/tinnitus/VADoD-CPG-Tinnitus-Full-CPG-2024_Final_508.pdf"
       }
     ],
     "history": [
@@ -3469,6 +3621,11 @@
         "date": "2026-10-19",
         "change": "Trial count corrected from 18 to 8 (504 people) to match the cited review; primary and secondary outcomes stated separately; \"quality-weighted evidence is null\" replaced.",
         "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
+      },
+      {
+        "date": "2026-10-20",
+        "change": "Guideline statement added to \"Latest developments\" (2024 VA/DoD, recommendation table and discussion).",
+        "reason": "Guideline review of 19 October 2026. Text only: evidence score, tier, rank and levels unchanged."
       }
     ],
     "scoreRationale": "Many trials exist (hence 2 not 1), but the evidence is low quality and the primary outcome was not significant: Tier 5.",
@@ -3635,7 +3792,15 @@
         "event": "Meta-analysis + trial sequential analysis: no significant benefit."
       }
     ],
-    "latest": [],
+    "latest": [
+      {
+        "date": "2024-06-01",
+        "dateLabel": "June 2024",
+        "added": "2026-10-20",
+        "text": "2024 VA/DoD tinnitus guideline: suggests against low-level laser therapy for tinnitus management (weak recommendation; confidence in the evidence rated low). It found no difference from sham treatment in one randomized trial and one systematic review; a second trial with different findings was rated low quality.",
+        "url": "https://healthquality.va.gov/HEALTHQUALITY/guidelines/CD/tinnitus/VADoD-CPG-Tinnitus-Full-CPG-2024_Final_508.pdf"
+      }
+    ],
     "history": [
       {
         "date": "2026-09-03",
@@ -3651,6 +3816,11 @@
         "date": "2026-10-19",
         "change": "Wording corrected: removed 'settled' and the prediction that further trials are unlikely to change the result, which the review's abstract does not support (it concludes the value remains unclear). Tier is unchanged and flagged for owner review.",
         "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
+      },
+      {
+        "date": "2026-10-20",
+        "change": "Guideline statement added to \"Latest developments\" (2024 VA/DoD, recommendation table and discussion).",
+        "reason": "Guideline review of 19 October 2026. Text only: evidence score, tier, rank and levels unchanged."
       }
     ],
     "scoreRationale": "No significant benefit in the meta-analysis, with small samples leaving the question open, and marketing that outruns the evidence: Tier 5 on current evidence.",
