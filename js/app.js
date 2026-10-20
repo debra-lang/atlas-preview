@@ -415,6 +415,16 @@
     // the skip link must stay the first Tab stop: place the header after it, not before (WCAG 2.4.1)
     const skipLink = document.querySelector('.skip-link');
     if (skipLink && skipLink.parentNode === document.body) skipLink.after(top); else document.body.prepend(top);
+    // Pre-rendered sub-pages carry <base href>, which makes a bare "#content" point at the home page. Aim the skip link at this page
+    // and move focus ourselves so it works everywhere (WCAG 2.4.1).
+    if (skipLink && !skipLink.dataset.bound) {
+      skipLink.dataset.bound = '1';
+      skipLink.href = location.href.split('#')[0] + '#content';
+      skipLink.addEventListener('click', e => {
+        const t = document.getElementById('content'); if (!t) return;
+        e.preventDefault(); t.focus({ preventScroll: true }); t.scrollIntoView();
+      });
+    }
     if (!document.getElementById('a11y-status')) {
       const st = document.createElement('div');
       st.id = 'a11y-status'; st.className = 'sr-only'; st.setAttribute('role', 'status'); st.setAttribute('aria-live', 'polite'); st.setAttribute('aria-atomic', 'true');
