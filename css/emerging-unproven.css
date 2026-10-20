@@ -527,5 +527,8 @@ h5.thead{margin:14px 0 4px;font-size:.95rem;font-family:var(--font-display)}
   .sec[data-tone]{padding-left:14px;padding-right:14px}
 }
 
+/* V16: links inside running text on this page are underlined, not distinguished by colour alone (WCAG 1.4.1) */
+.crumbs a,p.intro a,.foot a{text-decoration:underline;text-underline-offset:.16em;text-decoration-thickness:1px}
+
 /* V16: the search box on this page shows keyboard focus (WCAG 2.4.7); it removed its own outline and had no replacement */
 .search:focus-within{outline:2px solid var(--accent);outline-offset:2px;border-radius:999px}
