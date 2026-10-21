@@ -18,6 +18,11 @@ ROOT = Path(__file__).resolve().parent.parent
 QUEUE = ROOT / "data" / "review-queue" / "queue.json"
 UA = {"User-Agent": "TinnitusAtlas-evaluator/1.0"}
 
+# Outcome of the most recent main() call, for the caller (weekly_cycle) and the health check. An evaluation step must never look
+# successful when it was not: every call records attempted / succeeded / failed counts and the classes of error it met.
+LAST_RUN = {}
+FATAL_CLASSES = ("auth", "billing", "permission")   # retrying other items cannot help: stop at once instead of burning N doomed calls
+
 MODEL = sys.argv[sys.argv.index("--model") + 1] if "--model" in sys.argv else "claude-opus-5"
 LIMIT = int(sys.argv[sys.argv.index("--limit") + 1]) if "--limit" in sys.argv else 10
 
@@ -76,6 +81,44 @@ RULES = """You evaluate new tinnitus research for an evidence platform. Rules:
   ever publish as labeled company-reported developments and never strengthen any rating."""
 
 
+def classify_error(e):
+    """Map an Anthropic SDK error to a short class: auth | billing | permission | rate_limit | server | other."""
+    code = getattr(e, "status_code", None)
+    msg = str(getattr(e, "message", "") or e).lower()
+    if code == 401 or "invalid x-api-key" in msg or "api key is invalid" in msg or "authentication" in msg:
+        return "auth"
+    if code == 403:
+        return "permission"
+    if code == 400 and ("credit balance" in msg or "billing" in msg):
+        return "billing"
+    if code == 429:
+        return "rate_limit"
+    if code in (500, 502, 503, 504, 529):
+        return "server"
+    return "other"
+
+
+def _record(**kw):
+    LAST_RUN.clear()
+    LAST_RUN.update({"attempted": 0, "succeeded": 0, "failed": 0, "parseErrors": 0, "errorClasses": {}, "fatal": None, "preflight": "not-run", "reason": None})
+    LAST_RUN.update(kw)
+
+
+def preflight(client, anthropic):
+    """One 1-token request before any real work. Returns None when usable, or (class, short message) for a fatal credential/billing/permission
+    problem. Non-fatal problems (rate limit, 5xx, network) return None so the normal per-item handling applies. Never logs the key."""
+    try:
+        client.messages.create(model=MODEL, max_tokens=1, messages=[{"role": "user", "content": "ping"}])
+        return None
+    except anthropic.APIStatusError as e:
+        cls = classify_error(e)
+        if cls in FATAL_CLASSES:
+            return cls, f"HTTP {getattr(e, 'status_code', '?')}: {str(getattr(e, 'message', e))[:160]}"
+        return None
+    except Exception:
+        return None
+
+
 def fetch_context(item):
     """Pull the primary record text for the item, best-effort."""
     try:
@@ -97,20 +140,24 @@ def fetch_context(item):
 
 def main(limit=None):
     """Evaluate pending queue items. Returns (evaluated, skipped_reason) for pipeline use."""
+    _record()
     try:
         import anthropic
     except ImportError:
         print("evaluate_queue: 'anthropic' package not installed — evaluation skipped.", file=sys.stderr)
+        _record(fatal="not-configured", reason="anthropic package not installed (pip install anthropic)")
         return 0, "anthropic package not installed (pip install anthropic)"
     import os
     if not (os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN")):
         # the SDK defers credential resolution to request time, so check up front
         print("evaluate_queue: ANTHROPIC_API_KEY not set — evaluation skipped.", file=sys.stderr)
+        _record(fatal="not-configured", reason="ANTHROPIC_API_KEY not set (add it to GitHub repo Secrets)")
         return 0, "ANTHROPIC_API_KEY not set (add it to GitHub repo Secrets)"
     try:
         client = anthropic.Anthropic()
     except Exception as e:
         print(f"evaluate_queue: no credentials — evaluation skipped ({e}).", file=sys.stderr)
+        _record(fatal="not-configured", reason=f"no credentials: {e}")
         return 0, f"no credentials: {e}"
     if limit:
         global LIMIT
@@ -126,7 +173,16 @@ def main(limit=None):
     todo = [it for it in queue.get("items", []) if not it.get("evaluation")][:LIMIT]
     if not todo:
         print("Nothing to evaluate — queue items all have evaluations (or queue is empty).")
+        _record(preflight="skipped-nothing-to-do")
         return 0, None
+    pf = preflight(client, anthropic)
+    if pf:
+        cls, detail = pf
+        msg = f"evaluation unavailable ({cls}): {detail}"
+        print(f"evaluate_queue: {msg} — no items attempted, all {len(todo)} remain queued.", file=sys.stderr)
+        _record(fatal=cls, preflight="failed", reason=msg)
+        return 0, msg
+    _record(preflight="ok")
     done = 0
 
     for it in todo:
@@ -140,6 +196,7 @@ def main(limit=None):
             f"PRIMARY RECORD:\n{context}\n\n"
             f"Respond with ONLY a JSON object exactly matching this shape (no markdown fences):\n{EVAL_FIELDS}"
         )
+        LAST_RUN["attempted"] += 1
         try:
             response = client.messages.create(
                 model=MODEL,
@@ -148,12 +205,25 @@ def main(limit=None):
                 messages=[{"role": "user", "content": prompt}],
             )
         except anthropic.RateLimitError:
+            LAST_RUN["failed"] += 1
+            LAST_RUN["errorClasses"]["rate_limit"] = LAST_RUN["errorClasses"].get("rate_limit", 0) + 1
             print("  rate-limited; stopping — re-run later."); break
         except anthropic.APIStatusError as e:
-            print(f"  API error {e.status_code}: {e.message}; skipping."); continue
+            cls = classify_error(e)
+            LAST_RUN["failed"] += 1
+            LAST_RUN["errorClasses"][cls] = LAST_RUN["errorClasses"].get(cls, 0) + 1
+            print(f"  API error {e.status_code} ({cls}){': ' + str(e.message)[:200] if cls == 'other' else ''}; skipping.")   # message shown only for unclassified errors
+            if cls in FATAL_CLASSES:
+                LAST_RUN["fatal"] = cls
+                print(f"  {cls} errors cannot succeed on retry — stopping; remaining items stay queued.", file=sys.stderr)
+                break
+            continue
         except Exception as e:
             # never let an SDK/client error kill the whole cycle — items simply stay queued
+            LAST_RUN["failed"] += 1
+            LAST_RUN["errorClasses"]["exception"] = LAST_RUN["errorClasses"].get("exception", 0) + 1
             print(f"  evaluation error ({e}); stopping.", file=sys.stderr)
+            LAST_RUN["reason"] = f"evaluation error: {e}"
             return done, f"evaluation error: {e}"
 
         text = next((b.text for b in response.content if b.type == "text"), "")
@@ -163,6 +233,7 @@ def main(limit=None):
         except (ValueError, json.JSONDecodeError) as e:
             print(f"  could not parse evaluation JSON ({e}); storing raw text for admin.")
             ev = {"summaryForAdmin": text[:2000], "confidence": "low", "parseError": True}
+            LAST_RUN["parseErrors"] += 1
 
         it["evaluation"] = ev
         # surface the essentials into the fields admin.html already renders
@@ -176,10 +247,17 @@ def main(limit=None):
             it["rankChange"] = {"from": ev["proposedRankChange"].get("from"), "to": ev["proposedRankChange"].get("to")}
         it["why"] = ev.get("whatIsNew", "")
         done += 1
+        LAST_RUN["succeeded"] += 1
         QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")  # save after each item
 
-    print(f"Done ({done} evaluated).")
-    return done, None
+    print(f"Done ({done} evaluated, {LAST_RUN['failed']} failed of {LAST_RUN['attempted']} attempted).")
+    reason = None
+    if LAST_RUN["fatal"]:
+        reason = f"evaluation stopped by a {LAST_RUN['fatal']} error after {LAST_RUN['attempted']} attempt(s); {len(todo) - done} item(s) remain queued"
+    elif LAST_RUN["failed"]:
+        reason = f"{LAST_RUN['failed']} of {LAST_RUN['attempted']} evaluation attempts failed ({LAST_RUN['errorClasses']}); those items remain queued"
+    LAST_RUN["reason"] = reason
+    return done, reason
 
 
 if __name__ == "__main__":
