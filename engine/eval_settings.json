@@ -1,4 +1,6 @@
 {
-  "comment": "limitPerRun = how many queued items the weekly cycle may send to the AI evaluator in one run (1-100). 60 was the previous fixed value. Lower it to process a backlog in small batches.",
-  "limitPerRun": 60
+  "comment": "MASTER SWITCH for the scheduled AI evaluation. It runs ONLY when enabled is exactly true; a missing or malformed file means OFF. While off, the weekly cycle still scans every source, refreshes tracked trial statuses, runs retraction checks and preserves every queued item. limitPerRun = how many queued items one run may send to the evaluator (1-100). Changing this file requires a normal reviewed commit.",
+  "enabled": false,
+  "limitPerRun": 10,
+  "disabledSince": "2026-10-21"
 }

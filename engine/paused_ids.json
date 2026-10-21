@@ -1,4 +1,9 @@
 {
-  "comment": "Items listed here are never evaluated or published by the weekly cycle; they stay in the queue untouched until removed from this list. Edit by hand; ids come from data/review-queue/queue.json.",
-  "ids": []
+  "comment": "Items listed here are never evaluated or published by the weekly cycle; they stay in the queue untouched until removed from this list. Owner decision 2026-10-21: the 2026 AAO-HNSF tinnitus guideline records and the Lenire guideline news item wait for manual review (Lenire and V15 Groups B/C are on hold). Do not delete these items; remove an id only to release it.",
+  "ids": [
+    "pubmed-42861486",
+    "pubmed-42861475",
+    "pubmed-42861423",
+    "newsintel-neuromod-lenire-lenire-now-included-in-u-s-ent-clinical-practice-guidelines-first-new-treatment-added-by-ameri"
+  ]
 }
