@@ -365,7 +365,11 @@ class Cycle:
                 evaluation = {"state": "blocked-gate"}
             else:
                 # limit 60 drains any backlog (e.g. weeks that ran before the API key existed)
-                n, skip = evaluate_queue.main(limit=60)
+                try:  # engine/eval_settings.json {"limitPerRun": N} lets the owner throttle a backlog into small batches (default 60 = previous behaviour)
+                    per_run = max(1, min(100, int(self.load("engine/eval_settings.json", {}).get("limitPerRun", 60))))
+                except (TypeError, ValueError):
+                    per_run = 60
+                n, skip = evaluate_queue.main(limit=per_run)
                 if skip:
                     self.status["errors"].append(f"AI evaluation skipped: {skip}")
                 queue = self.load("data/review-queue/queue.json", queue)  # evaluate_queue writes directly

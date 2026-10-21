@@ -1,0 +1,4 @@
+{
+  "comment": "limitPerRun = how many queued items the weekly cycle may send to the AI evaluator in one run (1-100). 60 was the previous fixed value. Lower it to process a backlog in small batches.",
+  "limitPerRun": 60
+}
