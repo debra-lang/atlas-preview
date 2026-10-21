@@ -437,6 +437,14 @@ class Cycle:
         index = self.load("data/weekly/index.json", {"reports": []})
         rep_rel = f"data/weekly/{today}.json"
         existing_rep = self.load(rep_rel, None)
+        awaiting = (self.status.get("evaluation") or {}).get("awaitingEvaluation", 0)
+        if not publish and not existing_rep and awaiting:
+            # NOT a quiet week: items were scanned but have not been read yet (evaluation unavailable or backlog). Never describe that as "nothing found".
+            publish = [{"kind": "news", "treatment": "", "importance": "Not yet assessed",
+                        "title": f"{awaiting} new item(s) found by the weekly scan have not been evaluated yet",
+                        "whyMatters": "The scan collected new items from the sources below, but they have not been read and assessed yet. This is not a finding that nothing important was published. The evidence assessment shown on this site is unchanged until the items are reviewed.",
+                        "summary": "Sources checked: " + ", ".join(s["name"] for s in self.status["sources"]) + f". Items awaiting evaluation: {awaiting}.",
+                        "url": "", "detail": {"changesAssessment": "Not assessed yet — the current evidence assessment is unchanged."}}]
         if not publish and not existing_rep:  # honest quiet week — never bump dates to fake freshness
             publish = [{"kind": "news", "treatment": "", "importance": "Does Not Change Current Evidence",
                         "title": "No evidence-changing tinnitus research identified in this week's scan",
