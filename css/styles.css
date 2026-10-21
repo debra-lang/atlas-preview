@@ -1188,3 +1188,7 @@ main p,main li{overflow-wrap:break-word}
 details.rmore summary,#near-note,.trial-card .tbadges .badge.sec{opacity:1}   /* dimming text with opacity pushed it below 4.5:1 */
 :root[data-theme="light"] strong[style*="color:var(--c-strong)"]{color:var(--t-strong)!important}   /* About page tier labels (inline colour) */
 :root[data-theme="light"] strong[style*="color:var(--c-watch)"]{color:var(--t-watch)!important}
+/* ===== V18 contrast change 1 (visible, brand colour): white text on the brand gradient reaches 4.5:1 (WCAG 1.4.3). Only the teal end is deepened (the original violet already passes); applies to the white-text uses only: rank pills, selected chips, primary buttons. The decorative uses of --grad-brand are unchanged ===== */
+:root{--grad-brand-aa:linear-gradient(135deg,#0b7e8b,#5458e8)}
+.tcard:not(.rcard-rest) .rank,.chip[aria-pressed="true"],.btn-primary{background:var(--grad-brand-aa)}
+@media(hover:hover){.cmp-panel .chip[aria-pressed="true"]:hover{color:#fff}}   /* the Compare panel's hover rule turned a selected chip's white text dark on the gradient */
