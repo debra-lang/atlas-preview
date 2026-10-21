@@ -9,6 +9,7 @@ import json, os, sys
 from pathlib import Path
 
 BACKLOG_LIMIT = 25
+MAX_DISABLED_DAYS = 21
 status = json.loads((Path(__file__).resolve().parent.parent / "data" / "engine-status.json").read_text(encoding="utf-8"))
 ev = status.get("evaluation")
 if not ev:
@@ -17,7 +18,19 @@ if not ev:
 state, awaiting = ev.get("state"), ev.get("awaitingEvaluation", 0) or 0
 attempted, failed = ev.get("attempted", 0) or 0, ev.get("failed", 0) or 0
 problems, warnings = [], []
-if state in ("failed", "blocked-gate"):
+if state == "disabled":
+    # Deliberately switched off by the owner: expected, so not a failure and the backlog is expected too. A safety net still fails the run if it stays off too long.
+    since = ev.get("disabledSince")
+    try:
+        from datetime import date
+        days = (date.today() - date.fromisoformat(str(since))).days if since else None
+    except ValueError:
+        days = None
+    warnings.append(f"AI evaluation is SWITCHED OFF (engine/eval_settings.json, since {since or 'unknown'}); {awaiting} item(s) are waiting. Scanning continues.")
+    if days is not None and days > MAX_DISABLED_DAYS:
+        problems.append(f"AI evaluation has been switched off for {days} days (limit {MAX_DISABLED_DAYS}); re-enable it or extend the limit deliberately.")
+    awaiting = 0   # backlog is expected while disabled
+elif state in ("failed", "blocked-gate"):
     problems.append(f"AI evaluation state is '{state}' ({ev.get('reason') or 'no reason recorded'}).")
 elif state == "degraded":
     (problems if attempted and failed * 2 >= attempted else warnings).append(f"AI evaluation degraded: {failed} of {attempted} attempts failed {ev.get('errorClasses')}.")

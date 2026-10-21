@@ -352,7 +352,14 @@ class Cycle:
         trial_items = self.refresh_trials(fixture=trial_fixture if self.simulate else None)
 
         evaluation = {"state": "not-run"}   # recorded in engine-status.json so a failed evaluation can never look like a successful one
-        if not self.skip_eval and fixtures is None:
+        # MASTER SWITCH (fail-closed): the scheduled cycle sends items to the AI evaluator ONLY when engine/eval_settings.json says "enabled": true.
+        # A missing, unreadable or malformed file means OFF. Scanning, trial-status refresh, retraction checks and queue preservation all continue.
+        _settings = self.load("engine/eval_settings.json", None)
+        eval_enabled = isinstance(_settings, dict) and _settings.get("enabled") is True
+        if not self.skip_eval and fixtures is None and not eval_enabled:
+            evaluation = {"state": "disabled", "reason": "automated evaluation is switched off in engine/eval_settings.json (it runs only when \"enabled\" is true)",
+                          "disabledSince": (_settings or {}).get("disabledSince") if isinstance(_settings, dict) else None}
+        if not self.skip_eval and fixtures is None and eval_enabled:
             # LAUNCH GATE (research-integrity requirement): no AI-evaluated research may publish
             # until the frozen production benchmark has PASSED (engine/run_benchmark.py, exit 0).
             # Until then items simply accumulate as awaiting-evaluation — nothing is lost.
@@ -453,13 +460,24 @@ class Cycle:
         rep_rel = f"data/weekly/{today}.json"
         existing_rep = self.load(rep_rel, None)
         awaiting = (self.status.get("evaluation") or {}).get("awaitingEvaluation", 0)   # excludes owner-paused items
-        if not publish and not existing_rep and awaiting:
-            # NOT a quiet week: items were scanned but have not been read yet (evaluation unavailable or backlog). Never describe that as "nothing found".
-            publish = [{"kind": "news", "treatment": "", "importance": "Not yet assessed",
-                        "title": f"{awaiting} new item(s) found by the weekly scan have not been evaluated yet",
-                        "whyMatters": "The scan collected new items from the sources below, but they have not been read and assessed yet. This is not a finding that nothing important was published. The evidence assessment shown on this site is unchanged until the items are reviewed." + (f" {self.status.get('paused')} further item(s) are intentionally paused for owner review." if self.status.get("paused") else ""),
-                        "summary": "Sources checked: " + ", ".join(s["name"] for s in self.status["sources"]) + f". Items awaiting evaluation: {awaiting}.",
-                        "url": "", "detail": {"changesAssessment": "Not assessed yet — the current evidence assessment is unchanged."}}]
+        ev_state = (self.status.get("evaluation") or {}).get("state")
+        eval_down = ev_state in ("disabled", "failed", "degraded", "blocked-gate")
+        if not existing_rep and (ev_state == "disabled" or (awaiting and (not publish or eval_down))):
+            # NOT a quiet week: items were scanned but have not been read (evaluation paused/unavailable, or backlog). Never describe that as "nothing found".
+            # Shown even when other items (e.g. registry status changes) publish, so a report can never hide that evaluation is not running.
+            paused_txt = (f" {self.status.get('paused')} further item(s) are intentionally paused for owner review." if self.status.get("paused") else "")
+            if ev_state == "disabled":
+                notice_title = (f"Automated evaluation is paused: {awaiting} new item(s) have not been evaluated" if awaiting else "Automated evaluation is paused this week")
+                notice_why = ("Automated evaluation of new research is temporarily paused while it is being repaired. The weekly scan still checked the sources below, but any items it collected have not been read or assessed. "
+                              "This is not a finding that nothing important was published. The evidence assessment shown on this site is unchanged until the items are reviewed.") + paused_txt
+            else:
+                notice_title = f"{awaiting} new item(s) found by the weekly scan have not been evaluated yet"
+                notice_why = ("The scan collected new items from the sources below, but they have not been read and assessed yet. This is not a finding that nothing important was published. "
+                              "The evidence assessment shown on this site is unchanged until the items are reviewed.") + paused_txt
+            notice = {"kind": "news", "treatment": "", "importance": "Not yet assessed", "title": notice_title, "whyMatters": notice_why,
+                      "summary": "Sources checked: " + ", ".join(s["name"] for s in self.status["sources"]) + f". Items awaiting evaluation: {awaiting}.",
+                      "url": "", "detail": {"changesAssessment": "Not assessed yet — the current evidence assessment is unchanged."}}
+            publish.insert(0, notice)
         if not publish and not existing_rep:  # honest quiet week — never bump dates to fake freshness
             publish = [{"kind": "news", "treatment": "", "importance": "Does Not Change Current Evidence",
                         "title": "No evidence-changing tinnitus research identified in this week's scan",
