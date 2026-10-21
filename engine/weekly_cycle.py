@@ -387,6 +387,8 @@ class Cycle:
         held = self.load("data/review-queue/held.json", {"items": []})
         self.retraction_check(held)  # monthly; findings go to held (Class B) — ratings untouched
         publish, remaining = list(trial_items), []
+        def remember(it):  # an item published (or held under evaluation) in THIS run must also block later duplicates in the same run
+            register.update(re.sub(r"\W+", "", (it.get(k) or "").lower())[:90] for k in ("url", "title") if it.get(k))
         for item in queue["items"]:
             r, reason = self.route(item, register, study_ids)
             ev = item.get("evaluation", {})
@@ -423,9 +425,11 @@ class Cycle:
                     "resolution": "unresolved — public assessment unchanged"})
                 if r == "publish-under-eval":
                     publish.append(self.weekly_item(item, ev, under_eval=True))
+                    remember(item)
                     self.status["publishedUnderEvaluation"] += 1
             else:
                 publish.append(self.weekly_item(item, ev))
+                remember(item)
                 self.status["published"] += 1
         queue["items"] = remaining
         self.status["evaluation"]["awaitingEvaluation"] = len(remaining)
