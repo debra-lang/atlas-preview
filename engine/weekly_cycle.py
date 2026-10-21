@@ -349,6 +349,7 @@ class Cycle:
 
         trial_items = self.refresh_trials(fixture=trial_fixture if self.simulate else None)
 
+        evaluation = {"state": "not-run"}   # recorded in engine-status.json so a failed evaluation can never look like a successful one
         if not self.skip_eval and fixtures is None:
             # LAUNCH GATE (research-integrity requirement): no AI-evaluated research may publish
             # until the frozen production benchmark has PASSED (engine/run_benchmark.py, exit 0).
@@ -359,12 +360,27 @@ class Cycle:
                     "AI evaluation skipped: production benchmark gate not passed yet "
                     "(run engine/run_benchmark.py once ANTHROPIC_API_KEY is configured; "
                     "items held as awaiting-evaluation)")
+                evaluation = {"state": "blocked-gate"}
             else:
                 # limit 60 drains any backlog (e.g. weeks that ran before the API key existed)
                 n, skip = evaluate_queue.main(limit=60)
                 if skip:
                     self.status["errors"].append(f"AI evaluation skipped: {skip}")
                 queue = self.load("data/review-queue/queue.json", queue)  # evaluate_queue writes directly
+                lr = dict(getattr(evaluate_queue, "LAST_RUN", {}) or {})
+                if lr.get("fatal") or (lr.get("attempted", 0) > 0 and lr.get("succeeded", 0) == 0):
+                    state = "failed"
+                elif lr.get("failed", 0) > 0:
+                    state = "degraded"
+                elif lr.get("attempted", 0) == 0:
+                    state = "idle"
+                else:
+                    state = "ok"
+                evaluation = {"state": state, "attempted": lr.get("attempted", 0), "succeeded": lr.get("succeeded", 0), "failed": lr.get("failed", 0),
+                              "parseErrors": lr.get("parseErrors", 0), "errorClasses": lr.get("errorClasses", {}), "fatal": lr.get("fatal"), "reason": lr.get("reason")}
+                if state in ("failed", "degraded") and not skip:
+                    self.status["errors"].append(f"AI evaluation {state}: {lr.get('reason')}")
+        self.status["evaluation"] = evaluation
 
         register = self.published_register()
         study_ids = {s["id"] for s in self.load("data/studies.json", [])}
@@ -412,6 +428,7 @@ class Cycle:
                 publish.append(self.weekly_item(item, ev))
                 self.status["published"] += 1
         queue["items"] = remaining
+        self.status["evaluation"]["awaitingEvaluation"] = len(remaining)
         self.stage("data/review-queue/queue.json", queue)
         self.stage("data/review-queue/held.json", held)
 
@@ -468,6 +485,9 @@ def write_status(root, status):
         pass
     if "lastSuccess" not in status and "lastSuccess" in prev:
         status["lastSuccess"] = prev["lastSuccess"]  # a failed run never claims freshness
+    ev, pev = status.get("evaluation"), (prev.get("evaluation") or {})
+    if isinstance(ev, dict) and "lastEvaluationSuccess" not in ev and pev.get("lastEvaluationSuccess"):
+        ev["lastEvaluationSuccess"] = pev["lastEvaluationSuccess"]  # evaluation freshness is tracked separately from scan freshness
     p.write_text(json.dumps(status, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
@@ -492,6 +512,12 @@ def main():
         status = c.run(fixtures=fixtures, trial_fixture=trial_fixture)
         c.commit()
         status["lastSuccess"] = status["lastAttempt"]  # only a fully committed cycle counts as success
+        ev = status.get("evaluation") or {}
+        if ev.get("state") in ("ok", "idle") and not ev.get("awaitingEvaluation"):
+            ev["lastEvaluationSuccess"] = status["lastAttempt"]  # evaluation genuinely worked and nothing is waiting
+        elif ev.get("state") in ("failed", "degraded", "blocked-gate"):
+            # visible in the GitHub run summary; the job itself is failed by engine/check_evaluation_health.py AFTER results are committed
+            print(f"::error title=AI evaluation {ev['state']}::{ev.get('reason') or 'see engine-status.json'}; {ev.get('awaitingEvaluation', '?')} item(s) awaiting evaluation")
         write_status(root, status)
         print(json.dumps({k: v for k, v in status.items() if k != "sources"}, indent=1))
         print("sources:", [(s["name"], s["count"], s["error"]) for s in status["sources"]])

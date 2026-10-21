@@ -78,3 +78,6 @@ jobs:
             git push origin main
           fi
           git push -f origin main:gh-pages   # GitHub Pages serves gh-pages
+      - name: Fail loudly if the AI evaluation did not work
+        if: always()   # runs after results are committed, so a red run never costs scanned items
+        run: python engine/check_evaluation_health.py

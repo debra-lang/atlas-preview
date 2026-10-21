@@ -1,0 +1,19 @@
+# Read-only check that the ANTHROPIC_API_KEY secret authenticates and has credit. Manual trigger only.
+# Sends ONE 1-token request, prints only the outcome class, never the key. Commits nothing, touches no queue, data or ratings.
+name: Check Anthropic API key (read-only)
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: One-request API check
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python engine/check_api.py
