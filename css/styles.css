@@ -1192,3 +1192,5 @@ details.rmore summary,#near-note,.trial-card .tbadges .badge.sec{opacity:1}   /*
 :root{--grad-brand-aa:linear-gradient(135deg,#0b7e8b,#5458e8)}
 .tcard:not(.rcard-rest) .rank,.chip[aria-pressed="true"],.btn-primary{background:var(--grad-brand-aa)}
 @media(hover:hover){.cmp-panel .chip[aria-pressed="true"]:hover{color:#fff}}   /* the Compare panel's hover rule turned a selected chip's white text dark on the gradient */
+/* ===== V18 contrast change 2 (visible, small): the Treatments filter-count badge (white digits) uses the same deeper gradient as change 1 (--grad-brand-aa; without change 1 it falls back to the old gradient) ===== */
+body[data-page="treatments"] .tfilter-n{background:var(--grad-brand-aa,var(--grad-brand))}
