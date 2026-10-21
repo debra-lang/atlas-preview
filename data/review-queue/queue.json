@@ -1,6 +1,55 @@
 {
-  "lastScan": "2026-10-19",
+  "lastScan": "2026-10-21",
   "items": [
+    {
+      "id": "pubmed-42900640",
+      "kind": "study",
+      "title": "Application of cervical epidural blood patch for spontaneous cerebrospinal fluid leaks: Two case reports.",
+      "source": "Agri : Agri (Algoloji) Dernegi'nin Yayin organidir = The journal of the Turkish Society of Algology",
+      "date": "2026 Sep 25",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42900640/",
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    },
+    {
+      "id": "ctgov-NCT04066348-2026-10-20",
+      "kind": "trial",
+      "title": "TNF-α Treatment of Blast-Induced Tinnitus",
+      "source": "Wayne State University",
+      "date": "2026-10-20",
+      "url": "https://clinicaltrials.gov/study/NCT04066348",
+      "summary": "Trial update — status: ACTIVE_NOT_RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    },
+    {
+      "id": "ctgov-NCT06929468-2026-10-20",
+      "kind": "trial",
+      "title": "Cisplatin-induced Cochlear and Vestibular Damage in Head and Neck Cancer",
+      "source": "Simon Jäger",
+      "date": "2026-10-20",
+      "url": "https://clinicaltrials.gov/study/NCT06929468",
+      "summary": "Trial update — status: RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    },
+    {
+      "id": "newsintel-neuromod-lenire-lenire-tinnitus-device-joins-u-s-ent-guidelines-as-an-option-doctors-may-offer-for-bothersome-",
+      "kind": "news",
+      "title": "Lenire Tinnitus Device Joins U.S. ENT Guidelines as an Option Doctors May Offer for Bothersome Ringing - Medical Daily",
+      "source": "News wire watch: Neuromod / Lenire",
+      "date": "2026-10-21",
+      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPTFk5TlVjWTdJOTdVMm1iZXNwSFBJYnFrU3l4WkZ3UGZWWXVFMmF3Sk93SVkxM1lJVXNzV0NlX2lEcDRVaEx6dTFlbGd3bWpSamdvWWozUGFaQW92VHprS2ZJRnFLQUdIMVN0czZBYkFEdmVpYUV2UU9HcmFPMzB1RmpNc0ZrUWJZTGZ6NEc5bEoxNHFR?oc=5",
+      "intelligenceOnly": true,
+      "summary": "Company/news-wire intelligence item. NOT evidence — publishable only as a labeled company-reported development after verification.",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    },
     {
       "id": "pubmed-42894823",
       "kind": "study",

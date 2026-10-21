@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-21",
+  "title": "Automated weekly scan — 2 update(s)",
+  "automated": true,
+  "items": [
+    {
+      "kind": "news",
+      "treatment": "",
+      "importance": "Not yet assessed",
+      "title": "Automated evaluation is paused: 73 new item(s) have not been evaluated",
+      "whyMatters": "Automated evaluation of new research is temporarily paused while it is being repaired. The weekly scan still checked the sources below, but any items it collected have not been read or assessed. This is not a finding that nothing important was published. The evidence assessment shown on this site is unchanged until the items are reviewed. 4 further item(s) are intentionally paused for owner review.",
+      "summary": "Sources checked: PubMed (title/abstract + MeSH), ClinicalTrials.gov (condition + full-text), Watched feeds (FDA press, NIH, journals), FDA databases (510k/PMA/MAUDE — openFDA), News-wire intelligence (labeled, never evidence), Guideline page watcher (AAO-HNSF, NICE). Items awaiting evaluation: 73.",
+      "url": "",
+      "detail": {
+        "changesAssessment": "Not assessed yet — the current evidence assessment is unchanged."
+      }
+    },
+    {
+      "kind": "trial",
+      "treatment": "off-label-drugs",
+      "title": "Trial status change: NCT04066348 is now 'Active, not recruiting'",
+      "importance": "Does Not Change Current Evidence",
+      "whyMatters": "The registry entry for this trial moved from 'Recruiting' to 'Active, not recruiting'. Status changes are verified directly against ClinicalTrials.gov.",
+      "summary": "Etanercept (TNF-α inhibitor) vs saline for blast-induced tinnitus — sponsor Wayne State University. Status verified at the registry on 2026-10-21.",
+      "url": "https://clinicaltrials.gov/study/NCT04066348",
+      "detail": {
+        "identifier": "NCT04066348",
+        "source": "ClinicalTrials.gov (authoritative registry)",
+        "changesAssessment": "No — trial status only."
+      }
+    }
+  ]
+}

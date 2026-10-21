@@ -2638,6 +2638,11 @@
     ],
     "latest": [
       {
+        "date": "2026-10-21",
+        "text": "Trial status change: NCT04066348 is now 'Active, not recruiting'",
+        "url": "https://clinicaltrials.gov/study/NCT04066348"
+      },
+      {
         "date": "2026-10-01",
         "dateLabel": "October 2026",
         "added": "2026-10-20",
