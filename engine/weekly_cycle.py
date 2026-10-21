@@ -259,6 +259,8 @@ class Cycle:
         keys = [re.sub(r"\W+", "", (item.get(k) or "").lower())[:90] for k in ("url", "title")]
         if any(k and k in register for k in keys):
             return "dup", "already published in the weekly feed"
+        if item.get("id") in getattr(self, "paused_ids", ()):
+            return "paused", "paused by the owner (engine/paused_ids.json): not evaluated, not published, not lost"
         ev = item.get("evaluation")
         if not ev:
             return "awaiting-eval", "no AI evaluation available yet (evaluation pending or credentials missing)"
@@ -389,6 +391,7 @@ class Cycle:
         publish, remaining = list(trial_items), []
         def remember(it):  # an item published (or held under evaluation) in THIS run must also block later duplicates in the same run
             register.update(re.sub(r"\W+", "", (it.get(k) or "").lower())[:90] for k in ("url", "title") if it.get(k))
+        self.paused_ids = set(self.load("engine/paused_ids.json", {"ids": []}).get("ids", []))
         for item in queue["items"]:
             r, reason = self.route(item, register, study_ids)
             ev = item.get("evaluation", {})
@@ -411,6 +414,9 @@ class Cycle:
                     "relevanceCategory": ev.get("relevanceCategory"),
                     "item": {k: item.get(k) for k in ("id", "kind", "title", "source", "date", "url")}})
                 self.stage("data/review-queue/archive.json", archive)
+            elif r == "paused":
+                self.status["paused"] = self.status.get("paused", 0) + 1
+                remaining.append(item)
             elif r == "awaiting-eval":
                 self.status["heldAwaitingEvaluation"] += 1
                 remaining.append(item)
@@ -432,7 +438,8 @@ class Cycle:
                 remember(item)
                 self.status["published"] += 1
         queue["items"] = remaining
-        self.status["evaluation"]["awaitingEvaluation"] = len(remaining)
+        self.status["evaluation"]["awaitingEvaluation"] = len(remaining) - self.status.get("paused", 0)
+        self.status["evaluation"]["paused"] = self.status.get("paused", 0)
         self.stage("data/review-queue/queue.json", queue)
         self.stage("data/review-queue/held.json", held)
 
@@ -441,18 +448,18 @@ class Cycle:
         index = self.load("data/weekly/index.json", {"reports": []})
         rep_rel = f"data/weekly/{today}.json"
         existing_rep = self.load(rep_rel, None)
-        awaiting = (self.status.get("evaluation") or {}).get("awaitingEvaluation", 0)
+        awaiting = (self.status.get("evaluation") or {}).get("awaitingEvaluation", 0)   # excludes owner-paused items
         if not publish and not existing_rep and awaiting:
             # NOT a quiet week: items were scanned but have not been read yet (evaluation unavailable or backlog). Never describe that as "nothing found".
             publish = [{"kind": "news", "treatment": "", "importance": "Not yet assessed",
                         "title": f"{awaiting} new item(s) found by the weekly scan have not been evaluated yet",
-                        "whyMatters": "The scan collected new items from the sources below, but they have not been read and assessed yet. This is not a finding that nothing important was published. The evidence assessment shown on this site is unchanged until the items are reviewed.",
+                        "whyMatters": "The scan collected new items from the sources below, but they have not been read and assessed yet. This is not a finding that nothing important was published. The evidence assessment shown on this site is unchanged until the items are reviewed." + (f" {self.status.get('paused')} further item(s) are intentionally paused for owner review." if self.status.get("paused") else ""),
                         "summary": "Sources checked: " + ", ".join(s["name"] for s in self.status["sources"]) + f". Items awaiting evaluation: {awaiting}.",
                         "url": "", "detail": {"changesAssessment": "Not assessed yet — the current evidence assessment is unchanged."}}]
         if not publish and not existing_rep:  # honest quiet week — never bump dates to fake freshness
             publish = [{"kind": "news", "treatment": "", "importance": "Does Not Change Current Evidence",
                         "title": "No evidence-changing tinnitus research identified in this week's scan",
-                        "whyMatters": "Quiet weeks happen. The sources below were checked; nothing met the bar for a meaningful update, and we would rather say so than manufacture a story.",
+                        "whyMatters": "Quiet weeks happen. The sources below were checked; nothing met the bar for a meaningful update, and we would rather say so than manufacture a story." + (f" {self.status.get('paused')} item(s) are intentionally paused for owner review and were not evaluated." if self.status.get("paused") else ""),
                         "summary": "Sources checked: " + ", ".join(s["name"] for s in self.status["sources"]) + ".",
                         "url": "", "detail": {"changesAssessment": "No."}}]
         if existing_rep:  # idempotent same-day rerun: merge items, keep the report's own title/headline

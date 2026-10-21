@@ -81,6 +81,14 @@ RULES = """You evaluate new tinnitus research for an evidence platform. Rules:
   ever publish as labeled company-reported developments and never strengthen any rating."""
 
 
+def load_paused():
+    """Ids listed in engine/paused_ids.json: items the owner wants kept out of automated evaluation and publication."""
+    try:
+        return set(json.loads((ROOT / "engine" / "paused_ids.json").read_text(encoding="utf-8")).get("ids", []))
+    except Exception:
+        return set()
+
+
 def classify_error(e):
     """Map an Anthropic SDK error to a short class: auth | billing | permission | rate_limit | server | other."""
     code = getattr(e, "status_code", None)
@@ -170,7 +178,8 @@ def main(limit=None):
                 "loudness": t["loudness"]["level"], "distress": t["distress"]["level"]} for t in treatments]
     s_index = [{"id": s["id"], "title": s["title"], "year": s["year"]} for s in studies]
 
-    todo = [it for it in queue.get("items", []) if not it.get("evaluation")][:LIMIT]
+    paused = load_paused()   # owner-paused items are never sent to the API (they stay queued, untouched)
+    todo = [it for it in queue.get("items", []) if not it.get("evaluation") and it.get("id") not in paused][:LIMIT]
     if not todo:
         print("Nothing to evaluate — queue items all have evaluations (or queue is empty).")
         _record(preflight="skipped-nothing-to-do")

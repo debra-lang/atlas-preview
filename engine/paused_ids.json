@@ -1,0 +1,4 @@
+{
+  "comment": "Items listed here are never evaluated or published by the weekly cycle; they stay in the queue untouched until removed from this list. Edit by hand; ids come from data/review-queue/queue.json.",
+  "ids": []
+}
