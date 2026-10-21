@@ -1194,3 +1194,6 @@ details.rmore summary,#near-note,.trial-card .tbadges .badge.sec{opacity:1}   /*
 @media(hover:hover){.cmp-panel .chip[aria-pressed="true"]:hover{color:#fff}}   /* the Compare panel's hover rule turned a selected chip's white text dark on the gradient */
 /* ===== V18 contrast change 2 (visible, small): the Treatments filter-count badge (white digits) uses the same deeper gradient as change 1 (--grad-brand-aa; without change 1 it falls back to the old gradient) ===== */
 body[data-page="treatments"] .tfilter-n{background:var(--grad-brand-aa,var(--grad-brand))}
+/* ===== V18 contrast change 3 (visible, small): the Home hero kicker keeps its two-tone gradient text but with per-theme stops that reach 4.5:1 on the hero (dark: brand teal to a lighter violet; light: a deeper teal to a deeper violet) ===== */
+.hero .kicker{background:linear-gradient(135deg,#0ea5b7,#8b8ff5);-webkit-background-clip:text;background-clip:text;color:transparent}
+:root[data-theme="light"] .hero .kicker{background:linear-gradient(135deg,#0c6f7d,#4547c9);-webkit-background-clip:text;background-clip:text;color:transparent}
