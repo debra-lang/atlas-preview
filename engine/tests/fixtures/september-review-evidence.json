@@ -83,7 +83,15 @@
   "report": "2026-09-07",
   "kNumber": "K260413",
   "publishedDecisionDate": "2026-09-04",
-  "officialDecisionDate": "2026-08-13"
+  "officialDecisionDate": "2026-08-13",
+  "primarySource": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K260413",
+  "primarySourceDecisionDate": "2026-08-13",
+  "primarySourceDateReceived": "2026-02-09",
+  "checkedOn": "2026-10-22",
+  "device": "Levo Gen 2 Tinnitus Therapy System",
+  "applicant": "Levo Medical Corporation",
+  "decision": "Substantially Equivalent (SESE)",
+  "note": "The FDA 510(k) database page and the openFDA API agree. Only the 2026-09-07 report's item states a wrong date; the launch edition and the Levo treatment record say 'August'."
  },
  "quietReports": {
   "comment": "From engine/audit-log.jsonl: at each of these runs no item was evaluated and the listed number of collected items were waiting unassessed, yet the report published 'No evidence-changing tinnitus research identified in this week's scan'.",

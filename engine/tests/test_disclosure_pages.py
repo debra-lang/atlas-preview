@@ -99,6 +99,20 @@ class TestPublicStatementsAreAccurate(unittest.TestCase):
             self.assertGreater(evidence[d]["awaitingEvaluation"], 0, d)
         self.assertIn("clarification added", js)                                                # visible in the archive list too
 
+    def test_the_fda_date_correction_matches_the_primary_source_and_leaves_the_original_text_in_place(self):
+        js = read("js/app.js")
+        fda = json.loads(read("engine/tests/fixtures/september-review-evidence.json"))["fdaItem"]
+        self.assertEqual(fda["primarySourceDecisionDate"], fda["officialDecisionDate"])         # the FDA page and the API agree
+        self.assertNotEqual(fda["publishedDecisionDate"], fda["primarySourceDecisionDate"])
+        self.assertIn("August 13, 2026", js); self.assertIn("February 9, 2026", js)               # 2026-08-13 and 2026-02-09 in the FDA record
+        self.assertIn(fda["primarySource"], js)
+        self.assertIn("FDA 510(k) Premarket Notification database, K260413", js)
+        rep = json.loads(read("data/weekly/2026-09-07.json"))
+        item = [i for i in rep["items"] if i.get("url") == fda["primarySource"]]
+        self.assertEqual(len(item), 1)
+        self.assertIn(fda["publishedDecisionDate"], item[0]["summary"])                          # the published text is preserved, not edited
+        self.assertEqual(len(re.findall(r"url: 'https://www\.accessdata\.fda\.gov/[^']+'", js)), 1)       # exactly one corrected item
+
     def test_editorial_review_is_never_presented_as_clinical_review_or_endorsement(self):
         for page in ("research.html", "about.html"):
             self.assertRegex(self.text(page), r"not a clinical review|does not mean that a clinician")

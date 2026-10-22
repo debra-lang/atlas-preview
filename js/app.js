@@ -629,7 +629,7 @@
     'Confirms Previous Evidence': 'b-promising', 'Negative Result': 'b-watch',
     'Does Not Change Current Evidence': 'b-weak'
   };
-  function weekItem(it, label) {
+  function weekItem(it, label, extra) {
     const KIND_COLORS = { study: 'var(--c-promising)', trial: 'var(--c-emerging)', regulatory: 'var(--c-strong)', ranking: 'var(--c-watch)', negative: 'var(--c-weak)', news: 'var(--c-promising)' };
     const d = it.detail || {};
     const drow = (k, v) => (v && v !== 'Not reported' && (!Array.isArray(v) || v.length)) ?
@@ -645,6 +645,7 @@
       ${it.whyMatters ? `<div class="small"><strong>Why it matters:</strong> ${esc(it.whyMatters)}</div>` : ''}
       ${typeof it.reviewNote === 'string' && it.reviewNote ? `<div class="small muted review-note">${esc(it.reviewNote)}</div>` : ''}
       ${typeof label === 'string' && label ? `<div class="small muted ai-label">${esc(label)}</div>` : ''}
+      ${typeof extra === 'string' ? extra : ''}
       <details class="rdetail"><summary>Research detail</summary>
         <p class="small">${esc(it.summary)}</p>
         <ul class="small">
@@ -1122,6 +1123,18 @@
       dates: ['2026-09-04', '2026-09-28', '2026-10-05', '2026-10-12', '2026-10-19'],
       text: 'This report previously stated that no evidence-changing tinnitus research was identified. However, automated evaluation was not completed for all collected records. Therefore, this statement should not be interpreted as confirmation that no relevant research was found.'
     };
+    // Corrections added after publication; the report data is not edited, the original text stays visible.
+    const ITEM_CORRECTIONS = {
+      '2026-09-07': [{
+        url: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K260413',
+        text: 'This item said the FDA decision on K260413 was made on 2026-09-04. The FDA 510(k) database lists the decision date as August 13, 2026 (date received: February 9, 2026). The rest of the item is unchanged.',
+        source: 'FDA 510(k) Premarket Notification database, K260413'
+      }]
+    };
+    const correctionHtml = (date, it) => {
+      const c = (ITEM_CORRECTIONS[date] || []).find(x => x.url === it.url);
+      return c ? `<div class="small correction" role="note" style="border-left:4px solid var(--c-watch);padding:4px 10px;margin:6px 0"><strong>Correction (added October 2026):</strong> ${esc(c.text)} Source: <a href="${esc(c.url)}" rel="noopener" target="_blank">${esc(c.source)} ↗</a></div>` : '';
+    };
     // Reports whose items were written by an AI model and published without individual review (7-26 September 2026).
     const AI_UNREVIEWED = {
       dates: ['2026-09-07', '2026-09-14', '2026-09-21', '2026-09-26'],
@@ -1144,7 +1157,7 @@
         ${rep.headline ? `<div class="card" style="border-left:4px solid var(--c-promising)"><div class="k small muted" style="text-transform:uppercase;font-weight:700;letter-spacing:.06em">Most important in this update</div>
           <h3>${esc(rep.headline.title)}</h3><p class="small">${esc(rep.headline.summary)}</p>
           ${rep.headline.url ? `<a class="small" href="${esc(rep.headline.url)}" rel="noopener" target="_blank">Source ↗</a>` : ''}</div>` : ''}
-        ${rep.items.map(it => weekItem(it, unreviewed && it.detail && it.detail.studyType ? AI_UNREVIEWED.label : '')).join('')}`;
+        ${rep.items.map(it => weekItem(it, unreviewed && it.detail && it.detail.studyType ? AI_UNREVIEWED.label : '', correctionHtml(rep.date, it))).join('')}`;
     };
     if (file) {
       if (SINGLE && DB.weeklyAll) renderReport(DB.weeklyAll[file] || DB.weekly);
