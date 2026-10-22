@@ -33,7 +33,8 @@ if state == "disabled":
 elif state in ("failed", "blocked-gate"):
     problems.append(f"AI evaluation state is '{state}' ({ev.get('reason') or 'no reason recorded'}).")
 elif state == "degraded":
-    (problems if attempted and failed * 2 >= attempted else warnings).append(f"AI evaluation degraded: {failed} of {attempted} attempts failed {ev.get('errorClasses')}.")
+    (problems if attempted and failed * 2 >= attempted else warnings).append(f"AI evaluation degraded: {failed} of {attempted} attempts failed {ev.get('errorClasses')}"
+                                                                          + (f"; {ev.get('parseErrors')} answer(s) unusable {ev.get('failureKinds') or ''}" if ev.get("parseErrors") else "") + ".")
 for e in status.get("errors") or []:
     if "coverage gap" in str(e):      # a source was not scanned for longer than the maximum look-back: records may have been missed, so this is a red run, not a footnote
         problems.append(str(e))

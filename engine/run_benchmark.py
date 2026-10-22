@@ -105,11 +105,14 @@ def main():
                               "source": "benchmark", "url": ""}) +
                   f"\n\nPRIMARY RECORD:\n{text}\n\n"
                   f"Respond with ONLY a JSON object exactly matching this shape (no markdown fences):\n{evaluate_queue.EVAL_FIELDS}")
-        resp = client.messages.create(model=evaluate_queue.MODEL, max_tokens=4000,
+        resp = client.messages.create(model=evaluate_queue.MODEL, max_tokens=evaluate_queue.MAX_OUTPUT_TOKENS,
                                       thinking={"type": "adaptive"},
                                       messages=[{"role": "user", "content": prompt}])
         t = next((b.text for b in resp.content if b.type == "text"), "")
+        bad = evaluate_queue.response_failure(getattr(resp, "stop_reason", None), t)
         try:
+            if bad:
+                raise ValueError(f"model answer unusable: {bad}")      # e.g. cut off at the output limit: a harness failure, not a wrong answer
             ev = json.loads(t[t.index("{"):t.rindex("}") + 1])
         except Exception as e:
             results[cid], failures[cid] = {"parseError": str(e)}, [f"unparseable output: {e}"]

@@ -347,7 +347,9 @@ class Cycle:
         if not ev:
             return "awaiting-eval", "no AI evaluation available yet (evaluation pending or credentials missing)"
         if ev.get("parseError"):
-            return "hold", "evaluation could not be parsed — uncertainty hold"
+            why = {"truncated": "the AI answer was cut off at the output limit", "refused": "the AI declined to answer", "empty": "the AI returned no text",
+                   "unexpected-stop": "the AI stopped unexpectedly"}.get(ev.get("failureKind"), "the AI answer could not be parsed")
+            return "hold", f"evaluation unusable ({why}) — uncertainty hold"
         if ev.get("duplicateOf"):
             return "dup", f"re-reports existing study record '{ev['duplicateOf']}'"
         if ev.get("notRelevant") or ev.get("affectedTreatment") == "none" and ev.get("importance") is None:
@@ -621,14 +623,14 @@ class Cycle:
                 lr = dict(getattr(evaluate_queue, "LAST_RUN", {}) or {})
                 if lr.get("fatal") or (lr.get("attempted", 0) > 0 and lr.get("succeeded", 0) == 0):
                     state = "failed"
-                elif lr.get("failed", 0) > 0 or lr.get("recordUnavailable", 0) > 0:
+                elif lr.get("failed", 0) > 0 or lr.get("recordUnavailable", 0) > 0 or lr.get("parseErrors", 0) > 0:
                     state = "degraded"
                 elif lr.get("attempted", 0) == 0:
                     state = "idle"
                 else:
                     state = "ok"
                 evaluation = {"state": state, "attempted": lr.get("attempted", 0), "succeeded": lr.get("succeeded", 0), "failed": lr.get("failed", 0),
-                              "parseErrors": lr.get("parseErrors", 0), "errorClasses": lr.get("errorClasses", {}), "fatal": lr.get("fatal"), "reason": lr.get("reason"),
+                              "parseErrors": lr.get("parseErrors", 0), "failureKinds": lr.get("failureKinds", {}), "errorClasses": lr.get("errorClasses", {}), "fatal": lr.get("fatal"), "reason": lr.get("reason"),
                               "screenedWithoutAI": lr.get("screened", 0), "recordUnavailable": lr.get("recordUnavailable", 0),
                               "usage": {"inputTokens": lr.get("inputTokens", 0), "outputTokens": lr.get("outputTokens", 0), "estimatedCostUSD": lr.get("costUSD", 0.0), "model": evaluate_queue.MODEL}}
                 if lr.get("batch"):   # only present when the useBatch option is on: submitted / pending / collected, with counts
@@ -638,7 +640,7 @@ class Cycle:
                 if lr.get("cacheReadTokens") or lr.get("cacheWriteTokens"):
                     evaluation["usage"].update({"cacheReadTokens": lr.get("cacheReadTokens", 0), "cacheWriteTokens": lr.get("cacheWriteTokens", 0)})
                 if state in ("failed", "degraded") and not skip:
-                    self.status["errors"].append(f"AI evaluation {state}: {lr.get('reason')}")
+                    self.status["errors"].append(f"AI evaluation {state}: " + (lr.get("reason") or (f"{lr.get('parseErrors')} AI answer(s) unusable {lr.get('failureKinds') or ''}; those items are held for a person" if lr.get("parseErrors") else "no reason recorded")))
         evaluation["mode"] = "staged" if staged_mode else "publish"
         self.status["evaluation"] = evaluation
         if evaluation.get("usage") and evaluation.get("attempted"):   # cost ledger: one line per run that called the model (public: dates, token counts, estimated dollars)

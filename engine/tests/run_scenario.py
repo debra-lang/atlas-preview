@@ -94,6 +94,11 @@ class _Msgs:
         iid = meta["id"]
         CALLS[iid] = CALLS.get(iid, 0) + 1
         PROMPTS[iid] = {"meta": meta, "recordHead": m.group(2)[:400], "comparisonTypeLine": next((l for l in prompt.splitlines() if '"comparisonType"' in l), "")}
+        raw = SPEC.get("rawAnswers", {}).get(iid)     # {text, stopReason, outputTokens}: a model answer served as-is (for example cut off at the output limit)
+        if raw:
+            return types.SimpleNamespace(content=[types.SimpleNamespace(type="text", text=raw["text"])] if raw["text"] else [],
+                                         usage=types.SimpleNamespace(input_tokens=SPEC.get("tokensIn", 1), output_tokens=raw.get("outputTokens", 1)),
+                                         stop_reason=raw.get("stopReason", "end_turn"))
         ev = default_ev(iid)
         ev.update(SPEC.get("evaluations", {}).get(iid, {}))
         return types.SimpleNamespace(content=[types.SimpleNamespace(type="text", text=json.dumps(ev))],

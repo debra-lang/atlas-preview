@@ -106,6 +106,29 @@ RULES = """You evaluate new tinnitus research for an evidence platform. Rules:
 PRICES = {"claude-opus-5": (5.0, 25.0), "claude-opus-5-5": (4.0, 20.0), "claude-sonnet-5-5": (2.0, 10.0), "claude-haiku-5-5": (0.10, 0.50)}   # USD per million tokens (list prices, checked 21 Oct 2026)
 
 
+MAX_OUTPUT_TOKENS = 4000   # per-answer ceiling; adaptive-thinking tokens count against it. The model never sees this number, so raising it changes only answers that would have been cut off.
+
+
+def response_failure(stop_reason, text):
+    """Why a model answer cannot be used, or None. stop_reason comes from the API response (None only for test doubles that do not set it).
+    'max_tokens' = cut off at the output ceiling (any JSON in it is incomplete by definition, so it is never parsed); 'refusal' = declined; anything
+    other than a normal end = unexpected; no text at all = empty."""
+    if stop_reason == "max_tokens":
+        return "truncated"
+    if stop_reason == "refusal":
+        return "refused"
+    if stop_reason not in (None, "end_turn", "stop_sequence"):
+        return "unexpected-stop"
+    if not (text or "").strip():
+        return "empty"
+    return None
+
+
+FAILURE_NOTE = {"truncated": "The AI answer was cut off at the output-token limit, so it is incomplete and was not used.",
+                "refused": "The AI declined to answer.", "unexpected-stop": "The AI stopped for an unexpected reason.",
+                "empty": "The AI returned no text.", "unparseable": "The AI answer was not valid JSON."}
+
+
 def prompt_hash():
     """Fingerprint of the evaluator prompt (rules + field contract). The launch gate requires a benchmark pass on THIS prompt."""
     return hashlib.sha256((RULES + "\n" + EVAL_FIELDS).encode("utf-8")).hexdigest()[:16]
@@ -191,7 +214,7 @@ def classify_error(e):
 
 def _record(**kw):
     LAST_RUN.clear()
-    LAST_RUN.update({"attempted": 0, "succeeded": 0, "failed": 0, "parseErrors": 0, "errorClasses": {}, "fatal": None, "preflight": "not-run", "reason": None, "screened": 0, "recordUnavailable": 0, "inputTokens": 0, "outputTokens": 0, "costUSD": 0.0,
+    LAST_RUN.update({"attempted": 0, "succeeded": 0, "failed": 0, "parseErrors": 0, "failureKinds": {}, "errorClasses": {}, "fatal": None, "preflight": "not-run", "reason": None, "screened": 0, "recordUnavailable": 0, "inputTokens": 0, "outputTokens": 0, "costUSD": 0.0,
                      "cacheReadTokens": 0, "cacheWriteTokens": 0, "submitted": 0, "batch": None, "batchCollected": None, "catalogued": 0, "auditPicked": 0})
     LAST_RUN.update(kw)
 
@@ -301,16 +324,26 @@ def _account(usage, batch=False):
     LAST_RUN["costUSD"] = round(LAST_RUN["costUSD"] + usd, 4)
 
 
-def _finish_item(it, text, context, meta, item_meta, treatments, known_words, extra_eval_input=None):
+def _finish_item(it, text, context, meta, item_meta, treatments, known_words, extra_eval_input=None, stop_reason=None, output_tokens=None):
     """Everything that happens to a model answer: parse, deterministic checks, escalation triggers, fields written back into the queue item. Shared by the
     one-request-at-a-time path and the batch collector, so both apply identical checks."""
-    try:
-        start, end = text.index("{"), text.rindex("}") + 1
-        ev = json.loads(text[start:end])
-    except (ValueError, json.JSONDecodeError) as e:
-        print(f"  could not parse evaluation JSON ({e}); storing raw text for admin.")
-        ev = {"summaryForAdmin": text[:2000], "confidence": "low", "parseError": True}
+    kind = response_failure(stop_reason, text)
+    ev = None
+    if kind is None:
+        try:
+            start, end = text.index("{"), text.rindex("}") + 1
+            ev = json.loads(text[start:end])
+        except (ValueError, json.JSONDecodeError) as e:
+            kind = "unparseable"
+            print(f"  could not parse evaluation JSON ({type(e).__name__}); storing raw text for admin.")
+    if ev is None:
+        # No usable evaluation. 'parseError' stays True (weekly_cycle and older readers hold on it); failureKind says WHY, so the record is never blamed for a model-side failure.
+        print(f"  evaluation unusable ({kind}, stop_reason={stop_reason}); stored for admin, item held.")
+        ev = {"summaryForAdmin": (FAILURE_NOTE.get(kind, "") + " Raw text, if any: " + (text or "")[:1800]).strip(), "confidence": "low", "parseError": True,
+              "failureKind": kind, "stopReason": stop_reason, "outputTokens": output_tokens, "maxOutputTokens": MAX_OUTPUT_TOKENS}
         LAST_RUN["parseErrors"] += 1
+        fk = LAST_RUN.setdefault("failureKinds", {})
+        fk[kind] = fk.get(kind, 0) + 1
 
     if not ev.get("parseError"):
         # deterministic checks: the model's own factuallyVerified / confidence are self-assessments, so code records what it can verify itself
@@ -325,7 +358,7 @@ def _finish_item(it, text, context, meta, item_meta, treatments, known_words, ex
                        "criticalOmitted": bool(meta.get("criticalOmitted")), "hasResults": meta.get("hasResults"), "chars": len(context),
                        "omitted": meta.get("omitted", []), "shortened": meta.get("shortened", []),
                        "recordHash": hashlib.sha256(context.encode("utf-8")).hexdigest()[:16], "model": MODEL, "promptHash": prompt_hash(),
-                       "intelligenceOnlyGiven": item_meta["intelligenceOnly"]}
+                       "intelligenceOnlyGiven": item_meta["intelligenceOnly"], "maxOutputTokens": MAX_OUTPUT_TOKENS}
     if extra_eval_input:
         it["evalInput"].update(extra_eval_input)
     it["evaluation"] = ev
@@ -405,7 +438,8 @@ def batch_collect(client, queue, treatments, known_words):
             bump("record_changed")
             continue
         text = next((blk.text for blk in r.result.message.content if blk.type == "text"), "")
-        _finish_item(it, text, context, meta, entry["itemMeta"], treatments, known_words, {"batch": True, "batchId": batch_id})
+        _finish_item(it, text, context, meta, entry["itemMeta"], treatments, known_words, {"batch": True, "batchId": batch_id},
+                     stop_reason=getattr(r.result.message, "stop_reason", None), output_tokens=getattr(getattr(r.result.message, "usage", None), "output_tokens", None))
         done += 1
         LAST_RUN["succeeded"] += 1
     missing = len(entries) - len(seen)
@@ -528,7 +562,7 @@ def main(limit=None):
     todo = pend[:LIMIT]
     if not todo:
         print("Nothing to evaluate — queue items all have evaluations (or queue is empty).")
-        keep = {k: LAST_RUN.get(k) for k in ("attempted", "succeeded", "failed", "errorClasses", "inputTokens", "outputTokens", "costUSD", "cacheReadTokens", "cacheWriteTokens", "batch", "batchCollected", "parseErrors")}
+        keep = {k: LAST_RUN.get(k) for k in ("attempted", "succeeded", "failed", "errorClasses", "inputTokens", "outputTokens", "costUSD", "cacheReadTokens", "cacheWriteTokens", "batch", "batchCollected", "parseErrors", "failureKinds")}
         _record(preflight="skipped-nothing-to-do", screened=LAST_RUN.get("screened", 0))
         if flags["useBatch"]:
             LAST_RUN.update(keep)
@@ -595,7 +629,7 @@ def main(limit=None):
                 continue
             context, meta, item_meta, prefix, suffix = prep
             cid = "it-" + hashlib.sha256(it["id"].encode("utf-8")).hexdigest()[:16]   # custom_id must match [A-Za-z0-9_-]{1,64}
-            reqs.append({"custom_id": cid, "params": {"model": MODEL, "max_tokens": 4000, "thinking": {"type": "adaptive"},
+            reqs.append({"custom_id": cid, "params": {"model": MODEL, "max_tokens": MAX_OUTPUT_TOKENS, "thinking": {"type": "adaptive"},
                                                       "messages": [{"role": "user", "content": request_content(prefix, suffix, caching)}]}})
             entries[cid] = {"id": it["id"], "recordHash": hashlib.sha256(context.encode("utf-8")).hexdigest()[:16], "itemMeta": item_meta, "meta": meta}
         if not reqs:
@@ -638,7 +672,7 @@ def main(limit=None):
         try:
             response = client.messages.create(
                 model=MODEL,
-                max_tokens=4000,
+                max_tokens=MAX_OUTPUT_TOKENS,
                 thinking={"type": "adaptive"},
                 messages=[{"role": "user", "content": request_content(prefix, suffix, caching)}],
             )
@@ -666,7 +700,8 @@ def main(limit=None):
 
         _account(getattr(response, "usage", None))
         text = next((b.text for b in response.content if b.type == "text"), "")
-        _finish_item(it, text, context, meta, item_meta, treatments, known_words, {"promptCaching": True} if caching else None)
+        _finish_item(it, text, context, meta, item_meta, treatments, known_words, {"promptCaching": True} if caching else None,
+                     stop_reason=getattr(response, "stop_reason", None), output_tokens=getattr(getattr(response, "usage", None), "output_tokens", None))
         done += 1
         LAST_RUN["succeeded"] += 1
         QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")  # save after each item

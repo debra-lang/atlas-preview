@@ -14,7 +14,8 @@ Definitions (fixed in advance):
              the three evidence cues (sample size, design, result figures) present.
   UNNECESSARY HOLD: a CLEAN CANDIDATE that is not FEED. Split by cause: 'model-not-verified-only' (the code accepts everything, the model declined to call it verified),
              'evidence-adequacy' (the backstop held a record the humans say has specifics), 'level3' (a Level 3 rule fired: by design, counted but not "unnecessary" for the rate),
-             'unsupported-claim', 'record-problem', 'low-confidence', 'possible-major-change', 'other'.
+             'unsupported-claim', 'record-problem', 'low-confidence', 'possible-major-change', 'other'. 'evaluation-failure' = the model's answer was unusable
+             (failureKind: truncated, refused, empty, unparseable, unexpected-stop; 'unparsed' for results stored before the kind was recorded); it says nothing about the record.
 This tool decides nothing: a result never authorises publication, a prompt change or switching on the restricted release path.
 """
 import argparse, csv, json, sys
@@ -31,6 +32,9 @@ THRESHOLDS = {"unsafe_max": 0, "notices_min": 1.0, "safety_recall_min": 1.0, "da
 def causes(ev):
     """Why an evaluated item is held, computed from the stored evaluation (shared by the run script and the scorer)."""
     ev = ev or {}
+    if ev.get("parseError"):
+        # the model's answer was unusable (cut off, refused, empty, not JSON): no record check ever ran, so say that instead of blaming the record or the model's confidence
+        return ["evaluation-failure:" + str(ev.get("failureKind") or "unparsed")]
     sc = ev.get("sourceChecks") or {}
     out = []
     for t in ev.get("escalation") or []:
@@ -52,7 +56,7 @@ def causes(ev):
 
 
 def primary_cause(cs):
-    for key in ("level3", "evidence-adequacy", "unsupported-claim", "record-problem", "low-confidence", "possible-major-change"):
+    for key in ("evaluation-failure", "level3", "evidence-adequacy", "unsupported-claim", "record-problem", "low-confidence", "possible-major-change"):
         if any(c == key or c.startswith(key + ":") for c in cs):
             return key
     return "model-not-verified-only" if cs == ["model-not-verified"] else ("flag" if any(c.startswith("flag:") for c in cs) else "other")
