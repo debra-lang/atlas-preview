@@ -6,6 +6,15 @@ ROOT = Path(__file__).resolve().parents[2]
 read = lambda p: (ROOT / p).read_text(encoding="utf-8")
 
 
+def corrections_log():
+    return json.loads(read("data/corrections-log.json"))
+
+
+def _field(it, field):
+    holder, key = {"Summary": (it, "summary"), "Why it matters": (it, "whyMatters"), "Headline": (it, "title"), "Funding / conflicts": (it["detail"], "funding")}[field]
+    return holder, key
+
+
 class TestDisclosureEdits(unittest.TestCase):
     def test_overstated_phrases_are_gone_from_the_public_pages(self):
         for page in ("research.html", "about.html"):
@@ -33,11 +42,43 @@ class TestDisclosureEdits(unittest.TestCase):
         for need in ("No person reviewed them individually", "none was reviewed by a physician or other clinician", "do not use these summaries for medical decisions"):
             self.assertIn(need, block)
 
-    def test_weekly_report_files_are_unchanged_from_production(self):
-        # the disclosure is rendered by the page; no published research record is edited
-        import subprocess
-        out = subprocess.run(["git", "diff", "--name-only", "a69020cc76615cfff7827ca3c3d4c438623cb128", "--", "data/weekly", "data/studies.json", "data/treatments.json", "data/trials.json"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
-        self.assertEqual(out, "")
+    def test_the_only_changes_to_published_records_are_the_logged_corrections(self):
+        # the report files differ from production ONLY by the logged corrections: putting each logged field's original text back must give production's file exactly
+        import subprocess, copy
+        BASE = "a69020cc76615cfff7827ca3c3d4c438623cb128"
+        log = corrections_log()
+        changed = subprocess.run(["git", "diff", "--name-only", BASE, "--", "data/weekly", "data/studies.json", "data/treatments.json", "data/trials.json"], cwd=ROOT, capture_output=True, text=True).stdout.split()
+        self.assertEqual(sorted(changed), sorted({c["file"] for c in log["corrections"]}))
+        for f in changed:
+            base = json.loads(subprocess.run(["git", "show", f"{BASE}:{f}"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout)
+            now = json.loads(read(f))
+            restored = copy.deepcopy(now)
+            for fld in [x for x in log["fields"] if x["file"] == f]:
+                it = [i for i in restored["items"] if i["url"] == fld["itemUrl"]]
+                self.assertEqual(len(it), 1)
+                holder, key = _field(it[0], fld["field"])
+                self.assertEqual(holder[key], fld["after"], "the log's 'after' text is what the report says now")
+                holder[key] = fld["before"]
+            self.assertEqual(restored, base, f)
+
+    def test_every_logged_correction_is_consistent_with_its_field_history(self):
+        log = corrections_log()
+        self.assertEqual(len(log["corrections"]), 20)
+        for c in log["corrections"]:
+            fld = [x for x in log["fields"] if x["file"] == c["file"] and x["itemUrl"] == c["itemUrl"] and x["field"] == c["field"]]
+            self.assertEqual(len(fld), 1, c["id"])
+            self.assertEqual(fld[0]["before"].count(c["original"]), 1, c["id"])                  # the original passage was in the published text exactly once
+            if c["corrected"]:
+                self.assertEqual(fld[0]["after"].count(c["corrected"]), 1, c["id"])
+            self.assertNotIn(c["original"], fld[0]["after"].replace(c["corrected"], "") if c["corrected"] else fld[0]["after"], c["id"])   # and is gone now
+            self.assertIn(c["original"].strip()[:60], c["noteText"], c["id"])                     # the note quotes the original wording
+            self.assertTrue(c["reason"] and c["sourceLabel"] and c["itemUrl"].startswith("https://"), c["id"])
+        self.assertEqual(len({c["id"] for c in log["corrections"]}), 20)
+
+    def test_no_correction_introduces_a_priority_novelty_or_authority_claim(self):
+        bad = re.compile(r"\b(first|novel|novelty|largest|senior|well[- ]established|long-standing|under-?studied|coin flip|no better than chance|long-contested|unprecedented|pioneering)\b", re.I)
+        for c in corrections_log()["corrections"]:
+            self.assertIsNone(bad.search(c["corrected"]), (c["id"], c["corrected"]))
 
 
 class TestPublicStatementsAreAccurate(unittest.TestCase):
@@ -70,14 +111,38 @@ class TestPublicStatementsAreAccurate(unittest.TestCase):
 
     def test_the_statements_about_the_september_review_never_go_beyond_the_recorded_evidence(self):
         evidence = json.loads(read("engine/tests/fixtures/september-review-evidence.json"))
+        log = json.loads(read("data/corrections-log.json"))
         a = self.text("about.html")
-        if "statements that the source does not make" in a:
-            self.assertGreaterEqual(len(evidence["itemsWithClaimsTheAbstractDoesNotMake"]), 1)
-        if "one incorrect date" in a:
-            self.assertNotEqual(evidence["fdaItem"]["publishedDecisionDate"], evidence["fdaItem"]["officialDecisionDate"])
+        self.assertGreaterEqual(len(evidence["itemsWithClaimsTheAbstractDoesNotMake"]), 1)       # "statements that the source does not make" is evidence-bound
+        self.assertNotEqual(evidence["fdaItem"]["publishedDecisionDate"], evidence["fdaItem"]["officialDecisionDate"])   # "one incorrect date"
+        self.assertIn("one incorrect date", a)
         self.assertNotIn("incorrect numbers", a)                                # the check found paraphrased or derived numbers, not wrong ones
-        self.assertNotRegex(a, r"we (have )?corrected|corrections (were|have been) (made|published)")      # nothing has been corrected yet: only "we are preparing corrections"
-        self.assertIn("we are preparing corrections", a)
+        # "They were corrected" is only true if every item the check flagged was corrected or explicitly cleared in the log
+        self.assertIn("They were corrected, and each correction is shown under the item it changes", a)
+        self.assertNotIn("we are preparing corrections", a)
+        res = log["flags"]["resolution"]
+        self.assertEqual(sorted(res), sorted(evidence["reviewFlaggedPmids"]))
+        self.assertIn("an item without a correction note has not been verified", a)      # the honest limit stays next to the claim
+
+    def test_every_review_flag_is_resolved_by_a_correction_or_explicitly_withdrawn_with_a_justification(self):
+        evidence = json.loads(read("engine/tests/fixtures/september-review-evidence.json"))
+        log = corrections_log()
+        ids = {c["id"] for c in log["corrections"]}
+        res = log["flags"]["resolution"]
+        self.assertEqual(len(evidence["reviewFlaggedPmids"]), 11)
+        for pmid in evidence["reviewFlaggedPmids"]:
+            r = res[pmid]
+            if r.get("withdrawn"):
+                self.assertGreater(len(r["justification"]), 80, pmid)                    # a documented reason, not a bare withdrawal
+                self.assertNotIn("resolvedBy", r)
+            else:
+                self.assertTrue(r["resolvedBy"] and set(r["resolvedBy"]) <= ids, pmid)
+                for cid in r["resolvedBy"]:
+                    self.assertIn(pmid, [c for c in log["corrections"] if c["id"] == cid][0]["itemUrl"])   # the correction really is on that item
+        self.assertEqual([w["pmid"] for w in log["flags"]["withdrawn"]], ["42710361"])
+        self.assertIn("has not yet been evaluated in individuals with tinnitus", log["flags"]["withdrawn"][0]["justification"])
+        js = read("js/app.js")
+        self.assertNotIn("REVIEW_FLAG", js); self.assertNotIn("review-flag", js); self.assertNotIn("Review flag", js)      # no unresolved flag can be shown
 
     def test_the_clarification_is_exactly_the_approved_text_on_exactly_the_reports_that_made_the_quiet_statement(self):
         js = read("js/app.js")
@@ -99,37 +164,27 @@ class TestPublicStatementsAreAccurate(unittest.TestCase):
             self.assertGreater(evidence[d]["awaitingEvaluation"], 0, d)
         self.assertIn('<span class="small muted">— clarification added</span>', js)                  # visible in the archive list too
 
-    def test_the_fda_date_correction_matches_the_primary_source_and_leaves_the_original_text_in_place(self):
+    def test_the_fda_date_correction_matches_the_primary_source_and_keeps_the_original_wording_in_the_log(self):
         js = read("js/app.js")
         fda = json.loads(read("engine/tests/fixtures/september-review-evidence.json"))["fdaItem"]
+        log = corrections_log()
         self.assertEqual(fda["primarySourceDecisionDate"], fda["officialDecisionDate"])         # the FDA page and the API agree
         self.assertNotEqual(fda["publishedDecisionDate"], fda["primarySourceDecisionDate"])
-        self.assertIn("August 13, 2026", js); self.assertIn("February 9, 2026", js)               # 2026-08-13 and 2026-02-09 in the FDA record
-        self.assertIn(fda["primarySource"], js)
-        self.assertIn("FDA 510(k) Premarket Notification database, K260413", js)
-        self.assertIn('Source: <a href="${esc(c.url)}" rel="noopener" target="_blank">${esc(c.source)} ↗</a>', js)      # the source is a working link to the FDA page
+        c8 = [c for c in log["corrections"] if c["id"] == "C8"][0]
+        self.assertEqual(c8["itemUrl"], fda["primarySource"])
+        self.assertIn(fda["publishedDecisionDate"], c8["original"])                              # the wrong date is kept in the history...
+        self.assertIn("on " + fda["primarySourceDecisionDate"], c8["corrected"])                  # ...and the FDA's date is what the item says now
+        self.assertNotIn("2026-09-04", c8["corrected"])
+        self.assertEqual(c8["sourceLabel"], "FDA 510(k) Premarket Notification database, K260413")
+        self.assertIn("08/13/2026", c8["reason"]); self.assertIn("02/09/2026", c8["reason"])
+        self.assertNotIn("entered the weekly scan", c8["corrected"])                              # a clause no surviving record supports is not published
         rep = json.loads(read("data/weekly/2026-09-07.json"))
         item = [i for i in rep["items"] if i.get("url") == fda["primarySource"]]
         self.assertEqual(len(item), 1)
-        self.assertIn(fda["publishedDecisionDate"], item[0]["summary"])                          # the published text is preserved, not edited
-        self.assertEqual(len(re.findall(r"url: 'https://www\.accessdata\.fda\.gov/[^']+'", js)), 1)       # exactly one corrected item
-
-    def test_the_review_flags_cover_exactly_the_recorded_items_and_only_the_september_ai_reports(self):
-        js = read("js/app.js")
-        evidence = json.loads(read("engine/tests/fixtures/september-review-evidence.json"))
-        flagged = re.findall(r"'(\d{8})'", re.search(r"const REVIEW_FLAG = \{\s*pmids: \[([^\]]*)\]", js).group(1))
-        self.assertEqual(sorted(flagged), sorted(evidence["reviewFlaggedPmids"]))
-        self.assertEqual(len(flagged), 11)
-        in_reports = {}
-        for d in ("2026-09-07", "2026-09-14", "2026-09-21", "2026-09-26"):
-            for it in json.loads(read(f"data/weekly/{d}.json"))["items"]:
-                m = re.search(r"pubmed\.ncbi\.nlm\.nih\.gov/(\d+)", it.get("url") or "")
-                if m and m.group(1) in flagged:
-                    in_reports[m.group(1)] = in_reports.get(m.group(1), 0) + 1
-        self.assertEqual(sorted(in_reports), sorted(flagged)); self.assertTrue(all(v == 1 for v in in_reports.values()))      # each flagged item is published exactly once, in a September AI report
-        self.assertIn("Review flag: our October 2026 check found a statement in this summary that its source does not make. A correction is being prepared.", js)
-        self.assertIn("an item without a flag has not been verified", js)                              # a flag must never read as a certificate for the others
-        self.assertIn("(unreviewed ? flagHtml(it) : '')", js)
+        self.assertIn("on " + fda["primarySourceDecisionDate"], item[0]["summary"]); self.assertNotIn(fda["publishedDecisionDate"], item[0]["summary"])
+        self.assertIn('Source: <a href="${esc(it.url)}" rel="noopener" target="_blank">', js)    # the source is a working link
+        self.assertIn("Correction (added October 2026):", js)
+        self.assertEqual([c["id"] for c in log["corrections"] if c["reportDate"] == "2026-09-07"], ["C8"])      # the only correction in that report
 
     def test_the_ask_worker_cannot_say_nothing_was_found_and_relays_the_notices(self):
         import shutil, subprocess

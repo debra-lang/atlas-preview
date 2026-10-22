@@ -1,0 +1,548 @@
+{
+  "note": "History of corrections to the published September 2026 research updates. The reports' text was corrected in place; the original wording of every changed passage is kept here (\"original\"). Shown to visitors as a Correction note under each item (js/app.js) and relayed by the Ask assistant (ask-worker/worker.js). The September 2026 interim review flags were each resolved by one or more corrections or explicitly withdrawn (\"flags\").",
+  "correctedOn": "2026-10",
+  "verification": "Each corrected passage was checked against the source (PubMed record, a second index (Europe PMC), the open-access full text where available, and the FDA 510(k) database for K260413) on 22 October 2026; see september-corrections-proposed/VERIFICATION-OF-CORRECTIONS.md in the project folder.",
+  "corrections": [
+    {
+      "id": "C1a",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42652785/",
+      "itemTitle": "Clinic study of 293 patients: measured tinnitus loudness barely tracks tinnitus distress",
+      "field": "Why it matters",
+      "original": " That supports the widespread clinical experience that reducing distress, not just the volume of the sound, is what matters for quality of life.",
+      "corrected": "",
+      "kind": "delete",
+      "reason": "The abstract does not state this.",
+      "noteText": "Removed: “That supports the widespread clinical experience that reducing distress, not just the volume of the sound, is what matters for quality of life.” — The abstract does not state this.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "C1b",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42652785/",
+      "itemTitle": "Clinic study of 293 patients: measured tinnitus loudness barely tracks tinnitus distress",
+      "field": "Summary",
+      "original": " It adds another dataset reinforcing the known dissociation between measured loudness and distress.",
+      "corrected": "",
+      "kind": "delete",
+      "reason": "The abstract does not state this.",
+      "noteText": "Removed: “It adds another dataset reinforcing the known dissociation between measured loudness and distress.” — The abstract does not state this.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "C2a",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42730729/",
+      "itemTitle": "Small feasibility trial: sound-paired non-invasive vagus nerve stimulation found safe, but no effect on tinnitus loudness or TFI",
+      "field": "Summary",
+      "original": "First randomized safety/feasibility trial of noninvasive vagus nerve stimulation paired with",
+      "corrected": "A randomized safety/feasibility trial of noninvasive vagus nerve stimulation paired with",
+      "kind": "reword",
+      "reason": "The abstract does not say this is the first such trial.",
+      "noteText": "Changed: “First randomized safety/feasibility trial of noninvasive vagus nerve stimulation paired with” to “A randomized safety/feasibility trial of noninvasive vagus nerve stimulation paired with” — The abstract does not say this is the first such trial.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "C2b",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42730729/",
+      "itemTitle": "Small feasibility trial: sound-paired non-invasive vagus nerve stimulation found safe, but no effect on tinnitus loudness or TFI",
+      "field": "Summary",
+      "original": " The novelty is the delayed/parasympathetic pairing schedule rather than any demonstrated efficacy.",
+      "corrected": "",
+      "kind": "delete",
+      "reason": "The abstract does not state this.",
+      "noteText": "Removed: “The novelty is the delayed/parasympathetic pairing schedule rather than any demonstrated efficacy.” — The abstract does not state this.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "C2c",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42730729/",
+      "itemTitle": "Small feasibility trial: sound-paired non-invasive vagus nerve stimulation found safe, but no effect on tinnitus loudness or TFI",
+      "field": "Funding / conflicts",
+      "original": " Note senior author D. De Ridder has a long-standing research program in tinnitus neuromodulation, which is a non-financial intellectual interest.",
+      "corrected": "",
+      "kind": "delete",
+      "reason": "Neither the abstract nor the conflict-of-interest statement states this.",
+      "noteText": "Removed: “Note senior author D. De Ridder has a long-standing research program in tinnitus neuromodulation, which is a non-financial intellectual interest.” — Neither the abstract nor the conflict-of-interest statement states this.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "C3",
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42777476/",
+      "itemTitle": "Scoping review maps noninvasive vagus nerve stimulation in ENT: tinnitus is the biggest but still exploratory evidence cluster",
+      "field": "Summary",
+      "original": "which — for the first time in one place — quantifies the size and quality of the field",
+      "corrected": "which maps the size of the field",
+      "kind": "reword",
+      "reason": "The abstract does not say this is the first such review and reports no assessment of study quality.",
+      "noteText": "Changed: “which — for the first time in one place — quantifies the size and quality of the field” to “which maps the size of the field” — The abstract does not say this is the first such review and reports no assessment of study quality.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "C4a",
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42788144/",
+      "itemTitle": "Tympanometry fails as a screening test for finding the cause of pulsatile tinnitus",
+      "field": "Summary",
+      "original": "First reasonably sized evaluation of ambient pressure tympanometry (APT)",
+      "corrected": "An evaluation of ambient pressure tympanometry (APT)",
+      "kind": "reword",
+      "reason": "The abstract does not say this is the first evaluation or judge its size.",
+      "noteText": "Changed: “First reasonably sized evaluation of ambient pressure tympanometry (APT)” to “An evaluation of ambient pressure tympanometry (APT)” — The abstract does not say this is the first evaluation or judge its size.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "C4b",
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42788144/",
+      "itemTitle": "Tympanometry fails as a screening test for finding the cause of pulsatile tinnitus",
+      "field": "Why it matters",
+      "original": "this review of 107 patients found the test was little better than a coin flip. If you have pulsatile tinnitus, a normal tympanometry result should not be used as a reason to skip imaging.",
+      "corrected": "this review of 107 patients found the test may not be a reliable screen. The authors advise clinicians to keep ordering imaging for pulsatile tinnitus even when the tympanometry result is negative.",
+      "kind": "reword",
+      "reason": "The authors address clinicians and write that the test “may not be a reliable screening tool”.",
+      "noteText": "Changed: “this review of 107 patients found the test was little better than a coin flip. If you have pulsatile tinnitus, a normal tympanometry result should not be used as a reason to skip imaging.” to “this review of 107 patients found the test may not be a reliable screen. The authors advise clinicians to keep ordering imaging for pulsatile tinnitus even when the tympanometry result is negative.” — The authors address clinicians and write that the test “may not be a reliable screening tool”.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "C4c",
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42788144/",
+      "itemTitle": "Tympanometry fails as a screening test for finding the cause of pulsatile tinnitus",
+      "field": "Headline",
+      "original": "Tympanometry fails as a screening test for finding the cause of pulsatile tinnitus",
+      "corrected": "Tympanometry may not be a reliable screening test for finding the cause of pulsatile tinnitus",
+      "kind": "reword",
+      "reason": "The authors write that the test “may not be a reliable screening tool”.",
+      "noteText": "Changed: “Tympanometry fails as a screening test for finding the cause of pulsatile tinnitus” to “Tympanometry may not be a reliable screening test for finding the cause of pulsatile tinnitus” — The authors write that the test “may not be a reliable screening tool”.",
+      "sourceLabel": "PubMed record",
+      "optional": true,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "C4d",
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42788144/",
+      "itemTitle": "Tympanometry may not be a reliable screening test for finding the cause of pulsatile tinnitus",
+      "field": "Summary",
+      "original": "and it performs poorly (sensitivity ~43–57%, specificity ~54–57%), essentially no better than chance.",
+      "corrected": "and its sensitivity and specificity were low (sensitivity ~43–57%, specificity ~54–57%).",
+      "kind": "reword",
+      "reason": "The abstract reports low sensitivity and specificity; it does not compare them with chance.",
+      "noteText": "Changed: “and it performs poorly (sensitivity ~43–57%, specificity ~54–57%), essentially no better than chance.” to “and its sensitivity and specificity were low (sensitivity ~43–57%, specificity ~54–57%).” — The abstract reports low sensitivity and specificity; it does not compare them with chance.",
+      "sourceLabel": "PubMed record",
+      "optional": true,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "C5",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42654475/",
+      "itemTitle": "Periodontal Procedure Intensity and Incident Tinnitus in Korean Adults: A Nationwide Cohort Study.",
+      "field": "Summary",
+      "original": "First nationwide claims-based cohort to use periodontal *procedure intensity* as a proxy for periodontal disease burden and link it to incident tinnitus,",
+      "corrected": "A nationwide claims-based cohort using periodontal *procedure intensity* as a proxy for periodontal disease burden to examine incident tinnitus,",
+      "kind": "reword",
+      "reason": "The abstract does not say this is the first such cohort.",
+      "noteText": "Changed: “First nationwide claims-based cohort to use periodontal *procedure intensity* as a proxy for periodontal disease burden and link it to incident tinnitus,” to “A nationwide claims-based cohort using periodontal *procedure intensity* as a proxy for periodontal disease burden to examine incident tinnitus,” — The abstract does not say this is the first such cohort.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "C6",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42673781/",
+      "itemTitle": "Small study finds subtle auditory nerve signal differences in people with tinnitus and normal hearing tests",
+      "field": "Summary",
+      "original": "The chronicity-dependent stratification (acute <6 months vs chronic ≥6 months) is the main novel element; cochlear-synaptopathy-style ABR findings in tinnitus with normal hearing are themselves a long-contested literature.",
+      "corrected": "The study stratifies the findings by tinnitus duration (acute <6 months vs chronic ≥6 months).",
+      "kind": "reword",
+      "reason": "The abstract does not call this the main novel element or describe a contested literature.",
+      "noteText": "Changed: “The chronicity-dependent stratification (acute <6 months vs chronic ≥6 months) is the main novel element; cochlear-synaptopathy-style ABR findings in tinnitus with normal hearing are themselves a long-contested literature.” to “The study stratifies the findings by tinnitus duration (acute <6 months vs chronic ≥6 months).” — The abstract does not call this the main novel element or describe a contested literature.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "C7",
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42787411/",
+      "itemTitle": "Norwegian uncontrolled study: internet-delivered TRT plus CBT linked to modest tinnitus distress improvement over six months",
+      "field": "Summary",
+      "original": "The severity-stratified reporting is the main novel element; the overall finding that guided digital CBT-type programs reduce tinnitus distress is already well established by controlled trials.",
+      "corrected": "The study reports effects stratified by baseline severity.",
+      "kind": "reword",
+      "reason": "The abstract does not call this the main novel element or say the finding is established by controlled trials.",
+      "noteText": "Changed: “The severity-stratified reporting is the main novel element; the overall finding that guided digital CBT-type programs reduce tinnitus distress is already well established by controlled trials.” to “The study reports effects stratified by baseline severity.” — The abstract does not call this the main novel element or say the finding is established by controlled trials.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "C8",
+      "reportDate": "2026-09-07",
+      "file": "data/weekly/2026-09-07.json",
+      "itemUrl": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K260413",
+      "itemTitle": "FDA clears next-generation Levo tinnitus device through the 510(k) substantial-equivalence pathway",
+      "field": "Summary",
+      "original": "received a Substantially Equivalent decision (K260413) on 2026-09-04.",
+      "corrected": "received a Substantially Equivalent decision (K260413) on 2026-08-13 (the decision date in the FDA 510(k) database).",
+      "kind": "reword",
+      "reason": "The FDA 510(k) database lists decision date 08/13/2026 (date received 02/09/2026).",
+      "noteText": "Changed: “received a Substantially Equivalent decision (K260413) on 2026-09-04.” to “received a Substantially Equivalent decision (K260413) on 2026-08-13 (the decision date in the FDA 510(k) database).” — The FDA 510(k) database lists decision date 08/13/2026 (date received 02/09/2026).",
+      "sourceLabel": "FDA 510(k) Premarket Notification database, K260413",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "C9",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42664622/",
+      "itemTitle": "Large Iranian population study finds chronic headache linked to higher odds of tinnitus",
+      "field": "Summary",
+      "original": "from an under-studied Arab population,",
+      "corrected": "from an Arab community in southwestern Iran,",
+      "kind": "reword",
+      "reason": "The abstract does not describe the population as under-studied; the study’s title names an Arab community.",
+      "noteText": "Changed: “from an under-studied Arab population,” to “from an Arab community in southwestern Iran,” — The abstract does not describe the population as under-studied; the study’s title names an Arab community.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "N1",
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42766619/",
+      "itemTitle": "Tinnitus distress questionnaires overlap substantially with depression questionnaires, content analysis finds",
+      "field": "Summary",
+      "original": "First systematic ICF-based content analysis quantifying",
+      "corrected": "A systematic ICF-based content analysis quantifying",
+      "kind": "reword",
+      "reason": "The abstract does not say this is the first such analysis.",
+      "noteText": "Changed: “First systematic ICF-based content analysis quantifying” to “A systematic ICF-based content analysis quantifying” — The abstract does not say this is the first such analysis.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "N2",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42675511/",
+      "itemTitle": "Large German population study: hearing loss linked to memory and brain changes, tinnitus alone is not",
+      "field": "Funding / conflicts",
+      "original": "two senior authors declare unrelated pharma honoraria/personal fees (HJG: Neuraxpharm, Servier, Idorsia, Janssen Cilag; AF: Lilly, Biogen, Eisai), disclosed as outside the submitted work.",
+      "corrected": "two authors (HJG, AF) declare pharma honoraria or personal fees (HJG: Neuraxpharm, Servier, Idorsia, Janssen Cilag; AF: Lilly, Biogen, Eisai); the paper describes AF's fees as outside the submitted work.",
+      "kind": "reword",
+      "reason": "The paper lists the disclosures of two authors, HJG and AF; only AF’s are described as outside the submitted work.",
+      "noteText": "Changed: “two senior authors declare unrelated pharma honoraria/personal fees (HJG: Neuraxpharm, Servier, Idorsia, Janssen Cilag; AF: Lilly, Biogen, Eisai), disclosed as outside the submitted work.” to “two authors (HJG, AF) declare pharma honoraria or personal fees (HJG: Neuraxpharm, Servier, Idorsia, Janssen Cilag; AF: Lilly, Biogen, Eisai); the paper describes AF's fees as outside the submitted work.” — The paper lists the disclosures of two authors, HJG and AF; only AF’s are described as outside the submitted work.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "N3a",
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42780685/",
+      "itemTitle": "Animal study: mTOR inhibitor everolimus reduces tinnitus-like behavior and cortical hyperactivity in rats",
+      "field": "Summary",
+      "original": "First report that systemic everolimus",
+      "corrected": "A rat study reporting that systemic everolimus",
+      "kind": "reword",
+      "reason": "The abstract does not say this is the first report; the study was done in rats.",
+      "noteText": "Changed: “First report that systemic everolimus” to “A rat study reporting that systemic everolimus” — The abstract does not say this is the first report; the study was done in rats.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "N3b",
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42780685/",
+      "itemTitle": "Animal study: mTOR inhibitor everolimus reduces tinnitus-like behavior and cortical hyperactivity in rats",
+      "field": "Funding / conflicts",
+      "original": " Note the journal is an open-access Dove Medical Press title, so peer-review rigor is variable.",
+      "corrected": "",
+      "kind": "delete",
+      "reason": "This is a general remark about a journal, not something in the study record.",
+      "noteText": "Removed: “Note the journal is an open-access Dove Medical Press title, so peer-review rigor is variable.” — This is a general remark about a journal, not something in the study record.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "N4",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42710361/",
+      "itemTitle": "Donepezil failed to beat placebo for chronic tinnitus in a small double-blind trial",
+      "field": "Why it matters",
+      "original": " Negative results like this are useful because they help rule out repurposed drugs and discourage off-label prescribing based on theory alone.",
+      "corrected": "",
+      "kind": "delete",
+      "reason": "The abstract does not state this; the authors’ conclusion calls for larger studies.",
+      "noteText": "Removed: “Negative results like this are useful because they help rule out repurposed drugs and discourage off-label prescribing based on theory alone.” — The abstract does not state this; the authors’ conclusion calls for larger studies.",
+      "sourceLabel": "PubMed record",
+      "optional": true,
+      "correctedOn": "2026-10"
+    }
+  ],
+  "fields": [
+    {
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42652785/",
+      "field": "Why it matters",
+      "before": "In nearly 300 patients, how loud the tinnitus measured in the clinic was had little relation to how much it bothered people; distress tracked better with depression, sound intolerance and how the sound was perceived. That supports the widespread clinical experience that reducing distress, not just the volume of the sound, is what matters for quality of life.",
+      "after": "In nearly 300 patients, how loud the tinnitus measured in the clinic was had little relation to how much it bothered people; distress tracked better with depression, sound intolerance and how the sound was perceived."
+    },
+    {
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42652785/",
+      "field": "Summary",
+      "before": "A cross-sectional correlational study (N=293) in a single clinical setting reporting that tinnitus handicap (THI) is independently associated with subjective pitch, sound intolerance and depressive symptoms, while psychoacoustically matched tinnitus intensity was NOT associated with THI (and its correlation with subjective loudness did not survive Bonferroni correction). It adds another dataset reinforcing the known dissociation between measured loudness and distress. No effect sizes, correlation coefficients or p-values are given in the available abstract. Reported directionally: THI correlated positively with subjective loudness, pitch, complexity, sound intolerance, BDI and GAD-7; no significant association between THI and psychoacoustic tinnitus intensity; after Bonferroni correction, psychoacoustic intensity vs subjective loudness, psychoacoustic intensity vs THI-Functional, duration vs subjective loudness, subjective loudness vs BDI/GAD-7, and age vs subjective loudness/pitch were no longer significant.",
+      "after": "A cross-sectional correlational study (N=293) in a single clinical setting reporting that tinnitus handicap (THI) is independently associated with subjective pitch, sound intolerance and depressive symptoms, while psychoacoustically matched tinnitus intensity was NOT associated with THI (and its correlation with subjective loudness did not survive Bonferroni correction). No effect sizes, correlation coefficients or p-values are given in the available abstract. Reported directionally: THI correlated positively with subjective loudness, pitch, complexity, sound intolerance, BDI and GAD-7; no significant association between THI and psychoacoustic tinnitus intensity; after Bonferroni correction, psychoacoustic intensity vs subjective loudness, psychoacoustic intensity vs THI-Functional, duration vs subjective loudness, subjective loudness vs BDI/GAD-7, and age vs subjective loudness/pitch were no longer significant."
+    },
+    {
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42730729/",
+      "field": "Summary",
+      "before": "First randomized safety/feasibility trial of noninvasive vagus nerve stimulation paired with a replica of the patient's own tinnitus sound (a Pavlovian 'reconditioning' rationale), compared with simultaneous pairing and with randomly-timed (placebo) pairing. The novelty is the delayed/parasympathetic pairing schedule rather than any demonstrated efficacy. none reported in the abstract (no effect sizes, means or p-values given); reported as 'no significant differences between groups' for tinnitus loudness change and TFI change, with significant reductions in unpleasantness, anxiety and PSQI in the delayed-AS group described by the authors as exploratory and uncorrected for multiple comparisons",
+      "after": "A randomized safety/feasibility trial of noninvasive vagus nerve stimulation paired with a replica of the patient's own tinnitus sound (a Pavlovian 'reconditioning' rationale), compared with simultaneous pairing and with randomly-timed (placebo) pairing. none reported in the abstract (no effect sizes, means or p-values given); reported as 'no significant differences between groups' for tinnitus loudness change and TFI change, with significant reductions in unpleasantness, anxiety and PSQI in the delayed-AS group described by the authors as exploratory and uncorrected for multiple comparisons"
+    },
+    {
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42730729/",
+      "field": "Funding / conflicts",
+      "before": "independent — academic trial (University of Otago); one author reports equipment/supplies provided by Delft University of Technology (an academic institution, not a commercial device manufacturer); remaining authors declare no competing interests. Note senior author D. De Ridder has a long-standing research program in tinnitus neuromodulation, which is a non-financial intellectual interest.",
+      "after": "independent — academic trial (University of Otago); one author reports equipment/supplies provided by Delft University of Technology (an academic institution, not a commercial device manufacturer); remaining authors declare no competing interests."
+    },
+    {
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42777476/",
+      "field": "Summary",
+      "before": "A PRISMA-ScR scoping review and evidence map of noninvasive vagus nerve stimulation across otolaryngology, which — for the first time in one place — quantifies the size and quality of the field: 20 included studies, of which 8 concern tinnitus, all judged largely exploratory. It adds no new patient data and no pooled effect estimates. 4974 records identified, 2690 unique records screened, 20 studies included; indication categories: tinnitus n=8, dysphagia n=3, vestibular disorders/rehabilitation n=3, Menière's disease n=2, olfactory dysfunction n=2, pharyngeal dysesthesia n=1, LPR-related disorders n=1. No pooled effect sizes reported.",
+      "after": "A PRISMA-ScR scoping review and evidence map of noninvasive vagus nerve stimulation across otolaryngology, which maps the size of the field: 20 included studies, of which 8 concern tinnitus, all judged largely exploratory. It adds no new patient data and no pooled effect estimates. 4974 records identified, 2690 unique records screened, 20 studies included; indication categories: tinnitus n=8, dysphagia n=3, vestibular disorders/rehabilitation n=3, Menière's disease n=2, olfactory dysfunction n=2, pharyngeal dysesthesia n=1, LPR-related disorders n=1. No pooled effect sizes reported."
+    },
+    {
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42788144/",
+      "field": "Summary",
+      "before": "First reasonably sized evaluation of ambient pressure tympanometry (APT) as a bedside screening test for finding a radiologic cause of subjective pulsatile tinnitus — and it performs poorly (sensitivity ~43–57%, specificity ~54–57%), essentially no better than chance. This is diagnostic-workup evidence, not treatment evidence. 63/137 ears (46%) had a pulse-synchronous APT pattern; 51 (37.2%) had a radiologic correlate; 65 (44.2%) received a surgeon diagnosis. For a radiologic correlate: sensitivity 51%, specificity 57%, PPV 41.3%, NPV 66.2%. For a surgeon diagnosis: sensitivity 43.1%, specificity 54.9%, PPV 43.1%, NPV 54.9%. Chief-complaint subgroup (116 ears): radiologic correlate 56.9%/54.2%/46%/55.2%; surgeon diagnosis 43.6%/54.1%/46.2%/51.6%.",
+      "after": "An evaluation of ambient pressure tympanometry (APT) as a bedside screening test for finding a radiologic cause of subjective pulsatile tinnitus — and its sensitivity and specificity were low (sensitivity ~43–57%, specificity ~54–57%). This is diagnostic-workup evidence, not treatment evidence. 63/137 ears (46%) had a pulse-synchronous APT pattern; 51 (37.2%) had a radiologic correlate; 65 (44.2%) received a surgeon diagnosis. For a radiologic correlate: sensitivity 51%, specificity 57%, PPV 41.3%, NPV 66.2%. For a surgeon diagnosis: sensitivity 43.1%, specificity 54.9%, PPV 43.1%, NPV 54.9%. Chief-complaint subgroup (116 ears): radiologic correlate 56.9%/54.2%/46%/55.2%; surgeon diagnosis 43.6%/54.1%/46.2%/51.6%."
+    },
+    {
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42788144/",
+      "field": "Why it matters",
+      "before": "Some clinics hoped a simple ear-pressure test could tell which pulsatile tinnitus patients need a scan; this review of 107 patients found the test was little better than a coin flip. If you have pulsatile tinnitus, a normal tympanometry result should not be used as a reason to skip imaging.",
+      "after": "Some clinics hoped a simple ear-pressure test could tell which pulsatile tinnitus patients need a scan; this review of 107 patients found the test may not be a reliable screen. The authors advise clinicians to keep ordering imaging for pulsatile tinnitus even when the tympanometry result is negative."
+    },
+    {
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42788144/",
+      "field": "Headline",
+      "before": "Tympanometry fails as a screening test for finding the cause of pulsatile tinnitus",
+      "after": "Tympanometry may not be a reliable screening test for finding the cause of pulsatile tinnitus"
+    },
+    {
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42654475/",
+      "field": "Summary",
+      "before": "First nationwide claims-based cohort to use periodontal *procedure intensity* as a proxy for periodontal disease burden and link it to incident tinnitus, reporting a modest 24% higher adjusted hazard in the moderate-to-severe procedure group. It adds a new candidate risk-factor association to tinnitus epidemiology, not any treatment evidence. Incidence 4.38 vs 3.87 per 1000 person-years (moderate-to-severe vs mild); adjusted HR 1.24 (95% CI 1.17–1.30)",
+      "after": "A nationwide claims-based cohort using periodontal *procedure intensity* as a proxy for periodontal disease burden to examine incident tinnitus, reporting a modest 24% higher adjusted hazard in the moderate-to-severe procedure group. It adds a new candidate risk-factor association to tinnitus epidemiology, not any treatment evidence. Incidence 4.38 vs 3.87 per 1000 person-years (moderate-to-severe vs mild); adjusted HR 1.24 (95% CI 1.17–1.30)"
+    },
+    {
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42673781/",
+      "field": "Summary",
+      "before": "A cross-sectional case-control ABR study reporting that middle-aged adults with tinnitus and normal audiograms/DPOAEs show selective wave I abnormalities (reduced amplitude at low intensity; prolonged latency in chronic tinnitus) plus suprathreshold changes (steeper wave V latency-intensity slope, higher V/I ratio) that differ by tinnitus duration. The chronicity-dependent stratification (acute <6 months vs chronic ≥6 months) is the main novel element; cochlear-synaptopathy-style ABR findings in tinnitus with normal hearing are themselves a long-contested literature. Pure-tone thresholds, wave V thresholds and DPOAEs did not differ across groups. Chronic tinnitus: prolonged wave I latency at 55, 75 and 80 dB nHL; steeper wave V latency-intensity slope; higher V/I ratio at 80 dB nHL. Both acute and chronic tinnitus: reduced wave I amplitude at 45 dB nHL. Interpeak latencies and wave V ABR growth ratio showed no robust group differences. No effect sizes, confidence intervals or exact p-values are given in the abstract.",
+      "after": "A cross-sectional case-control ABR study reporting that middle-aged adults with tinnitus and normal audiograms/DPOAEs show selective wave I abnormalities (reduced amplitude at low intensity; prolonged latency in chronic tinnitus) plus suprathreshold changes (steeper wave V latency-intensity slope, higher V/I ratio) that differ by tinnitus duration. The study stratifies the findings by tinnitus duration (acute <6 months vs chronic ≥6 months). Pure-tone thresholds, wave V thresholds and DPOAEs did not differ across groups. Chronic tinnitus: prolonged wave I latency at 55, 75 and 80 dB nHL; steeper wave V latency-intensity slope; higher V/I ratio at 80 dB nHL. Both acute and chronic tinnitus: reduced wave I amplitude at 45 dB nHL. Interpeak latencies and wave V ABR growth ratio showed no robust group differences. No effect sizes, confidence intervals or exact p-values are given in the abstract."
+    },
+    {
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42787411/",
+      "field": "Summary",
+      "before": "A Norwegian naturalistic (uncontrolled, single-arm) service-evaluation of an internet-delivered program combining tinnitus retraining therapy and CBT in 144 patients, reporting THI change to 180 days with effect sizes stratified by baseline severity (largest change in the severe+ group). The severity-stratified reporting is the main novel element; the overall finding that guided digital CBT-type programs reduce tinnitus distress is already well established by controlled trials. THI pre-treatment to 180 days: d = 0.41 for the total sample; d = 0.95 for severe+ tinnitus; d = 0.22 for mild tinnitus. Small improvements in anxiety, depression and hyperacusis; no change in misophonia. Absolute THI point changes, confidence intervals, and attrition not given in the abstract.",
+      "after": "A Norwegian naturalistic (uncontrolled, single-arm) service-evaluation of an internet-delivered program combining tinnitus retraining therapy and CBT in 144 patients, reporting THI change to 180 days with effect sizes stratified by baseline severity (largest change in the severe+ group). The study reports effects stratified by baseline severity. THI pre-treatment to 180 days: d = 0.41 for the total sample; d = 0.95 for severe+ tinnitus; d = 0.22 for mild tinnitus. Small improvements in anxiety, depression and hyperacusis; no change in misophonia. Absolute THI point changes, confidence intervals, and attrition not given in the abstract."
+    },
+    {
+      "reportDate": "2026-09-07",
+      "file": "data/weekly/2026-09-07.json",
+      "itemUrl": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K260413",
+      "field": "Summary",
+      "before": "An FDA 510(k) database record indicating that a next-generation device, the Levo Gen 2 Tinnitus Therapy System (Levo Medical Corporation), received a Substantially Equivalent decision (K260413) on 2026-09-04. This is a marketing-clearance administrative milestone for an already-marketed device family, not new clinical data.",
+      "after": "An FDA 510(k) database record indicating that a next-generation device, the Levo Gen 2 Tinnitus Therapy System (Levo Medical Corporation), received a Substantially Equivalent decision (K260413) on 2026-08-13 (the decision date in the FDA 510(k) database). This is a marketing-clearance administrative milestone for an already-marketed device family, not new clinical data."
+    },
+    {
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42664622/",
+      "field": "Summary",
+      "before": "A large population-based cross-sectional analysis (Hoveyzeh Cohort, n=10,009) in southwestern Iran reporting a 10.5% self-reported tinnitus prevalence and an independent association between ICHD-3-defined chronic headache and tinnitus (adjusted OR 1.81). It adds regional epidemiological data from an under-studied Arab population, but is not treatment evidence. Tinnitus prevalence 10.5%; chronic headache prevalence 7.5%. Chronic headache associated with tinnitus OR = 1.81 (95% CI 1.48-2.22). Other predictors: older age OR = 2.23; dizziness OR = 1.90; head trauma OR = 1.76; male sex OR = 0.77; higher physical activity OR = 0.69.",
+      "after": "A large population-based cross-sectional analysis (Hoveyzeh Cohort, n=10,009) in southwestern Iran reporting a 10.5% self-reported tinnitus prevalence and an independent association between ICHD-3-defined chronic headache and tinnitus (adjusted OR 1.81). It adds regional epidemiological data from an Arab community in southwestern Iran, but is not treatment evidence. Tinnitus prevalence 10.5%; chronic headache prevalence 7.5%. Chronic headache associated with tinnitus OR = 1.81 (95% CI 1.48-2.22). Other predictors: older age OR = 2.23; dizziness OR = 1.90; head trauma OR = 1.76; male sex OR = 0.77; higher physical activity OR = 0.69."
+    },
+    {
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42766619/",
+      "field": "Summary",
+      "before": "First systematic ICF-based content analysis quantifying how much the items of six standard tinnitus distress questionnaires (THI, TQ, mTQ, THQ, TRQ, TFI) overlap in content with seven depression questionnaires, showing overlap ranges from ~12% (TQ) to ~73% (TRQ). It is a measurement/construct-validity paper, not treatment evidence. Depression questionnaires covered 14 second-level ICF categories vs 23 for tinnitus distress questionnaires. Seven categories were shared: energy and drive, sleep, attention, emotional, thought functions, interpersonal interactions and relationships, recreation and leisure. Overlap with depression instruments: TQ lowest at 11.54–26.92%, TRQ highest at 61.54–73.08%. Among depression scales: SDS least overlap with tinnitus scales (40–60%), DASS-42 depression subscale most (85.71–100%).",
+      "after": "A systematic ICF-based content analysis quantifying how much the items of six standard tinnitus distress questionnaires (THI, TQ, mTQ, THQ, TRQ, TFI) overlap in content with seven depression questionnaires, showing overlap ranges from ~12% (TQ) to ~73% (TRQ). It is a measurement/construct-validity paper, not treatment evidence. Depression questionnaires covered 14 second-level ICF categories vs 23 for tinnitus distress questionnaires. Seven categories were shared: energy and drive, sleep, attention, emotional, thought functions, interpersonal interactions and relationships, recreation and leisure. Overlap with depression instruments: TQ lowest at 11.54–26.92%, TRQ highest at 61.54–73.08%. Among depression scales: SDS least overlap with tinnitus scales (40–60%), DASS-42 depression subscale most (85.71–100%)."
+    },
+    {
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42675511/",
+      "field": "Funding / conflicts",
+      "before": "independent — academic population cohort (University Medicine Greifswald/DZNE) with no device or drug manufacturer involvement in the tinnitus question; two senior authors declare unrelated pharma honoraria/personal fees (HJG: Neuraxpharm, Servier, Idorsia, Janssen Cilag; AF: Lilly, Biogen, Eisai), disclosed as outside the submitted work.",
+      "after": "independent — academic population cohort (University Medicine Greifswald/DZNE) with no device or drug manufacturer involvement in the tinnitus question; two authors (HJG, AF) declare pharma honoraria or personal fees (HJG: Neuraxpharm, Servier, Idorsia, Janssen Cilag; AF: Lilly, Biogen, Eisai); the paper describes AF's fees as outside the submitted work."
+    },
+    {
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42780685/",
+      "field": "Summary",
+      "before": "First report that systemic everolimus (an approved mTOR inhibitor) reduces salicylate-induced tinnitus-like gap-detection deficits in rats while normalizing auditory cortex spontaneous firing, gamma power, theta-gamma phase-amplitude coupling, BDNF/PSD95 and glutamate levels. It extends the mTOR/maladaptive-plasticity hypothesis of tinnitus to a repurposable clinical drug, but entirely in an acute animal model. none reported (abstract gives directional findings only: EVE 'mitigated' gap-detection deficits and 'attenuated' elevated SFR, gamma power, theta-gamma PAC, BDNF/PSD95 and glutamate; no effect sizes, p-values or group sizes in the available record)",
+      "after": "A rat study reporting that systemic everolimus (an approved mTOR inhibitor) reduces salicylate-induced tinnitus-like gap-detection deficits in rats while normalizing auditory cortex spontaneous firing, gamma power, theta-gamma phase-amplitude coupling, BDNF/PSD95 and glutamate levels. It extends the mTOR/maladaptive-plasticity hypothesis of tinnitus to a repurposable clinical drug, but entirely in an acute animal model. none reported (abstract gives directional findings only: EVE 'mitigated' gap-detection deficits and 'attenuated' elevated SFR, gamma power, theta-gamma PAC, BDNF/PSD95 and glutamate; no effect sizes, p-values or group sizes in the available record)"
+    },
+    {
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42780685/",
+      "field": "Funding / conflicts",
+      "before": "independent — authors declare no competing interests; academic Chinese hospital/university groups; funding source not stated in the available record. Note the journal is an open-access Dove Medical Press title, so peer-review rigor is variable.",
+      "after": "independent — authors declare no competing interests; academic Chinese hospital/university groups; funding source not stated in the available record."
+    },
+    {
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42710361/",
+      "field": "Why it matters",
+      "before": "Donepezil, a drug used in dementia, was tested for tinnitus for the first time in a placebo-controlled trial and did not work better than placebo on tinnitus severity or on measurements of the sound itself. Negative results like this are useful because they help rule out repurposed drugs and discourage off-label prescribing based on theory alone.",
+      "after": "Donepezil, a drug used in dementia, was tested for tinnitus for the first time in a placebo-controlled trial and did not work better than placebo on tinnitus severity or on measurements of the sound itself."
+    }
+  ],
+  "flags": {
+    "resolution": {
+      "42652785": {
+        "resolvedBy": [
+          "C1a",
+          "C1b"
+        ]
+      },
+      "42730729": {
+        "resolvedBy": [
+          "C2a",
+          "C2b",
+          "C2c"
+        ]
+      },
+      "42777476": {
+        "resolvedBy": [
+          "C3"
+        ]
+      },
+      "42788144": {
+        "resolvedBy": [
+          "C4a",
+          "C4b",
+          "C4c",
+          "C4d"
+        ]
+      },
+      "42654475": {
+        "resolvedBy": [
+          "C5"
+        ]
+      },
+      "42673781": {
+        "resolvedBy": [
+          "C6"
+        ]
+      },
+      "42787411": {
+        "resolvedBy": [
+          "C7"
+        ]
+      },
+      "42766619": {
+        "resolvedBy": [
+          "N1"
+        ]
+      },
+      "42710361": {
+        "withdrawn": true,
+        "justification": "The flag was raised because the item says this is the first randomized, double-blind, placebo-controlled trial of donepezil in chronic tinnitus. The paper's abstract and full text both say donepezil \"has not yet been evaluated in individuals with tinnitus\" (Clinics, 2026; PMC13573712), so the claim is supported by the authors' own statement and no correction is needed for it. The item has a separate correction (N4) for a different sentence.",
+        "otherCorrectionsOnTheItem": [
+          "N4"
+        ]
+      },
+      "42780685": {
+        "resolvedBy": [
+          "N3a",
+          "N3b"
+        ]
+      },
+      "42675511": {
+        "resolvedBy": [
+          "N2"
+        ]
+      }
+    },
+    "withdrawn": [
+      {
+        "pmid": "42710361",
+        "flag": "Review flag (first claims)",
+        "justification": "The flag was raised because the item says this is the first randomized, double-blind, placebo-controlled trial of donepezil in chronic tinnitus. The paper's abstract and full text both say donepezil \"has not yet been evaluated in individuals with tinnitus\" (Clinics, 2026; PMC13573712), so the claim is supported by the authors' own statement and no correction is needed for it. The item has a separate correction (N4) for a different sentence."
+      }
+    ]
+  }
+}

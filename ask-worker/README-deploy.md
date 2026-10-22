@@ -35,8 +35,8 @@ The worker can no longer tell a visitor that a week was quiet or that nothing wa
 report that was not fully assessed (the five reports that said "No evidence-changing research identified", the "Not yet assessed"
 report, or the September AI-written reports) is answered from the report's own data with no model call; mixed questions go to the
 model, and any sentence saying nothing was found is removed and the notices are added. Constants that mirror the site (report
-dates, clarification text, review flags, FDA correction) live at the top of `worker.js`; `tools/ask_core_test.mjs` fails if they
-drift from `js/app.js`.
+dates, clarification text, correction notes) live at the top of `worker.js`; `tools/ask_core_test.mjs` fails if they
+drift from `js/app.js` or `data/corrections-log.json`.
 1. Merge the site first (the benchmark reads `worker.js` from the repository).
 2. GitHub → Actions → "Ask Tinnitus Evidence benchmark (quality gate)" → Run workflow (about $0.50). Continue only on a green run.
 3. Cloudflare → Workers & Pages → `ask-tinnitusevidence` → Edit code → replace ALL code with `ask-worker/worker.js` → Deploy.

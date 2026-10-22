@@ -1123,31 +1123,19 @@
       dates: ['2026-09-04', '2026-09-28', '2026-10-05', '2026-10-12', '2026-10-19'],
       text: 'This report previously stated that no evidence-changing tinnitus research was identified. However, automated evaluation was not completed for any of the records collected. Therefore, this statement should not be interpreted as confirmation that no relevant research was found.'
     };
-    // Corrections added after publication; the report data is not edited, the original text stays visible.
-    const ITEM_CORRECTIONS = {
-      '2026-09-07': [{
-        url: 'https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K260413',
-        text: 'This item said the FDA decision on K260413 was made on 2026-09-04. The FDA 510(k) database lists the decision date as August 13, 2026 (date received: February 9, 2026). The rest of the item is unchanged.',
-        source: 'FDA 510(k) Premarket Notification database, K260413'
-      }]
-    };
+    // Corrections to the September 2026 reports. The report text was corrected in place; data/corrections-log.json keeps the original wording of every
+    // change, and each corrected item shows a visible note. Loaded before the report is drawn; if it cannot be loaded the report is drawn without notes.
+    let CORR = { corrections: [] };
+    const loadCorrections = () => fetch('data/corrections-log.json', { cache: 'no-cache' }).then(r => (r.ok ? r.json() : CORR)).then(j => { CORR = j; }, () => {});
     const correctionHtml = (date, it) => {
-      const c = (ITEM_CORRECTIONS[date] || []).find(x => x.url === it.url);
-      return c ? `<div class="small correction" role="note" style="border-left:4px solid var(--c-watch);padding:4px 10px;margin:6px 0"><strong>Correction (added October 2026):</strong> ${esc(c.text)} Source: <a href="${esc(c.url)}" rel="noopener" target="_blank">${esc(c.source)} ↗</a></div>` : '';
-    };
-    // Items in the September reports where our October 2026 check found a statement that the source does not make. A flag is shown until the item's correction is published; an item without a flag has NOT been verified.
-    const REVIEW_FLAG = {
-      pmids: ['42652785', '42730729', '42777476', '42788144', '42654475', '42673781', '42787411', '42766619', '42710361', '42780685', '42675511'],
-      text: 'Review flag: our October 2026 check found a statement in this summary that its source does not make. A correction is being prepared.'
-    };
-    const flagHtml = it => {
-      const m = /pubmed\.ncbi\.nlm\.nih\.gov\/(\d+)/.exec(it.url || '');
-      return m && REVIEW_FLAG.pmids.includes(m[1]) ? `<div class="small review-flag" role="note" style="border-left:4px solid var(--c-watch);padding:4px 10px;margin:6px 0"><strong>${esc(REVIEW_FLAG.text)}</strong></div>` : '';
+      const cs = (CORR.corrections || []).filter(c => c.reportDate === date && c.itemUrl === it.url);
+      if (!cs.length) return '';
+      return `<div class="small correction" role="note" style="border-left:4px solid var(--c-watch);padding:4px 10px;margin:6px 0"><strong>Correction (added October 2026):</strong><ul style="margin:4px 0 4px 18px;padding:0">${cs.map(c => `<li>${esc(c.noteText)}</li>`).join('')}</ul>Source: <a href="${esc(it.url)}" rel="noopener" target="_blank">${esc(cs[0].sourceLabel)} ↗</a></div>`;
     };
     // Reports whose items were written by an AI model and published without individual review (7-26 September 2026).
     const AI_UNREVIEWED = {
       dates: ['2026-09-07', '2026-09-14', '2026-09-21', '2026-09-26'],
-      notice: 'Except for trial status changes taken directly from the registry, the items in this edition were written and published automatically by an AI model from each study\'s abstract or registry record. No person reviewed them individually before publication, and none was reviewed by a physician or other clinician. Numbers, study design and links come from the source record; statements about novelty, importance or interpretation are the AI\'s own wording and may be wrong or unsupported. An October 2026 check of these items against their sources found statements the sources do not make. Items marked \'Review flag\' are ones where that check found a specific problem; an item without a flag has not been verified. Always use the linked source, and do not use these summaries for medical decisions.',
+      notice: 'Except for trial status changes taken directly from the registry, the items in this edition were written and published automatically by an AI model from each study\'s abstract or registry record. No person reviewed them individually before publication, and none was reviewed by a physician or other clinician. Numbers, study design and links come from the source record; statements about novelty, importance or interpretation are the AI\'s own wording and may be wrong or unsupported. An October 2026 check of these items against their sources found statements the sources do not make; each was corrected, and the correction is shown under the item. An item without a correction note has not been verified. Always use the linked source, and do not use these summaries for medical decisions.',
       label: 'Automated summary: AI-written, not individually reviewed, not clinician-reviewed. See the source for what the study actually reports.'
     };
     const renderReport = rep => {
@@ -1166,14 +1154,22 @@
         ${rep.headline ? `<div class="card" style="border-left:4px solid var(--c-promising)"><div class="k small muted" style="text-transform:uppercase;font-weight:700;letter-spacing:.06em">Most important in this update</div>
           <h3>${esc(rep.headline.title)}</h3><p class="small">${esc(rep.headline.summary)}</p>
           ${rep.headline.url ? `<a class="small" href="${esc(rep.headline.url)}" rel="noopener" target="_blank">Source ↗</a>` : ''}</div>` : ''}
-        ${rep.items.map(it => weekItem(it, unreviewed && it.detail && it.detail.studyType ? AI_UNREVIEWED.label : '', correctionHtml(rep.date, it) + (unreviewed ? flagHtml(it) : ''))).join('')}`;
+        ${rep.items.map(it => weekItem(it, unreviewed && it.detail && it.detail.studyType ? AI_UNREVIEWED.label : '', correctionHtml(rep.date, it))).join('')}`;
     };
-    if (file) {
-      if (SINGLE && DB.weeklyAll) renderReport(DB.weeklyAll[file] || DB.weekly);
-      else fetch('data/weekly/' + file, { cache: 'no-cache' }).then(r => r.json()).then(renderReport);
-    } else if (DB.weekly) renderReport(DB.weekly);
-    $('#archive').innerHTML = DB.weeklyIndex.reports.map(r =>
-      `<li><a href="research.html?week=${esc(r.file)}">${fmtDate(r.date)}</a> — ${esc(r.title)}${QUIET.dates.includes(r.date) ? ' <span class="small muted">— clarification added</span>' : ''}</li>`).join('');
+    const drawArchive = () => {
+      $('#archive').innerHTML = DB.weeklyIndex.reports.map(r => {
+        const n = (CORR.corrections || []).filter(c => c.reportDate === r.date).length;
+        return `<li><a href="research.html?week=${esc(r.file)}">${fmtDate(r.date)}</a> — ${esc(r.title)}${QUIET.dates.includes(r.date) ? ' <span class="small muted">— clarification added</span>' : ''}${n ? ' <span class="small muted">— ' + n + (n === 1 ? ' correction' : ' corrections') + ' added</span>' : ''}</li>`;
+      }).join('');
+    };
+    drawArchive();
+    loadCorrections().then(() => {
+      if (file) {
+        if (SINGLE && DB.weeklyAll) renderReport(DB.weeklyAll[file] || DB.weekly);
+        else fetch('data/weekly/' + file, { cache: 'no-cache' }).then(r => r.json()).then(renderReport);
+      } else if (DB.weekly) renderReport(DB.weekly);
+      drawArchive();
+    });
   };
 
   /* ----- institutions ----- */

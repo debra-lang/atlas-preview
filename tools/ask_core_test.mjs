@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { retrieve, buildPack, answerQuestion, validateAnswer, buildPrompt,
   reportStatus, scrubQuietClaims, QUIET_REPORT_DATES, QUIET_CLARIFICATION, AI_UNREVIEWED_DATES,
-  AI_SUMMARY_LABEL, REVIEW_FLAG_PMIDS, REVIEW_FLAG_TEXT, ITEM_CORRECTIONS } from "../ask-worker/worker.js";
+  AI_SUMMARY_LABEL, CORRECTION_NOTES } from "../ask-worker/worker.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const load = f => JSON.parse(readFileSync(join(ROOT, "data", f), "utf8"));
@@ -123,14 +123,17 @@ const APP_JS = readFileSync(join(ROOT, "js/app.js"), "utf8");
 const strList = src => [...src.matchAll(/'([^']+)'/g)].map(m => m[1]);
 const quietBlock = /const QUIET = \{\s*dates: \[([^\]]*)\],\s*text: '([^']*)'/.exec(APP_JS);
 const aiBlock = /const AI_UNREVIEWED = \{\s*dates: \[([^\]]*)\][\s\S]*?label: '([^']*)'/.exec(APP_JS);
-const flagBlock = /const REVIEW_FLAG = \{\s*pmids: \[([^\]]*)\],\s*text: '([^']*)'/.exec(APP_JS);
-const fdaBlock = /'2026-09-07': \[\{\s*url: '([^']*)',\s*text: '([^']*)'/.exec(APP_JS);
+const CORR_LOG = JSON.parse(readFileSync(join(ROOT, "data/corrections-log.json"), "utf8"));
+const FDA_URL = "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K260413";
+const logNotes = {};
+for (const c of CORR_LOG.corrections) ((logNotes[c.reportDate] ||= {})[c.itemUrl] ||= []).push(c.noteText);
 // (1) the worker's copy of every site constant is identical to the site's
 ok(quietBlock && JSON.stringify(strList(quietBlock[1])) === JSON.stringify(QUIET_REPORT_DATES), "worker quiet-report dates = site's");
 ok(quietBlock && quietBlock[2] === QUIET_CLARIFICATION, "worker clarification text = site's (exact)");
 ok(aiBlock && JSON.stringify(strList(aiBlock[1])) === JSON.stringify(AI_UNREVIEWED_DATES) && aiBlock[2] === AI_SUMMARY_LABEL, "worker AI-summary dates and label = site's");
-ok(flagBlock && JSON.stringify(strList(flagBlock[1])) === JSON.stringify(REVIEW_FLAG_PMIDS) && flagBlock[2] === REVIEW_FLAG_TEXT, "worker review-flag list and text = site's");
-ok(fdaBlock && ITEM_CORRECTIONS["2026-09-07"][0].url === fdaBlock[1] && ITEM_CORRECTIONS["2026-09-07"][0].text === fdaBlock[2].replace(/\\'/g, "'"), "worker FDA correction = site's");
+ok(JSON.stringify(CORRECTION_NOTES) === JSON.stringify(logNotes), "worker correction notes = data/corrections-log.json (exact)");
+ok(CORR_LOG.corrections.length === 20 && Object.keys(logNotes).sort().join() === "2026-09-07,2026-09-14,2026-09-26", "the log holds the 20 approved corrections in three reports");
+ok(!/REVIEW_FLAG|review-flag|flagHtml/.test(APP_JS), "the interim review flags are gone from the site script");
 ok(QUIET_CLARIFICATION.includes("not completed for any of the records collected"), "clarification uses the approved 'any of the records collected' wording");
 
 const wk = f => JSON.parse(readFileSync(join(ROOT, "data/weekly", f + ".json"), "utf8"));
@@ -197,7 +200,7 @@ for (const d of QUIET_REPORT_DATES) for (const text of ADVERSARIAL) {
 }
 // (6) September AI summaries
 {
-  let flagsSeen = 0;
+  let correctedItems = 0;
   for (const d of AI_UNREVIEWED_DATES) {
     const rep = wk(d), st = reportStatus(rep);
     ok(st.aiUnreviewed && st.needsNotice, `${d}: AI-written report needs a notice`);
@@ -205,29 +208,32 @@ for (const d of QUIET_REPORT_DATES) for (const text of ADVERSARIAL) {
       const n = st.itemNotice(it);
       if (it.detail && it.detail.studyType) ok(n.includes(AI_SUMMARY_LABEL), `${d}: AI item labelled "${it.title.slice(0, 40)}…"`);
       else ok(!n.includes(AI_SUMMARY_LABEL), `${d}: registry status item is not labelled AI-written`);
-      const m = /pubmed\.ncbi\.nlm\.nih\.gov\/(\d+)/.exec(it.url || "");
-      if (m && REVIEW_FLAG_PMIDS.includes(m[1])) { flagsSeen++; ok(n.includes(REVIEW_FLAG_TEXT), `${d}: flagged item carries the review flag (${m[1]})`); }
-      else if (it.detail && it.detail.studyType) ok(!n.includes(REVIEW_FLAG_TEXT), `${d}: unflagged item carries no flag`);
+      const notes = (logNotes[d] || {})[it.url];
+      ok(!/Review flag/.test(n), `${d}: no review flag on "${it.title.slice(0, 30)}…"`);
+      if (notes) { correctedItems++; ok(n.includes("Correction (added October 2026)") && notes.every(t => n.includes(t)), `${d}: corrected item carries every correction note ("${it.title.slice(0, 30)}…")`); }
+      else ok(!/Correction \(added/.test(n), `${d}: an uncorrected item carries no correction note`);
     }
     const a = await answerQuestion("What is the newest research this week?", asLatest(rep), modelThrows);
-    ok(a.answer.includes("not reviewed by a person") && /Automated summary, not reviewed by a person/.test(a.answer) && !/\bverified\b/i.test(a.answer.replace(/Tinnitus Evidence ranks[\s\S]*/, "")), `${d}: answer calls the items automated, unreviewed summaries, never verified`);
+    ok(a.answer.includes("not reviewed by a person") && /Automated summary, not reviewed by a person/.test(a.answer) && !/\bverified\b/i.test(a.answer.replace(/Tinnitus Evidence ranks[\s\S]*/, "").replace(/has not been verified/g, "")), `${d}: answer calls the items automated, unreviewed summaries, never verified`);
     const mixed = await answerQuestion("What is new this week about Lenire?", asLatest(rep), async () => "Lenire evidence is limited [T:lenire].");
     ok(mixed.answer.includes("not reviewed by a person"), `${d}: mixed question also states that the summaries were not reviewed`);
   }
-  ok(flagsSeen === REVIEW_FLAG_PMIDS.length && flagsSeen === 11, "all 11 flagged items found, each in exactly one September report", String(flagsSeen));
+  ok(correctedItems === 13, "all 13 corrected items found, each in exactly one September report", String(correctedItems));
 }
 // (7) correction notice: the FDA decision date
 {
   const rep = wk("2026-09-07"), st = reportStatus(rep);
-  const fda = rep.items.find(i => i.url === ITEM_CORRECTIONS["2026-09-07"][0].url);
-  ok(fda && st.itemNotice(fda).includes("August 13, 2026") && st.itemNotice(fda).includes("Correction (added October 2026)"), "FDA item carries the correction (decision date August 13, 2026)");
-  ok(rep.items.filter(i => i !== fda && st.itemNotice(i).includes("Correction")).length === 0, "no other item carries a correction");
+  const fda = rep.items.find(i => i.url === FDA_URL);
+  ok(fda && fda.summary.includes("on 2026-08-13") && !fda.summary.includes("2026-09-04"), "FDA item text now carries the FDA's decision date 2026-08-13");
+  ok(st.itemNotice(fda).includes("Correction (added October 2026)") && st.itemNotice(fda).includes("2026-09-04") && st.itemNotice(fda).includes("2026-08-13"), "FDA item notice quotes the original date and the correction");
+  ok(rep.items.filter(i => i !== fda && st.itemNotice(i).includes("Correction")).length === 0, "no other item in the 7 September report carries a correction")
   const a = await answerQuestion("What is the newest research this week?", asLatest(rep), modelThrows);
-  ok(a.answer.includes("August 13, 2026") && a.answer.includes("K260413"), "plain latest question relays the correction");
-  const wrong = [...a.answer.matchAll(/2026-09-04/g)].length, inCorrection = [...ITEM_CORRECTIONS["2026-09-07"][0].text.matchAll(/2026-09-04/g)].length;
-  ok(wrong === inCorrection, "the incorrect date appears only inside the correction sentence");
+  ok(a.answer.includes("2026-08-13") && a.answer.includes("K260413"), "plain latest question relays the correction");
+  const noteTxt = CORR_LOG.corrections.find(c => c.id === "C8").noteText;
+  const wrong = [...a.answer.matchAll(/2026-09-04/g)].length, inCorrection = [...noteTxt.matchAll(/2026-09-04/g)].length;
+  ok(wrong === inCorrection && wrong >= 1, "the incorrect date appears only inside the correction note");
   const pk = buildPack("q", asLatest(rep), { flags: { latest: true }, treatmentIds: [], studyHits: [] });
-  ok(JSON.stringify(pk.parts).includes("August 13, 2026"), "pack handed to the model contains the correction");
+  ok(JSON.stringify(pk.parts).includes("2026-08-13"), "pack handed to the model contains the correction");
 }
 // (8) controls: ordinary reports are not degraded
 {

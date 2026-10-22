@@ -129,5 +129,6 @@
   "42780685": "engine check and hand audit: 'First report that... everolimus' not made by the abstract",
   "42675511": "engine check: 'two senior authors' (conflict-of-interest text) is not in the record"
  },
- "reviewFlagRule": "Union of (a) the 10 PubMed items the engine's unsupported-term check flagged on 22 Oct 2026 and (b) the 10 hand-audit items of 21 Oct 2026 that carry a statement the abstract does not make (the hand audit's item 1 is not caught by the engine); 11 distinct items. Items whose only flag was a derived number are not included."
+ "reviewFlagRule": "Union of (a) the 10 PubMed items the engine's unsupported-term check flagged on 22 Oct 2026 and (b) the 10 hand-audit items of 21 Oct 2026 that carry a statement the abstract does not make (the hand audit's item 1 is not caught by the engine); 11 distinct items. Items whose only flag was a derived number are not included.",
+ "reviewFlagsStatus": "All 11 interim review flags were removed on 22 Oct 2026: 10 resolved by corrections and 1 (42710361, donepezil) withdrawn with a documented justification. See data/corrections-log.json (flags.resolution)."
 }

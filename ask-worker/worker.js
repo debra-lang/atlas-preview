@@ -172,19 +172,66 @@ export function retrieve(question, data) {
 
 /* ---------------- what a weekly report can and cannot be said to show ---------------- */
 
-// Mirror of js/app.js (QUIET, AI_UNREVIEWED, REVIEW_FLAG, ITEM_CORRECTIONS). This worker is one pasted file and
+// Mirror of js/app.js (QUIET, AI_UNREVIEWED) and data/corrections-log.json. This worker is one pasted file and
 // cannot import the site script, so tools/ask_core_test.mjs fails if either copy drifts from the other.
 export const QUIET_REPORT_DATES = ["2026-09-04", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19"];
 export const QUIET_CLARIFICATION = "This report previously stated that no evidence-changing tinnitus research was identified. However, automated evaluation was not completed for any of the records collected. Therefore, this statement should not be interpreted as confirmation that no relevant research was found.";
 export const AI_UNREVIEWED_DATES = ["2026-09-07", "2026-09-14", "2026-09-21", "2026-09-26"];
 export const AI_SUMMARY_LABEL = "Automated summary: AI-written, not individually reviewed, not clinician-reviewed. See the source for what the study actually reports.";
-export const REVIEW_FLAG_PMIDS = ["42652785", "42730729", "42777476", "42788144", "42654475", "42673781", "42787411", "42766619", "42710361", "42780685", "42675511"];
-export const REVIEW_FLAG_TEXT = "Review flag: our October 2026 check found a statement in this summary that its source does not make. A correction is being prepared.";
-export const ITEM_CORRECTIONS = {
-  "2026-09-07": [{
-    url: "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K260413",
-    text: "This item said the FDA decision on K260413 was made on 2026-09-04. The FDA 510(k) database lists the decision date as August 13, 2026 (date received: February 9, 2026). The rest of the item is unchanged."
-  }]
+// Corrections to the September reports, by report date and item link; generated from data/corrections-log.json (noteText). The tests fail if this drifts.
+export const CORRECTION_NOTES = {
+  "2026-09-14": {
+    "https://pubmed.ncbi.nlm.nih.gov/42652785/": [
+      "Removed: “That supports the widespread clinical experience that reducing distress, not just the volume of the sound, is what matters for quality of life.” — The abstract does not state this.",
+      "Removed: “It adds another dataset reinforcing the known dissociation between measured loudness and distress.” — The abstract does not state this."
+    ],
+    "https://pubmed.ncbi.nlm.nih.gov/42730729/": [
+      "Changed: “First randomized safety/feasibility trial of noninvasive vagus nerve stimulation paired with” to “A randomized safety/feasibility trial of noninvasive vagus nerve stimulation paired with” — The abstract does not say this is the first such trial.",
+      "Removed: “The novelty is the delayed/parasympathetic pairing schedule rather than any demonstrated efficacy.” — The abstract does not state this.",
+      "Removed: “Note senior author D. De Ridder has a long-standing research program in tinnitus neuromodulation, which is a non-financial intellectual interest.” — Neither the abstract nor the conflict-of-interest statement states this."
+    ],
+    "https://pubmed.ncbi.nlm.nih.gov/42654475/": [
+      "Changed: “First nationwide claims-based cohort to use periodontal *procedure intensity* as a proxy for periodontal disease burden and link it to incident tinnitus,” to “A nationwide claims-based cohort using periodontal *procedure intensity* as a proxy for periodontal disease burden to examine incident tinnitus,” — The abstract does not say this is the first such cohort."
+    ],
+    "https://pubmed.ncbi.nlm.nih.gov/42673781/": [
+      "Changed: “The chronicity-dependent stratification (acute <6 months vs chronic ≥6 months) is the main novel element; cochlear-synaptopathy-style ABR findings in tinnitus with normal hearing are themselves a long-contested literature.” to “The study stratifies the findings by tinnitus duration (acute <6 months vs chronic ≥6 months).” — The abstract does not call this the main novel element or describe a contested literature."
+    ],
+    "https://pubmed.ncbi.nlm.nih.gov/42664622/": [
+      "Changed: “from an under-studied Arab population,” to “from an Arab community in southwestern Iran,” — The abstract does not describe the population as under-studied; the study’s title names an Arab community."
+    ],
+    "https://pubmed.ncbi.nlm.nih.gov/42675511/": [
+      "Changed: “two senior authors declare unrelated pharma honoraria/personal fees (HJG: Neuraxpharm, Servier, Idorsia, Janssen Cilag; AF: Lilly, Biogen, Eisai), disclosed as outside the submitted work.” to “two authors (HJG, AF) declare pharma honoraria or personal fees (HJG: Neuraxpharm, Servier, Idorsia, Janssen Cilag; AF: Lilly, Biogen, Eisai); the paper describes AF's fees as outside the submitted work.” — The paper lists the disclosures of two authors, HJG and AF; only AF’s are described as outside the submitted work."
+    ],
+    "https://pubmed.ncbi.nlm.nih.gov/42710361/": [
+      "Removed: “Negative results like this are useful because they help rule out repurposed drugs and discourage off-label prescribing based on theory alone.” — The abstract does not state this; the authors’ conclusion calls for larger studies."
+    ]
+  },
+  "2026-09-26": {
+    "https://pubmed.ncbi.nlm.nih.gov/42777476/": [
+      "Changed: “which — for the first time in one place — quantifies the size and quality of the field” to “which maps the size of the field” — The abstract does not say this is the first such review and reports no assessment of study quality."
+    ],
+    "https://pubmed.ncbi.nlm.nih.gov/42788144/": [
+      "Changed: “First reasonably sized evaluation of ambient pressure tympanometry (APT)” to “An evaluation of ambient pressure tympanometry (APT)” — The abstract does not say this is the first evaluation or judge its size.",
+      "Changed: “this review of 107 patients found the test was little better than a coin flip. If you have pulsatile tinnitus, a normal tympanometry result should not be used as a reason to skip imaging.” to “this review of 107 patients found the test may not be a reliable screen. The authors advise clinicians to keep ordering imaging for pulsatile tinnitus even when the tympanometry result is negative.” — The authors address clinicians and write that the test “may not be a reliable screening tool”.",
+      "Changed: “Tympanometry fails as a screening test for finding the cause of pulsatile tinnitus” to “Tympanometry may not be a reliable screening test for finding the cause of pulsatile tinnitus” — The authors write that the test “may not be a reliable screening tool”.",
+      "Changed: “and it performs poorly (sensitivity ~43–57%, specificity ~54–57%), essentially no better than chance.” to “and its sensitivity and specificity were low (sensitivity ~43–57%, specificity ~54–57%).” — The abstract reports low sensitivity and specificity; it does not compare them with chance."
+    ],
+    "https://pubmed.ncbi.nlm.nih.gov/42787411/": [
+      "Changed: “The severity-stratified reporting is the main novel element; the overall finding that guided digital CBT-type programs reduce tinnitus distress is already well established by controlled trials.” to “The study reports effects stratified by baseline severity.” — The abstract does not call this the main novel element or say the finding is established by controlled trials."
+    ],
+    "https://pubmed.ncbi.nlm.nih.gov/42766619/": [
+      "Changed: “First systematic ICF-based content analysis quantifying” to “A systematic ICF-based content analysis quantifying” — The abstract does not say this is the first such analysis."
+    ],
+    "https://pubmed.ncbi.nlm.nih.gov/42780685/": [
+      "Changed: “First report that systemic everolimus” to “A rat study reporting that systemic everolimus” — The abstract does not say this is the first report; the study was done in rats.",
+      "Removed: “Note the journal is an open-access Dove Medical Press title, so peer-review rigor is variable.” — This is a general remark about a journal, not something in the study record."
+    ]
+  },
+  "2026-09-07": {
+    "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K260413": [
+      "Changed: “received a Substantially Equivalent decision (K260413) on 2026-09-04.” to “received a Substantially Equivalent decision (K260413) on 2026-08-13 (the decision date in the FDA 510(k) database).” — The FDA 510(k) database lists decision date 08/13/2026 (date received 02/09/2026)."
+    ]
+  }
 };
 // A report can only be called "quiet" by the engine when automated evaluation completed. No report carries a machine-readable
 // completion marker, so this worker never says a week was quiet in its own voice: it can only report what the report says.
@@ -192,7 +239,7 @@ const QUIET_ITEM = /^\s*no evidence-changing/i;
 const NOT_ASSESSED_ITEM = /not yet assessed/i;
 const UNCONFIRMED_QUIET_NOTE = "This report says its scan identified no evidence-changing research. That statement describes only what automated evaluation completed, so it is not confirmation that no relevant research exists.";
 const NOT_ASSESSED_NOTE = "Automated evaluation had not been completed for the new records this scan collected, so this update is not a finding that nothing important was published.";
-const AI_UNREVIEWED_NOTE = "The items in this update marked as automated summaries were written by an AI model and were not reviewed by a person or a clinician before publication. Statements about novelty, importance or interpretation are the AI's own wording and may be wrong or unsupported; the linked source is what the study actually reports.";
+const AI_UNREVIEWED_NOTE = "The items in this update marked as automated summaries were written by an AI model and were not reviewed by a person or a clinician before publication. Statements about novelty, importance or interpretation are the AI's own wording and may be wrong or unsupported; the linked source is what the study actually reports. An October 2026 check found statements the sources do not make and corrected them; each correction is shown under its item, and an item without a correction note has not been verified.";
 
 export function reportStatus(weekly) {
   if (!weekly) return null;
@@ -210,11 +257,8 @@ export function reportStatus(weekly) {
   const itemNotice = it => {
     const out = [];
     if (aiUnreviewed && it.detail && it.detail.studyType) out.push(AI_SUMMARY_LABEL);
-    if (aiUnreviewed) {
-      const m = /pubmed\.ncbi\.nlm\.nih\.gov\/(\d+)/.exec(it.url || "");
-      if (m && REVIEW_FLAG_PMIDS.includes(m[1])) out.push(REVIEW_FLAG_TEXT);
-    }
-    for (const c of ITEM_CORRECTIONS[date] || []) if (c.url === it.url) out.push("Correction (added October 2026): " + c.text);
+    const corr = (CORRECTION_NOTES[date] || {})[it.url];
+    if (corr) out.push("Correction (added October 2026): " + corr.join(" "));
     if (quiet && QUIET_ITEM.test(it.title || "")) out.push("Not a finding: " + (clarified ? QUIET_CLARIFICATION : UNCONFIRMED_QUIET_NOTE));
     if (NOT_ASSESSED_ITEM.test(it.importance || "")) out.push(NOT_ASSESSED_NOTE);
     return out.join(" ");

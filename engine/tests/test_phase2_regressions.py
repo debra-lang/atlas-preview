@@ -369,9 +369,15 @@ class ProductionConfigTests(unittest.TestCase):
         if not base:
             self.skipTest("no origin/main in this checkout to compare against")
         out = subprocess.run(["git", "diff", "--name-only", base, "--", "data/"], cwd=REPO, capture_output=True, text=True).stdout.split()
-        if out == ["data/claims.json"]:
-            # the ONE exception the owner approved (22 Oct 2026): a single cadence phrase in one human-approved claim, "every week" -> "twice a month". Nothing else in that file may differ.
-            import json
+        # Owner-approved exceptions (22 Oct 2026), and nothing else under data/: (1) one cadence phrase in data/claims.json; (2) the September corrections, listed in
+        # data/corrections-log.json together with the reports they change (their exact content is checked in test_disclosure_pages: undoing the logged corrections gives production's files).
+        import json
+        log = json.loads((REPO / "data" / "corrections-log.json").read_text(encoding="utf-8")) if (REPO / "data" / "corrections-log.json").exists() else {"corrections": []}
+        allowed = {"data/claims.json", "data/corrections-log.json"} | {c["file"] for c in log["corrections"]}
+        self.assertEqual(sorted(set(out) - allowed), [], "this branch must not change anything under data/ except the approved claims.json phrase and the logged September corrections")
+        self.assertNotIn("data/treatments.json", out); self.assertNotIn("data/studies.json", out); self.assertNotIn("data/rankings.json", out); self.assertNotIn("data/trials.json", out)
+        if "data/claims.json" in out:
+            # a single cadence phrase in one human-approved claim, "every week" -> "twice a month". Nothing else in that file may differ.
             old = json.loads(subprocess.run(["git", "show", f"{base}:data/claims.json"], cwd=REPO, capture_output=True, text=True, encoding="utf-8").stdout)
             new = json.loads((REPO / "data" / "claims.json").read_text(encoding="utf-8"))
             diffs = []
@@ -391,8 +397,6 @@ class ProductionConfigTests(unittest.TestCase):
             self.assertTrue(path.endswith("/practical"), path)
             self.assertEqual(b, a.replace("checked against ClinicalTrials.gov every week", "checked against ClinicalTrials.gov twice a month"))
             self.assertNotEqual(a, b)
-            return
-        self.assertEqual(out, [], "this branch must not change anything under data/ (the one approved exception is a single phrase in data/claims.json)")
 
 
 if __name__ == "__main__":
