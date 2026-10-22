@@ -1121,7 +1121,7 @@
     // Reports that said "No evidence-changing tinnitus research identified" while automated evaluation was not running (clarification added after publication; the report data is not edited).
     const QUIET = {
       dates: ['2026-09-04', '2026-09-28', '2026-10-05', '2026-10-12', '2026-10-19'],
-      text: 'This report previously stated that no evidence-changing tinnitus research was identified. However, automated evaluation was not completed for all collected records. Therefore, this statement should not be interpreted as confirmation that no relevant research was found.'
+      text: 'This report previously stated that no evidence-changing tinnitus research was identified. However, automated evaluation was not completed for any of the records collected. Therefore, this statement should not be interpreted as confirmation that no relevant research was found.'
     };
     // Corrections added after publication; the report data is not edited, the original text stays visible.
     const ITEM_CORRECTIONS = {

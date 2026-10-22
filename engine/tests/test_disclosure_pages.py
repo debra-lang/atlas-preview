@@ -81,7 +81,7 @@ class TestPublicStatementsAreAccurate(unittest.TestCase):
 
     def test_the_clarification_is_exactly_the_approved_text_on_exactly_the_reports_that_made_the_quiet_statement(self):
         js = read("js/app.js")
-        approved = ("This report previously stated that no evidence-changing tinnitus research was identified. However, automated evaluation was not completed for all collected records. "
+        approved = ("This report previously stated that no evidence-changing tinnitus research was identified. However, automated evaluation was not completed for any of the records collected. "
                     "Therefore, this statement should not be interpreted as confirmation that no relevant research was found.")
         self.assertIn(approved, js)
         self.assertIn("<strong>Important clarification:</strong>", js)
