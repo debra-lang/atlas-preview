@@ -45,7 +45,7 @@
       "title": "Uncontrolled study of intratympanic dexamethasone reports questionnaire improvement in 65 tinnitus patients",
       "importance": "Does Not Change Current Evidence",
       "whyMatters": "Steroid injections through the eardrum are still widely offered for tinnitus, but this study had no comparison group, so the improvement in questionnaire scores could easily reflect the placebo effect or natural fluctuation rather than the drug. It does not change the current assessment that intratympanic injections lack convincing evidence for tinnitus.",
-      "summary": "A small single-arm observational study from two Indian centres reporting THI improvement after four weekly intratympanic dexamethasone injections in 65 patients with severe disabling tinnitus. Nothing methodologically new — it repeats the uncontrolled design that has characterised intratympanic steroid reports for two decades, and the authors themselves state it cannot establish efficacy. THI category distribution before vs after: mild 21.5% → 67.7%; moderate 63.1% → 32.3%; severe 15.4% → 0% (P < .05). No mean THI scores, no change scores, no confidence intervals and no responder definition reported.",
+      "summary": "A small single-arm observational study from one Indian department reporting THI improvement after four weekly intratympanic dexamethasone injections in 65 patients with severe disabling tinnitus. Nothing methodologically new — it repeats the uncontrolled design that has characterised intratympanic steroid reports for two decades, and the authors themselves state it cannot establish efficacy. THI category distribution before vs after: mild 21.5% → 67.7%; moderate 63.1% → 32.3%; severe 15.4% → 0% (P < .05). No mean THI scores, no change scores, no confidence intervals and no responder definition reported.",
       "url": "https://pubmed.ncbi.nlm.nih.gov/42732646/",
       "detail": {
         "studyType": "cohort",
@@ -518,9 +518,9 @@
           "Attribution of sleep trouble to tinnitus is respondent-assigned and vulnerable to recall and attribution bias",
           "Secondary short-sleep endpoint described inconsistently ('>7 hours'), suggesting reporting error",
           "Residual confounding (e.g. mental health, medication, shift work, comorbid insomnia) not addressed",
-          "Author group is predominantly computing/engineering and general medicine with no listed tinnitus or audiology expertise; funding and COI not stated in the available record"
+          "Author group is predominantly computing/engineering and general medicine with no listed tinnitus or audiology expertise"
         ],
-        "funding": "unclear — no funding statement or COI disclosure in the available record; no manufacturer involvement is apparent since no product or treatment is evaluated.",
+        "funding": "independent — the authors declare no conflicts of interest and, per the full text, received no specific grant; no manufacturer involvement is apparent since no product or treatment is evaluated.",
         "identifier": "pubmed-42684364",
         "source": "Noise & health",
         "changesAssessment": "No — this does not change our current evidence assessment."
@@ -707,7 +707,7 @@
       "treatment": "",
       "title": "Adolescent survey links heavy ultra-processed food intake with self-reported constant tinnitus",
       "importance": "Interesting but Early",
-      "whyMatters": "In a survey of 1,285 Belgrade teenagers, those reporting constant tinnitus were about 2.5 times more likely to fall in the highest ultra-processed food consumption group, alongside poorer sleep and lower school performance. Because everyone was surveyed at a single point in time, this cannot show that diet causes tinnitus — or that changing diet would help it.",
+      "whyMatters": "In a survey of 1,285 Belgrade teenagers, those reporting constant tinnitus had about 2.5 times the odds of falling in the highest ultra-processed food consumption group (adjusted odds ratio 2.55), alongside poorer sleep and lower school performance. Because everyone was surveyed at a single point in time, this cannot show that diet causes tinnitus — or that changing diet would help it.",
       "summary": "A large school-based cross-sectional survey in Belgrade reports that self-reported constant tinnitus is one of the strongest correlates of being in the highest tertile of a frequency-based proxy score for ultra-processed food (UPF) consumption among adolescents (aOR 2.55). The novelty is the pairing of a UPF dietary proxy with adolescent tinnitus, an association that has been little examined, but the design cannot establish direction or causality. Constant tinnitus aOR = 2.55 (95% CI 1.77-3.67); lower academic achievement aOR = 2.10 (1.38-3.21); alcohol consumption aOR = 1.34 (1.04-1.74); waking tired vs rested aOR = 1.58 (1.06-2.35); energy drink consumption frequency overall p < 0.001",
       "url": "https://pubmed.ncbi.nlm.nih.gov/42654183/",
       "detail": {

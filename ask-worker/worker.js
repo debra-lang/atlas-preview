@@ -208,6 +208,16 @@ export const CORRECTION_NOTES = {
       "Removed: “Negative results like this are useful because they help rule out repurposed drugs and discourage off-label prescribing based on theory alone.” — The abstract does not state this; the authors’ conclusion calls for larger studies.",
       "Changed: “Adverse events not reported” to “The abstract does not report adverse events. The full paper reports that after treatment began 14 of the 35 participants allocated to donepezil (40%) dropped out, 13 of them because of side effects (the other because of a change of address), and that 9 of the 35 allocated to placebo (25.7%) dropped out or were excluded, 5 of them because of side effects (the others because of irregular use, 3, or personal reasons, 1); it reports that side-effect dropouts were higher in the donepezil group (p = 0.006). These figures describe this trial only.” — Full paper checked: it reports withdrawals and side-effect withdrawals for each group (flow description and Table 1).",
       "Changed: “Not reported — the abstract gives no adverse-event data despite donepezil's known cholinergic side-effect profile (nausea, diarrhea, bradycardia, insomnia); full-text review needed.” to “Not reported in the abstract. The full paper reports that 14 of 35 participants on donepezil dropped out (13 for side effects) and 9 of 35 on placebo dropped out or were excluded (5 for side effects), with side-effect dropouts higher on donepezil (p = 0.006); its table lists insomnia 5/35, nausea 3/35 and epigastralgia 3/35 on donepezil against 0/35, 0/35 and 1/35 on placebo. These figures describe this trial only.” — Full paper checked (flow description and Table 1); the earlier text added a side-effect list from outside the study."
+    ],
+    "https://pubmed.ncbi.nlm.nih.gov/42684364/": [
+      "Changed: “unclear — no funding statement or COI disclosure in the available record; no manufacturer involvement is apparent since no product or treatment is evaluated.” to “independent — the authors declare no conflicts of interest and, per the full text, received no specific grant; no manufacturer involvement is apparent since no product or treatment is evaluated.” — Full paper checked: the publisher’s record and the paper state “The authors declare no conflicts of interest.”, and the paper states that the research received no specific grant.",
+      "Removed: “; funding and COI not stated in the available record” — Full paper checked: both statements are present (see R2a)."
+    ],
+    "https://pubmed.ncbi.nlm.nih.gov/42654183/": [
+      "Changed: “were about 2.5 times more likely to fall in the highest ultra-processed food consumption group” to “had about 2.5 times the odds of falling in the highest ultra-processed food consumption group (adjusted odds ratio 2.55)” — The abstract reports an adjusted odds ratio of 2.55; the full text says “approximately 2.5 times higher adjusted odds”. An odds ratio is not a likelihood."
+    ],
+    "https://pubmed.ncbi.nlm.nih.gov/42732646/": [
+      "Changed: “from two Indian centres” to “from one Indian department” — The abstract says the study was conducted in the Department of Otorhinolaryngology at Navodaya Medical College and Hospital."
     ]
   },
   "2026-09-26": {
@@ -235,6 +245,18 @@ export const CORRECTION_NOTES = {
   "2026-09-07": {
     "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K260413": [
       "Changed: “received a Substantially Equivalent decision (K260413) on 2026-09-04.” to “received a Substantially Equivalent decision (K260413) on 2026-08-13 (the decision date in the FDA 510(k) database).” — The FDA 510(k) database lists decision date 08/13/2026 (date received 02/09/2026)."
+    ],
+    "https://pubmed.ncbi.nlm.nih.gov/42684373/": [
+      "Changed: “unclear — no funding or COI statement in the available record; authors are hospital-based ENT clinicians in Chengdu, China, with no apparent manufacturer involvement” to “independent — the authors declare no competing interests and, per the full text, that no financial support was received; authors are hospital-based ENT clinicians in Chengdu, China, with no apparent manufacturer involvement” — Full paper checked: the publisher’s record and the paper state that the authors declare no competing interests, and the paper states that no financial support was received.",
+      "Removed: “Funding and conflict-of-interest statements not visible in the available record” — Full paper checked: both a conflict-of-interest statement and a funding statement are present."
+    ],
+    "https://pubmed.ncbi.nlm.nih.gov/42684457/": [
+      "Changed: “cohort” to “national health survey analysis (2020 and 2022 survey waves)” — The abstract describes data drawn from the 8th (2020) and 9th (2022) Korea National Health and Nutrition Examination Survey; it describes no cohort followed over time, and the item’s own limitation says it is not a longitudinal cohort."
+    ]
+  },
+  "2026-09-21": {
+    "https://pubmed.ncbi.nlm.nih.gov/42743862/": [
+      "Changed: “n/a” to “Young non-Veteran controls with minimal noise exposure (n=165)” — The abstract compares the Veterans with young non-Veteran controls with minimal noise exposure; the item’s own population field gives n=165."
     ]
   }
 };

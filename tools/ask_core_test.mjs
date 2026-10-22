@@ -132,7 +132,7 @@ ok(quietBlock && JSON.stringify(strList(quietBlock[1])) === JSON.stringify(QUIET
 ok(quietBlock && quietBlock[2] === QUIET_CLARIFICATION, "worker clarification text = site's (exact)");
 ok(aiBlock && JSON.stringify(strList(aiBlock[1])) === JSON.stringify(AI_UNREVIEWED_DATES) && aiBlock[2] === AI_SUMMARY_LABEL, "worker AI-summary dates and label = site's");
 ok(JSON.stringify(CORRECTION_NOTES) === JSON.stringify(logNotes), "worker correction notes = data/corrections-log.json (exact)");
-ok(CORR_LOG.corrections.length === 25 && Object.keys(logNotes).sort().join() === "2026-09-07,2026-09-14,2026-09-26", "the log holds the 25 approved corrections in three reports");
+ok(CORR_LOG.corrections.length === 33 && Object.keys(logNotes).sort().join() === "2026-09-07,2026-09-14,2026-09-21,2026-09-26", "the log holds the 33 approved corrections in four reports");
 ok(!/REVIEW_FLAG|review-flag|flagHtml/.test(APP_JS), "the interim review flags are gone from the site script");
 ok(QUIET_CLARIFICATION.includes("not completed for any of the records collected"), "clarification uses the approved 'any of the records collected' wording");
 
@@ -218,7 +218,7 @@ for (const d of QUIET_REPORT_DATES) for (const text of ADVERSARIAL) {
     const mixed = await answerQuestion("What is new this week about Lenire?", asLatest(rep), async () => "Lenire evidence is limited [T:lenire].");
     ok(mixed.answer.includes("not reviewed by a person"), `${d}: mixed question also states that the summaries were not reviewed`);
   }
-  ok(correctedItems === 13, "all 13 corrected items found, each in exactly one September report", String(correctedItems));
+  ok(correctedItems === 19, "all 19 corrected items found, each in exactly one September report", String(correctedItems));
 }
 // (7) correction notice: the FDA decision date
 {
@@ -226,7 +226,7 @@ for (const d of QUIET_REPORT_DATES) for (const text of ADVERSARIAL) {
   const fda = rep.items.find(i => i.url === FDA_URL);
   ok(fda && fda.summary.includes("on 2026-08-13") && !fda.summary.includes("2026-09-04"), "FDA item text now carries the FDA's decision date 2026-08-13");
   ok(st.itemNotice(fda).includes("Correction (added October 2026)") && st.itemNotice(fda).includes("2026-09-04") && st.itemNotice(fda).includes("2026-08-13"), "FDA item notice quotes the original date and the correction");
-  ok(rep.items.filter(i => i !== fda && st.itemNotice(i).includes("Correction")).length === 0, "no other item in the 7 September report carries a correction")
+  ok(rep.items.filter(i => i !== fda && st.itemNotice(i).includes("Correction")).length === Object.keys(logNotes["2026-09-07"]).length - 1, "the other corrected items in the 7 September report are exactly the logged ones");
   const a = await answerQuestion("What is the newest research this week?", asLatest(rep), modelThrows);
   ok(a.answer.includes("2026-08-13") && a.answer.includes("K260413"), "plain latest question relays the correction");
   const noteTxt = CORR_LOG.corrections.find(c => c.id === "C8").noteText;

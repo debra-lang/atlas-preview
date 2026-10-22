@@ -1,7 +1,7 @@
 {
   "note": "History of corrections to the published September 2026 research updates. The reports' text was corrected in place; the original wording of every changed passage is kept here (\"original\"). Shown to visitors as a Correction note under each item (js/app.js) and relayed by the Ask assistant (ask-worker/worker.js). The September 2026 interim review flags were each resolved by one or more corrections or explicitly withdrawn (\"flags\").",
   "correctedOn": "2026-10",
-  "verification": "Each corrected passage was checked against the source (PubMed record, a second index (Europe PMC), the open-access full text where available, and the FDA 510(k) database for K260413) on 22 October 2026; see september-corrections-proposed/VERIFICATION-OF-CORRECTIONS.md in the project folder. Corrections N5 to N8b were checked against the open-access full text (funding statement, questionnaire list, flow of participants and Table 1).",
+  "verification": "Each corrected passage was checked against the source (PubMed record, a second index (Europe PMC), the open-access full text where available, and the FDA 510(k) database for K260413) on 22 October 2026; see september-corrections-proposed/VERIFICATION-OF-CORRECTIONS.md in the project folder. Corrections N5 to N8b were checked against the open-access full text (funding statement, questionnaire list, flow of participants and Table 1). Corrections R1a to R6 (final pre-deployment round) were checked against the abstracts and, for R1 to R3, the open-access full texts.",
   "corrections": [
     {
       "id": "C1a",
@@ -402,6 +402,134 @@
       "sourceLabel": "PubMed record",
       "optional": false,
       "correctedOn": "2026-10"
+    },
+    {
+      "id": "R1a",
+      "reportDate": "2026-09-07",
+      "file": "data/weekly/2026-09-07.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42684373/",
+      "itemTitle": "Large US survey analysis: tinnitus and depression partly explain the link between noise exposure and poor sleep",
+      "field": "Funding / conflicts",
+      "original": "unclear — no funding or COI statement in the available record; authors are hospital-based ENT clinicians in Chengdu, China, with no apparent manufacturer involvement",
+      "corrected": "independent — the authors declare no competing interests and, per the full text, that no financial support was received; authors are hospital-based ENT clinicians in Chengdu, China, with no apparent manufacturer involvement",
+      "kind": "reword",
+      "reason": "Full paper checked: the publisher’s record and the paper state that the authors declare no competing interests, and the paper states that no financial support was received.",
+      "noteText": "Changed: “unclear — no funding or COI statement in the available record; authors are hospital-based ENT clinicians in Chengdu, China, with no apparent manufacturer involvement” to “independent — the authors declare no competing interests and, per the full text, that no financial support was received; authors are hospital-based ENT clinicians in Chengdu, China, with no apparent manufacturer involvement” — Full paper checked: the publisher’s record and the paper state that the authors declare no competing interests, and the paper states that no financial support was received.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "R1b",
+      "reportDate": "2026-09-07",
+      "file": "data/weekly/2026-09-07.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42684373/",
+      "itemTitle": "Large US survey analysis: tinnitus and depression partly explain the link between noise exposure and poor sleep",
+      "field": "Limitations",
+      "original": "Funding and conflict-of-interest statements not visible in the available record",
+      "corrected": "",
+      "kind": "delete",
+      "reason": "Full paper checked: both a conflict-of-interest statement and a funding statement are present.",
+      "noteText": "Removed: “Funding and conflict-of-interest statements not visible in the available record” — Full paper checked: both a conflict-of-interest statement and a funding statement are present.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "R2a",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42684364/",
+      "itemTitle": "US survey analysis links combined work and leisure noise exposure, and hearing difficulty, to tinnitus-related trouble falling asleep",
+      "field": "Funding / conflicts",
+      "original": "unclear — no funding statement or COI disclosure in the available record; no manufacturer involvement is apparent since no product or treatment is evaluated.",
+      "corrected": "independent — the authors declare no conflicts of interest and, per the full text, received no specific grant; no manufacturer involvement is apparent since no product or treatment is evaluated.",
+      "kind": "reword",
+      "reason": "Full paper checked: the publisher’s record and the paper state “The authors declare no conflicts of interest.”, and the paper states that the research received no specific grant.",
+      "noteText": "Changed: “unclear — no funding statement or COI disclosure in the available record; no manufacturer involvement is apparent since no product or treatment is evaluated.” to “independent — the authors declare no conflicts of interest and, per the full text, received no specific grant; no manufacturer involvement is apparent since no product or treatment is evaluated.” — Full paper checked: the publisher’s record and the paper state “The authors declare no conflicts of interest.”, and the paper states that the research received no specific grant.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "R2b",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42684364/",
+      "itemTitle": "US survey analysis links combined work and leisure noise exposure, and hearing difficulty, to tinnitus-related trouble falling asleep",
+      "field": "Limitations",
+      "original": "; funding and COI not stated in the available record",
+      "corrected": "",
+      "kind": "delete",
+      "reason": "Full paper checked: both statements are present (see R2a).",
+      "noteText": "Removed: “; funding and COI not stated in the available record” — Full paper checked: both statements are present (see R2a).",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "R3",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42654183/",
+      "itemTitle": "Adolescent survey links heavy ultra-processed food intake with self-reported constant tinnitus",
+      "field": "Why it matters",
+      "original": "were about 2.5 times more likely to fall in the highest ultra-processed food consumption group",
+      "corrected": "had about 2.5 times the odds of falling in the highest ultra-processed food consumption group (adjusted odds ratio 2.55)",
+      "kind": "reword",
+      "reason": "The abstract reports an adjusted odds ratio of 2.55; the full text says “approximately 2.5 times higher adjusted odds”. An odds ratio is not a likelihood.",
+      "noteText": "Changed: “were about 2.5 times more likely to fall in the highest ultra-processed food consumption group” to “had about 2.5 times the odds of falling in the highest ultra-processed food consumption group (adjusted odds ratio 2.55)” — The abstract reports an adjusted odds ratio of 2.55; the full text says “approximately 2.5 times higher adjusted odds”. An odds ratio is not a likelihood.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "R4",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42732646/",
+      "itemTitle": "Uncontrolled study of intratympanic dexamethasone reports questionnaire improvement in 65 tinnitus patients",
+      "field": "Summary",
+      "original": "from two Indian centres",
+      "corrected": "from one Indian department",
+      "kind": "reword",
+      "reason": "The abstract says the study was conducted in the Department of Otorhinolaryngology at Navodaya Medical College and Hospital.",
+      "noteText": "Changed: “from two Indian centres” to “from one Indian department” — The abstract says the study was conducted in the Department of Otorhinolaryngology at Navodaya Medical College and Hospital.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "R5",
+      "reportDate": "2026-09-21",
+      "file": "data/weekly/2026-09-21.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42743862/",
+      "itemTitle": "Veterans with tinnitus and sound intolerance show signs of hidden cochlear nerve damage despite normal hearing tests",
+      "field": "Control",
+      "original": "n/a",
+      "corrected": "Young non-Veteran controls with minimal noise exposure (n=165)",
+      "kind": "reword",
+      "reason": "The abstract compares the Veterans with young non-Veteran controls with minimal noise exposure; the item’s own population field gives n=165.",
+      "noteText": "Changed: “n/a” to “Young non-Veteran controls with minimal noise exposure (n=165)” — The abstract compares the Veterans with young non-Veteran controls with minimal noise exposure; the item’s own population field gives n=165.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "R6",
+      "reportDate": "2026-09-07",
+      "file": "data/weekly/2026-09-07.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42684457/",
+      "itemTitle": "Korean national survey: bothersome tinnitus linked to more depression and stress during COVID-19 restrictions",
+      "field": "Study type",
+      "original": "cohort",
+      "corrected": "national health survey analysis (2020 and 2022 survey waves)",
+      "kind": "reword",
+      "reason": "The abstract describes data drawn from the 8th (2020) and 9th (2022) Korea National Health and Nutrition Examination Survey; it describes no cohort followed over time, and the item’s own limitation says it is not a longitudinal cohort.",
+      "noteText": "Changed: “cohort” to “national health survey analysis (2020 and 2022 survey waves)” — The abstract describes data drawn from the 8th (2020) and 9th (2022) Korea National Health and Nutrition Examination Survey; it describes no cohort followed over time, and the item’s own limitation says it is not a longitudinal cohort.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
     }
   ],
   "fields": [
@@ -604,6 +732,99 @@
       "field": "Safety",
       "before": "Not reported — the abstract gives no adverse-event data despite donepezil's known cholinergic side-effect profile (nausea, diarrhea, bradycardia, insomnia); full-text review needed.",
       "after": "Not reported in the abstract. The full paper reports that 14 of 35 participants on donepezil dropped out (13 for side effects) and 9 of 35 on placebo dropped out or were excluded (5 for side effects), with side-effect dropouts higher on donepezil (p = 0.006); its table lists insomnia 5/35, nausea 3/35 and epigastralgia 3/35 on donepezil against 0/35, 0/35 and 1/35 on placebo. These figures describe this trial only."
+    },
+    {
+      "reportDate": "2026-09-07",
+      "file": "data/weekly/2026-09-07.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42684373/",
+      "field": "Funding / conflicts",
+      "before": "unclear — no funding or COI statement in the available record; authors are hospital-based ENT clinicians in Chengdu, China, with no apparent manufacturer involvement",
+      "after": "independent — the authors declare no competing interests and, per the full text, that no financial support was received; authors are hospital-based ENT clinicians in Chengdu, China, with no apparent manufacturer involvement"
+    },
+    {
+      "reportDate": "2026-09-07",
+      "file": "data/weekly/2026-09-07.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42684373/",
+      "field": "Limitations",
+      "before": [
+        "Cross-sectional design — mediation analysis implies temporal ordering that the data cannot establish; reverse causation (poor sleep amplifying tinnitus) is equally compatible",
+        "Self-reported tinnitus, noise exposure and sleep trouble; no validated tinnitus severity measure (THI/TFI) and no objective sleep measurement (no polysomnography or actigraphy)",
+        "'Protective' effect of speech-frequency hearing loss is biologically implausible and suggests residual confounding, collider bias or misclassification rather than a real protective mechanism",
+        "Pooling many NHANES cycles with differing audiometry/questionnaire availability introduces selection effects; no correction detail for multiple subgroup and spline analyses in the abstract",
+        "No treatment, no randomization, no control condition — cannot inform any therapy rating",
+        "Funding and conflict-of-interest statements not visible in the available record"
+      ],
+      "after": [
+        "Cross-sectional design — mediation analysis implies temporal ordering that the data cannot establish; reverse causation (poor sleep amplifying tinnitus) is equally compatible",
+        "Self-reported tinnitus, noise exposure and sleep trouble; no validated tinnitus severity measure (THI/TFI) and no objective sleep measurement (no polysomnography or actigraphy)",
+        "'Protective' effect of speech-frequency hearing loss is biologically implausible and suggests residual confounding, collider bias or misclassification rather than a real protective mechanism",
+        "Pooling many NHANES cycles with differing audiometry/questionnaire availability introduces selection effects; no correction detail for multiple subgroup and spline analyses in the abstract",
+        "No treatment, no randomization, no control condition — cannot inform any therapy rating"
+      ]
+    },
+    {
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42684364/",
+      "field": "Funding / conflicts",
+      "before": "unclear — no funding statement or COI disclosure in the available record; no manufacturer involvement is apparent since no product or treatment is evaluated.",
+      "after": "independent — the authors declare no conflicts of interest and, per the full text, received no specific grant; no manufacturer involvement is apparent since no product or treatment is evaluated."
+    },
+    {
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42684364/",
+      "field": "Limitations",
+      "before": [
+        "Cross-sectional design: no causal inference and no temporal ordering between noise exposure, hearing difficulty and sleep trouble",
+        "All exposures and outcomes are self-reported; no audiometry, no psychoacoustic tinnitus measurement, no validated tinnitus or insomnia questionnaire",
+        "Data are from 2014, over a decade old, analysed and published in 2026",
+        "Attribution of sleep trouble to tinnitus is respondent-assigned and vulnerable to recall and attribution bias",
+        "Secondary short-sleep endpoint described inconsistently ('>7 hours'), suggesting reporting error",
+        "Residual confounding (e.g. mental health, medication, shift work, comorbid insomnia) not addressed",
+        "Author group is predominantly computing/engineering and general medicine with no listed tinnitus or audiology expertise; funding and COI not stated in the available record"
+      ],
+      "after": [
+        "Cross-sectional design: no causal inference and no temporal ordering between noise exposure, hearing difficulty and sleep trouble",
+        "All exposures and outcomes are self-reported; no audiometry, no psychoacoustic tinnitus measurement, no validated tinnitus or insomnia questionnaire",
+        "Data are from 2014, over a decade old, analysed and published in 2026",
+        "Attribution of sleep trouble to tinnitus is respondent-assigned and vulnerable to recall and attribution bias",
+        "Secondary short-sleep endpoint described inconsistently ('>7 hours'), suggesting reporting error",
+        "Residual confounding (e.g. mental health, medication, shift work, comorbid insomnia) not addressed",
+        "Author group is predominantly computing/engineering and general medicine with no listed tinnitus or audiology expertise"
+      ]
+    },
+    {
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42654183/",
+      "field": "Why it matters",
+      "before": "In a survey of 1,285 Belgrade teenagers, those reporting constant tinnitus were about 2.5 times more likely to fall in the highest ultra-processed food consumption group, alongside poorer sleep and lower school performance. Because everyone was surveyed at a single point in time, this cannot show that diet causes tinnitus — or that changing diet would help it.",
+      "after": "In a survey of 1,285 Belgrade teenagers, those reporting constant tinnitus had about 2.5 times the odds of falling in the highest ultra-processed food consumption group (adjusted odds ratio 2.55), alongside poorer sleep and lower school performance. Because everyone was surveyed at a single point in time, this cannot show that diet causes tinnitus — or that changing diet would help it."
+    },
+    {
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42732646/",
+      "field": "Summary",
+      "before": "A small single-arm observational study from two Indian centres reporting THI improvement after four weekly intratympanic dexamethasone injections in 65 patients with severe disabling tinnitus. Nothing methodologically new — it repeats the uncontrolled design that has characterised intratympanic steroid reports for two decades, and the authors themselves state it cannot establish efficacy. THI category distribution before vs after: mild 21.5% → 67.7%; moderate 63.1% → 32.3%; severe 15.4% → 0% (P < .05). No mean THI scores, no change scores, no confidence intervals and no responder definition reported.",
+      "after": "A small single-arm observational study from one Indian department reporting THI improvement after four weekly intratympanic dexamethasone injections in 65 patients with severe disabling tinnitus. Nothing methodologically new — it repeats the uncontrolled design that has characterised intratympanic steroid reports for two decades, and the authors themselves state it cannot establish efficacy. THI category distribution before vs after: mild 21.5% → 67.7%; moderate 63.1% → 32.3%; severe 15.4% → 0% (P < .05). No mean THI scores, no change scores, no confidence intervals and no responder definition reported."
+    },
+    {
+      "reportDate": "2026-09-21",
+      "file": "data/weekly/2026-09-21.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42743862/",
+      "field": "Control",
+      "before": "n/a",
+      "after": "Young non-Veteran controls with minimal noise exposure (n=165)"
+    },
+    {
+      "reportDate": "2026-09-07",
+      "file": "data/weekly/2026-09-07.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42684457/",
+      "field": "Study type",
+      "before": "cohort",
+      "after": "national health survey analysis (2020 and 2022 survey waves)"
     }
   ],
   "flags": {

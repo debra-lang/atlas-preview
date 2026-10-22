@@ -1,0 +1,43 @@
+{
+ "note": "Verbatim excerpts from the sources (PubMed abstracts and publisher statements; open-access full texts via Europe PMC) that the final correction round R1-R6 rests on. Fetched 23 Oct 2026. Used by test_disclosure_pages.",
+ "R1_funding_fulltext": {
+  "source": "Tu et al., PMC full text of PMID 42684373",
+  "quote": "The authors declare that no financial support was received for the research, authorship, and publication of this article."
+ },
+ "R1_coi_record": {
+  "source": "publisher conflict statement, PubMed record of 42684373",
+  "quote": "The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper."
+ },
+ "R2_grant_fulltext": {
+  "source": "PMC full text of PMID 42684364",
+  "quote": "This research received no specific grant from any funding agency in the public, commercial, or not-for-profit sectors."
+ },
+ "R2_coi_record": {
+  "source": "publisher conflict statement, PubMed record of 42684364",
+  "quote": "The authors declare no conflicts of interest."
+ },
+ "R3_abstract": {
+  "source": "abstract of PMID 42654183",
+  "quote": "Constant tinnitus showed one of the strongest adjusted associations (aOR = 2.55; 95% CI: 1.77-3.67)"
+ },
+ "R3_fulltext": {
+  "source": "PMC full text of PMID 42654183",
+  "quote": "Constant tinnitus was associated with approximately 2.5 times higher adjusted odds (aOR = 2.548; 95% CI: 1.768–3.672)"
+ },
+ "R4_abstract": {
+  "source": "abstract of PMID 42732646",
+  "quote": "A descriptive observational study was conducted in the Department of Otorhinolaryngology at Navodaya Medical College and Hospital from October 2019 to September 2021."
+ },
+ "R5_abstract": {
+  "source": "abstract of PMID 42743862",
+  "quote": "compared to young non-Veteran controls with minimal noise exposure"
+ },
+ "R5_abstract_n": {
+  "source": "abstract of PMID 42743862",
+  "quote": "RESULTS: Mean ABR wave I amplitudes, EFR magnitudes, and high frequency DPOAEs were reduced in a sample of 22 Veterans with tinnitus and 19 Veterans with DST relative to 165 controls."
+ },
+ "R6_abstract": {
+  "source": "abstract of PMID 42684457",
+  "quote": "Data were drawn from the 8th (2020) and 9th (2022) Korea National Health and Nutrition Examination Survey."
+ }
+}

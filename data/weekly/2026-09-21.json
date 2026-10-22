@@ -15,7 +15,7 @@
         "studyType": "cohort",
         "population": "US military Veterans with normal audiograms reporting constant tinnitus (n=22) or decreased sound tolerance (n=19), compared with young non-Veteran controls with minimal noise exposure (n=165)",
         "sampleSize": "206 total (22 tinnitus, 19 DST, 165 controls)",
-        "control": "n/a",
+        "control": "Young non-Veteran controls with minimal noise exposure (n=165)",
         "primaryEndpoint": "Group differences in three physiological indicators of cochlear deafferentation: ABR wave I amplitude, envelope following response (EFR) magnitude, and wideband middle ear muscle reflex (MEMR) magnitude",
         "secondaryEndpoints": "Distortion product otoacoustic emissions (outer hair cell function) and ABR wave V/I amplitude ratio as an index of central gain",
         "comparisonType": "between-group",

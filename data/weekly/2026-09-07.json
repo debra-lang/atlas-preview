@@ -221,7 +221,7 @@
       "summary": "A weighted national survey analysis (KNHANES 2020 vs 2022) showing that people with bothersome chronic tinnitus had higher depressive symptoms and stress specifically during the COVID-19 restriction period, with those differences disappearing in the 2022 'living-with-COVID' period. It is new only as epidemiological context on how external stressors interact with tinnitus severity; it tests no treatment. During the restriction period, the bothersome tinnitus group had significantly higher PHQ-9 scores and higher prevalence of depressive symptoms and high stress vs non-tinnitus (p < 0.001 for all) and vs non-bothersome tinnitus (p < 0.05 for all); no significant group differences in 2022; within the bothersome tinnitus group, 2020 vs 2022 differed for PHQ-9 (p = 0.048), depressive symptoms (p = 0.009) and high stress (p = 0.039). No effect sizes, prevalence percentages or confidence intervals reported in the abstract.",
       "url": "https://pubmed.ncbi.nlm.nih.gov/42684457/",
       "detail": {
-        "studyType": "cohort",
+        "studyType": "national health survey analysis (2020 and 2022 survey waves)",
         "population": "Korean adults from the 8th (2020) and 9th (2022) Korea National Health and Nutrition Examination Survey, classified as bothersome tinnitus (VAS > 4), non-bothersome tinnitus (VAS ≤ 4), or no tinnitus",
         "sampleSize": "5,965 participants",
         "control": "n/a",
@@ -272,10 +272,9 @@
           "Self-reported tinnitus, noise exposure and sleep trouble; no validated tinnitus severity measure (THI/TFI) and no objective sleep measurement (no polysomnography or actigraphy)",
           "'Protective' effect of speech-frequency hearing loss is biologically implausible and suggests residual confounding, collider bias or misclassification rather than a real protective mechanism",
           "Pooling many NHANES cycles with differing audiometry/questionnaire availability introduces selection effects; no correction detail for multiple subgroup and spline analyses in the abstract",
-          "No treatment, no randomization, no control condition — cannot inform any therapy rating",
-          "Funding and conflict-of-interest statements not visible in the available record"
+          "No treatment, no randomization, no control condition — cannot inform any therapy rating"
         ],
-        "funding": "unclear — no funding or COI statement in the available record; authors are hospital-based ENT clinicians in Chengdu, China, with no apparent manufacturer involvement",
+        "funding": "independent — the authors declare no competing interests and, per the full text, that no financial support was received; authors are hospital-based ENT clinicians in Chengdu, China, with no apparent manufacturer involvement",
         "identifier": "pubmed-42684373",
         "source": "Noise & health",
         "changesAssessment": "No — this does not change our current evidence assessment."

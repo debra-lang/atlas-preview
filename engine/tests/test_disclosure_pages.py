@@ -11,7 +11,7 @@ def corrections_log():
 
 
 def _field(it, field):
-    holder, key = {"Summary": (it, "summary"), "Why it matters": (it, "whyMatters"), "Headline": (it, "title"), "Funding / conflicts": (it["detail"], "funding"), "Limitations": (it["detail"], "limitations"), "Safety": (it["detail"], "safety")}[field]
+    holder, key = {"Summary": (it, "summary"), "Why it matters": (it, "whyMatters"), "Headline": (it, "title"), "Funding / conflicts": (it["detail"], "funding"), "Limitations": (it["detail"], "limitations"), "Safety": (it["detail"], "safety"), "Control": (it["detail"], "control"), "Study type": (it["detail"], "studyType")}[field]
     return holder, key
 
 
@@ -63,7 +63,7 @@ class TestDisclosureEdits(unittest.TestCase):
 
     def test_every_logged_correction_is_consistent_with_its_field_history(self):
         log = corrections_log()
-        self.assertEqual(len(log["corrections"]), 25)
+        self.assertEqual(len(log["corrections"]), 33)
         as_text = lambda v: v if isinstance(v, str) else " | ".join(v)       # a list field (limitations) is compared as its joined text
         for c in log["corrections"]:
             fld = [x for x in log["fields"] if x["file"] == c["file"] and x["itemUrl"] == c["itemUrl"] and x["field"] == c["field"]]
@@ -74,7 +74,7 @@ class TestDisclosureEdits(unittest.TestCase):
             self.assertNotIn(c["original"], as_text(fld[0]["after"]).replace(c["corrected"], "") if c["corrected"] else as_text(fld[0]["after"]), c["id"])   # and is gone now
             self.assertIn(c["original"].strip()[:60], c["noteText"], c["id"])                     # the note quotes the original wording
             self.assertTrue(c["reason"] and c["sourceLabel"] and c["itemUrl"].startswith("https://"), c["id"])
-        self.assertEqual(len({c["id"] for c in log["corrections"]}), 25)
+        self.assertEqual(len({c["id"] for c in log["corrections"]}), 33)
 
     def test_no_correction_introduces_a_priority_novelty_or_authority_claim(self):
         bad = re.compile(r"\b(first|novel|novelty|largest|senior|well[- ]established|long-standing|under-?studied|coin flip|no better than chance|long-contested|unprecedented|pioneering)\b", re.I)
@@ -185,7 +185,7 @@ class TestPublicStatementsAreAccurate(unittest.TestCase):
         self.assertIn("on " + fda["primarySourceDecisionDate"], item[0]["summary"]); self.assertNotIn(fda["publishedDecisionDate"], item[0]["summary"])
         self.assertIn('Source: <a href="${esc(it.url)}" rel="noopener" target="_blank">', js)    # the source is a working link
         self.assertIn("Correction (added October 2026):", js)
-        self.assertEqual([c["id"] for c in log["corrections"] if c["reportDate"] == "2026-09-07"], ["C8"])      # the only correction in that report
+        self.assertEqual([c["id"] for c in log["corrections"] if c["reportDate"] == "2026-09-07"], ["C8", "R1a", "R1b", "R6"])      # the FDA correction plus the final-round corrections to two other items in that report
 
     def test_the_four_further_corrections_rest_on_the_papers_full_text_and_do_not_generalise(self):
         q = {k: v["quote"] for k, v in json.loads(read("engine/tests/fixtures/full-text-quotes-23oct.json")).items() if k != "note"}
@@ -225,6 +225,40 @@ class TestPublicStatementsAreAccurate(unittest.TestCase):
         self.assertIn("refers to the study's abstract, which these summaries were written from; the full paper may report it, unless a correction note says the full paper was also checked", worker)
         for cid in ("N8a", "N8b"):
             self.assertIn("Full paper checked", [c for c in corrections_log()["corrections"] if c["id"] == cid][0]["reason"])      # the notes that did check the full paper say so
+
+    def test_the_final_round_corrections_r1_to_r6_rest_on_the_sources_and_leave_nothing_stale(self):
+        q = {k: v["quote"] for k, v in json.loads(read("engine/tests/fixtures/source-quotes-24oct.json")).items() if k != "note"}
+        log = corrections_log()
+        by = {c["id"]: c for c in log["corrections"]}
+        fields = {(f["itemUrl"], f["field"]): f for f in log["fields"]}
+        self.assertEqual([c["id"] for c in log["corrections"]][-8:], ["R1a", "R1b", "R2a", "R2b", "R3", "R4", "R5", "R6"])
+        def after(cid): return fields[(by[cid]["itemUrl"], by[cid]["field"])]["after"]
+        # R1, R2: the papers declare no competing interests and no funding, so the "no statement in the record" claims are gone
+        self.assertIn("declare that no financial support was received", q["R1_funding_fulltext"]); self.assertIn("no known competing", q["R1_coi_record"])
+        self.assertIn("received no specific grant", q["R2_grant_fulltext"]); self.assertIn("declare no conflicts of interest", q["R2_coi_record"])
+        for cid, lab in (("R1a", "independent"), ("R2a", "independent")):
+            self.assertTrue(by[cid]["corrected"].startswith(lab), cid)
+            self.assertNotIn("no funding", by[cid]["corrected"].lower()); self.assertNotIn("in the available record", by[cid]["corrected"])
+        self.assertIn("no financial support was received", by["R1a"]["corrected"]); self.assertIn("received no specific grant", by["R2a"]["corrected"])
+        self.assertNotIn(by["R1b"]["original"], after("R1b"))                                    # the whole limitation line is gone
+        self.assertNotIn("not stated in the available record", " ".join(after("R2b")))
+        self.assertEqual(by["R1b"]["corrected"], "")
+        # R3: an odds ratio is not a likelihood
+        self.assertIn("aOR = 2.55", q["R3_abstract"]); self.assertIn("2.5 times higher adjusted odds", q["R3_fulltext"])
+        self.assertIn("2.5 times the odds", by["R3"]["corrected"]); self.assertIn("adjusted odds ratio 2.55", by["R3"]["corrected"])
+        self.assertNotIn("more likely", by["R3"]["corrected"]); self.assertNotIn("more likely to fall", after("R3"))
+        # R4: one department, not two centres
+        self.assertIn("in the Department of Otorhinolaryngology at Navodaya Medical College and Hospital", q["R4_abstract"])
+        self.assertEqual(by["R4"]["corrected"], "from one Indian department"); self.assertNotIn("centres", after("R4"))
+        # R5: the veterans study has 165 controls
+        self.assertIn("young non-Veteran controls with minimal noise exposure", q["R5_abstract"]); self.assertIn("165", q["R5_abstract_n"])
+        self.assertEqual(after("R5"), "Young non-Veteran controls with minimal noise exposure (n=165)")
+        # R6: a national survey analysis, not a cohort (and no label the abstract does not use)
+        self.assertIn("Data were drawn from the 8th (2020) and 9th (2022) Korea National Health and Nutrition Examination Survey", q["R6_abstract"])
+        self.assertEqual(after("R6"), "national health survey analysis (2020 and 2022 survey waves)")
+        self.assertNotIn("cohort", after("R6")); self.assertNotIn("cross-sectional", after("R6"))
+        for cid in ("R1a", "R1b", "R2a", "R2b", "R3", "R4", "R5", "R6"):
+            self.assertGreater(len(by[cid]["reason"]), 40, cid)
 
     def test_the_ask_worker_cannot_say_nothing_was_found_and_relays_the_notices(self):
         import shutil, subprocess
