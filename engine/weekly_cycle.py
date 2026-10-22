@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Tinnitus Evidence — automated weekly research cycle.
+"""Tinnitus Evidence — automated research cycle (runs on the 1st and 15th of each month).
 
 scan -> AI evaluation -> deterministic verification gates -> routing:
-  CLASS A (routine, verified)  -> publishes automatically to This Week in Tinnitus Research
+  CLASS A (routine, verified)  -> publishes automatically to Latest Tinnitus Research
   CLASS B (major / uncertain)  -> data/review-queue/held.json ("Major Evidence Changes — Held")
                                   the public assessment stays unchanged until resolved;
-                                  if the underlying FACT is verified, a weekly item may still
+                                  if the underlying FACT is verified, a research-update item may still
                                   publish flagged "Impact on rating: Under evaluation".
 Also: refreshes tracked trial statuses directly from ClinicalTrials.gov (registry-verified,
 Class A), appends a full audit trail (engine/audit-log.jsonl), and maintains
@@ -16,11 +16,11 @@ Guarantees:
     succeeds — a failed scan can never corrupt or partially update the site.
   * Evidence scores, tiers, rankings, loudness/distress ratings, safety assessments and
     treatment regulatory statuses are NEVER changed by this script. Ever.
-  * A quiet week publishes an honest "no evidence-changing research identified" note —
+  * A quiet scan publishes an honest "no evidence-changing research identified" note —
     dates are never bumped to fake freshness.
 
 Usage:
-  python engine/weekly_cycle.py                 # real weekly run
+  python engine/weekly_cycle.py                 # real scheduled run
   python engine/weekly_cycle.py --simulate      # full end-to-end test in a sandbox copy
   python engine/weekly_cycle.py --skip-eval     # scan + deterministic steps only
 """
@@ -32,8 +32,9 @@ ENGINE = Path(__file__).resolve().parent
 sys.path.insert(0, str(ENGINE))
 import weekly_scan  # noqa: E402  (scan_pubmed / scan_ctgov / scan_feeds)
 import evaluate_queue  # noqa: E402
+import grounding, notices, staged_review, topic_holds  # noqa: E402  (deterministic helpers: no network, no AI)
 
-SCHEDULE_TEXT = "Every Monday 06:00 America/Los_Angeles (timezone-aware — stays 6 AM Pacific through PST/PDT) via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled"
+SCHEDULE_TEXT = "The 1st and 15th of every month, scheduled for 06:00 America/Los_Angeles (timezone-aware — stays 6 AM Pacific through PST/PDT); GitHub often starts scheduled runs hours late, so a run may begin any time that day, via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled"
 TRUSTED_DOMAINS = (
     "pubmed.ncbi.nlm.nih.gov", "ncbi.nlm.nih.gov", "clinicaltrials.gov", "fda.gov",
     "accessdata.fda.gov", "nih.gov", "nidcd.nih.gov", "cochranelibrary.com", "cochrane.org",
@@ -41,10 +42,14 @@ TRUSTED_DOMAINS = (
     "springer.com", "link.springer.com", "tandfonline.com", "frontiersin.org", "plos.org",
     "journals.plos.org", "bmj.com", "doi.org", "science.org", "ata.org", "entnet.org", "jmir.org",
 )
+# Sources whose date-window queries are recovered after a skipped or failed run: the look-back grows to the time since the source last SUCCEEDED (state in engine/scan-state.json, committed with the queue).
+# RSS/news feeds are not in this list: they only list recent entries, so what has scrolled off a feed during a long outage cannot be recovered, and that is said plainly in the documentation.
+STATE_SOURCES = {"PubMed (title/abstract + MeSH)": "pubmed", "ClinicalTrials.gov (condition + full-text)": "ctgov"}
+LOOKBACK_OVERLAP_DAYS, LOOKBACK_MAX_DAYS = 3, 180
 COMPANY_HINTS = ("businesswire", "prnewswire", "globenewswire", "press-release", "press_release", "investor")
 
 
-def next_monday_6am():
+def next_run_6am():
     try:
         from zoneinfo import ZoneInfo
         tz = ZoneInfo("America/Los_Angeles")
@@ -52,17 +57,29 @@ def next_monday_6am():
         from datetime import timezone
         tz = timezone(timedelta(hours=-8))
     now = datetime.now(tz)
-    d = now + timedelta(days=((7 - now.weekday()) % 7) or 7)
-    return d.strftime("%Y-%m-%d") + " 06:00 America/Los_Angeles"
+    return next_scheduled(now).strftime("%Y-%m-%d") + " 06:00 America/Los_Angeles"
+
+
+def next_scheduled(now):
+    """The next run on the 1st or 15th at 06:00 (the zone of `now`): today's run if it has not happened yet, otherwise the next one."""
+    from datetime import datetime as _dt
+    for add_month in range(0, 3):
+        y, m = now.year + (now.month - 1 + add_month) // 12, (now.month - 1 + add_month) % 12 + 1
+        for day in (1, 15):
+            cand = _dt(y, m, day, 6, 0, tzinfo=now.tzinfo)
+            if cand > now:
+                return cand
+    raise RuntimeError("no scheduled date found")
 
 
 class Cycle:
-    def __init__(self, root, simulate=False, skip_eval=False, days=7):
+    def __init__(self, root, simulate=False, skip_eval=False, days=7, staged=None):
         self.root, self.simulate, self.skip_eval, self.days = Path(root), simulate, skip_eval, days
+        self._staged_override = staged   # None = decide from engine/eval_settings.json ("mode"); tests and simulations may force True/False
         self.staged = {}          # path -> obj (committed only on success)
         self.audit = []           # audit-log entries for this run
         self.status = {
-            "schedule": SCHEDULE_TEXT, "nextScheduled": next_monday_6am(),
+            "schedule": SCHEDULE_TEXT, "nextScheduled": next_run_6am(),
             "lastAttempt": datetime.now().isoformat(timespec="seconds"),
             "sources": [], "examined": 0, "newItems": 0, "published": 0,
             "rejectedDuplicates": 0, "rejectedIrrelevant": 0, "held": 0,
@@ -99,6 +116,22 @@ class Cycle:
         self.audit.append(kw)
 
     # ---------- steps ----------
+    def lookback_days(self, key, state, name, today=None):
+        """Days to look back for one source: at least the standard window, longer after a gap. Returns (days, coverage_gap_message or None)."""
+        today = today or date.today()
+        base = weekly_scan.DAYS
+        try:
+            gap = (today - date.fromisoformat(str(state.get(key)))).days
+        except (TypeError, ValueError):
+            return base, None                      # no usable record of a previous success: the standard window
+        if gap < 0:
+            return base, None
+        want = gap + LOOKBACK_OVERLAP_DAYS
+        if want > LOOKBACK_MAX_DAYS:
+            return LOOKBACK_MAX_DAYS, (f"source '{name}' last succeeded {gap} days ago; the look-back is limited to {LOOKBACK_MAX_DAYS} days, so records from the earliest {want - LOOKBACK_MAX_DAYS} day(s) of the gap "
+                                       "may have been missed (coverage gap: check the source by hand)")
+        return max(base, want), None
+
     def scan(self, fixtures=None):
         queue = self.load("data/review-queue/queue.json", {"items": []})
         known = set(self.load("engine/known_ids.json", []))
@@ -111,16 +144,30 @@ class Cycle:
             ("FDA databases (510k/PMA/MAUDE — openFDA)", weekly_scan.scan_fda),
             ("News-wire intelligence (labeled, never evidence)", weekly_scan.scan_news_intel),
             ("Guideline page watcher (AAO-HNSF, NICE)", weekly_scan.scan_pages)]
+        use_state = fixtures is None
+        state = self.load("engine/scan-state.json", {}) if use_state else {}
+        base_days = weekly_scan.DAYS
         for name, fn in scanners:
             src = {"name": name, "checked": True, "count": 0, "error": None}
+            key = STATE_SOURCES.get(name) if use_state else None
             try:
+                if key:
+                    days, gap_msg = self.lookback_days(key, state, name)
+                    weekly_scan.DAYS = days
+                    src["lookbackDays"] = days
+                    if gap_msg:
+                        self.status["errors"].append(gap_msg)
                 items = fn()
                 src["count"] = len(items)
                 self.status["examined"] += len(items)
                 new += [it for it in items if it["id"] not in known and it["id"] not in existing]
+                if key:
+                    state[key] = date.today().isoformat()          # only a source that answered completely advances its own clock
             except Exception as e:
                 src["error"] = str(e)[:200]
                 self.status["errors"].append(f"source '{name}' failed: {e}")
+            finally:
+                weekly_scan.DAYS = base_days
             self.status["sources"].append(src)
         # cross-source duplicate-title collapse
         seen, dedup = set(), []
@@ -135,6 +182,8 @@ class Cycle:
         queue["lastScan"] = date.today().isoformat()
         self.stage("data/review-queue/queue.json", queue)
         self.stage("engine/known_ids.json", sorted(known | {it["id"] for it in dedup}))
+        if use_state:      # staged LAST on purpose: commit() writes in this order, so an interruption can leave new records without an advanced clock (they are simply deduplicated next time), never an advanced clock without its records
+            self.stage("engine/scan-state.json", state)
         return queue
 
     def refresh_trials(self, fixture=None):
@@ -254,13 +303,46 @@ class Cycle:
                             reg.append(re.sub(r"\W+", "", key.lower())[:90])
         return set(reg)
 
+    def verified(self, ev):
+        """Publication gate. The model's own factuallyVerified / confidence are SELF-ASSESSMENTS: they are necessary but NEVER sufficient.
+        Code-verifiable source checks (engine/grounding.py) must also pass. Returns (ok, why-not)."""
+        ok, why = grounding.source_checks_pass(ev)
+        if not ok:
+            return False, why
+        if not ev.get("factuallyVerified"):
+            return False, "the evaluation does not assert that its facts are stated in the record"
+        if ev.get("confidence") not in ("moderate", "high"):
+            return False, f"confidence after the automated checks is '{ev.get('confidence')}'"
+        return True, ""
+
     def route(self, item, register, study_ids):
-        """Returns (route, reason). Routes: publish · publish-under-eval · hold · dup · irrelevant · awaiting-eval."""
+        """Returns (route, reason). Routes: publish · publish-under-eval · hold · dup · irrelevant · archive · awaiting-eval · paused ·
+        notice-cited · notice-uncited · notice-unresolved."""
         keys = [re.sub(r"\W+", "", (item.get(k) or "").lower())[:90] for k in ("url", "title")]
         if any(k and k in register for k in keys):
-            return "dup", "already published in the weekly feed"
+            return "dup", "already published in the research-updates feed"
         if item.get("id") in getattr(self, "paused_ids", ()):
             return "paused", "paused by the owner (engine/paused_ids.json): not evaluated, not published, not lost"
+        hold_id = item.get("topicHold") or topic_holds.match_item(item, getattr(self, "topic_hold_list", None))
+        if hold_id:
+            return "paused", f"topic hold '{hold_id}' (engine/topic_holds.json): not evaluated, not published, not lost"
+        nt = item.get("notice")
+        if nt:   # correction / retraction / expression of concern: never research evidence, never discarded silently
+            return "notice-" + nt.get("resolution", "unresolved"), f"{nt.get('kind')} notice: " + {
+                "cited": "concerns a study cited on this site - held privately for review", "uncited": "concerns an article we do not cite - archived as context",
+                "unresolved": "could not tell which article it concerns - held privately for a manual check"}.get(nt.get("resolution"), "needs a manual check")
+        ct = item.get("catalogued")
+        if ct:   # triage rule C1: preserved in the archive with its reason, listed in the digest, never lost, promotable by the owner
+            return "archive", f"catalogued without AI evaluation (rule {ct.get('rule')}): {ct.get('reason')}"
+        lh = item.get("languageHold")
+        if lh:   # R4: the abstract is not clearly English; never sent to the AI, never published, held for a person to read
+            return "hold", "R4 - " + (lh.get("reason") or "the abstract is not in English: held for a person to read")
+        if notices.looks_like_notice(item):   # title says notice but no notice analysis exists yet (evaluation off, or an older evaluation): never publish it as research
+            if not item.get("evaluation"):
+                return "awaiting-eval", "notice not yet screened"
+            return "notice-unresolved", "notice evaluated as research by an older version - held privately"
+        if item.get("id") in getattr(self, "superseded", ()):
+            return "dup", "superseded by a newer update of the same registry record (the evaluator reads the current record)"
         ev = item.get("evaluation")
         if not ev:
             return "awaiting-eval", "no AI evaluation available yet (evaluation pending or credentials missing)"
@@ -279,36 +361,41 @@ class Cycle:
             return "irrelevant", f"relevance category {rc} (incidental/false-positive) — excluded from the public feed"
         if rc in (3, 4):  # secondary-outcome or adjacent-condition context — archived, never treatment evidence
             return "archive", f"relevance category {rc} (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence"
+        if ev.get("studyType") == "other" and ev.get("studyQuality") == "not-a-study":
+            return "archive", "no scientific content (not a study) — archived as context; never published as research"
+        l3 = [e for e in (ev.get("escalation") or []) if e.get("tier") == "level3"]
+        if l3:   # deterministic Level 3 triggers (safety terms in the record; evidence bearing on a tracked treatment): never published automatically
+            return "hold", "Level 3 trigger (needs a person): " + "; ".join(f"{e['kind']} ({e['detail']})" for e in l3)
         url = item.get("url", "")
         host = urllib.parse.urlparse(url).netloc.lower()
         trusted = any(host == d or host.endswith("." + d) for d in TRUSTED_DOMAINS)
+        verified_fact, why_not = self.verified(ev)
         if item.get("intelligenceOnly"):
             # news-wire watch: intelligence, never evidence. Publishable ONLY as a labeled
             # company-reported development; anything major or unverified is held.
-            ev2 = ev
-            verified2 = ev2.get("factuallyVerified") and ev2.get("confidence") in ("moderate", "high")
-            major2 = (ev2.get("changeClass") == "major" or ev2.get("proposedScoreChange")
-                      or ev2.get("proposedRankChange") or ev2.get("safetySignal"))
-            if verified2 and not major2:
-                ev2["regulatorySource"] = "company announcement"  # forces the label in weekly_item
+            major2 = (ev.get("changeClass") == "major" or ev.get("proposedScoreChange")
+                      or ev.get("proposedRankChange") or ev.get("safetySignal"))
+            if verified_fact and not major2:
+                ev["regulatorySource"] = "company announcement"  # forces the label in weekly_item
                 return "publish", "news-wire intelligence — publishes labeled 'Company-reported development'; never treated as evidence"
-            return "hold", "news-wire intelligence not sufficiently verified (or possibly major) — held"
+            return "hold", f"news-wire intelligence not verified ({why_not or 'possibly major'}) — held"
         has_id = bool(re.search(r"pubmed-\d+|NCT\d{8}", item.get("id", "") + " " + url))
         major = (ev.get("changeClass") == "major" or ev.get("proposedScoreChange")
                  or ev.get("proposedRankChange") or ev.get("safetySignal"))
-        verified_fact = ev.get("factuallyVerified") and ev.get("confidence") in ("moderate", "high")
         company = ev.get("regulatorySource") == "company announcement"
         if not (trusted or has_id):
             if company and verified_fact and not major:
                 # the reported fact IS the announcement; publishes labeled "Company-reported development"
                 return "publish", "company announcement — publishes with company-reported label; never treated as evidence"
             return "hold", f"source '{host or 'unknown'}' is not on the trusted list and no PMID/NCT identifier — uncertainty hold"
+        if (item.get("evalInput") or {}).get("hasResults"):
+            return "hold", "the registry record has posted results: held for human review (results are never summarised and published automatically)"
         if major:
             return ("publish-under-eval" if verified_fact else "hold"), \
                    "possible major evidence change — held; public assessment unchanged"
         if not verified_fact:
-            return "hold", f"factual report not sufficiently verified (confidence: {ev.get('confidence')}) — uncertainty hold"
-        return "publish", "routine research update, verified"
+            return "hold", f"not sufficiently verified: {why_not} — uncertainty hold"
+        return "publish", "routine research update (passed the automated source checks)"
 
     def weekly_item(self, item, ev, under_eval=False):
         nr = "Not reported"
@@ -335,14 +422,156 @@ class Cycle:
         }
         if under_eval:
             w["underEvaluation"] = True
+        if item.get("releasedAfterSourceCheck"):
+            w["reviewNote"] = "Reviewed by the site editor against the source record. This is an editorial check, not a clinical review."
         if ev.get("safetySignal"):
             w["safetySignal"] = True
         if ev.get("regulatorySource") == "company announcement":
             w["title"] = "Company-reported development: " + w["title"]
         return w
 
+    # ---------- staged review + shared route effects ----------
+    def load_staged(self):
+        plain, enc = self.root / staged_review.STAGED_REL, self.root / (staged_review.STAGED_REL + ".enc")
+        if enc.exists() and not plain.exists():
+            raise RuntimeError("data/review-queue/staged.json.enc exists but was not decrypted (STATE_KEY missing, or the restore step failed): refusing to run so staged items cannot be lost")
+        d = self.load(staged_review.STAGED_REL, {"items": []})
+        d.setdefault("items", [])
+        return d
+
+    def stage_item(self, staged, item, r, reason):
+        import copy
+        ev = item["evaluation"]
+        preview = self.weekly_item(item, ev, under_eval=(r == "publish-under-eval")) if r in ("publish", "publish-under-eval") else None
+        staged["items"] = [x for x in staged["items"] if x["id"] != item["id"]]
+        staged["items"].insert(0, staged_review.make_entry(copy.deepcopy(item), r, reason, preview))
+        self.status.setdefault("staged", {}).setdefault("new", 0)
+        self.status["staged"]["new"] += 1
+        self.log(step="stage", identifier=item.get("id"), source=item.get("source"), title=item.get("title", "")[:120], route="staged",
+                 reason="evaluated and staged for owner review; nothing published", published=False, held=False)
+
+    def apply_decisions(self, staged, queue, register, held, publish, remember):
+        """Apply the owner's recorded decisions (data/review-queue/decisions.json) to the staged items. A decision applies only if its hash matches the staged evaluation."""
+        dec = self.load(staged_review.DECISIONS_REL, {"decisions": []})
+        todo = dec.get("decisions") or []
+        if not todo:
+            return
+        out = {"applied": 0, "rejected": 0, "requeued": 0, "blocked": 0, "stale": 0, "invalid": 0, "alreadyPublished": 0, "sourceVerifiedReleases": 0}
+        keep = []
+        import source_release
+        rel_settings = self.load("engine/eval_settings.json", {})
+        rel_tracked = {t["id"] for t in self.load("data/treatments.json", [])}
+        released = [0]
+
+        def release_check(dd, ee):
+            return source_release.release(dd, ee, rel_tracked, rel_settings, released[0])
+        for d in todo:
+            e = next((x for x in staged["items"] if x["id"] == d.get("id")), None)
+            blocked = None
+            if e and (e["item"]["id"] in self.paused_ids or topic_holds.match_item(e["item"], self.topic_hold_list)):
+                blocked = "the item is paused or topic-held: release the pause first"
+            if d.get("decision") == "release" and e and released[0] >= source_release.max_per_run(rel_settings):
+                out["blocked"] += 1          # over the per-run limit: the decision is kept for the next run, not dropped
+                keep.append(d)
+                continue
+            r = staged_review.resolve(d, e, blocked, release_check=release_check)
+            if r["status"] == "blocked":
+                out["blocked"] += 1
+                keep.append(d)
+                continue
+            if r["status"] in ("stale", "invalid"):
+                out[r["status"]] += 1
+                self.log(step="owner-decision", identifier=d.get("id"), decision=d.get("decision"), result=r["status"], reason=r["message"][:160], published=False, held=False)
+                continue
+            action, item = r["action"], r["item"]
+            staged["items"] = [x for x in staged["items"] if x["id"] != d["id"]]
+            if action == "reject":
+                out["rejected"] += 1
+            elif action == "requeue":
+                for k in ("evaluation", "evalInput", "why", "treatment", "scoreChange", "rankChange", "proposal"):
+                    item.pop(k, None)
+                item["summary"] = "Returned to the queue by the owner for a fresh evaluation."
+                queue["items"].insert(0, item)
+                out["requeued"] += 1
+            else:
+                keys = [re.sub(r"\W+", "", (item.get(k) or "").lower())[:90] for k in ("url", "title")]
+                if action.startswith("publish") and any(k and k in register for k in keys):
+                    out["alreadyPublished"] += 1
+                    self.log(step="owner-decision", identifier=d["id"], decision=d["decision"], result="already published; not published again", published=False, held=False)
+                    continue
+                if d.get("decision") == "release":
+                    released[0] += 1
+                    out["sourceVerifiedReleases"] += 1
+                self._effect(action, ("released after documented source verification (editorial check, not clinical review)" if d.get("decision") == "release"
+                                      else "approved by the owner" + (" with corrections" if item.get("ownerCorrected") else "")), item, item["evaluation"], held, publish, [], remember)
+                out["applied"] += 1
+            self.log(step="owner-decision", identifier=d["id"], decision=d["decision"], result=action, corrected=item.get("ownerCorrected") if isinstance(item, dict) else None,
+                     published=action.startswith("publish"), held=action in ("hold", "publish-under-eval"))
+        self.status.setdefault("staged", {})["decisions"] = out
+        self.stage(staged_review.DECISIONS_REL, {"decisions": keep})
+
+    def _effect(self, r, reason, item, ev, held, publish, remaining, remember):
+        """What a routing outcome DOES (shared by the normal path and by owner-approved staged items)."""
+        if r == "dup":
+            self.status["rejectedDuplicates"] += 1
+        elif r == "irrelevant":
+            self.status["rejectedIrrelevant"] += 1
+        elif r == "archive" or r == "notice-uncited":
+            # context material (secondary-outcome / adjacent-condition / a notice about an article we do not cite): preserved, never in
+            # the public feed, never treatment evidence. Raw AI evaluation output is NOT stored here (the archive file is public in the repo).
+            self.status["archived"] = self.status.get("archived", 0) + 1
+            if str(reason).startswith("catalogued"):
+                self.status.setdefault("triage", {})["catalogued"] = self.status.setdefault("triage", {}).get("catalogued", 0) + 1
+            archive = self.staged.get("data/review-queue/archive.json") or self.load("data/review-queue/archive.json", {"items": []})
+            entry = {"archivedAt": datetime.now().isoformat(timespec="seconds"), "reason": reason,
+                     "relevanceCategory": ev.get("relevanceCategory"),
+                     "item": {k: item.get(k) for k in ("id", "kind", "title", "source", "date", "url")}}
+            if item.get("notice"):
+                entry["notice"] = item["notice"]
+                self.status.setdefault("notices", {"cited": 0, "uncited": 0, "unresolved": 0})["uncited"] += 1
+            archive["items"].insert(0, entry)
+            self.stage("data/review-queue/archive.json", archive)
+        elif r == "paused":
+            self.status["paused"] = self.status.get("paused", 0) + 1
+            remaining.append(item)
+        elif r == "awaiting-eval":
+            self.status["heldAwaitingEvaluation"] += 1
+            remaining.append(item)
+        elif r in ("notice-cited", "notice-unresolved"):
+            nt = item.get("notice") or {}
+            cited = r == "notice-cited"
+            self.status.setdefault("notices", {"cited": 0, "uncited": 0, "unresolved": 0})["cited" if cited else "unresolved"] += 1
+            self.status["held"] += 1
+            held["items"].insert(0, {
+                "heldAt": datetime.now().isoformat(timespec="seconds"),
+                "reason": (f"{nt.get('kind', 'notice')} notice found by the scan concerns a study cited on this site ({', '.join(nt.get('studyIds', []))}); evidence impact needs review"
+                           if cited else f"{nt.get('kind', 'notice')} notice found by the scan: could not determine which article it concerns; check manually"),
+                "item": {"id": item.get("id"), "kind": "integrity", "title": item.get("title"), "source": item.get("source"), "url": item.get("url"), "notice": nt},
+                "proposedChange": {"scoreChange": None, "rankChange": None, "safetySignal": False, "direction": "weakens" if cited else None,
+                                   "adminSummary": "A notice about a cited publication was found in the scan. Review whether any treatment rating rests on it. No record was changed." if cited
+                                   else "A correction/retraction-type notice could not be matched to a cited study. Check which article it concerns."},
+                "resolution": "unresolved — public assessment unchanged"})
+        elif r in ("hold", "publish-under-eval"):
+            self.status["held"] += 1
+            held["items"].insert(0, {
+                "heldAt": datetime.now().isoformat(timespec="seconds"), "reason": reason,
+                "item": item, "proposedChange": {
+                    "scoreChange": ev.get("proposedScoreChange"), "rankChange": ev.get("proposedRankChange"),
+                    "safetySignal": ev.get("safetySignal", False), "direction": ev.get("evidenceDirection"),
+                    "adminSummary": ev.get("summaryForAdmin", "")},
+                "resolution": "unresolved — public assessment unchanged"})
+            if r == "publish-under-eval":
+                publish.append(self.weekly_item(item, ev, under_eval=True))
+                remember(item)
+                self.status["publishedUnderEvaluation"] += 1
+        else:
+            publish.append(self.weekly_item(item, ev))
+            remember(item)
+            self.status["published"] += 1
+
     # ---------- main ----------
     def run(self, fixtures=None, trial_fixture=None):
+        self.load_staged()   # fail BEFORE any scan or paid API call if staged.json.enc exists but was not decrypted (staged items must never be lost)
         queue = self.scan(fixtures=fixtures)
         # The review queue is engine working state (not public site data): commit it to disk NOW
         # so newly scanned items can never be lost, and so the evaluator (which reads the disk
@@ -356,6 +585,14 @@ class Cycle:
         # A missing, unreadable or malformed file means OFF. Scanning, trial-status refresh, retraction checks and queue preservation all continue.
         _settings = self.load("engine/eval_settings.json", None)
         eval_enabled = isinstance(_settings, dict) and _settings.get("enabled") is True
+        # STAGED MODE (fail-closed): evaluated items are written to a private, encrypted review store and NOTHING from them is published until the owner
+        # records a decision. Only an explicit "mode": "publish" in engine/eval_settings.json restores automatic publication. --simulate keeps the publish path.
+        if self._staged_override is not None:
+            staged_mode = self._staged_override
+        elif fixtures is not None:
+            staged_mode = False
+        else:
+            staged_mode = not (isinstance(_settings, dict) and _settings.get("mode") == "publish")
         if not self.skip_eval and fixtures is None and not eval_enabled:
             evaluation = {"state": "disabled", "reason": "automated evaluation is switched off in engine/eval_settings.json (it runs only when \"enabled\" is true)",
                           "disabledSince": (_settings or {}).get("disabledSince") if isinstance(_settings, dict) else None}
@@ -364,11 +601,12 @@ class Cycle:
             # until the frozen production benchmark has PASSED (engine/run_benchmark.py, exit 0).
             # Until then items simply accumulate as awaiting-evaluation — nothing is lost.
             bench = self.load("engine/benchmark-report.json", None)
-            if not (bench and bench.get("passed") == bench.get("cases") and bench.get("cases")):
+            stale_prompt = bool(bench) and bench.get("promptHash") != evaluate_queue.prompt_hash()
+            if not (bench and bench.get("passed") == bench.get("cases") and bench.get("cases")) or stale_prompt:
                 self.status["errors"].append(
-                    "AI evaluation skipped: production benchmark gate not passed yet "
-                    "(run engine/run_benchmark.py once ANTHROPIC_API_KEY is configured; "
-                    "items held as awaiting-evaluation)")
+                    ("AI evaluation skipped: the benchmark report was produced with a different evaluator prompt (or has no prompt fingerprint); " if stale_prompt
+                     else "AI evaluation skipped: production benchmark gate not passed yet ")
+                    + "(run engine/run_benchmark.py with ANTHROPIC_API_KEY configured; items held as awaiting-evaluation)")
                 evaluation = {"state": "blocked-gate"}
             else:
                 # limit 60 drains any backlog (e.g. weeks that ran before the API key existed)
@@ -383,17 +621,33 @@ class Cycle:
                 lr = dict(getattr(evaluate_queue, "LAST_RUN", {}) or {})
                 if lr.get("fatal") or (lr.get("attempted", 0) > 0 and lr.get("succeeded", 0) == 0):
                     state = "failed"
-                elif lr.get("failed", 0) > 0:
+                elif lr.get("failed", 0) > 0 or lr.get("recordUnavailable", 0) > 0:
                     state = "degraded"
                 elif lr.get("attempted", 0) == 0:
                     state = "idle"
                 else:
                     state = "ok"
                 evaluation = {"state": state, "attempted": lr.get("attempted", 0), "succeeded": lr.get("succeeded", 0), "failed": lr.get("failed", 0),
-                              "parseErrors": lr.get("parseErrors", 0), "errorClasses": lr.get("errorClasses", {}), "fatal": lr.get("fatal"), "reason": lr.get("reason")}
+                              "parseErrors": lr.get("parseErrors", 0), "errorClasses": lr.get("errorClasses", {}), "fatal": lr.get("fatal"), "reason": lr.get("reason"),
+                              "screenedWithoutAI": lr.get("screened", 0), "recordUnavailable": lr.get("recordUnavailable", 0),
+                              "usage": {"inputTokens": lr.get("inputTokens", 0), "outputTokens": lr.get("outputTokens", 0), "estimatedCostUSD": lr.get("costUSD", 0.0), "model": evaluate_queue.MODEL}}
+                if lr.get("batch"):   # only present when the useBatch option is on: submitted / pending / collected, with counts
+                    evaluation["batch"] = lr["batch"]
+                if lr.get("batchCollected"):
+                    evaluation["batchCollected"] = lr["batchCollected"]
+                if lr.get("cacheReadTokens") or lr.get("cacheWriteTokens"):
+                    evaluation["usage"].update({"cacheReadTokens": lr.get("cacheReadTokens", 0), "cacheWriteTokens": lr.get("cacheWriteTokens", 0)})
                 if state in ("failed", "degraded") and not skip:
                     self.status["errors"].append(f"AI evaluation {state}: {lr.get('reason')}")
+        evaluation["mode"] = "staged" if staged_mode else "publish"
         self.status["evaluation"] = evaluation
+        if evaluation.get("usage") and evaluation.get("attempted"):   # cost ledger: one line per run that called the model (public: dates, token counts, estimated dollars)
+            ledger = self.load("engine/usage-ledger.json", {"runs": []})
+            ledger["runs"].append({"date": date.today().isoformat(), "model": evaluation["usage"].get("model"), "attempted": evaluation["attempted"], "inputTokens": evaluation["usage"]["inputTokens"],
+                                   "outputTokens": evaluation["usage"]["outputTokens"], "estimatedCostUSD": evaluation["usage"]["estimatedCostUSD"],
+                                   **({"cacheReadTokens": evaluation["usage"]["cacheReadTokens"], "cacheWriteTokens": evaluation["usage"]["cacheWriteTokens"]} if "cacheReadTokens" in evaluation["usage"] else {}),
+                                   **({"batch": True} if evaluation.get("batchCollected") else {})})
+            self.stage("engine/usage-ledger.json", ledger)
 
         register = self.published_register()
         study_ids = {s["id"] for s in self.load("data/studies.json", [])}
@@ -403,58 +657,54 @@ class Cycle:
         def remember(it):  # an item published (or held under evaluation) in THIS run must also block later duplicates in the same run
             register.update(re.sub(r"\W+", "", (it.get(k) or "").lower())[:90] for k in ("url", "title") if it.get(k))
         self.paused_ids = set(self.load("engine/paused_ids.json", {"ids": []}).get("ids", []))
+        self.topic_hold_list = topic_holds.load_holds(self.root / "engine" / "topic_holds.json")
+        by_id = {it["id"]: it for it in queue["items"]}
+        self.superseded = {old for old, new in evaluate_queue.superseded_map(queue["items"]).items()
+                           if by_id[new].get("evaluation") or by_id[new].get("notice") or by_id[new].get("topicHold")}   # preserved until its newer sibling is processed
+        staged = self.load_staged()
+        self.apply_decisions(staged, queue, register, held, publish, remember)
         for item in queue["items"]:
             r, reason = self.route(item, register, study_ids)
             ev = item.get("evaluation", {})
+            if (item.get("triageAudit") or item.get("triageShadow")) and ev:      # a catalogue candidate that was evaluated anyway: would the AI have recommended it for the feed?
+                t = self.status.setdefault("triage", {})
+                t["auditEvaluated"] = t.get("auditEvaluated", 0) + 1
+                fed = r in ("publish", "publish-under-eval")
+                if fed:
+                    t["auditWouldFeed"] = t.get("auditWouldFeed", 0) + 1
+                evid = self.staged.get("engine/triage-evidence.json") or self.load("engine/triage-evidence.json", {"evaluated": 0, "wouldFeed": 0, "wouldHold": 0, "misses": []})
+                evid["evaluated"] += 1
+                if fed:
+                    evid["wouldFeed"] += 1
+                    evid["misses"].append({"id": item.get("id"), "title": item.get("title", "")[:140], "route": r, "date": date.today().isoformat()})
+                elif r == "hold":
+                    evid["wouldHold"] += 1
+                self.stage("engine/triage-evidence.json", evid)
+            if staged_mode and ev and r in staged_review.STAGEABLE and not (r == "dup" and reason.startswith("already published")):
+                self.stage_item(staged, item, r, reason)   # evaluated, but NOT acted on: private review only
+                continue
             self.log(step="route", identifier=item.get("id"), source=item.get("source"),
                      title=item.get("title", "")[:120], route=r, reason=reason,
                      classification=ev.get("importance"), changeClass=ev.get("changeClass"),
                      published=r.startswith("publish"), held=r in ("hold", "publish-under-eval", "awaiting-eval"))
-            if r == "dup":
-                self.status["rejectedDuplicates"] += 1
-            elif r == "irrelevant":
-                self.status["rejectedIrrelevant"] += 1
-            elif r == "archive":
-                # context material (secondary-outcome / adjacent-condition): preserved, never in
-                # the public feed, never treatment evidence. Raw AI evaluation output is NOT
-                # stored here (the archive file is public in the repo) — metadata + category only.
-                self.status["archived"] = self.status.get("archived", 0) + 1
-                archive = self.staged.get("data/review-queue/archive.json") or self.load("data/review-queue/archive.json", {"items": []})
-                archive["items"].insert(0, {
-                    "archivedAt": datetime.now().isoformat(timespec="seconds"), "reason": reason,
-                    "relevanceCategory": ev.get("relevanceCategory"),
-                    "item": {k: item.get(k) for k in ("id", "kind", "title", "source", "date", "url")}})
-                self.stage("data/review-queue/archive.json", archive)
-            elif r == "paused":
-                self.status["paused"] = self.status.get("paused", 0) + 1
-                remaining.append(item)
-            elif r == "awaiting-eval":
-                self.status["heldAwaitingEvaluation"] += 1
-                remaining.append(item)
-            elif r in ("hold", "publish-under-eval"):
-                self.status["held"] += 1
-                held["items"].insert(0, {
-                    "heldAt": datetime.now().isoformat(timespec="seconds"), "reason": reason,
-                    "item": item, "proposedChange": {
-                        "scoreChange": ev.get("proposedScoreChange"), "rankChange": ev.get("proposedRankChange"),
-                        "safetySignal": ev.get("safetySignal", False), "direction": ev.get("evidenceDirection"),
-                        "adminSummary": ev.get("summaryForAdmin", "")},
-                    "resolution": "unresolved — public assessment unchanged"})
-                if r == "publish-under-eval":
-                    publish.append(self.weekly_item(item, ev, under_eval=True))
-                    remember(item)
-                    self.status["publishedUnderEvaluation"] += 1
-            else:
-                publish.append(self.weekly_item(item, ev))
-                remember(item)
-                self.status["published"] += 1
+            self._effect(r, reason, item, ev, held, publish, remaining, remember)
         queue["items"] = remaining
         self.status["evaluation"]["awaitingEvaluation"] = len(remaining) - self.status.get("paused", 0)
         self.status["evaluation"]["paused"] = self.status.get("paused", 0)
         self.stage("data/review-queue/queue.json", queue)
         self.stage("data/review-queue/held.json", held)
+        self.stage(staged_review.STAGED_REL, staged)   # always staged (even empty): the workflow encrypts it when it holds items and removes it otherwise
+        st = self.status.setdefault("staged", {})
+        st["pending"] = len(staged["items"])
+        st.setdefault("new", 0)
+        if staged["items"]:
+            try:
+                oldest = min(datetime.fromisoformat(e["stagedAt"]) for e in staged["items"])
+                st["oldestDays"] = (datetime.now() - oldest).days
+            except (KeyError, ValueError):
+                pass
 
-        # ---- publish the weekly report (quiet weeks stay honest) ----
+        # ---- publish the research-update report (quiet scans stay honest) ----
         today = date.today().isoformat()
         index = self.load("data/weekly/index.json", {"reports": []})
         rep_rel = f"data/weekly/{today}.json"
@@ -467,21 +717,30 @@ class Cycle:
             # Shown even when other items (e.g. registry status changes) publish, so a report can never hide that evaluation is not running.
             paused_txt = (f" {self.status.get('paused')} further item(s) are intentionally paused for owner review." if self.status.get("paused") else "")
             if ev_state == "disabled":
-                notice_title = (f"Automated evaluation is paused: {awaiting} new item(s) have not been evaluated" if awaiting else "Automated evaluation is paused this week")
-                notice_why = ("Automated evaluation of new research is temporarily paused while it is being repaired. The weekly scan still checked the sources below, but any items it collected have not been read or assessed. "
+                notice_title = (f"Automated evaluation is paused: {awaiting} new item(s) have not been evaluated" if awaiting else "Automated evaluation is currently paused")
+                notice_why = ("Automated evaluation of new research is currently paused while its safeguards are being tested. The scan still checked the sources below, but any items it collected have not been read or assessed. "
                               "This is not a finding that nothing important was published. The evidence assessment shown on this site is unchanged until the items are reviewed.") + paused_txt
             else:
-                notice_title = f"{awaiting} new item(s) found by the weekly scan have not been evaluated yet"
+                notice_title = f"{awaiting} new item(s) found by the scan have not been evaluated yet"
                 notice_why = ("The scan collected new items from the sources below, but they have not been read and assessed yet. This is not a finding that nothing important was published. "
                               "The evidence assessment shown on this site is unchanged until the items are reviewed.") + paused_txt
             notice = {"kind": "news", "treatment": "", "importance": "Not yet assessed", "title": notice_title, "whyMatters": notice_why,
                       "summary": "Sources checked: " + ", ".join(s["name"] for s in self.status["sources"]) + f". Items awaiting evaluation: {awaiting}.",
                       "url": "", "detail": {"changesAssessment": "Not assessed yet — the current evidence assessment is unchanged."}}
             publish.insert(0, notice)
+        staged_new = (self.status.get("staged") or {}).get("new", 0)
+        if staged_new and not existing_rep and not any(i.get("importance") == "Not yet assessed" for i in publish):
+            publish.insert(0, {"kind": "news", "treatment": "", "importance": "Not yet assessed",
+                               "title": f"{staged_new} new item(s) were evaluated automatically and are awaiting editorial review",
+                               "whyMatters": ("Automated evaluation of new research is running in a review phase: an editor checks its results before anything is published. "
+                                              "The scan collected and evaluated the items it found, but none of them has been published yet. This is not a finding that nothing important was published. "
+                                              "The evidence assessment shown on this site is unchanged until the items are reviewed."),
+                               "summary": "Sources checked: " + ", ".join(x["name"] for x in self.status["sources"]) + f". Items awaiting editorial review: {staged_new}.",
+                               "url": "", "detail": {"changesAssessment": "Not assessed yet — the current evidence assessment is unchanged."}})
         if not publish and not existing_rep:  # honest quiet week — never bump dates to fake freshness
             publish = [{"kind": "news", "treatment": "", "importance": "Does Not Change Current Evidence",
-                        "title": "No evidence-changing tinnitus research identified in this week's scan",
-                        "whyMatters": "Quiet weeks happen. The sources below were checked; nothing met the bar for a meaningful update, and we would rather say so than manufacture a story." + (f" {self.status.get('paused')} item(s) are intentionally paused for owner review and were not evaluated." if self.status.get("paused") else ""),
+                        "title": "No evidence-changing tinnitus research identified in this scan",
+                        "whyMatters": "Some scans find nothing new. The sources below were checked; nothing met the bar for a meaningful update, and we would rather say so than manufacture a story." + (f" {self.status.get('paused')} item(s) are intentionally paused for owner review and were not evaluated." if self.status.get("paused") else ""),
                         "summary": "Sources checked: " + ", ".join(s["name"] for s in self.status["sources"]) + ".",
                         "url": "", "detail": {"changesAssessment": "No."}}]
         if existing_rep:  # idempotent same-day rerun: merge items, keep the report's own title/headline
@@ -490,9 +749,9 @@ class Cycle:
             rep = dict(existing_rep)
             rep["items"] = merged
             rep["automated"] = rep.get("automated", False) or bool(publish)
-            title = rep.get("title", f"Weekly scan — {len(merged)} update(s)")
+            title = rep.get("title", f"Research scan — {len(merged)} update(s)")
         else:
-            title = f"Automated weekly scan — {len(publish)} update(s)"
+            title = f"Automated research scan — {len(publish)} update(s)"
             rep = {"date": today, "title": title, "automated": True, "items": publish}
         self.stage(rep_rel, rep)
         if not any(r["file"] == f"{today}.json" for r in index["reports"]):

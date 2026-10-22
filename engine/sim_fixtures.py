@@ -1,11 +1,13 @@
 """Fixtures for `weekly_cycle.py --simulate` — the required end-to-end scenarios.
 Items carry canned evaluations so the full routing logic runs without API calls.
 Set SIM_MODE=quiet to simulate a week with no new research."""
-import os
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import grounding
 
 def _ev(**kw):
     base = {
-        "whatIsNew": "", "notRelevant": False, "affectedTreatment": "", "studyType": "RCT",
+        "whatIsNew": "", "notRelevant": False, "affectedTreatment": "", "studyType": "cohort",
         "studyQuality": "moderate", "population": "Adults with chronic subjective tinnitus",
         "sampleSize": "Not reported", "controlQuality": "no-control", "randomized": True,
         "blinded": "unclear", "primaryEndpoint": "Not reported", "secondaryEndpoints": "Not reported",
@@ -19,6 +21,7 @@ def _ev(**kw):
         "importance": "Does Not Change Current Evidence", "weeklyTitle": "", "whyMatters": "",
         "factuallyVerified": True, "factuallyVerifiedReason": "identifier + trusted source",
         "summaryForAdmin": "", "confidence": "high", "duplicateOf": None,
+        "sourceChecks": dict(grounding.PASSING_CHECKS),
     }
     base.update(kw)
     return base

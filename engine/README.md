@@ -1,6 +1,6 @@
-# Research engine — automated weekly cycle
+# Research engine — automated research cycle (the 1st and 15th of each month)
 
-**Schedule (PRODUCTION):** every **Monday 06:00 Pacific (timezone-aware: `timezone:
+**Schedule (PRODUCTION, owner decision 21 Oct 2026):** the **1st and 15th of every month, 06:00 Pacific (timezone-aware: `timezone:
 "America/Los_Angeles"` on the cron — stays 6 AM through PST/PDT) via GitHub Actions** in the
 `debra-lang/atlas-preview` repo (`.github/workflows/weekly.yml`) — runs serverless, no local
 machine required; failures surface as failed Actions runs (GitHub emails the owner).
@@ -19,11 +19,16 @@ repo's GitHub Secrets (`ANTHROPIC_API_KEY`) — never in code, never client-side
 3. **AI evaluation** (`evaluate_queue.py`, Claude API) — structured extraction per item:
    study type, population, N, control, endpoints, within/between-group, loudness vs distress vs
    other outcomes, safety observations, funding, importance classification, routine/major class,
-   factual-verification verdict. Missing info stays "Not reported" — never inferred.
+   factual-verification verdict (the model's own self-assessment, not an independent check). The rules instruct the model to write "Not reported" rather than guess; statements the source does not make can still occur and are screened for by grounding checks.
 4. **Deterministic gates** (`route()`) — published-register duplicate check, PMID/NCT or
    trusted-domain source check, confidence check, routine-vs-major routing.
+   Two different questions are kept apart: (1) is the report faithful to the record (numbers, terms, names, identifier: `grounding.source_checks`), and (2) does the
+   record itself contain verifiable study specifics (`grounding.evidence_adequacy`, judged from the record text by code, never from the model's answer). A primary study
+   whose record shows no sample size, no design/endpoint wording and no result figures FAILS CLOSED: the model's `factuallyVerified` is overridden to false, confidence
+   is forced low, and `verified()` refuses it, so it is held in both staged and publish mode. Reviews, protocols, case reports and notices are exempt only by PubMed's own
+   publication type (or the model's label corroborated by the record text), never by the model's label alone.
 5. **Publish / hold:**
-   - **Class A (routine, verified)** → publishes automatically to `data/weekly/<date>.json`
+   - **Class A (routine, verified)** → in `publish` mode publishes automatically to `data/weekly/<date>.json`; in the shipped `staged` mode it is written to the private review store and nothing is published until the owner approves it
      (+ a `latest` news note on the affected treatment). Company announcements publish only
      labeled "Company-reported development".
    - **Class B (major: proposed score/rank/tier/safety/regulatory change, or safety signal)** →
@@ -55,6 +60,10 @@ The repo is public, so what it may contain is constrained by design:
   (then admin.html renders the decrypted held.json). Set `STATE_KEY` yourself:
   `gh secret set STATE_KEY --repo debra-lang/atlas-preview` — pick any strong passphrase and
   keep it in your password manager; it is only needed once the first major change gets held.
+- **Staged review (`staged.json`)** — when evaluation is enabled in the default `staged` mode, evaluated items are written ONLY to the encrypted
+  `staged.json.enc` (same `STATE_KEY`, same workflow handling as `held.json.enc`) and nothing is published until the owner records a decision in
+  `decisions.json`. See `engine/STAGED-REVIEW.md`. Correction/retraction notices, topic holds (`topic_holds.json`) and duplicate registry updates are
+  screened for free before any paid call. Tests: `python -m unittest discover -s engine/tests -v` (offline, no key).
 - `engine-status.json` and `audit-log.jsonl` stay public deliberately (transparency; they
   contain registry facts and routing metadata, no secrets, no unpublished conclusions).
 
@@ -103,12 +112,12 @@ cycle runs all deterministic steps and holds new items as "awaiting evaluation".
 
 ## Missed-run / failure behavior (documented)
 
-GitHub Actions cron does NOT backfill missed schedules: if a Monday run is skipped (outage) or fails,
+GitHub Actions cron does NOT backfill missed schedules: if a scheduled run (the 1st or 15th) is skipped (outage) or fails,
 nothing publishes, `lastSuccess` keeps its old date (never faked), GitHub emails the owner about the
-failed run, and the NEXT Monday's run automatically covers the gap for PubMed (EDAT window) while
+failed run, and the NEXT scheduled run looks back to the time since that source last succeeded (PubMed and ClinicalTrials.gov: at least 20 days, up to 180 days, state in `engine/scan-state.json`; a gap longer than that is reported as a coverage gap). RSS/news feeds only list recent entries, so items that scrolled off a feed during a long outage cannot be recovered. Meanwhile
 ClinicalTrials/feeds items surface on their next update. A run can also be started manually any time
 via workflow_dispatch. The monthly retraction check self-schedules by elapsed time (>=27 days since
-`retraction-state.json` lastRun), so a missed week never skips a month.
+`retraction-state.json` lastRun), so a missed run does not skip a month's retraction check. Do not deploy on the 1st or 15th, and only when no cycle run is queued or in progress (`gh run list --workflow weekly.yml --status queued --status in_progress`): GitHub often starts scheduled runs hours after 06:00 Pacific (production runs in September and October started between 11:00 and 14:30 Pacific), and a push to `main` during a run makes that run's final push fail.
 
 ## Research Questions section (policy)
 
@@ -119,3 +128,23 @@ code path that writes to it. The automation may flag candidate hypotheses into t
 check → contradictory-evidence search → refinement/rejection → explicit human approval → a human edit to
 build_seo.py. tools/check_seo.py enforces that every page in the section carries the hypothesis banner.
 Hypotheses never receive evidence scores, tiers, or rankings, and never alter any treatment record.
+
+## Restricted source-verified release (`source_release.py`; ships OFF)
+A clean, low-risk PubMed study that the code accepts in every respect but that the MODEL declined to call "verified" would otherwise stay held for good (a hold can never be approved into
+publication). With `"sourceVerifiedRelease": true` in `eval_settings.json` the site editor can publish such an item with `staged_review.py decide <id> release ...` after DOCUMENTED
+verification (PMID typed, a hash of the exact public text, six confirmed checks, and a statement that this is not a clinical review). It can never override a Level 3 trigger or flag, a
+safety signal, an unsupported claim, thin or inadequate evidence, a code override of the model, low confidence, an incomplete record, a non-English abstract, a major or rating-related
+change, a tracked treatment, a notice, a pause or a non-PubMed item; eligibility is recomputed when the decision is recorded and when it is applied; at most
+`sourceVerifiedReleaseMaxPerRun` (default 3) per run; the published item carries the note "Reviewed by the site editor against the source record. This is an editorial check, not a clinical review."
+
+## One-time real-record validation (`gold_sampler.py`, `gold_agreement.py`, `gold_score.py`)
+The hidden 60-record set is drawn with a private seed, labelled by two humans (technical labels only, including three evidence-cue labels and a safety-wording label), run once through the frozen
+pipeline in a throw-away clone, and scored against pre-registered thresholds: UNSAFE publication recommendations (any is a FAIL) versus UNNECESSARY holds (reported by cause; a model-caution rate above
+25% means "investigate", never an automatic action). No outcome of the scoring authorises publication, a prompt change or enabling the release path.
+
+
+## R4: abstracts that are not clearly English are held (owner decision, 21 Oct 2026)
+`engine/language_screen.py` judges the abstract text the pipeline shows the model (not the article's language label). An abstract that is not English, or that mixes English with another language or script, is held for a person **before any paid call** (the item goes to the private held store with the reason "R4"; nothing is sent to the AI and nothing is published). A clearly English abstract of a non-English article (a translated abstract) is evaluated, flagged ("article not in English"), confidence-capped, never eligible for the restricted release path, and is never published without a person reading it. No abstract text and a foreign label: held. No abstract text and no label: normal path (the evidence check holds it). Tests: `engine/tests/test_language_screen.py`.
+
+## One-time 24-record pilot tools (local, owner side)
+`engine/pilot_tool.py` (draw, blind checklist, reconciliation) and `engine/pilot_score.py` (scoring against the pre-registered rule). They are used from the pilot package (see autonomy-design/pilot-24); they use no key and publish nothing. Tests: `engine/tests/test_pilot.py`.

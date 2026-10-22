@@ -1,7 +1,7 @@
 {
   "name": "Tinnitus Evidence",
   "short_name": "Tinnitus Evidence",
-  "description": "The latest evidence on tinnitus treatments — organized, ranked and continuously updated.",
+  "description": "The latest evidence on tinnitus treatments — organized, ranked and regularly updated.",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#0c1120",

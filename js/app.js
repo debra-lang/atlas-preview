@@ -537,7 +537,7 @@
     if (weekly) {
       $('#week-date').textContent = fmtDate(weekly.date);
       $('#whatsnew').innerHTML = weekly.items.slice(0, 5).map(weekItem).join('') +
-        `<p><a class="btn btn-ghost" href="research.html">Read the full weekly report →</a></p>`;
+        `<p><a class="btn btn-ghost" href="research.html">Read the latest research update →</a></p>`;
     }
 
     // Coming soon
@@ -629,7 +629,7 @@
     'Confirms Previous Evidence': 'b-promising', 'Negative Result': 'b-watch',
     'Does Not Change Current Evidence': 'b-weak'
   };
-  function weekItem(it) {
+  function weekItem(it, label) {
     const KIND_COLORS = { study: 'var(--c-promising)', trial: 'var(--c-emerging)', regulatory: 'var(--c-strong)', ranking: 'var(--c-watch)', negative: 'var(--c-weak)', news: 'var(--c-promising)' };
     const d = it.detail || {};
     const drow = (k, v) => (v && v !== 'Not reported' && (!Array.isArray(v) || v.length)) ?
@@ -643,6 +643,8 @@
       ${it.underEvaluation ? `<span class="badge b-emerging" style="margin-bottom:4px">Impact on Tinnitus Evidence rating: Under evaluation</span>` : ''}
       <div class="t">${esc(it.title)}</div>
       ${it.whyMatters ? `<div class="small"><strong>Why it matters:</strong> ${esc(it.whyMatters)}</div>` : ''}
+      ${typeof it.reviewNote === 'string' && it.reviewNote ? `<div class="small muted review-note">${esc(it.reviewNote)}</div>` : ''}
+      ${typeof label === 'string' && label ? `<div class="small muted ai-label">${esc(label)}</div>` : ''}
       <details class="rdetail"><summary>Research detail</summary>
         <p class="small">${esc(it.summary)}</p>
         <ul class="small">
@@ -1115,20 +1117,28 @@
   /* ----- research (weekly) ----- */
   PAGES.research = function () {
     const file = qs('week');
+    // Reports whose items were written by an AI model and published without individual review (7-26 September 2026).
+    const AI_UNREVIEWED = {
+      dates: ['2026-09-07', '2026-09-14', '2026-09-21', '2026-09-26'],
+      notice: 'Except for trial status changes taken directly from the registry, the items in this edition were written and published automatically by an AI model from each study\'s abstract or registry record. No person reviewed them individually before publication, and none was reviewed by a physician or other clinician. Numbers, study design and links come from the source record; statements about novelty, importance or interpretation are the AI\'s own wording and may be wrong or unsupported. An October 2026 check of these items against their sources found statements the sources do not make. Always use the linked source, and do not use these summaries for medical decisions.',
+      label: 'Automated summary: AI-written, not individually reviewed, not clinician-reviewed. See the source for what the study actually reports.'
+    };
     const renderReport = rep => {
+      const unreviewed = AI_UNREVIEWED.dates.includes(rep.date);
       const impCounts = {};
       rep.items.forEach(it => { if (it.importance) impCounts[it.importance] = (impCounts[it.importance] || 0) + 1; });
       const impOrder = ['Potentially Important', 'Interesting but Early', 'Confirms Previous Evidence', 'Negative Result', 'Does Not Change Current Evidence'];
       $('#rep').innerHTML = `
-        <h2 style="margin-top:10px">Week of ${fmtDate(rep.date)}</h2>
+        <h2 style="margin-top:10px">Update of ${fmtDate(rep.date)}</h2>
+        ${unreviewed ? `<aside class="card ai-notice" role="note" aria-label="About these summaries" style="margin-bottom:14px;border-left:4px solid var(--c-watch)"><h3 style="margin-top:0">About these summaries</h3><p class="small" style="margin-bottom:0">${esc(AI_UNREVIEWED.notice)} <a href="about.html#automation">How updates are made →</a></p></aside>` : ''}
         ${Object.keys(impCounts).length ? `<div class="card" style="margin-bottom:14px">
           <div class="k small muted" style="text-transform:uppercase;font-weight:700;letter-spacing:.06em">This edition's ${rep.items.length} updates, by importance</div>
           ${countBars(impOrder.filter(k => impCounts[k]).map(k => ({ label: k, n: impCounts[k] })), { aria: 'Updates by importance' })}
           <p class="small muted" style="margin:8px 0 0">Classifications are assigned by our automated evaluation pipeline; anything that could change an evidence rating is held for review rather than auto-applied. An activity-over-time view will appear as the archive grows.</p></div>` : ''}
-        ${rep.headline ? `<div class="card" style="border-left:4px solid var(--c-promising)"><div class="k small muted" style="text-transform:uppercase;font-weight:700;letter-spacing:.06em">Most important this week</div>
+        ${rep.headline ? `<div class="card" style="border-left:4px solid var(--c-promising)"><div class="k small muted" style="text-transform:uppercase;font-weight:700;letter-spacing:.06em">Most important in this update</div>
           <h3>${esc(rep.headline.title)}</h3><p class="small">${esc(rep.headline.summary)}</p>
           ${rep.headline.url ? `<a class="small" href="${esc(rep.headline.url)}" rel="noopener" target="_blank">Source ↗</a>` : ''}</div>` : ''}
-        ${rep.items.map(weekItem).join('')}`;
+        ${rep.items.map(it => weekItem(it, unreviewed && it.detail && it.detail.studyType ? AI_UNREVIEWED.label : '')).join('')}`;
     };
     if (file) {
       if (SINGLE && DB.weeklyAll) renderReport(DB.weeklyAll[file] || DB.weekly);
@@ -1350,7 +1360,7 @@
     const scan = (DB.weeklyIndex && DB.weeklyIndex.reports && DB.weeklyIndex.reports[0] && DB.weeklyIndex.reports[0].date) || '';
     if (fm) fm.innerHTML = esc(`Evidence database: hundreds of research results screened · ${DB.treatments.length} selected treatments · ${DB.studies.length} research records · ${DB.trials.length} trials watched`) +
       '<br>' + esc(`Last full evidence review: ${fmtDate(DB.meta.lastFullReview)}` + (scan ? ` · Latest automated research scan: ${fmtDate(scan)}` : '')) +
-      '<br>' + esc('Routine updates publish automatically after source verification; evidence ratings, rankings and safety assessments never change automatically.');
+      '<br>' + esc('Trial status changes are verified at the registry before they publish. AI-written summaries are currently paused and, when they resume, will receive editorial review (not a clinical review) before publication. Evidence ratings, rankings and safety assessments never change automatically.');
   }
   /* Deep links into collapsed sections: open every <details> ancestor of the target so
      about.html#rankings, #timeline etc. never land on a closed expander. */
@@ -1383,7 +1393,7 @@
   }
   function pageTitle(p) {
     return { index: 'Home', treatments: 'Treatments', treatment: 'Treatment', compare: 'Compare',
-      trials: 'Clinical Trials', research: 'This Week in Research', institutions: 'Institutions',
+      trials: 'Clinical Trials', research: 'Latest Research', institutions: 'Institutions',
       watchlist: 'Watchlist', about: 'About', search: 'Search', profile: 'My Tinnitus Profile',
       'emerging-unproven': 'Emerging & Unproven Treatments' }[p] || p;
   }

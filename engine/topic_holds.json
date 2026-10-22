@@ -1,0 +1,11 @@
+{
+  "comment": "Owner topic holds. An item matching a hold is treated like a paused id: never evaluated, never published, never lost; it stays queued until the hold is released (remove the entry in a reviewed commit). Matching is whole-word and case-insensitive, on title/source/summary and on the fetched record text before any AI call. 'neuromod' matches the company name only; it does NOT match 'neuromodulation'.",
+  "holds": [
+    {
+      "id": "lenire-neuromod",
+      "label": "Lenire / Neuromod Devices (owner hold, 2026-10-21: Lenire and V15 Groups B/C on hold)",
+      "idPrefixes": ["newsintel-neuromod-lenire-"],
+      "patterns": ["\\blenire\\b", "\\bneuromod\\b", "\\bneuromod\\s+devices\\b", "\\bTENT-[ABC]\\d?\\b"]
+    }
+  ]
+}

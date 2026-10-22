@@ -29,7 +29,7 @@
 
   <section class="hero" style="padding-bottom:0">
     <h1>About Tinnitus Evidence</h1>
-    <p class="lead">A continuously updated map of the tinnitus treatment landscape. Not a blog, not a store,
+    <p class="lead">A regularly updated map of the tinnitus treatment landscape. Not a blog, not a store,
     not affiliated with any treatment — an attempt to answer one question honestly:
     <em>what does the best current evidence actually tell us about tinnitus treatment, and what is changing?</em></p>
     <p class="small muted" id="about-meta"></p>
@@ -92,7 +92,7 @@
   <p>For every included record we consider study quality, results, negative findings, replication, safety and
   potential conflicts of interest — and we separately evaluate whether an intervention actually reduced
   tinnitus loudness or primarily helped reduce distress and its impact on daily life. New research is
-  monitored weekly, and corrections and retractions of cited research are checked on an ongoing schedule.
+  monitored twice a month, and corrections and retractions of cited research are checked on an ongoing schedule.
   Important new findings do not automatically change evidence ratings or rankings without additional
   verification. Tinnitus Evidence is designed to help people understand the research, including its
   limitations and uncertainties — it is an educational evidence-navigation resource, not medical advice.</p>
@@ -104,7 +104,7 @@
   (such as ChiCTR) that lack public interfaces; non-English literature (reached mainly through
   English-language systematic reviews); and conference abstracts or preprints as a systematic source.
   Important research from these channels usually reaches the sources we do monitor — for example through
-  PubMed indexing at publication — but sometimes later than specialists would see it. Ongoing weekly
+  PubMed indexing at publication — but sometimes later than specialists would see it. Ongoing twice-monthly
   monitoring, periodic independent audits, retraction/correction checks and evidence updates are used to
   reduce these limitations over time, and our audit records are public.</p>
 </details>
@@ -216,36 +216,45 @@
   </div>
 </section>
 <details class="sec" id="automation"><summary>How updates happen — and where automation is used <span class="small">what publishes automatically and what never does</span></summary>
-  <p>Tinnitus Evidence is kept current by an automated pipeline that runs <strong>once a week</strong>. Being
+  <p>Tinnitus Evidence is kept current by an automated pipeline that runs <strong>twice a month, on the 1st and 15th</strong>. The scheduled start is 06:00 Pacific Time, but that is when the run is triggered, not a guaranteed publication time: GitHub, which runs it, often starts scheduled runs hours late. If a run is delayed or fails, the next run looks back over the period it missed, but we cannot guarantee that nothing is missed after a long interruption. Being
   straight about what that means:</p>
   <ul>
     <li><strong>Automated systems</strong> monitor trusted research sources (PubMed, ClinicalTrials.gov, FDA,
-    NIH/NIDCD, Cochrane ENT, major journals, EMA and others), identify relevant new material, extract structured
-    study information (design, sample size, endpoints, outcomes, funding), compare findings against our existing
-    evidence record, and classify weekly updates. Every item links to its original source.</li>
-    <li><strong>Routine research updates</strong> — a new study report, a trial status change verified at the
-    registry, a follow-up publication — publish to "This Week in Tinnitus Research" automatically, after
-    automated verification of the source, identifiers, dates, and duplicate checks. These items report what
-    happened; they do not change our conclusions.</li>
+    NIH/NIDCD, Cochrane ENT, major journals, EMA and others), identify relevant new material, and keep a record of
+    everything they find. Every item links to its original source.</li>
+    <li><strong>Trial status changes</strong> verified directly at the registry (ClinicalTrials.gov) publish to the
+    research updates page ("Latest Tinnitus Research") automatically, after checks of the identifier, the registry
+    record and duplicates. These items report what happened; they do not change our conclusions.</li>
+    <li><strong>AI-written summaries have been paused since September 28, 2026.</strong> When publication resumes, an
+    AI model will extract structured study information (design, sample size, endpoints, outcomes, funding) and
+    each summary will require editorial review against its source before it is published; none will be published
+    automatically. Editorial review is a check by the site editor against the source. It is not a clinical review,
+    and it does not mean that a clinician has reviewed or endorsed a summary. Automated checks of the source,
+    identifiers, dates and duplicates do not verify every statement in an AI-written summary.</li>
     <li><strong>Anything that could change a conclusion is never automatic.</strong> A possible evidence-score,
     tier, ranking, loudness/distress-rating, safety or regulatory-status change is placed in a held queue with
     a full proposed-change report. The existing public assessment stands unchanged until that hold is resolved —
     one new paper is never allowed to silently rewrite a medical conclusion. Where a held item's underlying fact
-    is verified, it may appear in the weekly feed marked <em>"Impact on Tinnitus Evidence rating: Under
+    is verified, it may appear in the research-updates feed marked <em>"Impact on Tinnitus Evidence rating: Under
     evaluation."</em></li>
     <li><strong>Company announcements</strong> are monitored for pipeline intelligence but always labeled
     "Company-reported development" and never treated as independent evidence. Regulatory statuses update only
     against authoritative records (FDA databases, ClinicalTrials.gov, EMA), never from press coverage.</li>
-    <li><strong>Missing information is never inferred</strong> — items say "Not reported" or "Unable to verify."
-    If a week's scan finds nothing meaningful, the feed says exactly that rather than manufacturing news.</li>
+    <li><strong>The AI is instructed not to infer missing information</strong> — its rules tell it to write "Not
+    reported" or "Unable to verify" when a source does not say something. AI-written summaries can still contain
+    statements that the source does not make. A later review of the September summaries found such statements and
+    one incorrect date; we are preparing corrections. When a scan's items have not been assessed, the feed says so
+    rather than implying that nothing happened.</li>
     <li><strong>Retractions and corrections are monitored monthly:</strong> every research paper cited on this
     site is re-checked against PubMed and Crossref for retraction, expression-of-concern and erratum notices.
     A detected notice is flagged visibly on the affected study record and routed to held review — cited
     research is never silently left standing after its source is withdrawn.</li>
   </ul>
   <p>Automated analysis is a monitoring and triage tool — it does not replace medical judgment, and this site
-  does not claim physician or clinician editorial review of weekly items. A complete audit trail (source,
-  identifier, extraction, classification, and publish/hold decision) is kept for every automated update.</p>
+  does not claim physician or clinician editorial review of research-update items. AI-written weekly summaries
+  published between September 7 and September 26, 2026, were not reviewed by any person before publication, and
+  none was reviewed by a physician or other clinician. A complete audit trail (source, identifier, extraction,
+  classification, and publish/hold decision) is kept for every automated update.</p>
 </details>
 <details class="sec"><summary>Source hierarchy <span class="small">which sources outrank which</span></summary>
   <p>When the same development appears in many places we rank credibility roughly as: regulatory record /
@@ -305,7 +314,7 @@
 <footer class="footer-links"><div class="wrap"><p class="small">
 <a href="treatments/">Tinnitus treatments</a> · <a href="trials/">Clinical trials</a> ·
 <a href="research/">Research records</a> · <a href="ask/">Ask Tinnitus Evidence</a> · <a href="research-questions/">Research questions</a> · <a href="guides/tinnitus-treatments/">What has the strongest evidence?</a> ·
-<a href="guides/tinnitus-loudness-vs-distress/">Loudness vs distress</a> · <a href="emerging-unproven/">Emerging, experimental &amp; unproven treatments</a> · <a href="claims/">Tinnitus claims: fact vs. evidence</a> · <a href="research.html">This week in tinnitus research</a> ·
+<a href="guides/tinnitus-loudness-vs-distress/">Loudness vs distress</a> · <a href="emerging-unproven/">Emerging, experimental &amp; unproven treatments</a> · <a href="claims/">Tinnitus claims: fact vs. evidence</a> · <a href="research.html">Latest tinnitus research updates</a> ·
 <a href="about.html">About &amp; methodology</a> · <a href="about.html#limitations">Research limitations</a> ·
 <a href="about.html#corrections">Corrections &amp; editorial integrity</a> · <a href="about.html#disclaimer">Medical disclaimer</a>
 </p></div></footer>

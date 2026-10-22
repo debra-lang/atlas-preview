@@ -105,7 +105,7 @@ FOOTER_LINKS = [
     ("guides/tinnitus-loudness-vs-distress/", "Loudness vs distress"),
     ("emerging-unproven/", "Emerging, experimental & unproven treatments"),
     ("claims/", "Tinnitus claims: fact vs. evidence"),
-    ("research.html", "This week in tinnitus research"),
+    ("research.html", "Latest tinnitus research updates"),
     ("about.html", "About & methodology"), ("about.html#limitations", "Research limitations"),
     ("about.html#corrections", "Corrections & editorial integrity"), ("about.html#disclaimer", "Medical disclaimer"),
 ]
@@ -343,7 +343,7 @@ for x in trials:
 </ul></section>
 <section><h2>Why this trial matters</h2><p>{E(x.get('whyItMatters', ''))}</p></section>
 {f'<section><h2>Related treatment evidence</h2><p><a href="treatments/{E(t["id"])}/">See the current evidence for {E(t["name"])}</a>.</p></section>' if t else ''}
-<p class="small muted">Trial statuses are verified against the ClinicalTrials.gov registry by our weekly automated check.
+<p class="small muted">Trial statuses are verified against the ClinicalTrials.gov registry by our twice-monthly automated check.
 A tracked trial is research in progress — inclusion is not a treatment recommendation, and only the study team can
 determine eligibility.</p>"""
     canon = page(f"trials/{nct}/index.html",
@@ -355,14 +355,14 @@ determine eligibility.</p>"""
 trials_body = f"""
 <p class="lead">Tinnitus Evidence tracks <strong>{len(trials)} registered clinical trials</strong> — current drug,
 device and therapy studies that may add to or change the evidence picture. Statuses are verified directly against
-the ClinicalTrials.gov registry every week; tracked trials are research in progress, not recommended treatments.</p>
+the ClinicalTrials.gov registry twice a month; tracked trials are research in progress, not recommended treatments.</p>
 <p><a href="trials.html">Prefer filters and the watch feature? Open the interactive trials browser.</a></p>
 <ul>""" + "".join(
     f'<li><a href="trials/{E(x["nctId"])}/">{E(x["title"])}</a> — {E(str(x.get("phase", "")))} · {E(str(x.get("status", "")))}</li>'
     for x in trials) + "</ul>"
 canon = page("trials/index.html",
              "Tinnitus Clinical Trials: Current and Emerging Research | Tinnitus Evidence",
-             "The registered clinical trials that could change tinnitus treatment — drug, device and therapy studies with phases, statuses and registry links, verified weekly.",
+             "The registered clinical trials that could change tinnitus treatment — drug, device and therapy studies with phases, statuses and registry links, verified twice a month.",
              "Current Tinnitus Clinical Trials", [("", "Home"), (None, "Clinical trials")], trials_body)
 sitemap_urls.append(canon)
 
@@ -482,18 +482,18 @@ recent.sort(key=lambda x: -x[0])
 guide("new-tinnitus-treatments",
       "New Tinnitus Treatments and Research: What's Actually Emerging | Tinnitus Evidence",
       "New Tinnitus Treatments and Research",
-      "What genuinely new tinnitus treatments and research are emerging — bimodal neuromodulation, drug programs and major trials — with conservative evidence context, updated weekly.",
+      "What genuinely new tinnitus treatments and research are emerging — bimodal neuromodulation, drug programs and major trials — with conservative evidence context, updated twice a month.",
       f"""
 <section><h2>The short answer</h2>
 <p>The most consequential recent developments are <strong>bimodal neuromodulation devices</strong> (Lenire's FDA De Novo
 authorization; the Shore/Auricle device, investigational and not commercially available, with its regulatory status not publicly verified), large head-to-head and sound-therapy trials
 (UNITI; the MOST trial, N=440), and a small pipeline of drug programs. "New" does not mean "better" — several heavily
-promoted approaches have failed their trials, and this page reflects the evidence as of our latest weekly review.</p></section>
+promoted approaches have failed their trials, and this page reflects the evidence as of our latest review.</p></section>
 <section><h2>Recent developments from the evidence timeline ({YEAR - 2}–{YEAR})</h2>
 <ul>{''.join(f'<li><strong>{y}</strong> — <a href="treatments/{E(t["id"])}/">{E(t["name"])}</a>: {E(ev)}</li>' for y, t, ev in recent[:20])}</ul></section>
 <section><h2>What's in trials now</h2>
-<p><a href="trials/">See the {len(trials)} registered clinical trials we track</a>, verified weekly against
-ClinicalTrials.gov. For weekly research updates, see <a href="research.html">This Week in Tinnitus Research</a>.</p></section>""")
+<p><a href="trials/">See the {len(trials)} registered clinical trials we track</a>, verified twice a month against
+ClinicalTrials.gov. For research updates, see <a href="research.html">Latest Tinnitus Research</a>.</p></section>""")
 
 loud_t = sorted([t for t in treatments if t.get("loudness", {}).get("level") in ("moderate", "strong")], key=lambda x: -x.get("evidenceScore", 0))
 guide("tinnitus-loudness-vs-distress",
@@ -565,7 +565,7 @@ proves little. In one gabapentin trial both arms improved ~11 points equally.</l
 some failed programs never published their results at all.</li>
 </ul></section>
 <section><h2>Trials we track now</h2>
-<p><a href="trials/">All {len(trials)} tracked trials with statuses verified weekly against ClinicalTrials.gov</a>.
+<p><a href="trials/">All {len(trials)} tracked trials with statuses verified twice a month against ClinicalTrials.gov</a>.
 Only a study's research team can determine whether anyone is eligible.</p></section>""")
 
 guides_dir = """
@@ -865,7 +865,7 @@ that may deserve formal investigation. They never affect treatment ratings, tier
 <p>Every entry follows the same process before publication:</p>
 <p class="small rq-flow"><strong><span class="step">Pattern identified</span> <span class="arrow">→</span> <span class="step">adversarial literature search</span> <span class="arrow">→</span> <span class="step">precedent check</span> <span class="arrow">→</span> <span class="step">contradictory-evidence
 search</span> <span class="arrow">→</span> <span class="step">hypothesis refined or rejected</span> <span class="arrow">→</span> <span class="step">human approval</span> <span class="arrow">→</span> <span class="step">publication.</span></strong></p>
-<p class="small muted">Hypotheses are never auto-published. The weekly research automation may flag candidate
+<p class="small muted">Hypotheses are never auto-published. The research automation may flag candidate
 questions internally for review, but nothing appears in this section without an adversarial precedent audit and
 explicit human approval — and being listed here never affects any treatment's evidence rating, tier, or ranking.
 Unlike evidence records, entries here carry no evidence scores.</p></section>"""

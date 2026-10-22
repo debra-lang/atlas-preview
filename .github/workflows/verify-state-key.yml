@@ -1,0 +1,33 @@
+# Read-only check that the STATE_KEY repository secret decrypts the committed review files. Manual only. Prints ONLY file names, item counts and a content hash:
+# never any content, never the key. Run it after rotating the secret and committing the re-encrypted files (see engine/rotate_state_key.py).
+name: Verify STATE_KEY (read-only)
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Decrypt in memory and report counts
+        env:
+          STATE_KEY: ${{ secrets.STATE_KEY }}
+        run: |
+          if [ -z "$STATE_KEY" ]; then echo "::error::STATE_KEY secret is not set"; exit 1; fi
+          python - <<'PY'
+          import hashlib, json, os, subprocess, sys
+          bad = 0
+          for name, iters in (("held.json.enc", None), ("staged.json.enc", "600000")):
+              path = "data/review-queue/" + name
+              if not os.path.exists(path):
+                  print(f"{name}: not present (nothing to check)"); continue
+              cmd = ["openssl", "enc", "-d", "-aes-256-cbc", "-pbkdf2"] + (["-iter", iters] if iters else []) + ["-in", path, "-pass", "env:STATE_KEY"]
+              p = subprocess.run(cmd, capture_output=True)
+              if p.returncode != 0:
+                  print(f"::error::{name}: does NOT decrypt with the STATE_KEY secret"); bad += 1; continue
+              d = json.loads(p.stdout.decode("utf-8"))
+              h = hashlib.sha256(json.dumps(d, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+              print(f"OK {name}: {len(d.get('items', []))} item(s); content hash {h}")
+          sys.exit(1 if bad else 0)
+          PY

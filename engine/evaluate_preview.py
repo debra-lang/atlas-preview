@@ -38,10 +38,11 @@ register = c.published_register()
 study_ids = {s["id"] for s in c.load("data/studies.json", [])}
 rows = []
 for it in evaluated:
-    if not it.get("evaluation"):
+    if not (it.get("evaluation") or it.get("notice") or it.get("topicHold")):
         continue
     r, why = c.route(it, register, study_ids)
-    rows.append({"id": it["id"], "title": it["title"], "url": it.get("url"), "wouldRoute": r, "because": why, "evaluation": it["evaluation"]})
+    rows.append({"id": it["id"], "title": it["title"], "url": it.get("url"), "wouldRoute": r, "because": why, "evaluation": it.get("evaluation"),
+                 "evalInput": it.get("evalInput"), "notice": it.get("notice"), "topicHold": it.get("topicHold")})
 counts = {}
 for r in rows:
     counts[r["wouldRoute"]] = counts.get(r["wouldRoute"], 0) + 1

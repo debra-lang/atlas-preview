@@ -1,0 +1,88 @@
+{
+ "comment": "Independent re-check run 22 Oct 2026 with the engine's own deterministic checks (grounding.unsupported_terms / ungrounded_numbers) on the 37 PubMed-based items in the reports of 7, 14, 21 and 26 September 2026, and openFDA for the one FDA item. The public About page may say that a review found 'statements that the source does not make' and 'one incorrect date' only while this evidence shows it.",
+ "pubmedItemsChecked": 37,
+ "itemsWithClaimsTheAbstractDoesNotMake": [
+  {
+   "report": "2026-09-14",
+   "pmid": "42730729",
+   "terms": [
+    "first",
+    "senior author"
+   ]
+  },
+  {
+   "report": "2026-09-14",
+   "pmid": "42710361",
+   "terms": [
+    "first"
+   ]
+  },
+  {
+   "report": "2026-09-14",
+   "pmid": "42675511",
+   "terms": [
+    "senior authors"
+   ]
+  },
+  {
+   "report": "2026-09-14",
+   "pmid": "42673781",
+   "terms": [
+    "novel"
+   ]
+  },
+  {
+   "report": "2026-09-14",
+   "pmid": "42654475",
+   "terms": [
+    "first"
+   ]
+  },
+  {
+   "report": "2026-09-26",
+   "pmid": "42788144",
+   "terms": [
+    "first"
+   ]
+  },
+  {
+   "report": "2026-09-26",
+   "pmid": "42787411",
+   "terms": [
+    "largest",
+    "novel"
+   ]
+  },
+  {
+   "report": "2026-09-26",
+   "pmid": "42780685",
+   "terms": [
+    "first"
+   ]
+  },
+  {
+   "report": "2026-09-26",
+   "pmid": "42777476",
+   "terms": [
+    "first"
+   ]
+  },
+  {
+   "report": "2026-09-26",
+   "pmid": "42766619",
+   "terms": [
+    "first"
+   ]
+  }
+ ],
+ "numbersNotLiterallyInTheAbstract": {
+  "count": 6,
+  "note": "paraphrases or derived totals (for example 72 = 36 + 36); the earlier hand audit found no wrong number, so the public text does not claim wrong numbers"
+ },
+ "fdaItem": {
+  "report": "2026-09-07",
+  "kNumber": "K260413",
+  "publishedDecisionDate": "2026-09-04",
+  "officialDecisionDate": "2026-08-13"
+ }
+}

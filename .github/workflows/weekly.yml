@@ -12,7 +12,7 @@
 name: Weekly research cycle
 on:
   schedule:
-    - cron: "0 6 * * 1"           # Mondays 06:00 Pacific — timezone-aware, stable across PST/PDT
+    - cron: "0 6 1,15 * *"        # the 1st and 15th of every month, 06:00 Pacific — timezone-aware, stable across PST/PDT (owner decision, 21 Oct 2026)
       timezone: "America/Los_Angeles"
   workflow_dispatch: {}
   push:
@@ -31,7 +31,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install evaluator SDK
-        run: pip install anthropic
+        run: pip install "anthropic==1.15.0"   # the SDK version every paid test used; a newer major is untested
       - name: Restore private held-state
         env:
           STATE_KEY: ${{ secrets.STATE_KEY }}
@@ -43,6 +43,18 @@ jobs:
             fi
             openssl enc -d -aes-256-cbc -pbkdf2 -in data/review-queue/held.json.enc \
               -out data/review-queue/held.json -pass env:STATE_KEY
+          fi
+      - name: Restore private staged-review store
+        env:
+          STATE_KEY: ${{ secrets.STATE_KEY }}
+        run: |
+          if [ -f data/review-queue/staged.json.enc ]; then
+            if [ -z "$STATE_KEY" ]; then
+              echo "::error::staged.json.enc exists but the STATE_KEY secret is missing - cannot process staged items safely."
+              exit 1
+            fi
+            openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 -in data/review-queue/staged.json.enc \
+              -out data/review-queue/staged.json -pass env:STATE_KEY
           fi
       - name: Run weekly cycle
         env:
@@ -62,6 +74,22 @@ jobs:
               -out data/review-queue/held.json.enc -pass env:STATE_KEY
           fi
           rm -f data/review-queue/held.json
+      - name: Protect private staged-review store (never commit plaintext)
+        env:
+          STATE_KEY: ${{ secrets.STATE_KEY }}
+        run: |
+          ITEMS=$(python -c "import json;print(len(json.load(open('data/review-queue/staged.json'))['items']))" 2>/dev/null || echo 0)
+          if [ "$ITEMS" != "0" ]; then
+            if [ -z "$STATE_KEY" ]; then
+              echo "::error::$ITEMS staged item(s) exist but STATE_KEY secret is not set - refusing to commit unpublished AI evaluations to a public repo. Nothing was published or lost."
+              exit 1
+            fi
+            openssl enc -aes-256-cbc -pbkdf2 -iter 600000 -salt -in data/review-queue/staged.json \
+              -out data/review-queue/staged.json.enc -pass env:STATE_KEY
+          else
+            rm -f data/review-queue/staged.json.enc
+          fi
+          rm -f data/review-queue/staged.json
       - name: Regenerate SEO static pages + regression checks
         run: |
           python tools/build_seo.py

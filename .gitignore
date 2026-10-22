@@ -3,4 +3,6 @@ __pycache__/
 *.tmp
 # internal review material: plaintext held queue must NEVER be committed (only held.json.enc)
 data/review-queue/held.json
+# staged AI evaluations awaiting the owner's decision: plaintext must NEVER be committed (only staged.json.enc)
+data/review-queue/staged.json
 engine/last-run.log

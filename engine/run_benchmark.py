@@ -118,7 +118,7 @@ def main():
         failures[cid] = score(cid, ev)
         print(f"{cid}: {'PASS' if not failures[cid] else 'FAIL — ' + '; '.join(failures[cid])}")
     n_fail = sum(1 for v in failures.values() if v)
-    report = {"ranAt": datetime.now().isoformat(timespec="seconds"), "model": evaluate_queue.MODEL,
+    report = {"ranAt": datetime.now().isoformat(timespec="seconds"), "model": evaluate_queue.MODEL, "promptHash": evaluate_queue.prompt_hash(),
               "cases": len(CASES), "passed": len(CASES) - n_fail, "failures": failures,
               "verdict": "PASS — production evaluator meets the frozen gold benchmark" if n_fail == 0
                          else "HOLD LAUNCH — production evaluator materially worse than the gold benchmark",

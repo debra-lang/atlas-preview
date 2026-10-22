@@ -23,7 +23,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install anthropic
+      - run: pip install "anthropic==1.15.0"   # the SDK version every paid test used; a newer major is untested
       - name: Run frozen gold benchmark against production evaluator
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

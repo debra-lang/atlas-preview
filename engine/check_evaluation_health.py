@@ -9,7 +9,7 @@ import json, os, sys
 from pathlib import Path
 
 BACKLOG_LIMIT = 25
-MAX_DISABLED_DAYS = 21
+MAX_DISABLED_DAYS = 45   # three missed runs on the 1st/15th schedule (was 21 days = three weekly runs)
 status = json.loads((Path(__file__).resolve().parent.parent / "data" / "engine-status.json").read_text(encoding="utf-8"))
 ev = status.get("evaluation")
 if not ev:
@@ -34,10 +34,21 @@ elif state in ("failed", "blocked-gate"):
     problems.append(f"AI evaluation state is '{state}' ({ev.get('reason') or 'no reason recorded'}).")
 elif state == "degraded":
     (problems if attempted and failed * 2 >= attempted else warnings).append(f"AI evaluation degraded: {failed} of {attempted} attempts failed {ev.get('errorClasses')}.")
+for e in status.get("errors") or []:
+    if "coverage gap" in str(e):      # a source was not scanned for longer than the maximum look-back: records may have been missed, so this is a red run, not a footnote
+        problems.append(str(e))
 if awaiting >= BACKLOG_LIMIT:
     problems.append(f"{awaiting} item(s) are awaiting evaluation (limit {BACKLOG_LIMIT}).")
 elif awaiting:
     warnings.append(f"{awaiting} item(s) awaiting evaluation.")
+nt = status.get("notices") or {}
+if nt.get("cited"):
+    warnings.append(f"{nt['cited']} correction/retraction notice(s) concern studies cited on this site - see the private held items (no record was changed).")
+if nt.get("unresolved"):
+    warnings.append(f"{nt['unresolved']} correction/retraction notice(s) could not be matched to an article - check manually (held privately).")
+stg = status.get("staged") or {}
+if stg.get("pending"):
+    warnings.append(f"{stg['pending']} evaluated item(s) are staged for the owner's decision (oldest {stg.get('oldestDays', '?')} day(s)); nothing from them is public.")
 last_ok = ev.get("lastEvaluationSuccess", "never recorded")
 lines = [f"AI evaluation: state={state}, attempted={attempted}, succeeded={ev.get('succeeded', 0)}, failed={failed}, awaiting={awaiting}, last fully successful evaluation: {last_ok}"]
 lines += [f"PROBLEM: {p}" for p in problems] + [f"warning: {w}" for w in warnings]

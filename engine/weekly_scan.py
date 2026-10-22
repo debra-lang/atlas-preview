@@ -7,7 +7,7 @@ to data/review-queue/queue.json for human review in admin.html.
 
 Nothing this script produces is ever published automatically — it only feeds the queue.
 
-Usage:  python engine/weekly_scan.py [--days 7]
+Usage:  python engine/weekly_scan.py [--days 20]
 No dependencies beyond the standard library.
 """
 import json, re, sys, time, urllib.parse, urllib.request
@@ -17,8 +17,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 KNOWN = ROOT / "engine" / "known_ids.json"
 QUEUE = ROOT / "data" / "review-queue" / "queue.json"
-DAYS = int(sys.argv[sys.argv.index("--days") + 1]) if "--days" in sys.argv else 7
+# The cycle runs on the 1st and 15th, so consecutive runs can be up to 17 days apart; DAYS (20) is the MINIMUM look-back and covers that gap plus a delay of a few days. After a skipped or failed run the cycle
+# (weekly_cycle.Cycle.lookback_days) lengthens the window for PubMed and ClinicalTrials.gov to the time since that source last succeeded, up to 180 days; beyond that it records a coverage gap.
+# Items already seen are skipped (known_ids), so a longer window never publishes or evaluates anything twice. Result lists are paged (PAGE_CAP), never silently cut at 100.
+DAYS = int(sys.argv[sys.argv.index("--days") + 1]) if "--days" in sys.argv else 20
 UA = {"User-Agent": "TinnitusAtlas-weekly-scan/1.0 (research aggregator; contact: site admin)"}
+PAGE_CAP = 20          # at most 20 pages of 100 per query (2,000 records): far above any real window, and a hit of the cap is reported, not hidden
 
 def get_json(url):
     req = urllib.request.Request(url, headers=UA)
@@ -37,13 +41,29 @@ def scan_pubmed():
     # tiab OR MeSH: catches papers whose title/abstract never says "tinnitus" but are indexed
     # for it (e.g. drug trials with tinnitus as a secondary outcome) — audit blind spot fix
     term = f'(tinnitus[Title/Abstract] OR tinnitus[MeSH Terms]) AND ("{since}"[EDAT] : "3000"[EDAT])'
-    q = urllib.parse.urlencode({"db": "pubmed", "term": term, "retmode": "json", "retmax": "100"})
-    ids = get_json(f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?{q}")["esearchresult"].get("idlist", [])
+    ids, start, total = [], 0, None
+    for _ in range(PAGE_CAP):
+        q = urllib.parse.urlencode({"db": "pubmed", "term": term, "retmode": "json", "retmax": "100", "retstart": str(start)})
+        res = get_json(f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?{q}")["esearchresult"]
+        if not isinstance(res, dict) or "ERROR" in res or "count" not in res or not isinstance(res.get("idlist"), list):
+            raise RuntimeError("PubMed returned a malformed or error response; not marked as scanned")      # an empty window answers count '0' and an empty idlist, so a missing count is never 'nothing found'
+        page = res["idlist"]
+        ids += [i for i in page if i not in ids]
+        total = int(res["count"])
+        start += len(page)
+        if not page or start >= total:
+            break
+        time.sleep(0.4)
+    if total is not None and len(ids) < total:
+        raise RuntimeError(f"PubMed returned {total} records for the window but only {len(ids)} could be paged (cap {PAGE_CAP * 100}); not marked as scanned")
     items = []
     for chunk in [ids[i:i + 50] for i in range(0, len(ids), 50)]:
         time.sleep(0.4)  # NCBI rate limit courtesy
         q2 = urllib.parse.urlencode({"db": "pubmed", "id": ",".join(chunk), "retmode": "json"})
         summ = get_json(f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?{q2}")["result"]
+        missing = [pid for pid in chunk if not isinstance(summ.get(pid), dict) or "error" in summ[pid]]
+        if missing:
+            raise RuntimeError(f"PubMed summary lacked {len(missing)} of {len(chunk)} record(s); not marked as scanned")    # never silently drop a record from a page
         for pid in chunk:
             it = summ.get(pid)
             if not it:
@@ -54,6 +74,7 @@ def scan_pubmed():
                 "source": (it.get("fulljournalname") or it.get("source") or "PubMed"),
                 "date": it.get("epubdate") or it.get("pubdate") or "",
                 "url": f"https://pubmed.ncbi.nlm.nih.gov/{pid}/",
+                "pubtypes": [str(x) for x in (it.get("pubtype") or [])],   # PubMed's own publication types: the evidence-adequacy check exempts reviews/case reports only by these (or by model label plus corroborating text)
                 "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
                 "treatment": "", "proposal": "", "why": "",
             })
@@ -65,24 +86,39 @@ def scan_ctgov():
     # Two passes: condition=tinnitus AND full-text term=tinnitus. The term pass catches trials
     # registered under OTHER conditions (Menière, SSNHL, hyperacusis…) that measure tinnitus as
     # an outcome — an audit-confirmed blind spot (e.g. OTO-104). Results are unioned by NCT id.
-    studies, seen = [], set()
+    studies, seen, failed = [], set(), []
     for qkey in ("query.cond", "query.term"):
-        params = urllib.parse.urlencode({
-            qkey: "tinnitus",
-            "filter.advanced": f"AREA[LastUpdatePostDate]RANGE[{since},MAX]",
-            "fields": "NCTId,BriefTitle,OverallStatus,Phase,LeadSponsorName,LastUpdatePostDate,EnrollmentCount",
-            "pageSize": "100", "format": "json",
-        })
-        try:
-            data = get_json(f"https://clinicaltrials.gov/api/v2/studies?{params}")
-        except Exception as e:
-            print(f"WARN: ctgov {qkey} pass failed: {e}", file=sys.stderr)
-            continue
-        for s in data.get("studies", []):
-            nct = s.get("protocolSection", {}).get("identificationModule", {}).get("nctId", "")
-            if nct and nct not in seen:
-                seen.add(nct)
-                studies.append(s)
+        token = None
+        for _ in range(PAGE_CAP):
+            q = {
+                qkey: "tinnitus",
+                "filter.advanced": f"AREA[LastUpdatePostDate]RANGE[{since},MAX]",
+                "fields": "NCTId,BriefTitle,OverallStatus,Phase,LeadSponsorName,LastUpdatePostDate,EnrollmentCount",
+                "pageSize": "100", "format": "json",
+            }
+            if token:
+                q["pageToken"] = token
+            try:
+                data = get_json(f"https://clinicaltrials.gov/api/v2/studies?{urllib.parse.urlencode(q)}")
+            except Exception as e:
+                print(f"WARN: ctgov {qkey} pass failed: {e}", file=sys.stderr)
+                failed.append(qkey)
+                break
+            if not isinstance(data, dict) or not isinstance(data.get("studies"), list):
+                failed.append(qkey + " (malformed response)")
+                break
+            for s in data["studies"]:
+                nct = s.get("protocolSection", {}).get("identificationModule", {}).get("nctId", "")
+                if nct and nct not in seen:
+                    seen.add(nct)
+                    studies.append(s)
+            token = data.get("nextPageToken")
+            if not token:
+                break
+        else:
+            failed.append(qkey + " (page cap)")
+    if failed:
+        raise RuntimeError("ClinicalTrials.gov pass failed: " + ", ".join(failed) + "; the source is not marked as scanned and the next run looks back further")
     items = []
     for s in studies:
         p = s.get("protocolSection", {})
