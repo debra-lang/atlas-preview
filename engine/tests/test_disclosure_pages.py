@@ -131,6 +131,18 @@ class TestPublicStatementsAreAccurate(unittest.TestCase):
         self.assertIn("an item without a flag has not been verified", js)                              # a flag must never read as a certificate for the others
         self.assertIn("(unreviewed ? flagHtml(it) : '')", js)
 
+    def test_the_ask_worker_cannot_say_nothing_was_found_and_relays_the_notices(self):
+        import shutil, subprocess
+        node = shutil.which("node")
+        if not node:
+            self.skipTest("Node.js is not installed here; tools/ask_core_test.mjs runs in the Ask benchmark workflow")
+        r = subprocess.run([node, "tools/ask_core_test.mjs"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8", timeout=300)
+        self.assertEqual(r.returncode, 0, r.stdout[-3000:] + r.stderr[-1000:])
+        self.assertRegex(r.stdout, r"\d+ passed, 0 failed")
+        worker = read("ask-worker/worker.js")
+        self.assertNotIn("honest quiet week", worker)                                          # the instruction that made "quiet week" the answer
+        self.assertNotIn("IS the answer", worker)
+
     def test_editorial_review_is_never_presented_as_clinical_review_or_endorsement(self):
         for page in ("research.html", "about.html"):
             self.assertRegex(self.text(page), r"not a clinical review|does not mean that a clinician")

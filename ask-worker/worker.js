@@ -170,6 +170,104 @@ export function retrieve(question, data) {
   return { flags, treatmentIds: treatmentIds.slice(0, RETRIEVAL_LIMIT), studyHits, coverage };
 }
 
+/* ---------------- what a weekly report can and cannot be said to show ---------------- */
+
+// Mirror of js/app.js (QUIET, AI_UNREVIEWED, REVIEW_FLAG, ITEM_CORRECTIONS). This worker is one pasted file and
+// cannot import the site script, so tools/ask_core_test.mjs fails if either copy drifts from the other.
+export const QUIET_REPORT_DATES = ["2026-09-04", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19"];
+export const QUIET_CLARIFICATION = "This report previously stated that no evidence-changing tinnitus research was identified. However, automated evaluation was not completed for any of the records collected. Therefore, this statement should not be interpreted as confirmation that no relevant research was found.";
+export const AI_UNREVIEWED_DATES = ["2026-09-07", "2026-09-14", "2026-09-21", "2026-09-26"];
+export const AI_SUMMARY_LABEL = "Automated summary: AI-written, not individually reviewed, not clinician-reviewed. See the source for what the study actually reports.";
+export const REVIEW_FLAG_PMIDS = ["42652785", "42730729", "42777476", "42788144", "42654475", "42673781", "42787411", "42766619", "42710361", "42780685", "42675511"];
+export const REVIEW_FLAG_TEXT = "Review flag: our October 2026 check found a statement in this summary that its source does not make. A correction is being prepared.";
+export const ITEM_CORRECTIONS = {
+  "2026-09-07": [{
+    url: "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpmn/pmn.cfm?ID=K260413",
+    text: "This item said the FDA decision on K260413 was made on 2026-09-04. The FDA 510(k) database lists the decision date as August 13, 2026 (date received: February 9, 2026). The rest of the item is unchanged."
+  }]
+};
+// A report can only be called "quiet" by the engine when automated evaluation completed. No report carries a machine-readable
+// completion marker, so this worker never says a week was quiet in its own voice: it can only report what the report says.
+const QUIET_ITEM = /^\s*no evidence-changing/i;
+const NOT_ASSESSED_ITEM = /not yet assessed/i;
+const UNCONFIRMED_QUIET_NOTE = "This report says its scan identified no evidence-changing research. That statement describes only what automated evaluation completed, so it is not confirmation that no relevant research exists.";
+const NOT_ASSESSED_NOTE = "Automated evaluation had not been completed for the new records this scan collected, so this update is not a finding that nothing important was published.";
+const AI_UNREVIEWED_NOTE = "The items in this update marked as automated summaries were written by an AI model and were not reviewed by a person or a clinician before publication. Statements about novelty, importance or interpretation are the AI's own wording and may be wrong or unsupported; the linked source is what the study actually reports.";
+
+export function reportStatus(weekly) {
+  if (!weekly) return null;
+  const items = weekly.items || [];
+  const date = weekly.date;
+  const clarified = QUIET_REPORT_DATES.includes(date);
+  const quiet = clarified || items.some(i => QUIET_ITEM.test(i.title || ""));
+  const notAssessed = items.some(i => NOT_ASSESSED_ITEM.test(i.importance || ""));
+  const aiUnreviewed = AI_UNREVIEWED_DATES.includes(date);
+  const notes = [];
+  if (clarified) notes.push(QUIET_CLARIFICATION);
+  else if (quiet) notes.push(UNCONFIRMED_QUIET_NOTE);
+  if (notAssessed) notes.push(NOT_ASSESSED_NOTE);
+  if (aiUnreviewed) notes.push(AI_UNREVIEWED_NOTE);
+  const itemNotice = it => {
+    const out = [];
+    if (aiUnreviewed && it.detail && it.detail.studyType) out.push(AI_SUMMARY_LABEL);
+    if (aiUnreviewed) {
+      const m = /pubmed\.ncbi\.nlm\.nih\.gov\/(\d+)/.exec(it.url || "");
+      if (m && REVIEW_FLAG_PMIDS.includes(m[1])) out.push(REVIEW_FLAG_TEXT);
+    }
+    for (const c of ITEM_CORRECTIONS[date] || []) if (c.url === it.url) out.push("Correction (added October 2026): " + c.text);
+    if (quiet && QUIET_ITEM.test(it.title || "")) out.push("Not a finding: " + (clarified ? QUIET_CLARIFICATION : UNCONFIRMED_QUIET_NOTE));
+    if (NOT_ASSESSED_ITEM.test(it.importance || "")) out.push(NOT_ASSESSED_NOTE);
+    return out.join(" ");
+  };
+  return { date, quiet, notAssessed, aiUnreviewed, notes, itemNotice, needsNotice: notes.length > 0 };
+}
+
+// Statements that a week or scan found nothing. Never allowed in the assistant's own voice about a report that was not
+// fully assessed, unless the sentence itself says this is not confirmation.
+const QUIET_CLAIMS = [
+  /\bno\s+(?:evidence[- ]changing|meaningful|relevant|important|significant|notable|noteworthy|new|major)\b[^.\n]{0,60}\b(?:research|studies|study|evidence|findings?|updates?|developments?|publications?|trials?|papers?)\b/i,
+  /\bquiet\s+(?:week|weeks|scan|period|update|report)\b/i,
+  /\bnothing\s+(?:new|noteworthy|meaningful|significant|important|notable|of note|changed|met the bar|to report)\b/i,
+  /\bnothing\s+(?:was|has been|had been)\s+(?:found|identified|published|reported|flagged)\b/i,
+  /\b(?:did|does|has|have)\s+(?:not|n't)\s+(?:find|found|identify|identified|turn up)\s+(?:any|anything)\b/i,
+  /\bnothing\s+(?:in|from)\s+(?:this|the)\s+(?:scan|week|update|report)\b/i,
+];
+const NOT_CONFIRMATION = /\bnot\s+(?:a\s+)?(?:confirmation|proof)\b|\bnot\s+(?:be\s+)?(?:interpreted|read|taken)\s+as\b|\bnot\s+a\s+finding\s+that\b|\bnot\s+evidence\s+that\b|\bdoes\s+not\s+mean\s+(?:that\s+)?no\b|\bcannot\s+be\s+(?:confirmed|taken)\b|\bpreviously\s+stated\b/i;
+
+export function scrubQuietClaims(text) {
+  let removed = 0;
+  const out = String(text).split("\n").map(line => {
+    if (/^\s*\|/.test(line) || /^\s*#{1,6}\s/.test(line)) {                     // table rows and headings are judged whole
+      if (QUIET_CLAIMS.some(rx => rx.test(line)) && !NOT_CONFIRMATION.test(line)) { removed++; return ""; }
+      return line;
+    }
+    const parts = line.split(/(?<=[.!?])\s+/);
+    const keep = parts.filter(s => {
+      const bad = QUIET_CLAIMS.some(rx => rx.test(s)) && !NOT_CONFIRMATION.test(s);
+      if (bad) removed++;
+      return !bad;
+    });
+    return keep.join(" ");
+  }).join("\n").replace(/\n{3,}/g, "\n\n").trim();
+  return { text: out, removed };
+}
+
+// The answer to a "what is new" question when the latest report cannot be read as "nothing found" (not fully assessed,
+// or written by an AI without review). Built from the report's own data; no model is involved.
+export function latestReportAnswer(weekly, status) {
+  const shown = (weekly.items || []).filter(i => !QUIET_ITEM.test(i.title || "") && !NOT_ASSESSED_ITEM.test(i.importance || ""));
+  const lines = [`### Short answer`,
+    `The most recent update on [Latest Tinnitus Research (${weekly.date})](research.html) is dated ${weekly.date}. ${status.notes.join(" ")}`,
+    ``, `### What the update lists`];
+  if (shown.length) for (const i of shown.slice(0, 10)) {
+    const n = status.itemNotice(i);
+    lines.push(`- ${i.title}${i.importance ? " — " + i.importance : ""}${n ? ". " + n : ""}`);
+  } else lines.push(`- The report lists no other items. Open it for the details.`);
+  lines.push(``, `### Important limitations`,
+    `Tinnitus Evidence ranks the evidence, not what is right for any individual; for a decision about your own care, speak with a clinician.`);
+  return lines.join("\n");
+}
+
 /* ---------------- context pack ---------------- */
 
 const trim = (s, n) => (s && s.length > n ? s.slice(0, n - 1) + "…" : s || "");
@@ -227,10 +325,18 @@ export function buildPack(question, data, r) {
         sponsor: x.sponsor, completionEst: x.completionEst, treatment: x.treatment });
     }
   }
+  let weeklyStatus = null;
   if (r.flags.latest && data.weeklyLatest) {
+    weeklyStatus = reportStatus(data.weeklyLatest);
     packIds.add("W:" + data.weeklyLatest.date);
     parts.push({ kind: "weekly", id: "W:" + data.weeklyLatest.date, date: data.weeklyLatest.date, title: data.weeklyLatest.title,
-      items: (data.weeklyLatest.items || []).slice(0, 10).map(i => ({ title: i.title, importance: i.importance, whyMatters: trim(i.whyMatters, 200) })) });
+      reportStatus: weeklyStatus.needsNotice
+        ? "NOT CONFIRMED AS QUIET OR COMPLETE. " + weeklyStatus.notes.join(" ")
+        : "No notice attached to this report.",
+      items: (data.weeklyLatest.items || []).slice(0, 10).map(i => {
+        const notice = weeklyStatus.itemNotice(i);
+        return { title: i.title, importance: i.importance, whyMatters: trim(i.whyMatters, 200), ...(notice ? { notice } : {}) };
+      }) });
   }
   if (r.flags.strongest || r.flags.why) parts.push({ kind: "ranking-note", uncertaintyNote: data.rankings.uncertaintyNote });
   if (r.flags.hypothesis) parts.push({ kind: "research-question",
@@ -238,7 +344,7 @@ export function buildPack(question, data, r) {
     summary: "Whether somatic-modulation patterns (jaw/neck maneuvers changing tinnitus) predict treatment response is an OPEN research question. The simple yes/no version has been tested and generally did NOT predict response; whether graded features (number/direction/consistency of maneuvers) carry information is unproven. It must never be used to tell an individual a treatment will work for them.",
     link: "research-questions/somatic-modulation-treatment-response/" });
 
-  return { parts, packIds };
+  return { parts, packIds, weeklyStatus };
 }
 
 /* ---------------- prompt ---------------- */
@@ -257,7 +363,7 @@ ABSOLUTE RULES:
 8. Comparisons: compare dimension by dimension (evidence quality, loudness, distress, replication, independence, safety, availability, regulatory). Never declare a universal winner; use "A currently has stronger evidence for X, while B …" phrasing. Use a compact markdown table when comparing two treatments.
 9. Uncertainty is content: mention small samples, missing sham controls, same-sponsor evidence, conflicting replication, short follow-up where the pack notes them.
 10. CLINICAL-TRIAL questions: distinguish statuses (recruiting / not yet recruiting / active / completed / terminated), show the verification date where given, and ALWAYS include this sentence: "Only a study's research team can determine whether anyone is eligible."
-11. NEWEST/LATEST questions: answer from the "weekly" pack item and state its date. An honest quiet week ("no evidence-changing research identified") IS the answer — report it as such; never call that insufficient evidence, and never present older records as new.
+11. NEWEST/LATEST questions: answer from the "weekly" pack item and state its date. Read its reportStatus and every item's notice, and pass them on. NEVER say, imply or paraphrase, in your own voice, that no relevant, important or evidence-changing research was found, that a week or scan was quiet, or that nothing changed. When reportStatus says a report is not confirmed as complete, say plainly that automated evaluation was not completed, so the report is not confirmation that no relevant research was found. Items marked "Automated summary" were written by an AI and not reviewed by a person: never call them verified, and relay any review flag or correction notice attached to an item. Never present older records as new.
 
 FORMAT (markdown, max ~420 words before FOLLOWUPS):
 ### Short answer
@@ -341,9 +447,31 @@ The best-evidenced tinnitus treatments target exactly this burden — cognitive 
   }
 
   const pack = buildPack(question, data, r);
+  const ws = pack.weeklyStatus;
+  const weeklyPart = pack.parts.find(p => p.kind === "weekly");
+  const noticeNeeded = !!(ws && (ws.needsNotice || (weeklyPart && weeklyPart.items.some(i => i.notice))));
+
+  // A plain "what is new" question about a report that cannot be read as "nothing found" (not fully assessed, or written by an AI
+  // without review) is answered from the report's own data. No model is involved, so no paraphrase can say "quiet week".
+  if (noticeNeeded && !r.treatmentIds.length && !r.studyHits.length && !r.flags.trials)
+    return { status: "ok", coverage: r.coverage, answer: latestReportAnswer(data.weeklyLatest, ws),
+      sources: [{ label: "Latest Tinnitus Research (" + data.weeklyLatest.date + ")", href: "research.html" }],
+      followups: ["What tinnitus treatments have the strongest evidence?", "Are there recruiting tinnitus trials?"],
+      note: "answered from the report data: report not confirmed as complete" };
+
   const { system, user } = buildPrompt(question, pack, r);
   const raw = await callModel(system, user, MAX_TOKENS);
   const v = validateAnswer(raw, pack, data);
+  if (noticeNeeded) {
+    // Backstop for mixed questions: remove any sentence that says nothing was found, then always state the notices.
+    const s = scrubQuietClaims(v.answer);
+    v.answer = s.text;
+    v.quietClaimsRemoved = s.removed;
+    const missing = ws.notes.filter(n => !v.answer.includes(n));
+    if (missing.length) v.answer += "\n\n**About the latest update (" + data.weeklyLatest.date + "):** " + missing.join(" ");
+    const itemNotes = [...new Set((weeklyPart ? weeklyPart.items : []).map(i => i.notice).filter(Boolean))].filter(n => !ws.notes.includes(n) && !v.answer.includes(n));
+    if (itemNotes.length && ws.aiUnreviewed) v.answer += "\n\n" + itemNotes.map(n => "- " + n).join("\n");
+  }
 
   if (v.citationCount === 0 && r.coverage !== "limited") {
     return { status: "ok", coverage: r.coverage, answer:
@@ -353,7 +481,7 @@ The best-evidenced tinnitus treatments target exactly this burden — cognitive 
       followups: [], note: "answer withheld: no verifiable citations" };
   }
   return { status: "ok", coverage: r.coverage, answer: v.answer, sources: v.sources,
-    followups: v.followups, invalidCitationsStripped: v.invalidCitations };
+    followups: v.followups, invalidCitationsStripped: v.invalidCitations, quietClaimsRemoved: v.quietClaimsRemoved || 0 };
 }
 
 /* ---------------- Cloudflare Worker wrapper ---------------- */

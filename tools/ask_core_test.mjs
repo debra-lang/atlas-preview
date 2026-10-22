@@ -2,7 +2,9 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { retrieve, buildPack, answerQuestion, validateAnswer, buildPrompt } from "../ask-worker/worker.js";
+import { retrieve, buildPack, answerQuestion, validateAnswer, buildPrompt,
+  reportStatus, scrubQuietClaims, QUIET_REPORT_DATES, QUIET_CLARIFICATION, AI_UNREVIEWED_DATES,
+  AI_SUMMARY_LABEL, REVIEW_FLAG_PMIDS, REVIEW_FLAG_TEXT, ITEM_CORRECTIONS } from "../ask-worker/worker.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const load = f => JSON.parse(readFileSync(join(ROOT, "data", f), "utf8"));
@@ -114,6 +116,146 @@ ok(rc.treatmentIds.includes("cbt") && (rc.treatmentIds.includes("shore-bimodal")
 // personal treatment-selection question must reach the model (never bare not-covered)
 ok(retrieve("Which treatment should I personally use?", data).coverage !== "not-covered",
    "personal selection question gets limited coverage, not not-covered");
+
+// ---- weekly-report status (22 Oct 2026): the Ask feature must never say "nothing was found" about a report whose records were
+// not evaluated, never present the unreviewed September AI summaries as verified, and always relay the correction notices ----
+const APP_JS = readFileSync(join(ROOT, "js/app.js"), "utf8");
+const strList = src => [...src.matchAll(/'([^']+)'/g)].map(m => m[1]);
+const quietBlock = /const QUIET = \{\s*dates: \[([^\]]*)\],\s*text: '([^']*)'/.exec(APP_JS);
+const aiBlock = /const AI_UNREVIEWED = \{\s*dates: \[([^\]]*)\][\s\S]*?label: '([^']*)'/.exec(APP_JS);
+const flagBlock = /const REVIEW_FLAG = \{\s*pmids: \[([^\]]*)\],\s*text: '([^']*)'/.exec(APP_JS);
+const fdaBlock = /'2026-09-07': \[\{\s*url: '([^']*)',\s*text: '([^']*)'/.exec(APP_JS);
+// (1) the worker's copy of every site constant is identical to the site's
+ok(quietBlock && JSON.stringify(strList(quietBlock[1])) === JSON.stringify(QUIET_REPORT_DATES), "worker quiet-report dates = site's");
+ok(quietBlock && quietBlock[2] === QUIET_CLARIFICATION, "worker clarification text = site's (exact)");
+ok(aiBlock && JSON.stringify(strList(aiBlock[1])) === JSON.stringify(AI_UNREVIEWED_DATES) && aiBlock[2] === AI_SUMMARY_LABEL, "worker AI-summary dates and label = site's");
+ok(flagBlock && JSON.stringify(strList(flagBlock[1])) === JSON.stringify(REVIEW_FLAG_PMIDS) && flagBlock[2] === REVIEW_FLAG_TEXT, "worker review-flag list and text = site's");
+ok(fdaBlock && ITEM_CORRECTIONS["2026-09-07"][0].url === fdaBlock[1] && ITEM_CORRECTIONS["2026-09-07"][0].text === fdaBlock[2].replace(/\\'/g, "'"), "worker FDA correction = site's");
+ok(QUIET_CLARIFICATION.includes("not completed for any of the records collected"), "clarification uses the approved 'any of the records collected' wording");
+
+const wk = f => JSON.parse(readFileSync(join(ROOT, "data/weekly", f + ".json"), "utf8"));
+const asLatest = rep => ({ ...data, weeklyLatest: rep });
+const modelThrows = async () => { throw new Error("the model must not be called"); };
+const GOOD_SENTENCE = /not (a )?confirmation|should not be interpreted|not a finding that|previously stated that|report says its scan/i;   // the notices attribute the old statement to the report
+const quietClaimsOutsideNotices = a => {
+  // every sentence that says nothing was found must itself deny that it is a confirmation
+  const bad = [];
+  for (const line of a.split("\n")) for (const sent of line.split(/(?<=[.!?])\s+/))
+    if (/\bno\s+(evidence[- ]changing|meaningful|relevant|important|significant|new)\b[^.\n]{0,60}\b(research|studies|evidence|findings?|updates?)\b|\bquiet\s+(week|scan|update|report)|\bnothing\s+(new|noteworthy|meaningful|important|changed|met the bar)/i.test(sent) && !GOOD_SENTENCE.test(sent)) bad.push(sent);
+  return bad;
+};
+
+// (2) the five reports that said "No evidence-changing research identified": a plain "what is new" question is answered with no model
+for (const d of QUIET_REPORT_DATES) {
+  const rep = wk(d), st = reportStatus(rep);
+  ok(st.quiet && st.needsNotice && st.notes[0] === QUIET_CLARIFICATION, `${d}: report status carries the approved clarification`);
+  const a = await answerQuestion("What is the newest research this week?", asLatest(rep), modelThrows);
+  ok(a.status === "ok" && a.answer.includes(QUIET_CLARIFICATION) && a.answer.includes(d) && !/does not currently contain enough/.test(a.answer),
+     `${d}: plain latest question answered from the report, clarification included, no model call`);
+  ok(quietClaimsOutsideNotices(a.answer).length === 0, `${d}: answer never says nothing was found`, JSON.stringify(quietClaimsOutsideNotices(a.answer)));
+  ok(a.sources.some(s => s.href === "research.html" && s.label.includes(d)), `${d}: answer links to the report`);
+}
+// (3) mixed question (latest + a treatment) reaches the model; whatever it says, the answer cannot claim a quiet week
+const ADVERSARIAL = [
+  "Lenire: the most recent scan was a quiet week. [T:lenire]",
+  "No evidence-changing research was identified in this scan, so nothing is new for Lenire. [T:lenire] [W:2026-10-19]",
+  "Nothing new was found this week. Lenire is described under [T:lenire].",
+  "The scan did not find anything important about Lenire. [T:lenire]",
+  "There were no relevant studies this week; see [T:lenire].",
+  "### Short answer\nLenire evidence is limited [T:lenire].\n| Update | Result |\n|---|---|\n| This week | No meaningful research identified |",
+];
+for (const d of QUIET_REPORT_DATES) for (const text of ADVERSARIAL) {
+  const a = await answerQuestion("What is new this week about Lenire?", asLatest(wk(d)), async () => text);
+  ok(quietClaimsOutsideNotices(a.answer).length === 0 && a.answer.includes(QUIET_CLARIFICATION) && a.quietClaimsRemoved >= 1,
+     `${d}: adversarial model answer scrubbed + clarification stated ("${text.slice(0, 38).replace(/\n/g, " ")}…")`, JSON.stringify(a.answer.slice(0, 300)));
+}
+// honest sentences that DENY confirmation are kept; unrelated content is kept
+{
+  const keep = "Lenire evidence is limited [T:lenire]. This is not confirmation that no relevant research was found.";
+  const a = await answerQuestion("What is new this week about Lenire?", asLatest(wk("2026-10-19")), async () => keep);
+  ok(a.answer.includes("not confirmation that no relevant research was found") && a.answer.includes("(treatments/lenire/)") && a.quietClaimsRemoved === 0, "honest 'not confirmation' sentence and cited content are kept");
+  const s = scrubQuietClaims("Alpha. A quiet week. Beta.\nNothing new was found.");
+  ok(s.removed === 2 && s.text.includes("Alpha.") && s.text.includes("Beta.") && !/quiet|Nothing new/.test(s.text), "scrub removes only the offending sentences");
+}
+// (4) prompt: the old instruction is gone; the new one forbids paraphrase and requires relaying notices
+{
+  const rr = retrieve("What is new this week about Lenire?", asLatest(wk("2026-10-19")));
+  const bp2 = buildPrompt("q", buildPack("q", asLatest(wk("2026-10-19")), rr), rr);
+  ok(!/honest quiet week|IS the answer/.test(bp2.system), "old 'quiet week IS the answer' instruction removed");
+  ok(/NEVER say, imply or paraphrase/.test(bp2.system) && /not confirmation that no relevant research was found/.test(bp2.system) && /correction notice/.test(bp2.system), "new rule 11 forbids quiet-week wording and requires notices");
+  ok(bp2.user.includes("NOT CONFIRMED AS QUIET OR COMPLETE") && bp2.user.includes(QUIET_CLARIFICATION), "pack tells the model the report is not confirmed as complete");
+}
+// (5) the report that is the latest today (evaluation paused, 73 records not assessed)
+{
+  const rep = wk("2026-10-21"), st = reportStatus(rep);
+  ok(st.notAssessed && st.needsNotice, "10/21 'Not yet assessed' report needs a notice");
+  const a = await answerQuestion("What is the newest research this week?", asLatest(rep), modelThrows);
+  ok(/not been completed|not completed/.test(a.answer) && a.answer.includes("NCT04066348") && !/does not currently contain enough/.test(a.answer), "10/21: states evaluation was not completed and lists the registry status change");
+  ok(/week|20\d\d|recent scan|latest/i.test(a.answer), "10/21: satisfies the benchmark's 'newest research' check");
+  const recText = JSON.stringify(data.studies) + JSON.stringify(data.treatments) + JSON.stringify(data.trials);
+  ok([...a.answer.matchAll(/\b(NCT\d{8})\b/g)].every(m => recText.includes(m[1])), "10/21: every registry id in the answer exists in the database (benchmark hallucination scan)");
+}
+// (6) September AI summaries
+{
+  let flagsSeen = 0;
+  for (const d of AI_UNREVIEWED_DATES) {
+    const rep = wk(d), st = reportStatus(rep);
+    ok(st.aiUnreviewed && st.needsNotice, `${d}: AI-written report needs a notice`);
+    for (const it of rep.items) {
+      const n = st.itemNotice(it);
+      if (it.detail && it.detail.studyType) ok(n.includes(AI_SUMMARY_LABEL), `${d}: AI item labelled "${it.title.slice(0, 40)}…"`);
+      else ok(!n.includes(AI_SUMMARY_LABEL), `${d}: registry status item is not labelled AI-written`);
+      const m = /pubmed\.ncbi\.nlm\.nih\.gov\/(\d+)/.exec(it.url || "");
+      if (m && REVIEW_FLAG_PMIDS.includes(m[1])) { flagsSeen++; ok(n.includes(REVIEW_FLAG_TEXT), `${d}: flagged item carries the review flag (${m[1]})`); }
+      else if (it.detail && it.detail.studyType) ok(!n.includes(REVIEW_FLAG_TEXT), `${d}: unflagged item carries no flag`);
+    }
+    const a = await answerQuestion("What is the newest research this week?", asLatest(rep), modelThrows);
+    ok(a.answer.includes("not reviewed by a person") && /Automated summary: AI-written/.test(a.answer) && !/\bverified\b/i.test(a.answer.replace(/Tinnitus Evidence ranks[\s\S]*/, "")), `${d}: answer calls the items automated, unreviewed summaries, never verified`);
+    const mixed = await answerQuestion("What is new this week about Lenire?", asLatest(rep), async () => "Lenire evidence is limited [T:lenire].");
+    ok(mixed.answer.includes("not reviewed by a person"), `${d}: mixed question also states that the summaries were not reviewed`);
+  }
+  ok(flagsSeen === REVIEW_FLAG_PMIDS.length && flagsSeen === 11, "all 11 flagged items found, each in exactly one September report", String(flagsSeen));
+}
+// (7) correction notice: the FDA decision date
+{
+  const rep = wk("2026-09-07"), st = reportStatus(rep);
+  const fda = rep.items.find(i => i.url === ITEM_CORRECTIONS["2026-09-07"][0].url);
+  ok(fda && st.itemNotice(fda).includes("August 13, 2026") && st.itemNotice(fda).includes("Correction (added October 2026)"), "FDA item carries the correction (decision date August 13, 2026)");
+  ok(rep.items.filter(i => i !== fda && st.itemNotice(i).includes("Correction")).length === 0, "no other item carries a correction");
+  const a = await answerQuestion("What is the newest research this week?", asLatest(rep), modelThrows);
+  ok(a.answer.includes("August 13, 2026") && a.answer.includes("K260413"), "plain latest question relays the correction");
+  const wrong = [...a.answer.matchAll(/2026-09-04/g)].length, inCorrection = [...ITEM_CORRECTIONS["2026-09-07"][0].text.matchAll(/2026-09-04/g)].length;
+  ok(wrong === inCorrection, "the incorrect date appears only inside the correction sentence");
+  const pk = buildPack("q", asLatest(rep), { flags: { latest: true }, treatmentIds: [], studyHits: [] });
+  ok(JSON.stringify(pk.parts).includes("August 13, 2026"), "pack handed to the model contains the correction");
+}
+// (8) controls: ordinary reports are not degraded
+{
+  const ordinary = { date: "2026-11-01", title: "Automated research scan — 2 update(s)", items: [
+    { kind: "trial", importance: "Does Not Change Current Evidence", title: "Trial status change: NCT04066348 is now 'Completed'", whyMatters: "Registry status." }] };
+  ok(!reportStatus(ordinary).needsNotice, "ordinary report needs no notice");
+  let called = 0;
+  const a = await answerQuestion("What is the newest research this week?", asLatest(ordinary), async () => { called++; return "A registry status changed [W:2026-11-01]."; });
+  ok(called === 1 && a.quietClaimsRemoved === 0 && !a.answer.includes("About the latest update"), "ordinary report goes through the model unchanged");
+  const future = { date: "2026-11-15", title: "Automated research scan — 1 update(s)", items: [
+    { kind: "news", importance: "Does Not Change Current Evidence", title: "No evidence-changing tinnitus research identified in this scan", whyMatters: "Some scans find nothing new." }] };
+  const fs = reportStatus(future);
+  ok(fs.quiet && fs.notes[0].includes("not confirmation"), "a future quiet report is only ever attributed to the report, with the caveat");
+  const fa = await answerQuestion("What is the newest research this week?", asLatest(future), modelThrows);
+  ok(quietClaimsOutsideNotices(fa.answer).length === 0 && fa.answer.includes("not confirmation"), "future quiet report: no unqualified 'nothing found'");
+}
+// (9) every report in the archive: no path produces an unqualified quiet claim
+let swept = 0;
+for (const r2 of JSON.parse(readFileSync(join(ROOT, "data/weekly/index.json"), "utf8")).reports) {
+  const rep = wk(r2.date);
+  if (!reportStatus(rep).needsNotice) continue;                                  // ordinary reports are intentionally not rewritten
+  for (const text of ADVERSARIAL) {
+    const a = await answerQuestion("What is new this week about Lenire?", asLatest(rep), async () => text);
+    if (quietClaimsOutsideNotices(a.answer).length) { ok(false, `${r2.date}: unqualified quiet claim leaked`, a.answer.slice(0, 200)); break; }
+  }
+  swept++;
+}
+ok(swept >= 10, `archive sweep: ${swept} reports needing a notice, no unqualified quiet claim`);
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

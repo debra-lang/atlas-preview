@@ -30,6 +30,21 @@ GitHub → Actions → "Ask Tinnitus Evidence benchmark (quality gate)" → Run 
 It runs the 15-question test set through the exact shipping pipeline against the production model
 and commits `ask-worker/benchmark-report.json`. Enable the endpoint only on a green run.
 
+## Updating an existing worker (22 Oct 2026 correction: no "quiet week" answers)
+The worker can no longer tell a visitor that a week was quiet or that nothing was found. A plain "what is new" question about a
+report that was not fully assessed (the five reports that said "No evidence-changing research identified", the "Not yet assessed"
+report, or the September AI-written reports) is answered from the report's own data with no model call; mixed questions go to the
+model, and any sentence saying nothing was found is removed and the notices are added. Constants that mirror the site (report
+dates, clarification text, review flags, FDA correction) live at the top of `worker.js`; `tools/ask_core_test.mjs` fails if they
+drift from `js/app.js`.
+1. Merge the site first (the benchmark reads `worker.js` from the repository).
+2. GitHub → Actions → "Ask Tinnitus Evidence benchmark (quality gate)" → Run workflow (about $0.50). Continue only on a green run.
+3. Cloudflare → Workers & Pages → `ask-tinnitusevidence` → Edit code → replace ALL code with `ask-worker/worker.js` → Deploy.
+   The `ANTHROPIC_API_KEY` secret and settings are not touched.
+4. Check: ask "What is new this week?" on the Ask page; the answer must name the report date and say that automated evaluation
+   was not completed (or list the registry status changes), and must not say that the week was quiet.
+Rollback: paste the previous `worker.js` (commit a69020c) back into the same editor and Deploy.
+
 ## Cost expectations
 claude-sonnet-5, ~6–10k input + ≤1.4k output tokens per question ≈ **$0.02–0.05 per question**.
 Set a monthly spend limit in the Anthropic console as the final backstop.
