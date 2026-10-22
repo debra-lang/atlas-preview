@@ -117,14 +117,24 @@ class R3AdviceToTheReader(unittest.TestCase):
             self.assertNotIn("advice-to-reader", kinds({"kind": "study", "title": "x"}, ev(whyMatters=text)), text)
         self.assertNotIn("advice-to-reader", kinds({"kind": "study", "title": "x"}, ev(summaryForAdmin="If you have time, check this.")))          # internal field, not public text
 
-    def test_on_the_50_september_items_it_flags_exactly_the_tympanometry_item(self):
-        hits = []
-        for w in ("2026-09-07", "2026-09-14", "2026-09-21", "2026-09-26"):
-            for it in json.loads((REPO / "data" / "weekly" / f"{w}.json").read_text(encoding="utf-8"))["items"]:
-                e = ev(weeklyTitle=it["title"], whyMatters=it.get("whyMatters", ""), whatIsNew=it.get("summary", ""))
-                if "advice-to-reader" in kinds({"kind": it["kind"], "title": it["title"]}, e):
-                    hits.append(it["url"].rstrip("/").rsplit("/", 1)[-1])
-        self.assertEqual(hits, ["42788144"])           # acceptance rule: at most one false alarm in 50; stop if a rewrite is needed to stay under it
+    def test_on_the_50_september_items_it_flagged_exactly_the_tympanometry_item_as_published_and_flags_nothing_after_the_correction(self):
+        log = json.loads((REPO / "data" / "corrections-log.json").read_text(encoding="utf-8"))
+        before = {(f["reportDate"], f["itemUrl"], f["field"]): f["before"] for f in log["fields"]}   # the text exactly as it was first published
+
+        def scan(published):
+            hits = []
+            for w in ("2026-09-07", "2026-09-14", "2026-09-21", "2026-09-26"):
+                for it in json.loads((REPO / "data" / "weekly" / f"{w}.json").read_text(encoding="utf-8"))["items"]:
+                    title, why, new = it["title"], it.get("whyMatters", ""), it.get("summary", "")
+                    if published:
+                        title = before.get((w, it["url"], "Headline"), title)
+                        why = before.get((w, it["url"], "Why it matters"), why)
+                        new = before.get((w, it["url"], "Summary"), new)
+                    if "advice-to-reader" in kinds({"kind": it["kind"], "title": title}, ev(weeklyTitle=title, whyMatters=why, whatIsNew=new)):
+                        hits.append(it["url"].rstrip("/").rsplit("/", 1)[-1])
+            return hits
+        self.assertEqual(scan(True), ["42788144"])      # acceptance rule: at most one false alarm in 50 as published
+        self.assertEqual(scan(False), [])               # the advice addressed to patients was removed by correction C4b
 
 
 class GateAndScenarios(unittest.TestCase):
