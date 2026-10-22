@@ -1,7 +1,7 @@
 {
   "note": "History of corrections to the published September 2026 research updates. The reports' text was corrected in place; the original wording of every changed passage is kept here (\"original\"). Shown to visitors as a Correction note under each item (js/app.js) and relayed by the Ask assistant (ask-worker/worker.js). The September 2026 interim review flags were each resolved by one or more corrections or explicitly withdrawn (\"flags\").",
   "correctedOn": "2026-10",
-  "verification": "Each corrected passage was checked against the source (PubMed record, a second index (Europe PMC), the open-access full text where available, and the FDA 510(k) database for K260413) on 22 October 2026; see september-corrections-proposed/VERIFICATION-OF-CORRECTIONS.md in the project folder.",
+  "verification": "Each corrected passage was checked against the source (PubMed record, a second index (Europe PMC), the open-access full text where available, and the FDA 510(k) database for K260413) on 22 October 2026; see september-corrections-proposed/VERIFICATION-OF-CORRECTIONS.md in the project folder. Corrections N5 to N8b were checked against the open-access full text (funding statement, questionnaire list, flow of participants and Table 1).",
   "corrections": [
     {
       "id": "C1a",
@@ -322,6 +322,86 @@
       "sourceLabel": "PubMed record",
       "optional": true,
       "correctedOn": "2026-10"
+    },
+    {
+      "id": "N5",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42675511/",
+      "itemTitle": "Large German population study: hearing loss linked to memory and brain changes, tinnitus alone is not",
+      "field": "Funding / conflicts",
+      "original": "independent — academic population cohort (University Medicine Greifswald/DZNE) with no device or drug manufacturer involvement in the tinnitus question;",
+      "corrected": "unclear / manufacturer-linked — academic population cohort (University Medicine Greifswald/DZNE); MRI scans in the cohort were supported by a joint grant from Siemens Healthineers and the Federal State of Mecklenburg-West Pomerania, per the paper's funding statement;",
+      "kind": "reword",
+      "reason": "The paper’s funding statement says MRI scans in SHIP-TREND were supported by a joint grant from Siemens Healthineers and the Federal State of Mecklenburg-West Pomerania; the earlier text said there was no manufacturer involvement.",
+      "noteText": "Changed: “independent — academic population cohort (University Medicine Greifswald/DZNE) with no device or drug manufacturer involvement in the tinnitus question;” to “unclear / manufacturer-linked — academic population cohort (University Medicine Greifswald/DZNE); MRI scans in the cohort were supported by a joint grant from Siemens Healthineers and the Federal State of Mecklenburg-West Pomerania, per the paper's funding statement;” — The paper’s funding statement says MRI scans in SHIP-TREND were supported by a joint grant from Siemens Healthineers and the Federal State of Mecklenburg-West Pomerania; the earlier text said there was no manufacturer involvement.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "N6",
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42766619/",
+      "itemTitle": "Tinnitus distress questionnaires overlap substantially with depression questionnaires, content analysis finds",
+      "field": "Limitations",
+      "original": "mini-TQ variants, ",
+      "corrected": "",
+      "kind": "delete",
+      "reason": "The paper includes the mini Tinnitus Questionnaire (mTQ) among the six tinnitus distress questionnaires it analysed.",
+      "noteText": "Removed: “mini-TQ variants,” — The paper includes the mini Tinnitus Questionnaire (mTQ) among the six tinnitus distress questionnaires it analysed.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "N7",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42654475/",
+      "itemTitle": "Periodontal Procedure Intensity and Incident Tinnitus in Korean Adults: A Nationwide Cohort Study.",
+      "field": "Summary",
+      "original": "It adds a new candidate risk-factor association to tinnitus epidemiology, not any treatment evidence.",
+      "corrected": "It reports a risk-factor association, not any treatment evidence.",
+      "kind": "reword",
+      "reason": "The paper cites earlier studies reporting associations between periodontal disease and tinnitus; neither it nor its abstract claims a new association.",
+      "noteText": "Changed: “It adds a new candidate risk-factor association to tinnitus epidemiology, not any treatment evidence.” to “It reports a risk-factor association, not any treatment evidence.” — The paper cites earlier studies reporting associations between periodontal disease and tinnitus; neither it nor its abstract claims a new association.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "N8a",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42710361/",
+      "itemTitle": "Donepezil failed to beat placebo for chronic tinnitus in a small double-blind trial",
+      "field": "Limitations",
+      "original": "Adverse events not reported",
+      "corrected": "The abstract does not report adverse events. The full paper reports that after treatment began 14 of the 35 participants allocated to donepezil (40%) dropped out, 13 of them because of side effects (the other because of a change of address), and that 9 of the 35 allocated to placebo (25.7%) dropped out or were excluded, 5 of them because of side effects (the others because of irregular use, 3, or personal reasons, 1); it reports that side-effect dropouts were higher in the donepezil group (p = 0.006). These figures describe this trial only.",
+      "kind": "reword",
+      "reason": "Full paper checked: it reports withdrawals and side-effect withdrawals for each group (flow description and Table 1).",
+      "noteText": "Changed: “Adverse events not reported” to “The abstract does not report adverse events. The full paper reports that after treatment began 14 of the 35 participants allocated to donepezil (40%) dropped out, 13 of them because of side effects (the other because of a change of address), and that 9 of the 35 allocated to placebo (25.7%) dropped out or were excluded, 5 of them because of side effects (the others because of irregular use, 3, or personal reasons, 1); it reports that side-effect dropouts were higher in the donepezil group (p = 0.006). These figures describe this trial only.” — Full paper checked: it reports withdrawals and side-effect withdrawals for each group (flow description and Table 1).",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
+    },
+    {
+      "id": "N8b",
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42710361/",
+      "itemTitle": "Donepezil failed to beat placebo for chronic tinnitus in a small double-blind trial",
+      "field": "Safety",
+      "original": "Not reported — the abstract gives no adverse-event data despite donepezil's known cholinergic side-effect profile (nausea, diarrhea, bradycardia, insomnia); full-text review needed.",
+      "corrected": "Not reported in the abstract. The full paper reports that 14 of 35 participants on donepezil dropped out (13 for side effects) and 9 of 35 on placebo dropped out or were excluded (5 for side effects), with side-effect dropouts higher on donepezil (p = 0.006); its table lists insomnia 5/35, nausea 3/35 and epigastralgia 3/35 on donepezil against 0/35, 0/35 and 1/35 on placebo. These figures describe this trial only.",
+      "kind": "reword",
+      "reason": "Full paper checked (flow description and Table 1); the earlier text added a side-effect list from outside the study.",
+      "noteText": "Changed: “Not reported — the abstract gives no adverse-event data despite donepezil's known cholinergic side-effect profile (nausea, diarrhea, bradycardia, insomnia); full-text review needed.” to “Not reported in the abstract. The full paper reports that 14 of 35 participants on donepezil dropped out (13 for side effects) and 9 of 35 on placebo dropped out or were excluded (5 for side effects), with side-effect dropouts higher on donepezil (p = 0.006); its table lists insomnia 5/35, nausea 3/35 and epigastralgia 3/35 on donepezil against 0/35, 0/35 and 1/35 on placebo. These figures describe this trial only.” — Full paper checked (flow description and Table 1); the earlier text added a side-effect list from outside the study.",
+      "sourceLabel": "PubMed record",
+      "optional": false,
+      "correctedOn": "2026-10"
     }
   ],
   "fields": [
@@ -395,7 +475,7 @@
       "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42654475/",
       "field": "Summary",
       "before": "First nationwide claims-based cohort to use periodontal *procedure intensity* as a proxy for periodontal disease burden and link it to incident tinnitus, reporting a modest 24% higher adjusted hazard in the moderate-to-severe procedure group. It adds a new candidate risk-factor association to tinnitus epidemiology, not any treatment evidence. Incidence 4.38 vs 3.87 per 1000 person-years (moderate-to-severe vs mild); adjusted HR 1.24 (95% CI 1.17–1.30)",
-      "after": "A nationwide claims-based cohort using periodontal *procedure intensity* as a proxy for periodontal disease burden to examine incident tinnitus, reporting a modest 24% higher adjusted hazard in the moderate-to-severe procedure group. It adds a new candidate risk-factor association to tinnitus epidemiology, not any treatment evidence. Incidence 4.38 vs 3.87 per 1000 person-years (moderate-to-severe vs mild); adjusted HR 1.24 (95% CI 1.17–1.30)"
+      "after": "A nationwide claims-based cohort using periodontal *procedure intensity* as a proxy for periodontal disease burden to examine incident tinnitus, reporting a modest 24% higher adjusted hazard in the moderate-to-severe procedure group. It reports a risk-factor association, not any treatment evidence. Incidence 4.38 vs 3.87 per 1000 person-years (moderate-to-severe vs mild); adjusted HR 1.24 (95% CI 1.17–1.30)"
     },
     {
       "reportDate": "2026-09-14",
@@ -443,7 +523,7 @@
       "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42675511/",
       "field": "Funding / conflicts",
       "before": "independent — academic population cohort (University Medicine Greifswald/DZNE) with no device or drug manufacturer involvement in the tinnitus question; two senior authors declare unrelated pharma honoraria/personal fees (HJG: Neuraxpharm, Servier, Idorsia, Janssen Cilag; AF: Lilly, Biogen, Eisai), disclosed as outside the submitted work.",
-      "after": "independent — academic population cohort (University Medicine Greifswald/DZNE) with no device or drug manufacturer involvement in the tinnitus question; two authors (HJG, AF) declare pharma honoraria or personal fees (HJG: Neuraxpharm, Servier, Idorsia, Janssen Cilag; AF: Lilly, Biogen, Eisai); the paper describes AF's fees as outside the submitted work."
+      "after": "unclear / manufacturer-linked — academic population cohort (University Medicine Greifswald/DZNE); MRI scans in the cohort were supported by a joint grant from Siemens Healthineers and the Federal State of Mecklenburg-West Pomerania, per the paper's funding statement; two authors (HJG, AF) declare pharma honoraria or personal fees (HJG: Neuraxpharm, Servier, Idorsia, Janssen Cilag; AF: Lilly, Biogen, Eisai); the paper describes AF's fees as outside the submitted work."
     },
     {
       "reportDate": "2026-09-26",
@@ -468,6 +548,62 @@
       "field": "Why it matters",
       "before": "Donepezil, a drug used in dementia, was tested for tinnitus for the first time in a placebo-controlled trial and did not work better than placebo on tinnitus severity or on measurements of the sound itself. Negative results like this are useful because they help rule out repurposed drugs and discourage off-label prescribing based on theory alone.",
       "after": "Donepezil, a drug used in dementia, was tested for tinnitus for the first time in a placebo-controlled trial and did not work better than placebo on tinnitus severity or on measurements of the sound itself."
+    },
+    {
+      "reportDate": "2026-09-26",
+      "file": "data/weekly/2026-09-26.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42766619/",
+      "field": "Limitations",
+      "before": [
+        "Content/construct analysis only — no patient data, no psychometric or empirical correlation data",
+        "ICF linking involves subjective judgment; inter-rater reliability and linking procedure detail not summarized in the abstract",
+        "Analysis restricted to second-level ICF categories, which may exaggerate or blur overlap compared with third-level granularity",
+        "Only 13 instruments included; excludes other widely used measures (e.g. TFI subscale-level analysis, mini-TQ variants, generic QoL tools)",
+        "Says nothing about whether overlap actually biases trial results in practice — that would require empirical data"
+      ],
+      "after": [
+        "Content/construct analysis only — no patient data, no psychometric or empirical correlation data",
+        "ICF linking involves subjective judgment; inter-rater reliability and linking procedure detail not summarized in the abstract",
+        "Analysis restricted to second-level ICF categories, which may exaggerate or blur overlap compared with third-level granularity",
+        "Only 13 instruments included; excludes other widely used measures (e.g. TFI subscale-level analysis, generic QoL tools)",
+        "Says nothing about whether overlap actually biases trial results in practice — that would require empirical data"
+      ]
+    },
+    {
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42710361/",
+      "field": "Limitations",
+      "before": [
+        "Small sample (≈35 per group), underpowered for modest effects",
+        "Primary endpoint not explicitly defined in the abstract; multiple instruments raise selective-reporting risk",
+        "Positive framing rests on post-hoc confidence-interval/responder analyses and an unplanned amplification subgroup",
+        "Single anecdotal remission highlighted despite a null primary result",
+        "No effect sizes, p-values, or dispersion reported in the abstract",
+        "Adverse events not reported",
+        "Single center, 3-month treatment, no post-treatment follow-up described",
+        "Group structure (tinnitus group vs matched control group vs drug/placebo allocation) ambiguous as described",
+        "Funding source not identified"
+      ],
+      "after": [
+        "Small sample (≈35 per group), underpowered for modest effects",
+        "Primary endpoint not explicitly defined in the abstract; multiple instruments raise selective-reporting risk",
+        "Positive framing rests on post-hoc confidence-interval/responder analyses and an unplanned amplification subgroup",
+        "Single anecdotal remission highlighted despite a null primary result",
+        "No effect sizes, p-values, or dispersion reported in the abstract",
+        "The abstract does not report adverse events. The full paper reports that after treatment began 14 of the 35 participants allocated to donepezil (40%) dropped out, 13 of them because of side effects (the other because of a change of address), and that 9 of the 35 allocated to placebo (25.7%) dropped out or were excluded, 5 of them because of side effects (the others because of irregular use, 3, or personal reasons, 1); it reports that side-effect dropouts were higher in the donepezil group (p = 0.006). These figures describe this trial only.",
+        "Single center, 3-month treatment, no post-treatment follow-up described",
+        "Group structure (tinnitus group vs matched control group vs drug/placebo allocation) ambiguous as described",
+        "Funding source not identified"
+      ]
+    },
+    {
+      "reportDate": "2026-09-14",
+      "file": "data/weekly/2026-09-14.json",
+      "itemUrl": "https://pubmed.ncbi.nlm.nih.gov/42710361/",
+      "field": "Safety",
+      "before": "Not reported — the abstract gives no adverse-event data despite donepezil's known cholinergic side-effect profile (nausea, diarrhea, bradycardia, insomnia); full-text review needed.",
+      "after": "Not reported in the abstract. The full paper reports that 14 of 35 participants on donepezil dropped out (13 for side effects) and 9 of 35 on placebo dropped out or were excluded (5 for side effects), with side-effect dropouts higher on donepezil (p = 0.006); its table lists insomnia 5/35, nausea 3/35 and epigastralgia 3/35 on donepezil against 0/35, 0/35 and 1/35 on placebo. These figures describe this trial only."
     }
   ],
   "flags": {

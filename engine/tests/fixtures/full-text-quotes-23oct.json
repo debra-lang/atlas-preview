@@ -1,0 +1,31 @@
+{
+ "note": "Verbatim excerpts from the open-access full texts, fetched from Europe PMC on 22-23 Oct 2026, that the further corrections N5-N8b rest on. Used by test_disclosure_pages to keep the corrections' numbers and claims tied to the papers.",
+ "donepezil_flow": {
+  "source": "Watanabe et al., Clinics (Sao Paulo) 2026, PMC13573712, Results: Loss to follow-up",
+  "quote": "After the start of treatment, 14 individuals (40%) in the active drug group dropped out, 13 due to side effects (93%) and 1 (7%) due to change of address. In the placebo group, 9 individuals (25.7%) were excluded: 5 due to side effects (55.6%), 3 (33%) due to irregular use of medication, and 1 (11%) due to personal reasons (recovery from orthopedic surgery). It was observed that among the reasons for dropout, adverse effects were predominantly higher in the donepezil group compared to the placebo group (p = 0.006)"
+ },
+ "donepezil_allocation": {
+  "source": "same, Results: Participants",
+  "quote": "Of the total of 70 patients selected (35 in the donepezil group and 35 in the placebo group), 47 patients (67.1%) completed the treatment"
+ },
+ "donepezil_table1": {
+  "source": "same, Table 1",
+  "quote": "Insomnia 5 (14.3) 0 (0) Nausea 3 (8.6) 0 (0) Epigastralgia 3 (8.6) 1 (2.9)"
+ },
+ "ship_funding": {
+  "source": "Schwarz et al., Alzheimer's Research & Therapy 2026, PMC13527976, Funding",
+  "quote": "MRI scans in SHIP-TREND have been supported by a joint grant from Siemens Healthineers, Erlangen, Germany, and the Federal State of Mecklenburg-West Pomerania."
+ },
+ "ship_competing_interests": {
+  "source": "same, Competing interests",
+  "quote": "HJG has received travel grants and speakers’ honoraria from Neuraxpharm, Servier, Indorsia and Janssen Cilag. AF reports personal fees from Lilly, Biogen, and Eisai, outside the submitted work."
+ },
+ "icf_questionnaires": {
+  "source": "Fuchten et al., PLoS ONE 2026, PMC13592705, Introduction",
+  "quote": "Tinnitus Handicap Inventory (THI), Tinnitus Questionnaire (TQ), mini Tinnitus Questionnaire (mTQ), Tinnitus Handicap Questionnaire (THQ), Tinnitus Reaction Questionnaire (TRQ)"
+ },
+ "periodontal_prior_studies": {
+  "source": "Kim et al., Medicina 2026, PMC13515769, Introduction",
+  "quote": "Previous observational studies have reported associations between periodontal disease and hearing-related outcomes, including sudden sensorineural hearing loss and tinnitus"
+ }
+}

@@ -266,14 +266,14 @@
         "loudnessOutcome": "none — psychoacoustic tinnitus measurements were performed and showed no significant difference from placebo; the single reported remission is an anecdote, not a loudness finding.",
         "distressOutcome": "none — THI and VAS showed no statistically significant separation from placebo; the ≥7/≥11-point THI responder 'trend' is a post-hoc confidence-interval observation and must not be presented as a distress benefit.",
         "otherOutcomes": "Cognitive screening (MMSE, CDR) collected; no significant between-group differences reported. Authors mention a possible greater benefit among participants using hearing amplification — an unplanned subgroup observation only. Sleep and quality-of-life outcomes not reported.",
-        "safety": "Not reported — the abstract gives no adverse-event data despite donepezil's known cholinergic side-effect profile (nausea, diarrhea, bradycardia, insomnia); full-text review needed.",
+        "safety": "Not reported in the abstract. The full paper reports that 14 of 35 participants on donepezil dropped out (13 for side effects) and 9 of 35 on placebo dropped out or were excluded (5 for side effects), with side-effect dropouts higher on donepezil (p = 0.006); its table lists insomnia 5/35, nausea 3/35 and epigastralgia 3/35 on donepezil against 0/35, 0/35 and 1/35 on placebo. These figures describe this trial only.",
         "limitations": [
           "Small sample (≈35 per group), underpowered for modest effects",
           "Primary endpoint not explicitly defined in the abstract; multiple instruments raise selective-reporting risk",
           "Positive framing rests on post-hoc confidence-interval/responder analyses and an unplanned amplification subgroup",
           "Single anecdotal remission highlighted despite a null primary result",
           "No effect sizes, p-values, or dispersion reported in the abstract",
-          "Adverse events not reported",
+          "The abstract does not report adverse events. The full paper reports that after treatment began 14 of the 35 participants allocated to donepezil (40%) dropped out, 13 of them because of side effects (the other because of a change of address), and that 9 of the 35 allocated to placebo (25.7%) dropped out or were excluded, 5 of them because of side effects (the others because of irregular use, 3, or personal reasons, 1); it reports that side-effect dropouts were higher in the donepezil group (p = 0.006). These figures describe this trial only.",
           "Single center, 3-month treatment, no post-treatment follow-up described",
           "Group structure (tinnitus group vs matched control group vs drug/placebo allocation) ambiguous as described",
           "Funding source not identified"
@@ -555,7 +555,7 @@
           "Single regional cohort (northeastern Germany), limiting generalisability",
           "Multiple regional brain measures tested; correction for multiplicity not stated in the abstract"
         ],
-        "funding": "independent — academic population cohort (University Medicine Greifswald/DZNE) with no device or drug manufacturer involvement in the tinnitus question; two authors (HJG, AF) declare pharma honoraria or personal fees (HJG: Neuraxpharm, Servier, Idorsia, Janssen Cilag; AF: Lilly, Biogen, Eisai); the paper describes AF's fees as outside the submitted work.",
+        "funding": "unclear / manufacturer-linked — academic population cohort (University Medicine Greifswald/DZNE); MRI scans in the cohort were supported by a joint grant from Siemens Healthineers and the Federal State of Mecklenburg-West Pomerania, per the paper's funding statement; two authors (HJG, AF) declare pharma honoraria or personal fees (HJG: Neuraxpharm, Servier, Idorsia, Janssen Cilag; AF: Lilly, Biogen, Eisai); the paper describes AF's fees as outside the submitted work.",
         "identifier": "pubmed-42675511",
         "source": "Alzheimer's research & therapy",
         "changesAssessment": "No — this does not change our current evidence assessment."
@@ -673,7 +673,7 @@
       "title": "Periodontal Procedure Intensity and Incident Tinnitus in Korean Adults: A Nationwide Cohort Study.",
       "importance": "Interesting but Early",
       "whyMatters": "In a very large Korean insurance database, people who needed more intensive gum-disease treatment were slightly more likely to be later diagnosed with tinnitus — a small association that may simply reflect more frequent doctor visits. It does not mean gum treatment causes tinnitus, and it does not point to any new tinnitus treatment.",
-      "summary": "A nationwide claims-based cohort using periodontal *procedure intensity* as a proxy for periodontal disease burden to examine incident tinnitus, reporting a modest 24% higher adjusted hazard in the moderate-to-severe procedure group. It adds a new candidate risk-factor association to tinnitus epidemiology, not any treatment evidence. Incidence 4.38 vs 3.87 per 1000 person-years (moderate-to-severe vs mild); adjusted HR 1.24 (95% CI 1.17–1.30)",
+      "summary": "A nationwide claims-based cohort using periodontal *procedure intensity* as a proxy for periodontal disease burden to examine incident tinnitus, reporting a modest 24% higher adjusted hazard in the moderate-to-severe procedure group. It reports a risk-factor association, not any treatment evidence. Incidence 4.38 vs 3.87 per 1000 person-years (moderate-to-severe vs mild); adjusted HR 1.24 (95% CI 1.17–1.30)",
       "url": "https://pubmed.ncbi.nlm.nih.gov/42654475/",
       "detail": {
         "studyType": "cohort",

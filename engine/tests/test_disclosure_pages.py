@@ -11,7 +11,7 @@ def corrections_log():
 
 
 def _field(it, field):
-    holder, key = {"Summary": (it, "summary"), "Why it matters": (it, "whyMatters"), "Headline": (it, "title"), "Funding / conflicts": (it["detail"], "funding")}[field]
+    holder, key = {"Summary": (it, "summary"), "Why it matters": (it, "whyMatters"), "Headline": (it, "title"), "Funding / conflicts": (it["detail"], "funding"), "Limitations": (it["detail"], "limitations"), "Safety": (it["detail"], "safety")}[field]
     return holder, key
 
 
@@ -63,17 +63,18 @@ class TestDisclosureEdits(unittest.TestCase):
 
     def test_every_logged_correction_is_consistent_with_its_field_history(self):
         log = corrections_log()
-        self.assertEqual(len(log["corrections"]), 20)
+        self.assertEqual(len(log["corrections"]), 25)
+        as_text = lambda v: v if isinstance(v, str) else " | ".join(v)       # a list field (limitations) is compared as its joined text
         for c in log["corrections"]:
             fld = [x for x in log["fields"] if x["file"] == c["file"] and x["itemUrl"] == c["itemUrl"] and x["field"] == c["field"]]
             self.assertEqual(len(fld), 1, c["id"])
-            self.assertEqual(fld[0]["before"].count(c["original"]), 1, c["id"])                  # the original passage was in the published text exactly once
+            self.assertEqual(as_text(fld[0]["before"]).count(c["original"]), 1, c["id"])                  # the original passage was in the published text exactly once
             if c["corrected"]:
-                self.assertEqual(fld[0]["after"].count(c["corrected"]), 1, c["id"])
-            self.assertNotIn(c["original"], fld[0]["after"].replace(c["corrected"], "") if c["corrected"] else fld[0]["after"], c["id"])   # and is gone now
+                self.assertEqual(as_text(fld[0]["after"]).count(c["corrected"]), 1, c["id"])
+            self.assertNotIn(c["original"], as_text(fld[0]["after"]).replace(c["corrected"], "") if c["corrected"] else as_text(fld[0]["after"]), c["id"])   # and is gone now
             self.assertIn(c["original"].strip()[:60], c["noteText"], c["id"])                     # the note quotes the original wording
             self.assertTrue(c["reason"] and c["sourceLabel"] and c["itemUrl"].startswith("https://"), c["id"])
-        self.assertEqual(len({c["id"] for c in log["corrections"]}), 20)
+        self.assertEqual(len({c["id"] for c in log["corrections"]}), 25)
 
     def test_no_correction_introduces_a_priority_novelty_or_authority_claim(self):
         bad = re.compile(r"\b(first|novel|novelty|largest|senior|well[- ]established|long-standing|under-?studied|coin flip|no better than chance|long-contested|unprecedented|pioneering)\b", re.I)
@@ -185,6 +186,45 @@ class TestPublicStatementsAreAccurate(unittest.TestCase):
         self.assertIn('Source: <a href="${esc(it.url)}" rel="noopener" target="_blank">', js)    # the source is a working link
         self.assertIn("Correction (added October 2026):", js)
         self.assertEqual([c["id"] for c in log["corrections"] if c["reportDate"] == "2026-09-07"], ["C8"])      # the only correction in that report
+
+    def test_the_four_further_corrections_rest_on_the_papers_full_text_and_do_not_generalise(self):
+        q = {k: v["quote"] for k, v in json.loads(read("engine/tests/fixtures/full-text-quotes-23oct.json")).items() if k != "note"}
+        by = {c["id"]: c for c in corrections_log()["corrections"]}
+        # Siemens Healthineers co-funded the MRI scans: the funding line says so and no longer claims there was no manufacturer involvement
+        self.assertIn("Siemens Healthineers", q["ship_funding"])
+        n5 = by["N5"]["corrected"]
+        self.assertIn("MRI scans in the cohort were supported by a joint grant from Siemens Healthineers", n5)
+        self.assertIn("Federal State of Mecklenburg-West Pomerania", n5)
+        self.assertIn("no device or drug manufacturer involvement", by["N5"]["original"]); self.assertNotIn("no device or drug manufacturer involvement", n5)
+        self.assertTrue(n5.startswith("unclear / manufacturer-linked"), n5)                      # not labelled "independent" any more
+        # the questionnaire list includes the mTQ
+        self.assertIn("(mTQ)", q["icf_questionnaires"])
+        self.assertIn("mini-TQ variants", by["N6"]["original"]); self.assertNotIn("mini-TQ", by["N6"]["corrected"])
+        # the periodontal "new association" claim is gone; the paper cites earlier associations
+        self.assertIn("Previous observational studies have reported associations", q["periodontal_prior_studies"])
+        self.assertIn("new candidate risk-factor association", by["N7"]["original"]); self.assertNotIn("new", by["N7"]["corrected"].lower())
+        # donepezil: dropouts and dropouts because of side effects are stated separately, per group, exactly as the paper gives them, and are not generalised
+        flow = q["donepezil_flow"]
+        for fact in ("14 individuals (40%) in the active drug group dropped out, 13 due to side effects", "9 individuals (25.7%) were excluded: 5 due to side effects", "(p = 0.006)"):
+            self.assertIn(fact, flow)
+        self.assertIn("35 in the donepezil group and 35 in the placebo group", q["donepezil_allocation"])
+        for fact in ("14 of the 35 participants allocated to donepezil (40%) dropped out, 13 of them because of side effects", "9 of the 35 allocated to placebo (25.7%) dropped out or were excluded, 5 of them because of side effects", "p = 0.006", "These figures describe this trial only"):
+            self.assertIn(fact, by["N8a"]["corrected"])
+        self.assertTrue(by["N8a"]["corrected"].startswith("The abstract does not report adverse events."))
+        for fact in ("14 of 35 participants on donepezil dropped out (13 for side effects)", "9 of 35 on placebo dropped out or were excluded (5 for side effects)", "insomnia 5/35, nausea 3/35 and epigastralgia 3/35 on donepezil against 0/35, 0/35 and 1/35 on placebo", "These figures describe this trial only"):
+            self.assertIn(fact, by["N8b"]["corrected"])
+        for fact in ("Insomnia 5 (14.3) 0 (0)", "Nausea 3 (8.6) 0 (0)", "Epigastralgia 3 (8.6) 1 (2.9)"):
+            self.assertIn(fact, q["donepezil_table1"])
+        for cid in ("N8a", "N8b"):
+            self.assertNotRegex(by[cid]["corrected"], r"(?i)\b(causes?|is unsafe|dangerous|should (not )?(take|use|avoid)|all patients|in general|usually)\b")      # no claim beyond the study
+        self.assertNotIn("known cholinergic side-effect profile", by["N8b"]["corrected"])        # the outside-knowledge list is gone
+
+    def test_the_notice_says_that_not_reported_refers_to_the_abstract_unless_the_full_paper_was_checked(self):
+        js = read("js/app.js"); worker = read("ask-worker/worker.js")
+        self.assertIn("refers to the study\\'s abstract, which these summaries were written from; the full paper may report it, unless a correction note says the full paper was also checked", js)
+        self.assertIn("refers to the study's abstract, which these summaries were written from; the full paper may report it, unless a correction note says the full paper was also checked", worker)
+        for cid in ("N8a", "N8b"):
+            self.assertIn("Full paper checked", [c for c in corrections_log()["corrections"] if c["id"] == cid][0]["reason"])      # the notes that did check the full paper say so
 
     def test_the_ask_worker_cannot_say_nothing_was_found_and_relays_the_notices(self):
         import shutil, subprocess

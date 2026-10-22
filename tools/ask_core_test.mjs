@@ -132,7 +132,7 @@ ok(quietBlock && JSON.stringify(strList(quietBlock[1])) === JSON.stringify(QUIET
 ok(quietBlock && quietBlock[2] === QUIET_CLARIFICATION, "worker clarification text = site's (exact)");
 ok(aiBlock && JSON.stringify(strList(aiBlock[1])) === JSON.stringify(AI_UNREVIEWED_DATES) && aiBlock[2] === AI_SUMMARY_LABEL, "worker AI-summary dates and label = site's");
 ok(JSON.stringify(CORRECTION_NOTES) === JSON.stringify(logNotes), "worker correction notes = data/corrections-log.json (exact)");
-ok(CORR_LOG.corrections.length === 20 && Object.keys(logNotes).sort().join() === "2026-09-07,2026-09-14,2026-09-26", "the log holds the 20 approved corrections in three reports");
+ok(CORR_LOG.corrections.length === 25 && Object.keys(logNotes).sort().join() === "2026-09-07,2026-09-14,2026-09-26", "the log holds the 25 approved corrections in three reports");
 ok(!/REVIEW_FLAG|review-flag|flagHtml/.test(APP_JS), "the interim review flags are gone from the site script");
 ok(QUIET_CLARIFICATION.includes("not completed for any of the records collected"), "clarification uses the approved 'any of the records collected' wording");
 
