@@ -29,7 +29,7 @@ class TestDisclosureEdits(unittest.TestCase):
         js = read("js/app.js")
         block = js[js.index("AI_UNREVIEWED = {"): js.index("const renderReport")]
         for bad in ("verified", "fact-checked", "validated", "accurate", "peer review", "clinician-reviewed by", "approved by"):
-            self.assertNotRegex(block.replace("not clinician-reviewed", ""), re.compile(r"\b" + bad, re.I), bad)
+            self.assertNotRegex(block.replace("not clinician-reviewed", "").replace("has not been verified", ""), re.compile(r"\b" + bad, re.I), bad)
         for need in ("No person reviewed them individually", "none was reviewed by a physician or other clinician", "do not use these summaries for medical decisions"):
             self.assertIn(need, block)
 
@@ -97,7 +97,7 @@ class TestPublicStatementsAreAccurate(unittest.TestCase):
         for d in dates:
             self.assertEqual(evidence[d]["evaluated"], 0, d)                                    # the clarified statement is true of each: evaluation was not completed
             self.assertGreater(evidence[d]["awaitingEvaluation"], 0, d)
-        self.assertIn("clarification added", js)                                                # visible in the archive list too
+        self.assertIn('<span class="small muted">— clarification added</span>', js)                  # visible in the archive list too
 
     def test_the_fda_date_correction_matches_the_primary_source_and_leaves_the_original_text_in_place(self):
         js = read("js/app.js")
@@ -107,11 +107,29 @@ class TestPublicStatementsAreAccurate(unittest.TestCase):
         self.assertIn("August 13, 2026", js); self.assertIn("February 9, 2026", js)               # 2026-08-13 and 2026-02-09 in the FDA record
         self.assertIn(fda["primarySource"], js)
         self.assertIn("FDA 510(k) Premarket Notification database, K260413", js)
+        self.assertIn('Source: <a href="${esc(c.url)}" rel="noopener" target="_blank">${esc(c.source)} ↗</a>', js)      # the source is a working link to the FDA page
         rep = json.loads(read("data/weekly/2026-09-07.json"))
         item = [i for i in rep["items"] if i.get("url") == fda["primarySource"]]
         self.assertEqual(len(item), 1)
         self.assertIn(fda["publishedDecisionDate"], item[0]["summary"])                          # the published text is preserved, not edited
         self.assertEqual(len(re.findall(r"url: 'https://www\.accessdata\.fda\.gov/[^']+'", js)), 1)       # exactly one corrected item
+
+    def test_the_review_flags_cover_exactly_the_recorded_items_and_only_the_september_ai_reports(self):
+        js = read("js/app.js")
+        evidence = json.loads(read("engine/tests/fixtures/september-review-evidence.json"))
+        flagged = re.findall(r"'(\d{8})'", re.search(r"const REVIEW_FLAG = \{\s*pmids: \[([^\]]*)\]", js).group(1))
+        self.assertEqual(sorted(flagged), sorted(evidence["reviewFlaggedPmids"]))
+        self.assertEqual(len(flagged), 11)
+        in_reports = {}
+        for d in ("2026-09-07", "2026-09-14", "2026-09-21", "2026-09-26"):
+            for it in json.loads(read(f"data/weekly/{d}.json"))["items"]:
+                m = re.search(r"pubmed\.ncbi\.nlm\.nih\.gov/(\d+)", it.get("url") or "")
+                if m and m.group(1) in flagged:
+                    in_reports[m.group(1)] = in_reports.get(m.group(1), 0) + 1
+        self.assertEqual(sorted(in_reports), sorted(flagged)); self.assertTrue(all(v == 1 for v in in_reports.values()))      # each flagged item is published exactly once, in a September AI report
+        self.assertIn("Review flag: our October 2026 check found a statement in this summary that its source does not make. A correction is being prepared.", js)
+        self.assertIn("an item without a flag has not been verified", js)                              # a flag must never read as a certificate for the others
+        self.assertIn("(unreviewed ? flagHtml(it) : '')", js)
 
     def test_editorial_review_is_never_presented_as_clinical_review_or_endorsement(self):
         for page in ("research.html", "about.html"):

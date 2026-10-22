@@ -1135,10 +1135,19 @@
       const c = (ITEM_CORRECTIONS[date] || []).find(x => x.url === it.url);
       return c ? `<div class="small correction" role="note" style="border-left:4px solid var(--c-watch);padding:4px 10px;margin:6px 0"><strong>Correction (added October 2026):</strong> ${esc(c.text)} Source: <a href="${esc(c.url)}" rel="noopener" target="_blank">${esc(c.source)} ↗</a></div>` : '';
     };
+    // Items in the September reports where our October 2026 check found a statement that the source does not make. A flag is shown until the item's correction is published; an item without a flag has NOT been verified.
+    const REVIEW_FLAG = {
+      pmids: ['42652785', '42730729', '42777476', '42788144', '42654475', '42673781', '42787411', '42766619', '42710361', '42780685', '42675511'],
+      text: 'Review flag: our October 2026 check found a statement in this summary that its source does not make. A correction is being prepared.'
+    };
+    const flagHtml = it => {
+      const m = /pubmed\.ncbi\.nlm\.nih\.gov\/(\d+)/.exec(it.url || '');
+      return m && REVIEW_FLAG.pmids.includes(m[1]) ? `<div class="small review-flag" role="note" style="border-left:4px solid var(--c-watch);padding:4px 10px;margin:6px 0"><strong>${esc(REVIEW_FLAG.text)}</strong></div>` : '';
+    };
     // Reports whose items were written by an AI model and published without individual review (7-26 September 2026).
     const AI_UNREVIEWED = {
       dates: ['2026-09-07', '2026-09-14', '2026-09-21', '2026-09-26'],
-      notice: 'Except for trial status changes taken directly from the registry, the items in this edition were written and published automatically by an AI model from each study\'s abstract or registry record. No person reviewed them individually before publication, and none was reviewed by a physician or other clinician. Numbers, study design and links come from the source record; statements about novelty, importance or interpretation are the AI\'s own wording and may be wrong or unsupported. An October 2026 check of these items against their sources found statements the sources do not make. Always use the linked source, and do not use these summaries for medical decisions.',
+      notice: 'Except for trial status changes taken directly from the registry, the items in this edition were written and published automatically by an AI model from each study\'s abstract or registry record. No person reviewed them individually before publication, and none was reviewed by a physician or other clinician. Numbers, study design and links come from the source record; statements about novelty, importance or interpretation are the AI\'s own wording and may be wrong or unsupported. An October 2026 check of these items against their sources found statements the sources do not make. Items marked \'Review flag\' are ones where that check found a specific problem; an item without a flag has not been verified. Always use the linked source, and do not use these summaries for medical decisions.',
       label: 'Automated summary: AI-written, not individually reviewed, not clinician-reviewed. See the source for what the study actually reports.'
     };
     const renderReport = rep => {
@@ -1157,7 +1166,7 @@
         ${rep.headline ? `<div class="card" style="border-left:4px solid var(--c-promising)"><div class="k small muted" style="text-transform:uppercase;font-weight:700;letter-spacing:.06em">Most important in this update</div>
           <h3>${esc(rep.headline.title)}</h3><p class="small">${esc(rep.headline.summary)}</p>
           ${rep.headline.url ? `<a class="small" href="${esc(rep.headline.url)}" rel="noopener" target="_blank">Source ↗</a>` : ''}</div>` : ''}
-        ${rep.items.map(it => weekItem(it, unreviewed && it.detail && it.detail.studyType ? AI_UNREVIEWED.label : '', correctionHtml(rep.date, it))).join('')}`;
+        ${rep.items.map(it => weekItem(it, unreviewed && it.detail && it.detail.studyType ? AI_UNREVIEWED.label : '', correctionHtml(rep.date, it) + (unreviewed ? flagHtml(it) : ''))).join('')}`;
     };
     if (file) {
       if (SINGLE && DB.weeklyAll) renderReport(DB.weeklyAll[file] || DB.weekly);
