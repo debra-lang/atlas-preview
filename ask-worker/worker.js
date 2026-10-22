@@ -257,13 +257,17 @@ export function scrubQuietClaims(text) {
 export function latestReportAnswer(weekly, status) {
   const shown = (weekly.items || []).filter(i => !QUIET_ITEM.test(i.title || "") && !NOT_ASSESSED_ITEM.test(i.importance || ""));
   const lines = [`### Short answer`,
-    `The most recent update on [Latest Tinnitus Research (${weekly.date})](research.html) is dated ${weekly.date}. ${status.notes.join(" ")}`,
-    ``, `### What the update lists`];
-  if (shown.length) for (const i of shown.slice(0, 10)) {
-    const n = status.itemNotice(i);
-    lines.push(`- ${i.title}${i.importance ? " — " + i.importance : ""}${n ? ". " + n : ""}`);
-  } else lines.push(`- The report lists no other items. Open it for the details.`);
-  lines.push(``, `### Important limitations`,
+    `Please read the notes before relying on the most recent update, [Latest Tinnitus Research (${weekly.date})](research.html). ${status.notes.join(" ")}`];
+  if (shown.length) {
+    lines.push(``, `### What the update lists`);
+    for (const i of shown.slice(0, 10)) {
+      const n = status.itemNotice(i).replace(AI_SUMMARY_LABEL, "Automated summary, not reviewed by a person or a clinician.");
+      lines.push(`- ${i.title}${i.importance ? " — " + i.importance : ""}${n ? ". " + n : ""}`);
+    }
+  }
+  lines.push(``, `### Where to look instead`,
+    `To find new studies yourself, [search the research database](search.html) or browse the [current clinical trials](trials/).`,
+    ``, `### Important limitations`,
     `Tinnitus Evidence ranks the evidence, not what is right for any individual; for a decision about your own care, speak with a clinician.`);
   return lines.join("\n");
 }

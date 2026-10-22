@@ -210,7 +210,7 @@ for (const d of QUIET_REPORT_DATES) for (const text of ADVERSARIAL) {
       else if (it.detail && it.detail.studyType) ok(!n.includes(REVIEW_FLAG_TEXT), `${d}: unflagged item carries no flag`);
     }
     const a = await answerQuestion("What is the newest research this week?", asLatest(rep), modelThrows);
-    ok(a.answer.includes("not reviewed by a person") && /Automated summary: AI-written/.test(a.answer) && !/\bverified\b/i.test(a.answer.replace(/Tinnitus Evidence ranks[\s\S]*/, "")), `${d}: answer calls the items automated, unreviewed summaries, never verified`);
+    ok(a.answer.includes("not reviewed by a person") && /Automated summary, not reviewed by a person/.test(a.answer) && !/\bverified\b/i.test(a.answer.replace(/Tinnitus Evidence ranks[\s\S]*/, "")), `${d}: answer calls the items automated, unreviewed summaries, never verified`);
     const mixed = await answerQuestion("What is new this week about Lenire?", asLatest(rep), async () => "Lenire evidence is limited [T:lenire].");
     ok(mixed.answer.includes("not reviewed by a person"), `${d}: mixed question also states that the summaries were not reviewed`);
   }
