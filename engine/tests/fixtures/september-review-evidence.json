@@ -84,5 +84,28 @@
   "kNumber": "K260413",
   "publishedDecisionDate": "2026-09-04",
   "officialDecisionDate": "2026-08-13"
+ },
+ "quietReports": {
+  "comment": "From engine/audit-log.jsonl: at each of these runs no item was evaluated and the listed number of collected items were waiting unassessed, yet the report published 'No evidence-changing tinnitus research identified in this week's scan'.",
+  "2026-09-04": {
+   "evaluated": 0,
+   "awaitingEvaluation": 142
+  },
+  "2026-09-28": {
+   "evaluated": 0,
+   "awaitingEvaluation": 2
+  },
+  "2026-10-05": {
+   "evaluated": 0,
+   "awaitingEvaluation": 23
+  },
+  "2026-10-12": {
+   "evaluated": 0,
+   "awaitingEvaluation": 43
+  },
+  "2026-10-19": {
+   "evaluated": 0,
+   "awaitingEvaluation": 73
+  }
  }
 }

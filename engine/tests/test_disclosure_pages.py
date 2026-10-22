@@ -79,6 +79,26 @@ class TestPublicStatementsAreAccurate(unittest.TestCase):
         self.assertNotRegex(a, r"we (have )?corrected|corrections (were|have been) (made|published)")      # nothing has been corrected yet: only "we are preparing corrections"
         self.assertIn("we are preparing corrections", a)
 
+    def test_the_clarification_is_exactly_the_approved_text_on_exactly_the_reports_that_made_the_quiet_statement(self):
+        js = read("js/app.js")
+        approved = ("This report previously stated that no evidence-changing tinnitus research was identified. However, automated evaluation was not completed for all collected records. "
+                    "Therefore, this statement should not be interpreted as confirmation that no relevant research was found.")
+        self.assertIn(approved, js)
+        self.assertIn("<strong>Important clarification:</strong>", js)
+        dates = re.findall(r"'(\d{4}-\d\d-\d\d)'", re.search(r"const QUIET = \{\s*dates: \[([^\]]*)\]", js).group(1))
+        quiet = []
+        for r in json.loads(read("data/weekly/index.json"))["reports"]:
+            items = json.loads(read("data/weekly/" + r["file"]))["items"]
+            if any("No evidence-changing" in (i.get("title") or "") for i in items):
+                quiet.append(r["date"])
+        self.assertEqual(sorted(dates), sorted(quiet))                                         # every report that made the statement, and no other
+        self.assertEqual(sorted(dates), ["2026-09-04", "2026-09-28", "2026-10-05", "2026-10-12", "2026-10-19"])
+        evidence = json.loads(read("engine/tests/fixtures/september-review-evidence.json"))["quietReports"]
+        for d in dates:
+            self.assertEqual(evidence[d]["evaluated"], 0, d)                                    # the clarified statement is true of each: evaluation was not completed
+            self.assertGreater(evidence[d]["awaitingEvaluation"], 0, d)
+        self.assertIn("clarification added", js)                                                # visible in the archive list too
+
     def test_editorial_review_is_never_presented_as_clinical_review_or_endorsement(self):
         for page in ("research.html", "about.html"):
             self.assertRegex(self.text(page), r"not a clinical review|does not mean that a clinician")

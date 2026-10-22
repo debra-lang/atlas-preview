@@ -1117,6 +1117,11 @@
   /* ----- research (weekly) ----- */
   PAGES.research = function () {
     const file = qs('week');
+    // Reports that said "No evidence-changing tinnitus research identified" while automated evaluation was not running (clarification added after publication; the report data is not edited).
+    const QUIET = {
+      dates: ['2026-09-04', '2026-09-28', '2026-10-05', '2026-10-12', '2026-10-19'],
+      text: 'This report previously stated that no evidence-changing tinnitus research was identified. However, automated evaluation was not completed for all collected records. Therefore, this statement should not be interpreted as confirmation that no relevant research was found.'
+    };
     // Reports whose items were written by an AI model and published without individual review (7-26 September 2026).
     const AI_UNREVIEWED = {
       dates: ['2026-09-07', '2026-09-14', '2026-09-21', '2026-09-26'],
@@ -1130,6 +1135,7 @@
       const impOrder = ['Potentially Important', 'Interesting but Early', 'Confirms Previous Evidence', 'Negative Result', 'Does Not Change Current Evidence'];
       $('#rep').innerHTML = `
         <h2 style="margin-top:10px">Update of ${fmtDate(rep.date)}</h2>
+        ${QUIET.dates.includes(rep.date) ? `<aside class="card ai-notice clarification" role="note" aria-label="Important clarification" style="margin-bottom:14px;border-left:6px solid var(--c-watch)"><p style="margin:0"><strong>Important clarification:</strong> ${esc(QUIET.text)}</p></aside>` : ''}
         ${unreviewed ? `<aside class="card ai-notice" role="note" aria-label="About these summaries" style="margin-bottom:14px;border-left:4px solid var(--c-watch)"><h3 style="margin-top:0">About these summaries</h3><p class="small" style="margin-bottom:0">${esc(AI_UNREVIEWED.notice)} <a href="about.html#automation">How updates are made →</a></p></aside>` : ''}
         ${Object.keys(impCounts).length ? `<div class="card" style="margin-bottom:14px">
           <div class="k small muted" style="text-transform:uppercase;font-weight:700;letter-spacing:.06em">This edition's ${rep.items.length} updates, by importance</div>
@@ -1145,7 +1151,7 @@
       else fetch('data/weekly/' + file, { cache: 'no-cache' }).then(r => r.json()).then(renderReport);
     } else if (DB.weekly) renderReport(DB.weekly);
     $('#archive').innerHTML = DB.weeklyIndex.reports.map(r =>
-      `<li><a href="research.html?week=${esc(r.file)}">${fmtDate(r.date)}</a> — ${esc(r.title)}</li>`).join('');
+      `<li><a href="research.html?week=${esc(r.file)}">${fmtDate(r.date)}</a> — ${esc(r.title)}${QUIET.dates.includes(r.date) ? ' <span class="small muted">— clarification added</span>' : ''}</li>`).join('');
   };
 
   /* ----- institutions ----- */
