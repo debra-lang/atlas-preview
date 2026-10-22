@@ -26,7 +26,7 @@ async function callModel(system, user, maxTokens) {
   });
   if (!r.ok) throw new Error("API " + r.status);
   const j = await r.json();
-  return j.content.filter(b => b.type === "text").map(b => b.text).join("");
+  return { text: j.content.filter(b => b.type === "text").map(b => b.text).join(""), stopReason: j.stop_reason || null };   // same shape as the shipping worker
 }
 // scanner whitelist incl. registry IDs quoted inside verified record text (matches benchmark fix)
 const validStudyIds = new Set(data.studies.map(s => s.id));

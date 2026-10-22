@@ -16,7 +16,7 @@ That's it. The /ask/ page detects the endpoint and goes live; with an empty endp
 graceful "temporarily unavailable" message with search links.
 
 ## Safeguards baked into the worker
-- Question length ≤ 350 chars · answer ≤ 1400 tokens · retrieval ≤ 12 records · 45 s model timeout
+- Question length ≤ 350 chars · answer ≤ 2500 tokens (an answer cut off at that ceiling, or otherwise incomplete, is never shown: the visitor gets a short "could not be completed" message) · retrieval ≤ 12 records · 45 s model timeout
 - Per-IP best-effort rate limit (10 questions / 10 min per isolate) + Anthropic account spend limits apply
 - CORS restricted to tinnitusevidence.com / www / github.io preview
 - Retrieval-first: "not covered" and crisis-safety answers never call the model at all

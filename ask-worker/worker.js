@@ -12,7 +12,9 @@
  */
 
 const MAX_QUESTION_CHARS = 350;
-const MAX_TOKENS = 1400;
+// Output ceiling per answer (thinking tokens, if the model uses them, count against it). The prompt asks for ~420 words, so a normal answer needs well under this;
+// 1400 was too tight: the 6 Sep 2026 gate run produced an answer cut off mid-citation. A cut-off answer is never shown (see answerIsIncomplete).
+export const MAX_TOKENS = 2500;
 const MODEL = "claude-sonnet-5";
 const RETRIEVAL_LIMIT = 12;
 
@@ -493,6 +495,23 @@ export function validateAnswer(text, pack, data) {
   return { answer: out.trim(), sources, followups, invalidCitations: invalid, citationCount: used.size };
 }
 
+/* ---------------- incomplete-answer guard ---------------- */
+
+export const INCOMPLETE_MESSAGE = "This answer could not be completed. Please try again, or ask a shorter or more specific question. " +
+  "You can also search treatments, studies and trials directly.";
+
+/* Why a model answer must not be shown, or null. stopReason is the API's stop_reason (null when the caller cannot supply it, e.g. a test double).
+ * The stop reason is authoritative. One structural check catches a cut-off even when the reason is unknown (an older caller, a test double): a citation token left
+ * open at the very end ("[S:shore-20") means the text stopped mid-token. (A check for the "Important limitations" section was tried and dropped: it adds nothing the
+ * stop reason does not already catch, and it would withhold a complete answer that is merely formatted differently.) */
+export function answerIsIncomplete(text, stopReason) {
+  if (stopReason != null && stopReason !== "end_turn" && stopReason !== "stop_sequence") return "stop:" + stopReason;
+  const t = String(text || "").trim();
+  if (!t) return "empty";
+  if (/\[(?:T|S|NCT|W):[^\]\s]*$/.test(t)) return "open-citation";
+  return null;
+}
+
 /* ---------------- orchestrator (shared core) ---------------- */
 
 export async function answerQuestion(question, data, callModel) {
@@ -535,7 +554,11 @@ The best-evidenced tinnitus treatments target exactly this burden — cognitive 
       note: "answered from the report data: report not confirmed as complete" };
 
   const { system, user } = buildPrompt(question, pack, r);
-  const raw = await callModel(system, user, MAX_TOKENS);
+  // callModel may return the text alone (older callers) or { text, stopReason }
+  const resp = await callModel(system, user, MAX_TOKENS);
+  const raw = typeof resp === "string" ? resp : String((resp && resp.text) || "");
+  const why = answerIsIncomplete(raw, typeof resp === "string" ? null : (resp && resp.stopReason));
+  if (why) return { status: "incomplete", message: INCOMPLETE_MESSAGE, note: "incomplete model answer withheld: " + why, incompleteReason: why };
   const v = validateAnswer(raw, pack, data);
   if (noticeNeeded) {
     // Backstop for mixed questions: remove any sentence that says nothing was found, then always state the notices.
@@ -630,7 +653,9 @@ export default {
           throw err;
         }
         const j = await resp.json();
-        return (j.content || []).filter(b => b.type === "text").map(b => b.text).join("");
+        // one log line per model call for the Cloudflare log view: no question, no answer text, no key
+        console.log(JSON.stringify({ ask: "model-call", stopReason: j.stop_reason || null, outputTokens: (j.usage && j.usage.output_tokens) || null, maxTokens }));
+        return { text: (j.content || []).filter(b => b.type === "text").map(b => b.text).join(""), stopReason: j.stop_reason || null };
       };
       const result = await answerQuestion(q, data, callModel);
       return new Response(JSON.stringify(result), { headers });

@@ -25,7 +25,7 @@ const data = {
 const KEY = process.env.ANTHROPIC_API_KEY;
 if (!KEY) { console.error("ANTHROPIC_API_KEY not set"); process.exit(2); }
 const MODEL = "claude-sonnet-5";
-let totalIn = 0, totalOut = 0;
+let totalIn = 0, totalOut = 0, maxOut = 0;
 async function callModel(system, user, maxTokens) {
   const r = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -35,7 +35,8 @@ async function callModel(system, user, maxTokens) {
   if (!r.ok) throw new Error("API " + r.status + " " + (await r.text()).slice(0, 200));
   const j = await r.json();
   totalIn += j.usage.input_tokens; totalOut += j.usage.output_tokens;
-  return j.content.filter(b => b.type === "text").map(b => b.text).join("");
+  maxOut = Math.max(maxOut, j.usage.output_tokens);
+  return { text: j.content.filter(b => b.type === "text").map(b => b.text).join(""), stopReason: j.stop_reason || null };   // same shape as the shipping worker
 }
 
 const has = (a, rx) => rx.test(a);
@@ -123,7 +124,7 @@ const report = {
   passed: TESTS.length - hardFails, hardFails,
   totalHallucinations: results.reduce((n, r) => n + r.hallucinations.length, 0),
   totalInvalidCitationsStripped: results.reduce((n, r) => n + r.invalidCitationsStripped, 0),
-  tokens: { input: totalIn, output: totalOut }, approxCostUSD: +cost.toFixed(3),
+  tokens: { input: totalIn, output: totalOut, maxOutputOfOneAnswer: maxOut }, approxCostUSD: +cost.toFixed(3),
   approxCostPerQuestionUSD: +(cost / TESTS.length).toFixed(4),
   verdict: hardFails === 0 ? "PASS — Ask pipeline meets the hard quality gate" : "FAIL — keep feature disabled",
   results,
