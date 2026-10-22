@@ -1,19 +1,21 @@
 {
-  "schedule": "Every Monday 06:00 America/Los_Angeles (timezone-aware — stays 6 AM Pacific through PST/PDT) via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled",
-  "nextScheduled": "2026-10-26 06:00 America/Los_Angeles",
-  "lastAttempt": "2026-10-21T07:48:16",
+  "schedule": "The 1st and 15th of every month, scheduled for 06:00 America/Los_Angeles (timezone-aware — stays 6 AM Pacific through PST/PDT); GitHub often starts scheduled runs hours late, so a run may begin any time that day, via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled",
+  "nextScheduled": "2026-11-01 06:00 America/Los_Angeles",
+  "lastAttempt": "2026-10-22T05:52:53",
   "sources": [
     {
       "name": "PubMed (title/abstract + MeSH)",
       "checked": true,
-      "count": 15,
-      "error": null
+      "count": 42,
+      "error": null,
+      "lookbackDays": 20
     },
     {
       "name": "ClinicalTrials.gov (condition + full-text)",
       "checked": true,
-      "count": 8,
-      "error": null
+      "count": 18,
+      "error": null,
+      "lookbackDays": 20
     },
     {
       "name": "Watched feeds (FDA press, NIH, journals)",
@@ -30,7 +32,7 @@
     {
       "name": "News-wire intelligence (labeled, never evidence)",
       "checked": true,
-      "count": 3,
+      "count": 5,
       "error": null
     },
     {
@@ -40,23 +42,28 @@
       "error": null
     }
   ],
-  "examined": 26,
-  "newItems": 4,
+  "examined": 65,
+  "newItems": 2,
   "published": 0,
-  "rejectedDuplicates": 0,
+  "rejectedDuplicates": 1,
   "rejectedIrrelevant": 0,
   "held": 0,
   "publishedUnderEvaluation": 0,
-  "heldAwaitingEvaluation": 73,
-  "trialStatusUpdates": 1,
+  "heldAwaitingEvaluation": 72,
+  "trialStatusUpdates": 0,
   "errors": [],
   "evaluation": {
     "state": "disabled",
     "reason": "automated evaluation is switched off in engine/eval_settings.json (it runs only when \"enabled\" is true)",
     "disabledSince": "2026-10-21",
-    "awaitingEvaluation": 73,
-    "paused": 4
+    "mode": "staged",
+    "awaitingEvaluation": 72,
+    "paused": 6
   },
-  "paused": 4,
-  "lastSuccess": "2026-10-21T07:48:16"
+  "paused": 6,
+  "staged": {
+    "pending": 0,
+    "new": 0
+  },
+  "lastSuccess": "2026-10-22T05:52:53"
 }

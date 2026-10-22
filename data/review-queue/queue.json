@@ -1,6 +1,30 @@
 {
-  "lastScan": "2026-10-21",
+  "lastScan": "2026-10-22",
   "items": [
+    {
+      "id": "ctgov-NCT07877701-2026-10-21",
+      "kind": "trial",
+      "title": "Acute Nicotine Gum and Auditory Brain Responses in Adults With Chronic Tinnitus",
+      "source": "Xianhui Wang",
+      "date": "2026-10-21",
+      "url": "https://clinicaltrials.gov/study/NCT07877701",
+      "summary": "Trial update — status: NOT_YET_RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    },
+    {
+      "id": "ctgov-NCT07885176-2026-10-21",
+      "kind": "trial",
+      "title": "Deep Repetitive Transcranial Magnetic Stimulation in the Treatment of Tinnitus",
+      "source": "University of Regensburg",
+      "date": "2026-10-21",
+      "url": "https://clinicaltrials.gov/study/NCT07885176",
+      "summary": "Trial update — status: RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    },
     {
       "id": "pubmed-42900640",
       "kind": "study",
@@ -9,18 +33,6 @@
       "date": "2026 Sep 25",
       "url": "https://pubmed.ncbi.nlm.nih.gov/42900640/",
       "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
-      "treatment": "",
-      "proposal": "",
-      "why": ""
-    },
-    {
-      "id": "ctgov-NCT04066348-2026-10-20",
-      "kind": "trial",
-      "title": "TNF-α Treatment of Blast-Induced Tinnitus",
-      "source": "Wayne State University",
-      "date": "2026-10-20",
-      "url": "https://clinicaltrials.gov/study/NCT04066348",
-      "summary": "Trial update — status: ACTIVE_NOT_RECRUITING. Check what changed (status, results, dates).",
       "treatment": "",
       "proposal": "",
       "why": ""
