@@ -32,7 +32,7 @@ ENGINE = Path(__file__).resolve().parent
 sys.path.insert(0, str(ENGINE))
 import weekly_scan  # noqa: E402  (scan_pubmed / scan_ctgov / scan_feeds)
 import evaluate_queue  # noqa: E402
-import grounding, notices, staged_review, topic_holds  # noqa: E402  (deterministic helpers: no network, no AI)
+import grounding, notices, staged_review, topic_holds, triage, listings  # noqa: E402  (deterministic helpers: no network, no AI)
 
 SCHEDULE_TEXT = "The 1st and 15th of every month, scheduled for 06:00 America/Los_Angeles (timezone-aware — stays 6 AM Pacific through PST/PDT); GitHub often starts scheduled runs hours late, so a run may begin any time that day, via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled"
 TRUSTED_DOMAINS = (
@@ -77,6 +77,7 @@ class Cycle:
         self.root, self.simulate, self.skip_eval, self.days = Path(root), simulate, skip_eval, days
         self._staged_override = staged   # None = decide from engine/eval_settings.json ("mode"); tests and simulations may force True/False
         self.staged = {}          # path -> obj (committed only on success)
+        self.auto, self.listing_counts = {"listings": False, "updateHistory": False}, None   # Phase 1 (listings.py): set by phase1() from engine/automation_settings.json
         self.audit = []           # audit-log entries for this run
         self.status = {
             "schedule": SCHEDULE_TEXT, "nextScheduled": next_run_6am(),
@@ -273,7 +274,7 @@ class Cycle:
                                        "direction": "weakens",
                                        "adminSummary": "A " + f["severity"] + " notice exists for a cited paper. "
                                        "Review whether any treatment rating rests on it."},
-                    "resolution": "unresolved — public assessment unchanged"})
+                    "resolution": "handled automatically: a factual notice is shown on the study and the treatments citing it are marked provisional; no rating was changed"})
                 self.status["held"] += 1
             self.log(step="retraction-check", identifier=f["identifier"], severity=f["severity"],
                      studyIds=f["studyIds"], notices=f["notices"], published=False, held=True)
@@ -284,12 +285,37 @@ class Cycle:
                         s["integrityNotice"] = {
                             "severity": f["severity"], "detected": date.today().isoformat(),
                             "text": "A " + f["severity"].replace("-", " ") + " notice has been "
-                            "detected for this publication. The evidence impact is under review; "
-                            "treat this study's results with caution.",
+                            "detected for this publication (source: " + f["source"] + "). Treat this study's results with caution. "
+                            "No rating has been changed because of this notice; treatments that cite this study are marked as having a provisional rating "
+                            "until their next scheduled reassessment.",
                             "notices": f["notices"]}
                         flagged = True
         if flagged:
             self.stage("data/studies.json", data)
+
+    # ---------- Phase 1: automatic listings and update history (no AI; both OFF unless engine/automation_settings.json says exactly true) ----------
+    def phase1(self, queue):
+        self.auto = listings.load_settings(self.load("engine/automation_settings.json", None))
+        self.listing_counts = None
+        if not self.auto["listings"]:
+            return
+        paused = set(self.load("engine/paused_ids.json", {"ids": []}).get("ids", []))
+        holds = topic_holds.load_holds(self.root / "engine" / "topic_holds.json")
+        try:
+            new, counts = listings.process(
+                queue["items"], self.load(listings.LISTINGS_REL, {"items": []}), today=date.today().isoformat(),
+                fetch_context=evaluate_queue.fetch_context, record_meta=lambda i: evaluate_queue.RECORD_META.pop(i, None),
+                excluded=lambda it: it["id"] in paused or bool(topic_holds.match_item(it, holds)), enrich=triage.enrich)
+        except Exception as e:   # a listing problem must never stop the cycle: the queue is untouched on failure
+            self.status["errors"].append(f"listings step failed: {type(e).__name__}: {str(e)[:120]}")
+            return
+        self.listing_counts = counts
+        self.status["listings"] = {**counts, "total": new["count"]}
+        self.stage(listings.LISTINGS_REL, new)
+        self.stage("data/review-queue/queue.json", queue)
+        self.commit()   # the evaluator reads the queue from disk
+        if counts.get("failedVerification"):
+            self.status["errors"].append(f"{counts['failedVerification']} item(s) failed source verification and were not listed (kept in the queue)")
 
     # ---------- verification gates (deterministic) ----------
     def published_register(self):
@@ -582,6 +608,7 @@ class Cycle:
         self.commit()
 
         trial_items = self.refresh_trials(fixture=trial_fixture if self.simulate else None)
+        self.phase1(queue)
 
         evaluation = {"state": "not-run"}   # recorded in engine-status.json so a failed evaluation can never look like a successful one
         # MASTER SWITCH (fail-closed): the scheduled cycle sends items to the AI evaluator ONLY when engine/eval_settings.json says "enabled": true.
@@ -723,7 +750,14 @@ class Cycle:
             # NOT a quiet week: items were scanned but have not been read (evaluation paused/unavailable, or backlog). Never describe that as "nothing found".
             # Shown even when other items (e.g. registry status changes) publish, so a report can never hide that evaluation is not running.
             paused_txt = (f" {self.status.get('paused')} further item(s) are intentionally paused for owner review." if self.status.get("paused") else "")
-            if ev_state == "disabled":
+            if ev_state == "disabled" and self.listing_counts is not None:
+                n_listed = self.listing_counts.get("listed", 0)
+                notice_title = (f"{n_listed} new item(s) listed from this scan; automated AI evaluation is paused" if n_listed
+                                else "No new items were listed from this scan; automated AI evaluation is paused")
+                notice_why = ("The scan checked the sources below. New items that could be verified against their source records appear in the research listings on this page: "
+                              "title, journal, date and link only. No AI has read them and none has been assessed for what it means for the evidence ratings, which are unchanged. "
+                              "This is not a finding that nothing important was published.") + paused_txt
+            elif ev_state == "disabled":
                 notice_title = (f"Automated evaluation is paused: {awaiting} new item(s) have not been evaluated" if awaiting else "Automated evaluation is currently paused")
                 notice_why = ("Automated evaluation of new research is currently paused while its safeguards are being tested. The scan still checked the sources below, but any items it collected have not been read or assessed. "
                               "This is not a finding that nothing important was published. The evidence assessment shown on this site is unchanged until the items are reviewed.") + paused_txt
@@ -780,6 +814,13 @@ class Cycle:
         if touched:
             self.stage("data/treatments.json", treatments)
 
+        if getattr(self, "auto", {}).get("updateHistory"):
+            cost = ((self.status.get("evaluation") or {}).get("usage") or {}).get("estimatedCostUSD", 0.0)
+            total = (self.status.get("listings") or {}).get("total")
+            if total is None:
+                total = len(self.load(listings.LISTINGS_REL, {"items": []}).get("items", []))
+            self.stage(listings.HISTORY_REL, listings.add_history(self.load(listings.HISTORY_REL, {"entries": []}),
+                                                                  listings.history_entry(today, self.status, self.listing_counts or {}, total, cost)))
         return self.status  # lastSuccess is set by main() only AFTER commit() succeeds
 
 

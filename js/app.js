@@ -120,6 +120,52 @@
     });
   }
 
+  /* ---------------- evidence-status notices (same words as tools/evidence_status.py; tests/test_evidence_status.py keeps the two in step) ----------------
+     provisional: a cited study has a severe integrity notice (the rating is NOT changed) · pending: records listed after the treatment's evidence date whose title contains
+     words linked to it (keyword match, not read, not assessed) · stale: the assessment is more than a year old. None of them is an assessment. */
+  let LISTINGS = null;
+  async function loadListings() {
+    if (LISTINGS) return LISTINGS;
+    try {
+      if (window.__TA_DATA__ && window.__TA_DATA__.listings) LISTINGS = window.__TA_DATA__.listings;
+      else {
+        const r = await fetch('data/listings.json', { cache: 'no-cache' });
+        if (!r.ok) return null;
+        LISTINGS = await r.json();
+      }
+    } catch (e) { return null; }
+    return LISTINGS;
+  }
+  const SEVERE_NOTICES = ['retracted', 'partially-retracted', 'expression-of-concern'];
+  const longDate = iso => { const d = new Date(String(iso || '').slice(0, 10) + 'T12:00:00'); return isNaN(d) ? String(iso || '') : d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); };
+  function evidenceStatusHtml(t) {
+    let out = '';
+    (t.studies || []).forEach(id => {
+      const s = DB.sById[id], n = s && s.integrityNotice;
+      if (s && n && SEVERE_NOTICES.includes(n.severity)) {
+        out += `<div class="notice" role="note" aria-label="Rating provisional"><strong>Rating provisional.</strong> A study cited for this treatment has a ${esc(n.severity.replace(/-/g, ' '))} notice: <a href="research/${esc(s.id)}/">${esc(s.title)}</a>. Tinnitus Evidence has not changed this rating because of the notice. It stays as published and will be reconsidered at the next scheduled reassessment.</div>`;
+      }
+    });
+    const d = new Date(String(t.evidenceThrough || '').slice(0, 10) + 'T12:00:00');
+    if (!isNaN(d) && (Date.now() - d.getTime()) / 86400000 > 365) {
+      out += `<div class="notice" role="note" aria-label="Assessment may be out of date"><strong>This assessment may be out of date.</strong> It includes evidence through ${esc(longDate(t.evidenceThrough))}. Newer research may exist that it does not reflect.</div>`;
+    }
+    return out;
+  }
+  function attachPendingEvidence(root, t) {
+    loadListings().then(L => {
+      const host = root.querySelector('#pending-evidence');
+      const thr = String(t.evidenceThrough || '');
+      if (!L || !host || !thr) return;
+      const rows = (L.items || []).filter(e => (e.treatments || []).includes(t.id) && String(e.listedOn || '') > thr)
+        .sort((a, b) => (b.listedOn + b.key).localeCompare(a.listedOn + a.key));
+      if (!rows.length) return;
+      const li = rows.slice(0, 5).map(e => `<li><a href="${esc(e.url)}" rel="noopener" target="_blank">${esc(e.title)}</a> <span class="muted">— ${esc(e.source || '')}, ${esc(e.date || '')}</span></li>`).join('');
+      const more = rows.length > 5 ? ` <span class="small">and ${rows.length - 5} more are on the <a href="research.html#listings">research page</a>.</span>` : '';
+      host.innerHTML = `<div class="notice" role="note" aria-label="Newer records not yet assessed"><strong>Newer records not yet assessed.</strong> This treatment’s evidence was last assessed through ${esc(longDate(t.evidenceThrough))}. Since then ${rows.length} record(s) with words linked to this treatment in the title have been listed. Tinnitus Evidence has not read or assessed them, and the rating shown is unchanged. Records are matched by keyword, so some may not concern this treatment.<ul class="small">${li}</ul>${more}</div>`;
+    });
+  }
+
   /* ---------------- watchlist (v2: treatments + trials + institutions) ---------------- */
   const WL_KEY = 'ta:watchlist', SEEN_KEY = 'ta:lastSeen';
   function wlGet() {
@@ -820,6 +866,7 @@
       ${t.underReevaluation ? `<div class="notice" style="margin:10px 0">🔎 <strong>Evidence rating under re-evaluation${t.underReevaluation.since ? ' since ' + fmtDate(t.underReevaluation.since) : ''}.</strong>
         ${esc(t.underReevaluation.reason || '')} The rating shown is the current published assessment; it changes only when the review completes.</div>` : ''}
       ${prevNote}
+      ${evidenceStatusHtml(t)}<div id="pending-evidence"></div>
       ${profileRelevance(t)}
       <nav class="toc" aria-label="On this page">${toc.map(([id, label]) => `<a href="#${id}">${label}</a>`).join('')}</nav>
       <div class="tpage-actions">
@@ -914,6 +961,7 @@
       $('span:last-child', this).textContent = on ? 'On your watchlist' : 'Add to watchlist';
     });
     attachClaimChecks(root, t.id);
+    attachPendingEvidence(root, t);
   };
 
   function plainBlock(t) {
@@ -1163,6 +1211,35 @@
       }).join('');
     };
     drawArchive();
+    /* Phase 1 listings and update history: shown only when data/listings.json / data/update-history.json exist (the sections are hidden otherwise). Bibliographic facts only. */
+    const jsonOrNull = f => fetch('data/' + f, { cache: 'no-cache' }).then(r => (r.ok ? r.json() : null), () => null);
+    const listingLi = e => `<li class="listing"><a href="${esc(e.url)}" rel="noopener" target="_blank">${esc(e.title)}</a>
+      <div class="small muted">${esc(e.source || '')} · ${esc(e.date || '')} · ${esc((e.articleTypes || []).join(', '))} · ${esc(e.key)}${e.status ? ' · registry status: ' + esc(String(e.status).replace(/_/g, ' ').toLowerCase()) : ''}
+      ${(e.treatments || []).length ? ' · title mentions: ' + e.treatments.map(id => (DB.tById[id] ? '<a href="treatment.html?id=' + esc(id) + '">' + esc(DB.tById[id].name) + '</a>' : esc(id))).join(', ') : ''}
+      · checked against the source record on ${esc(fmtDate(e.verification && e.verification.checkedOn || e.listedOn))}</div></li>`;
+    const drawListings = () => Promise.all([jsonOrNull('listings.json'), jsonOrNull('update-history.json')]).then(([L, H]) => {
+      const box = $('#listings');
+      if (L && (L.items || []).length && box) {
+        const main = L.items.filter(e => (e.tier || 1) <= 2), other = L.items.filter(e => (e.tier || 1) > 2);       // tier 3 = tinnitus is not in the title
+        const first = main.slice(0, 40), rest = main.slice(40);
+        box.hidden = false;
+        box.innerHTML = `<h2>Newly listed research</h2>
+          <p class="small muted">The automated scan found these records and checked each one against its PubMed or ClinicalTrials.gov record: the identifier and title match, and it is not a correction, retraction or expression-of-concern notice. A listing gives bibliographic facts only. Tinnitus Evidence has not read or assessed these records, and no evidence rating has changed because of them. <a href="about.html#automation">How this works →</a></p>
+          <ul class="listing-list" style="list-style:none;padding:0;display:grid;gap:10px">${first.map(listingLi).join('')}</ul>
+          ${rest.length ? `<details class="rdetail"><summary>Earlier listings (${rest.length})</summary><ul class="listing-list" style="list-style:none;padding:0;display:grid;gap:10px">${rest.map(listingLi).join('')}</ul></details>` : ''}
+          ${other.length ? `<details class="rdetail"><summary>Other records that mention tinnitus (${other.length})</summary><p class="small muted">Tinnitus is not in the title of these records, so they are less likely to be mainly about tinnitus.</p><ul class="listing-list" style="list-style:none;padding:0;display:grid;gap:10px">${other.map(listingLi).join('')}</ul></details>` : ''}`;
+      }
+      const hbox = $('#update-history');
+      if (H && (H.entries || []).length && hbox) {
+        hbox.hidden = false;
+        hbox.innerHTML = `<details class="rdetail"><summary>Update history (${H.entries.length} scheduled runs)</summary>
+          <div style="overflow-x:auto"><table class="small"><thead><tr><th>Run</th><th>Scanned</th><th>New</th><th>Listed</th><th>Passing mentions</th><th>Waiting</th><th>Retraction notices found</th><th>AI evaluation</th><th>Est. AI cost</th></tr></thead><tbody>
+          ${H.entries.map(h => `<tr><td>${esc(fmtDate(h.date))}</td><td>${h.scanned}</td><td>${h.newItems}</td><td>${h.listed}</td><td>${h.screenedOut}</td><td>${h.waitingForVerification}</td><td>${h.retractionNoticesFound == null ? 'not due' : h.retractionNoticesFound}</td><td>${esc(h.aiEvaluation)}${h.aiAttempted ? ' (' + h.aiAttempted + ' read)' : ''}</td><td>$${Number(h.estimatedCostUSD || 0).toFixed(2)}</td></tr>`).join('')}
+          </tbody></table></div>
+          <p class="small muted">Scanned: records returned by the sources. New: not seen before. Listed: verified and added to the listings. Passing mentions: tinnitus is only mentioned in passing, so the record is not listed. Waiting: the source record could not be checked yet; it is tried again at the next run. Retraction notices found: by the monthly check of every cited study (not due in most runs).</p></details>`;
+      }
+    });
+    drawListings();
     loadCorrections().then(() => {
       if (file) {
         if (SINGLE && DB.weeklyAll) renderReport(DB.weeklyAll[file] || DB.weekly);

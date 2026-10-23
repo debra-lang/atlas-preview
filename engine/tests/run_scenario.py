@@ -39,6 +39,8 @@ _idx = json.loads((tmp / "data/weekly/index.json").read_text(encoding="utf-8"))
 _idx["reports"] = [r for r in _idx["reports"] if r["file"] != _today_rep.name]
 (tmp / "data/weekly/index.json").write_text(json.dumps(_idx), encoding="utf-8")
 W("engine/eval_settings.json", SPEC.get("settings",{"enabled": True, "mode": "staged", "limitPerRun": 60}))
+if "automation" in SPEC:
+    W("engine/automation_settings.json", SPEC["automation"])      # Phase 1 switches (listings, updateHistory); absent = file absent = everything off
 if "paused" in SPEC:
     W("engine/paused_ids.json", {"ids": SPEC["paused"]})
 else:
@@ -130,7 +132,7 @@ def sim_record(item):
                                                     f"Results: the mean score fell by 6.5 points (95% CI 2.1 to 10.9; p=0.004).\nRecord id {iid}", iid.split("-", 1)[1])[0]
     if iid.startswith("ctgov-"):
         return ("SOURCE: simulated\nRECORD COMPLETENESS: COMPLETE - nothing was left out\nCRITICAL SECTIONS MISSING: no\n"
-                f"REGISTRY FIELD hasResults: FALSE (no results posted)\n---\nNCT ID: {iid.split('-')[1]}\nRecord id {iid} {item.get('date', '')}")
+                f"REGISTRY FIELD hasResults: FALSE (no results posted)\n---\nTitle: {item.get('title', '')}\nNCT ID: {iid.split('-')[1]}\nRecord id {iid} {item.get('date', '')}")
     return registry_record.unavailable_record("headline and metadata only (simulated)")[0]
 
 
@@ -221,6 +223,8 @@ def run_once(i, run):
         "knownIds": sorted(J("engine/known_ids.json", [])),
         "stagedPlainExists": (tmp / "data/review-queue/staged.json").exists(),
         "ledger": J("engine/usage-ledger.json", {"runs": []}),
+        "listings": J("data/listings.json", None),
+        "history": J("data/update-history.json", None),
         "triageEvidence": J("engine/triage-evidence.json"),
     }
 

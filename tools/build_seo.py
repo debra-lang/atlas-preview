@@ -50,6 +50,13 @@ for t in treatments:
 
 E = html.escape
 
+# Evidence-status notices on treatment pages (provisional rating after a retraction notice; newer listed records not yet assessed; assessment older than a year).
+# Without data/listings.json (listings off) only the provisional and out-of-date notices can appear, and only when their conditions hold today.
+sys.path.insert(0, str(ROOT / "tools"))
+import evidence_status
+_LP = ROOT / "data" / "listings.json"
+LISTINGS = json.loads(_LP.read_text(encoding="utf-8")) if _LP.exists() else None
+
 # Claims: Fact vs. Evidence (data/claims.json is authored content, never produced by the research pipeline)
 _CLP = ROOT / "data" / "claims.json"
 CL = json.loads(_CLP.read_text(encoding="utf-8")) if _CLP.exists() else None
@@ -247,6 +254,7 @@ for t in treatments:
         warn += f'<div class="notice">🎯 <strong>Applies only to a specific diagnosed tinnitus population.</strong> {E(t.get("narrowNote", ""))}</div>'
     if t.get("underReevaluation"):
         warn += f'<div class="notice">🔎 <strong>Evidence rating under re-evaluation.</strong> {E(t["underReevaluation"].get("reason", ""))}</div>'
+    warn += evidence_status.status_html(t, S, LISTINGS)
     # Section order = the site-wide treatment-page hierarchy: what it is → evidence → loudness →
     # distress → strength → key studies → limitations → replication → safety / regulatory /
     # availability → related → methodology & citations. Wording unchanged.
