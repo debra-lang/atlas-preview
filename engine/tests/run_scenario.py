@@ -39,6 +39,7 @@ _idx = json.loads((tmp / "data/weekly/index.json").read_text(encoding="utf-8"))
 _idx["reports"] = [r for r in _idx["reports"] if r["file"] != _today_rep.name]
 (tmp / "data/weekly/index.json").write_text(json.dumps(_idx), encoding="utf-8")
 W("engine/eval_settings.json", SPEC.get("settings",{"enabled": True, "mode": "staged", "limitPerRun": 60}))
+(tmp / "engine" / "automation_settings.json").unlink(missing_ok=True)      # a scenario starts with every Phase 1 switch off, whatever the repository ships; the spec turns them on
 if "automation" in SPEC:
     W("engine/automation_settings.json", SPEC["automation"])      # Phase 1 switches (listings, updateHistory); absent = file absent = everything off
 if "paused" in SPEC:
