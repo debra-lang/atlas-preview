@@ -11,8 +11,8 @@ def text(rel):
 
 
 W1 = ("Who prepares this site.</strong> Tinnitus Evidence is an independent educational resource developed by its owner using published scientific research and automated tools, "
-      "including AI. It is not affiliated with or endorsed by a medical institution. Its content, including treatment assessments and Ask responses, has not undergone independent "
-      "clinical review. Automated source checks verify that research records match their original sources; they do not establish whether a study's conclusions are valid or whether "
+      "including AI. It is not affiliated with or endorsed by a medical institution. It has no academic affiliation or nonprofit status. Its content, including treatment assessments and "
+      "Ask responses, has not been reviewed by a physician or other qualified healthcare professional. Automated source checks verify that research records match their original sources; they do not establish whether a study's conclusions are valid or whether "
       "a treatment is effective.")
 
 
