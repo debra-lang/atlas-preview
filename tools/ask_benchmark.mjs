@@ -10,6 +10,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { answerQuestion } from "../ask-worker/worker.js";
+import { affirmativeCureClaims } from "./ask_checks.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const load = f => JSON.parse(readFileSync(join(ROOT, "data", f), "utf8"));
@@ -42,7 +43,9 @@ async function callModel(system, user, maxTokens) {
 const has = (a, rx) => rx.test(a);
 const TESTS = [
   { q: "What treatments have the strongest evidence for tinnitus?",
-    check: a => has(a, /CBT|cognitive/i) && !has(a, /\bcure[sd]?\b/i) },
+    // 2026-10-23 calibration: the word "cure" may not simply be banned, because the correct answer says "No treatment in this database is shown to cure tinnitus" (a ban failed
+    // the 23 Oct gate on exactly that sentence). Only an AFFIRMATIVE cure claim fails; see tools/ask_checks.mjs (local, parity-based, not bypassable by "there is no doubt that X cures").
+    check: a => has(a, /CBT|cognitive/i) && affirmativeCureClaims(a).length === 0 },
   { q: "Does Lenire reduce tinnitus loudness?",
     check: a => has(a, /distress|THI|severity/i) && has(a, /no .{0,40}(loudness|psychoacoustic)|not .{0,60}(quieter|loudness)|loudness.{0,80}(none|not shown|no published)/i) },
   { q: "Compare Lenire and Shore.",
