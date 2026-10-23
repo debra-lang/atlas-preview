@@ -157,7 +157,7 @@
       const host = root.querySelector('#pending-evidence');
       const thr = String(t.evidenceThrough || '');
       if (!L || !host || !thr) return;
-      const rows = (L.items || []).filter(e => (e.treatments || []).includes(t.id) && String(e.listedOn || '') > thr)
+      const rows = (L.items || []).filter(e => (e.treatments || []).includes(t.id) && String(e.listedOn || '') > thr && (e.tier || 2) <= 2)
         .sort((a, b) => (b.listedOn + b.key).localeCompare(a.listedOn + a.key));
       if (!rows.length) return;
       const li = rows.slice(0, 5).map(e => `<li><a href="${esc(e.url)}" rel="noopener" target="_blank">${esc(e.title)}</a> <span class="muted">— ${esc(e.source || '')}, ${esc(e.date || '')}</span></li>`).join('');

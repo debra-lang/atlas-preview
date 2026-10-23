@@ -30,6 +30,10 @@ class Rules(unittest.TestCase):
         self.assertEqual([e["key"] for e in ES.pending(T, L)], ["PMID 1", "PMID 3"])
         self.assertEqual(ES.pending(T, None), []); self.assertEqual(ES.pending({**T, "evidenceThrough": ""}, L), [])
 
+    def test_only_clearly_tinnitus_records_count_as_newer_evidence(self):
+        L = {"items": [{**entry(1, "2026-10-30"), "tier": 2}, {**entry(2, "2026-10-30"), "tier": 3}, entry(3, "2026-10-30")]}      # no tier on an older entry counts as 2
+        self.assertEqual([e["key"] for e in ES.pending(T, L)], ["PMID 3", "PMID 1"])
+
     def test_staleness_is_more_than_a_year(self):
         self.assertFalse(ES.is_stale(T, date(2027, 9, 4)));  self.assertTrue(ES.is_stale(T, date(2027, 9, 5)))
         self.assertFalse(ES.is_stale({"evidenceThrough": "not a date"}, date(2030, 1, 1)))
@@ -69,6 +73,7 @@ class JsStaysInStep(unittest.TestCase):
         self.assertIn("slice(0, 5)", js)                        # same number of records shown as MAX_SHOWN
         self.assertEqual(ES.MAX_SHOWN, 5)
         self.assertIn("research.html#listings", js)
+        self.assertIn("(e.tier || 2) <= 2", js)                  # same relevance filter as pending()
 
 
 class StaticBuild(unittest.TestCase):

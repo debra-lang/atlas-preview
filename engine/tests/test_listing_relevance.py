@@ -46,6 +46,12 @@ class RegistryRule(unittest.TestCase):
         self.assertEqual(listings.relevance(self.IT, registry(extra="PRIMARY OUTCOME 1: Tinnitus severity | time frame: 12 weeks\n"))[:2], (True, 2))
         self.assertEqual(listings.relevance({"id": "ctgov-NCT1", "title": "Tinnitus device trial"}, registry())[:2], (True, 2))
 
+    def test_only_the_title_of_a_primary_outcome_counts_not_its_description(self):
+        it = {"id": "ctgov-NCT1-2026-10-20", "title": "Headache after delivery"}
+        long_desc = "PRIMARY OUTCOME 1: Incidence of post-dural puncture headache | time frame: 7 days | headache with neck stiffness, nausea, photophobia and tinnitus\n"
+        self.assertFalse(listings.relevance(it, registry(conditions="Headache", extra=long_desc))[0])
+        self.assertEqual(listings.relevance(it, registry(conditions="Headache", extra="PRIMARY OUTCOME 1: Tinnitus | time frame: baseline to week 12\n"))[:2], (True, 2))
+
     def test_five_mentions_is_tier_3_and_fewer_are_passing_mentions(self):
         self.assertEqual(listings.relevance(self.IT, registry(extra="tinnitus tinnitus tinnitus tinnitus tinnitus\n"))[:2], (True, 3))
         for extra in ("Exclusion: toxicity (perioral numbness, tinnitus, seizure)\n", "SECONDARY OUTCOME 3: Tinnitus Handicap Inventory\n", "tinnitus tinnitus tinnitus tinnitus\n", ""):

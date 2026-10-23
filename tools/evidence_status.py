@@ -48,7 +48,8 @@ def provisional(t, studies_by_id):
 
 def pending(t, listings):
     thr = str(t.get("evidenceThrough") or "")
-    rows = [e for e in (listings or {}).get("items", []) if t.get("id") in (e.get("treatments") or []) and thr and str(e.get("listedOn", "")) > thr]
+    # only records that are clearly about tinnitus (listing tier 2: tinnitus in the title, a MeSH heading, a registry title/condition/primary outcome) count as newer evidence for a treatment
+    rows = [e for e in (listings or {}).get("items", []) if t.get("id") in (e.get("treatments") or []) and thr and str(e.get("listedOn", "")) > thr and (e.get("tier") or 2) <= 2]
     return sorted(rows, key=lambda e: (e["listedOn"], e["key"]), reverse=True)
 
 

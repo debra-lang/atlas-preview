@@ -96,7 +96,7 @@ def relevance(item, record_text=None):
         return False, 0, "tinnitus is a passing mention (abstract mentions: %s, not a MeSH heading, not in the title)" % f.get("tinAbs", "?")
     t = record_text or ""
     head = " ".join(_field(t, n) for n in ("Title", "Official title", "Conditions", "Keywords"))
-    primary = " ".join(m.group(0) for m in re.finditer(r"^PRIMARY OUTCOME.*$", t, re.M))
+    primary = " ".join(m.group(1) for m in re.finditer(r"^PRIMARY OUTCOME[^:\n]*:\s*([^|\n]*)", t, re.M))    # the measure's TITLE only (before the first " | "), not its long description
     if re.search("tinnit", head + " " + primary, re.I):
         return True, 2, "tinnitus in the title, conditions, keywords or a primary outcome"
     n = len(re.findall("tinnit", t, re.I))
