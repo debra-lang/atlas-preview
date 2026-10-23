@@ -260,12 +260,12 @@ class NearMiss(unittest.TestCase):
 
 
 class Health(unittest.TestCase):
-    def run_health(self, ev, errors=()):
+    def run_health(self, ev, errors=(), extra=None):
         d = Path(tempfile.mkdtemp(prefix="te-health-"))
         try:
             (d / "engine").mkdir(); (d / "data").mkdir()
             shutil.copy(ENGINE / "check_evaluation_health.py", d / "engine" / "check_evaluation_health.py")
-            (d / "data" / "engine-status.json").write_text(json.dumps({"evaluation": {"state": "ok", "attempted": 5, "failed": 0, "awaitingEvaluation": 0, **ev}, "errors": list(errors)}), encoding="utf-8")
+            (d / "data" / "engine-status.json").write_text(json.dumps({"evaluation": {"state": "ok", "attempted": 5, "failed": 0, "awaitingEvaluation": 0, **ev}, "errors": list(errors), **(extra or {})}), encoding="utf-8")
             p = subprocess.run([sys.executable, str(d / "engine" / "check_evaluation_health.py")], capture_output=True, text=True, encoding="utf-8", errors="replace")
             return p.returncode, p.stdout + p.stderr
         finally:
@@ -296,6 +296,12 @@ class Health(unittest.TestCase):
         self.assertEqual(rc, 0); self.assertIn("63 % of the monthly AI budget", out.replace("62 %", "63 %"))
         rc, out = self.run_health({"budget": {"monthlyUSD": 20, "spentUSD": 20.1, "fraction": 1.005}})
         self.assertEqual(rc, 1); self.assertIn("budget is used up", out)
+
+    def test_evaluation_switched_off_for_long_is_red_unless_automatic_listings_are_running(self):
+        off = {"state": "disabled", "disabledSince": "2026-01-01"}
+        rc, out = self.run_health(off); self.assertEqual(rc, 1); self.assertIn("switched off for", out)                       # forgotten: red, as before
+        rc, out = self.run_health(off, extra={"listings": {"listed": 3, "total": 53}}); self.assertEqual(rc, 0); self.assertIn("SWITCHED OFF", out)   # deliberate steady state: a warning
+        rc, out = self.run_health({"state": "disabled", "disabledSince": "2999-01-01"}); self.assertEqual(rc, 0)
 
     def test_a_budget_stop_is_red_through_the_failed_state(self):
         rc, out = self.run_health({"state": "failed", "fatal": "budget", "reason": "monthly evaluation budget reached ($20.00 of $20.00 estimated)"})

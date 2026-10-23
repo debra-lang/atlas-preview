@@ -27,7 +27,7 @@ if state == "disabled":
     except ValueError:
         days = None
     warnings.append(f"AI evaluation is SWITCHED OFF (engine/eval_settings.json, since {since or 'unknown'}); {awaiting} item(s) are waiting. Scanning continues.")
-    if days is not None and days > MAX_DISABLED_DAYS:
+    if days is not None and days > MAX_DISABLED_DAYS and status.get("listings") is None:   # with automatic listings running, "AI off" is a deliberate steady state, not something forgotten
         problems.append(f"AI evaluation has been switched off for {days} days (limit {MAX_DISABLED_DAYS}); re-enable it or extend the limit deliberately.")
     awaiting = 0   # backlog is expected while disabled
 elif state in ("failed", "blocked-gate"):
