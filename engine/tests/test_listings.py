@@ -49,9 +49,9 @@ def run(items, records, existing=None, excluded=lambda it: False, enrich=None):
 
 class Settings(unittest.TestCase):
     def test_only_the_json_value_true_turns_a_switch_on(self):
-        self.assertEqual(listings.load_settings({"listings": True, "updateHistory": True}), {"listings": True, "updateHistory": True})
+        self.assertEqual(listings.load_settings({"listings": True, "updateHistory": True}), {"listings": True, "updateHistory": True, "includePaused": []})
         for bad in (None, {}, [], "true", {"listings": "true"}, {"listings": 1}, {"listings": "yes"}, {"updateHistory": 1}):
-            self.assertEqual(listings.load_settings(bad), {"listings": False, "updateHistory": False}, bad)
+            self.assertEqual(listings.load_settings(bad), {"listings": False, "updateHistory": False, "includePaused": []}, bad)
 
 
 class Verify(unittest.TestCase):

@@ -33,9 +33,12 @@ HIGH_IMPACT = re.compile(r"randomi[sz]ed controlled trial|meta-analysis|systemat
 
 
 def load_settings(settings):
-    """Exactly-true semantics, like every other switch in this project."""
+    """Exactly-true semantics, like every other switch in this project. "listingsIncludePaused": ids the owner has paused (kept out of AI evaluation and publication) that may nevertheless
+    be LISTED as bibliographic facts; the pause itself is untouched. Only ids named here are affected (owner decision 23 Oct 2026 for the three 2026 AAO-HNSF guideline records)."""
     s = settings if isinstance(settings, dict) else {}
-    return {"listings": s.get("listings") is True, "updateHistory": s.get("updateHistory") is True}
+    ids = s.get("listingsIncludePaused")
+    return {"listings": s.get("listings") is True, "updateHistory": s.get("updateHistory") is True,
+            "includePaused": sorted({i for i in ids if isinstance(i, str) and i.startswith("pubmed-")}) if isinstance(ids, list) else []}
 
 
 def norm(text):
@@ -70,6 +73,36 @@ def tags_for(title):
     if "shore-bimodal" in found and not re.search(r"\bShore\b|somatosensory stimulation", title or "", re.I):
         found.discard("shore-bimodal")
     return sorted(found)
+
+
+def _field(text, name):
+    m = re.search(rf"^{name}:(.*)$", text or "", re.M | re.I)
+    return m.group(1) if m else ""
+
+
+def relevance(item, record_text=None):
+    """Is the record about tinnitus, or only mentioning it? Returns (listed?, tier, reason); tier 2 = clearly about tinnitus, tier 3 = listed but less clearly ("Other records").
+    PubMed (decided before any fetch, from the scan-time facts): tinnitus in the title, or a MeSH heading -> tier 2; mentioned 3 or more times in the abstract -> tier 3; otherwise a passing mention.
+    Registry (decided on the fetched record): tinnitus in the title, official title, conditions, keywords or a PRIMARY outcome -> tier 2; 5 or more mentions in the record -> tier 3; otherwise a passing mention
+    (typically an adverse-effect list, an inclusion criterion or a secondary questionnaire). A tracked treatment in the title does NOT make a record relevant (the triage tiers use it to order work, not to judge relevance)."""
+    if re.search("tinnit", item.get("title", ""), re.I):
+        return True, 2, "tinnitus in the title"
+    if item.get("id", "").startswith("pubmed-"):
+        f = item.get("triage") if isinstance(item.get("triage"), dict) else {}
+        if f.get("tinMesh"):
+            return True, 2, "tinnitus is a MeSH heading"
+        if (f.get("tinAbs") or 0) >= 3:
+            return True, 3, "tinnitus is mentioned %d times in the abstract" % f["tinAbs"]
+        return False, 0, "tinnitus is a passing mention (abstract mentions: %s, not a MeSH heading, not in the title)" % f.get("tinAbs", "?")
+    t = record_text or ""
+    head = " ".join(_field(t, n) for n in ("Title", "Official title", "Conditions", "Keywords"))
+    primary = " ".join(m.group(0) for m in re.finditer(r"^PRIMARY OUTCOME.*$", t, re.M))
+    if re.search("tinnit", head + " " + primary, re.I):
+        return True, 2, "tinnitus in the title, conditions, keywords or a primary outcome"
+    n = len(re.findall("tinnit", t, re.I))
+    if n >= 5:
+        return True, 3, "tinnitus is mentioned %d times in the registry record" % n
+    return False, 0, "tinnitus is a passing mention in the registry record (%d mention(s), not in the title, conditions, keywords or a primary outcome)" % n
 
 
 def verify(item, record_text, meta):
@@ -143,10 +176,13 @@ def process(items, existing, *, today, fetch_context, record_meta, excluded=lamb
             else:
                 counts["deferred"] += 1
             continue
-        if c["lane"] == "catalogue":
-            it["listed"] = {"on": today, "outcome": "screened-out", "reason": "tinnitus is a passing mention (rule C1)"}
-            counts["screenedOut"] += 1
-            continue
+        tier = 0
+        if it["id"].startswith("pubmed-"):
+            ok, tier, why = relevance(it)
+            if not ok:
+                it["listed"] = {"on": today, "outcome": "screened-out", "reason": why}
+                counts["screenedOut"] += 1
+                continue
         if handled >= MAX_NEW_PER_RUN:
             counts["waiting"] += 1
             continue
@@ -170,7 +206,13 @@ def process(items, existing, *, today, fetch_context, record_meta, excluded=lamb
             it["listed"] = {"on": today, "outcome": "failed-verification", "checks": {k: v for k, v in chk.items() if k != "ok"}}
             counts["failedVerification"] += 1
             continue
-        e = entry_for(it, c["tier"], chk, meta, today)
+        if not it["id"].startswith("pubmed-"):
+            ok, tier, why = relevance(it, text)
+            if not ok:
+                it["listed"] = {"on": today, "outcome": "screened-out", "reason": why}
+                counts["screenedOut"] += 1
+                continue
+        e = entry_for(it, tier, chk, meta, today)
         old = by_key.get(e["key"])
         if old:                            # a registry record already listed: refresh date and status, keep the first listing date
             e["listedOn"] = old["listedOn"]

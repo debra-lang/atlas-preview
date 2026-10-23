@@ -305,7 +305,7 @@ class Cycle:
         self.listing_counts = None
         if not self.auto["listings"]:
             return
-        paused = set(self.load("engine/paused_ids.json", {"ids": []}).get("ids", []))
+        paused = set(self.load("engine/paused_ids.json", {"ids": []}).get("ids", [])) - set(self.auto["includePaused"])   # listed as bibliographic facts only; still paused for everything else
         holds = topic_holds.load_holds(self.root / "engine" / "topic_holds.json")
         try:
             new, counts = listings.process(
