@@ -106,7 +106,15 @@ RULES = """You evaluate new tinnitus research for an evidence platform. Rules:
 PRICES = {"claude-opus-5": (5.0, 25.0), "claude-opus-5-5": (4.0, 20.0), "claude-sonnet-5-5": (2.0, 10.0), "claude-haiku-5-5": (0.10, 0.50)}   # USD per million tokens (list prices, checked 21 Oct 2026)
 
 
-MAX_OUTPUT_TOKENS = 4000   # per-answer ceiling; adaptive-thinking tokens count against it. The model never sees this number, so raising it changes only answers that would have been cut off.
+MAX_OUTPUT_TOKENS = 8000   # per-answer ceiling; adaptive-thinking tokens count against it. The model never sees this number, so raising it changes only answers that would have been cut off.
+                           # Was 4,000 until 23 Oct 2026 (1 of 18 pilot answers hit it). Raise once to 16,000 only on the evidence in docs: a truncation at this ceiling, or two answers over NEAR_MISS_FRACTION of it within three cycles.
+NEAR_MISS_FRACTION = 0.75  # an answer using more than this share of the ceiling is counted as a near miss (an early warning, shown in the run summary)
+# ---- Cost controls (all enforced in code, before any paid call) ----
+CLIENT_MAX_RETRIES = 1     # SDK-level retries per request (the SDK default is 2). Our own loops never retry a request.
+CLIENT_TIMEOUT_S = 480.0   # one request must finish within this; explicit, so a hung connection cannot hold a cycle
+MAX_ITEM_ATTEMPTS = 2      # paid attempts on one item that end in an API error; then the item is given up (listed without AI), never retried forever
+DEFAULT_MONTHLY_BUDGET_USD = 20.0   # used when eval_settings.json has no valid budget.monthlyUSD; there is no way to switch the cap off
+BUDGET_WARN_FRACTION = 0.6
 
 
 def response_failure(stop_reason, text):
@@ -124,9 +132,64 @@ def response_failure(stop_reason, text):
     return None
 
 
+def _give_up(it):
+    """Store an unusable-evaluation placeholder for an item whose paid attempts all ended in API errors (no further call is made for it)."""
+    n = it.get("evalAttempts") or 0
+    it["evaluation"] = {"summaryForAdmin": FAILURE_NOTE["attempts-exhausted"] + f" ({n} attempts)", "confidence": "low", "parseError": True, "failureKind": "attempts-exhausted",
+                        "stopReason": None, "outputTokens": None, "maxOutputTokens": MAX_OUTPUT_TOKENS}
+    it["evalInput"] = {"model": MODEL, "promptHash": prompt_hash(), "maxOutputTokens": MAX_OUTPUT_TOKENS, "attempts": n}
+    it["summary"] = it["evaluation"]["summaryForAdmin"]
+    LAST_RUN["parseErrors"] = LAST_RUN.get("parseErrors", 0) + 1
+    fk = LAST_RUN.setdefault("failureKinds", {})
+    fk["attempts-exhausted"] = fk.get("attempts-exhausted", 0) + 1
+    print(f"  {it.get('id')}: {n} failed attempts - given up; listed without AI evaluation.", flush=True)
+
+
 FAILURE_NOTE = {"truncated": "The AI answer was cut off at the output-token limit, so it is incomplete and was not used.",
                 "refused": "The AI declined to answer.", "unexpected-stop": "The AI stopped for an unexpected reason.",
-                "empty": "The AI returned no text.", "unparseable": "The AI answer was not valid JSON."}
+                "empty": "The AI returned no text.", "unparseable": "The AI answer was not valid JSON.",
+                "attempts-exhausted": "The AI could not be reached for this item after repeated attempts."}
+
+
+def load_budget():
+    """Monthly evaluation budget in USD from eval_settings.json -> budget.monthlyUSD. Anything missing, non-numeric, boolean, zero or negative falls back to the default: the cap cannot be disabled by a typo."""
+    try:
+        s = json.loads((ROOT / "engine" / "eval_settings.json").read_text(encoding="utf-8"))
+        v = s.get("budget", {}).get("monthlyUSD")
+    except Exception:
+        v = None
+    if isinstance(v, bool) or not isinstance(v, (int, float)) or not (0 < v <= 10000):
+        return DEFAULT_MONTHLY_BUDGET_USD
+    return float(v)
+
+
+def month_spent_usd(today=None):
+    """Estimated spend so far this calendar month, from the usage ledger the cycle writes after each run that called the model. No ledger yet = 0.0. A ledger that exists but cannot be read = None
+    (callers treat that as 'budget exhausted': never spend blind)."""
+    month = (today or time.strftime("%Y-%m-%d"))[:7]
+    path = ROOT / "engine" / "usage-ledger.json"
+    if not path.exists():
+        return 0.0
+    try:
+        runs = json.loads(path.read_text(encoding="utf-8"))["runs"]
+        return round(sum(float(r.get("estimatedCostUSD", 0) or 0) for r in runs if str(r.get("date", ""))[:7] == month), 4)
+    except Exception:
+        return None
+
+
+def worst_case_usd(prompt_chars):
+    """Upper bound for one call: the whole prompt at 3 characters per token (English runs about 4) plus the full output ceiling, at the model's list prices."""
+    pin, pout = PRICES.get(MODEL, PRICES["claude-opus-5"])
+    return (prompt_chars / 3.0 * pin + MAX_OUTPUT_TOKENS * pout) / 1e6
+
+
+def budget_status(extra=0.0, today=None):
+    """{monthlyUSD, spentUSD, fraction} for the status file and the health check. `extra` = a run's cost not yet in the ledger on disk. Ledger unreadable = fraction 1.0."""
+    monthly, spent = load_budget(), month_spent_usd(today)
+    if spent is None:
+        return {"monthlyUSD": monthly, "spentUSD": None, "fraction": 1.0}
+    spent = round(spent + extra, 4)
+    return {"monthlyUSD": monthly, "spentUSD": spent, "fraction": round(spent / monthly, 3)}
 
 
 def prompt_hash():
@@ -214,7 +277,7 @@ def classify_error(e):
 
 def _record(**kw):
     LAST_RUN.clear()
-    LAST_RUN.update({"attempted": 0, "succeeded": 0, "failed": 0, "parseErrors": 0, "failureKinds": {}, "errorClasses": {}, "fatal": None, "preflight": "not-run", "reason": None, "screened": 0, "recordUnavailable": 0, "inputTokens": 0, "outputTokens": 0, "costUSD": 0.0,
+    LAST_RUN.update({"attempted": 0, "succeeded": 0, "failed": 0, "parseErrors": 0, "failureKinds": {}, "nearMisses": 0, "maxOutputTokens": 0, "errorClasses": {}, "fatal": None, "preflight": "not-run", "reason": None, "screened": 0, "recordUnavailable": 0, "inputTokens": 0, "outputTokens": 0, "costUSD": 0.0,
                      "cacheReadTokens": 0, "cacheWriteTokens": 0, "submitted": 0, "batch": None, "batchCollected": None, "catalogued": 0, "auditPicked": 0})
     LAST_RUN.update(kw)
 
@@ -327,6 +390,10 @@ def _account(usage, batch=False):
 def _finish_item(it, text, context, meta, item_meta, treatments, known_words, extra_eval_input=None, stop_reason=None, output_tokens=None):
     """Everything that happens to a model answer: parse, deterministic checks, escalation triggers, fields written back into the queue item. Shared by the
     one-request-at-a-time path and the batch collector, so both apply identical checks."""
+    if output_tokens:
+        LAST_RUN["maxOutputTokens"] = max(LAST_RUN.get("maxOutputTokens", 0), output_tokens)
+        if output_tokens > NEAR_MISS_FRACTION * MAX_OUTPUT_TOKENS:
+            LAST_RUN["nearMisses"] = LAST_RUN.get("nearMisses", 0) + 1
     kind = response_failure(stop_reason, text)
     ev = None
     if kind is None:
@@ -358,7 +425,7 @@ def _finish_item(it, text, context, meta, item_meta, treatments, known_words, ex
                        "criticalOmitted": bool(meta.get("criticalOmitted")), "hasResults": meta.get("hasResults"), "chars": len(context),
                        "omitted": meta.get("omitted", []), "shortened": meta.get("shortened", []),
                        "recordHash": hashlib.sha256(context.encode("utf-8")).hexdigest()[:16], "model": MODEL, "promptHash": prompt_hash(),
-                       "intelligenceOnlyGiven": item_meta["intelligenceOnly"], "maxOutputTokens": MAX_OUTPUT_TOKENS}
+                       "intelligenceOnlyGiven": item_meta["intelligenceOnly"], "maxOutputTokens": MAX_OUTPUT_TOKENS, "outputTokens": output_tokens}
     if extra_eval_input:
         it["evalInput"].update(extra_eval_input)
     it["evaluation"] = ev
@@ -418,6 +485,9 @@ def batch_collect(client, queue, treatments, known_words):
         LAST_RUN["attempted"] += 1
         rtype = getattr(r.result, "type", None)
         if rtype != "succeeded":
+            bad = by_id.get(entry["id"])
+            if bad is not None:
+                bad["evalAttempts"] = (bad.get("evalAttempts") or 0) + 1      # a provider-side failure counts as a paid attempt (the queue is untouched until a batch is collected)
             LAST_RUN["failed"] += 1
             bump(rtype if rtype in ("errored", "expired", "canceled") else "other")
             continue
@@ -445,6 +515,9 @@ def batch_collect(client, queue, treatments, known_words):
     missing = len(entries) - len(seen)
     if missing > 0:
         counts["missing"] = missing
+        for cid, ent in entries.items():
+            if cid not in seen and by_id.get(ent["id"]) is not None:
+                by_id[ent["id"]]["evalAttempts"] = (by_id[ent["id"]].get("evalAttempts") or 0) + 1
     try:
         path.unlink()
     except OSError:
@@ -471,7 +544,7 @@ def main(limit=None):
         _record(fatal="not-configured", reason="ANTHROPIC_API_KEY not set (add it to GitHub repo Secrets)")
         return 0, "ANTHROPIC_API_KEY not set (add it to GitHub repo Secrets)"
     try:
-        client = anthropic.Anthropic()
+        client = anthropic.Anthropic(max_retries=CLIENT_MAX_RETRIES, timeout=CLIENT_TIMEOUT_S)
     except Exception as e:
         print(f"evaluate_queue: no credentials — evaluation skipped ({e}).", file=sys.stderr)
         _record(fatal="not-configured", reason=f"no credentials: {e}")
@@ -559,11 +632,19 @@ def main(limit=None):
             QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
     if tri["order"]:
         pend = first + [it for it in triage.order(pend) if it not in first]
+    # An item whose paid attempts keep ending in API errors is given up (stored as an unusable evaluation: listed without AI, counted, never retried automatically).
+    for it in [i for i in pend if (i.get("evalAttempts") or 0) >= MAX_ITEM_ATTEMPTS]:
+        _give_up(it)
+    if any(i.get("evaluation") for i in pend):
+        pend = [i for i in pend if not i.get("evaluation")]
+        QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
     todo = pend[:LIMIT]
     if not todo:
         print("Nothing to evaluate — queue items all have evaluations (or queue is empty).")
-        keep = {k: LAST_RUN.get(k) for k in ("attempted", "succeeded", "failed", "errorClasses", "inputTokens", "outputTokens", "costUSD", "cacheReadTokens", "cacheWriteTokens", "batch", "batchCollected", "parseErrors", "failureKinds")}
+        keep = {k: LAST_RUN.get(k) for k in ("attempted", "succeeded", "failed", "errorClasses", "inputTokens", "outputTokens", "costUSD", "cacheReadTokens", "cacheWriteTokens", "batch", "batchCollected", "parseErrors", "failureKinds", "nearMisses", "maxOutputTokens")}
+        gave_up = {k: LAST_RUN.get(k) for k in ("parseErrors", "failureKinds")}      # items given up at the start of this run must still be reported
         _record(preflight="skipped-nothing-to-do", screened=LAST_RUN.get("screened", 0))
+        LAST_RUN.update(gave_up)
         if flags["useBatch"]:
             LAST_RUN.update(keep)
         return done, None
@@ -575,6 +656,17 @@ def main(limit=None):
         _record(fatal=cls, preflight="failed", reason=msg, screened=LAST_RUN.get("screened", 0))
         return 0, msg
     LAST_RUN["preflight"] = "ok"
+    monthly, spent0 = load_budget(), month_spent_usd()
+    if spent0 is None or spent0 >= monthly:
+        msg = (f"monthly evaluation budget reached (${spent0:.2f} of ${monthly:.2f} estimated)" if spent0 is not None
+               else "usage ledger could not be read; evaluation paused rather than spend blind")
+        print(f"evaluate_queue: {msg} — no items attempted, all {len(todo)} remain queued.", file=sys.stderr)
+        _record(fatal="budget", preflight="ok", reason=msg, screened=LAST_RUN.get("screened", 0))
+        return 0, msg
+
+    def over_budget(prompt_chars, extra=0.0):
+        """True when this call's worst case would take the month past the budget (spend so far + this run so far + calls already planned + this call)."""
+        return spent0 + LAST_RUN["costUSD"] + extra + worst_case_usd(prompt_chars) > monthly
 
     def prepare(it):
         """The free screens that run BEFORE any paid call, then the prompt. None = the item is not sent (screened out, or its record is unavailable; it stays queued)."""
@@ -628,9 +720,16 @@ def main(limit=None):
             if prep is None:
                 continue
             context, meta, item_meta, prefix, suffix = prep
+            planned = sum(worst_case_usd(r["_chars"]) for r in reqs)
+            if over_budget(len(prefix) + len(suffix), planned):
+                LAST_RUN["fatal"] = "budget"
+                LAST_RUN["reason"] = f"monthly evaluation budget would be exceeded (${monthly:.2f}); {len(todo) - len(reqs)} item(s) stay queued"
+                print("  " + LAST_RUN["reason"], file=sys.stderr)
+                break
             cid = "it-" + hashlib.sha256(it["id"].encode("utf-8")).hexdigest()[:16]   # custom_id must match [A-Za-z0-9_-]{1,64}
-            reqs.append({"custom_id": cid, "params": {"model": MODEL, "max_tokens": MAX_OUTPUT_TOKENS, "thinking": {"type": "adaptive"},
-                                                      "messages": [{"role": "user", "content": request_content(prefix, suffix, caching)}]}})
+            reqs.append({"custom_id": cid, "_chars": len(prefix) + len(suffix),
+                         "params": {"model": MODEL, "max_tokens": MAX_OUTPUT_TOKENS, "thinking": {"type": "adaptive"},
+                                    "messages": [{"role": "user", "content": request_content(prefix, suffix, caching)}]}})
             entries[cid] = {"id": it["id"], "recordHash": hashlib.sha256(context.encode("utf-8")).hexdigest()[:16], "itemMeta": item_meta, "meta": meta}
         if not reqs:
             reason = (f"{LAST_RUN['recordUnavailable']} primary record(s) could not be fetched; those items were not sent to the AI and remain queued"
@@ -638,7 +737,7 @@ def main(limit=None):
             LAST_RUN["reason"] = reason
             return done, reason
         try:
-            batch = client.messages.batches.create(requests=reqs)
+            batch = client.messages.batches.create(requests=[{k: v for k, v in r.items() if not k.startswith("_")} for r in reqs])
         except anthropic.APIStatusError as e:
             cls = classify_error(e)
             LAST_RUN["failed"] += 1
@@ -668,7 +767,14 @@ def main(limit=None):
         if prep is None:
             continue
         context, meta, item_meta, prefix, suffix = prep
+        if over_budget(len(prefix) + len(suffix)):
+            LAST_RUN["fatal"] = "budget"
+            LAST_RUN["reason"] = f"monthly evaluation budget would be exceeded (${monthly:.2f}); stopped after {done} item(s), the rest stay queued"
+            print("  " + LAST_RUN["reason"], file=sys.stderr)
+            break
         LAST_RUN["attempted"] += 1
+        it["evalAttempts"] = (it.get("evalAttempts") or 0) + 1
+        QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")   # the attempt is on record even if this process dies mid-call
         try:
             response = client.messages.create(
                 model=MODEL,
@@ -677,6 +783,8 @@ def main(limit=None):
                 messages=[{"role": "user", "content": request_content(prefix, suffix, caching)}],
             )
         except anthropic.RateLimitError:
+            it["evalAttempts"] -= 1          # a rate limit is not the item's fault
+            QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
             LAST_RUN["failed"] += 1
             LAST_RUN["errorClasses"]["rate_limit"] = LAST_RUN["errorClasses"].get("rate_limit", 0) + 1
             print("  rate-limited; stopping — re-run later."); break
@@ -685,10 +793,17 @@ def main(limit=None):
             LAST_RUN["failed"] += 1
             LAST_RUN["errorClasses"][cls] = LAST_RUN["errorClasses"].get(cls, 0) + 1
             print(f"  API error {e.status_code} ({cls}){': ' + str(e.message)[:200] if cls == 'other' else ''}; skipping.")   # message shown only for unclassified errors
+            if cls == "rate_limit":          # a 429 that did not arrive as RateLimitError: same handling, stop the run
+                it["evalAttempts"] -= 1
+                QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
+                print("  rate-limited; stopping — re-run later."); break
             if cls in FATAL_CLASSES:
+                it["evalAttempts"] -= 1      # a key, billing or permission problem is not the item's fault
+                QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
                 LAST_RUN["fatal"] = cls
                 print(f"  {cls} errors cannot succeed on retry — stopping; remaining items stay queued.", file=sys.stderr)
                 break
+            QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
             continue
         except Exception as e:
             # never let an SDK/client error kill the whole cycle — items simply stay queued
@@ -708,7 +823,9 @@ def main(limit=None):
 
     print(f"Done ({done} evaluated, {LAST_RUN['failed']} failed of {LAST_RUN['attempted']} attempted).")
     reason = None
-    if LAST_RUN["fatal"]:
+    if LAST_RUN["fatal"] == "budget":
+        reason = LAST_RUN["reason"]
+    elif LAST_RUN["fatal"]:
         reason = f"evaluation stopped by a {LAST_RUN['fatal']} error after {LAST_RUN['attempted']} attempt(s); {len(todo) - done} item(s) remain queued"
     elif LAST_RUN["failed"]:
         reason = f"{LAST_RUN['failed']} of {LAST_RUN['attempted']} evaluation attempts failed ({LAST_RUN['errorClasses']}); those items remain queued"

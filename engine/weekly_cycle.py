@@ -348,7 +348,8 @@ class Cycle:
             return "awaiting-eval", "no AI evaluation available yet (evaluation pending or credentials missing)"
         if ev.get("parseError"):
             why = {"truncated": "the AI answer was cut off at the output limit", "refused": "the AI declined to answer", "empty": "the AI returned no text",
-                   "unexpected-stop": "the AI stopped unexpectedly"}.get(ev.get("failureKind"), "the AI answer could not be parsed")
+                   "unexpected-stop": "the AI stopped unexpectedly",
+                   "attempts-exhausted": "the AI could not be reached for this item after repeated attempts"}.get(ev.get("failureKind"), "the AI answer could not be parsed")
             return "hold", f"evaluation unusable ({why}) — uncertainty hold"
         if ev.get("duplicateOf"):
             return "dup", f"re-reports existing study record '{ev['duplicateOf']}'"
@@ -630,7 +631,7 @@ class Cycle:
                 else:
                     state = "ok"
                 evaluation = {"state": state, "attempted": lr.get("attempted", 0), "succeeded": lr.get("succeeded", 0), "failed": lr.get("failed", 0),
-                              "parseErrors": lr.get("parseErrors", 0), "failureKinds": lr.get("failureKinds", {}), "errorClasses": lr.get("errorClasses", {}), "fatal": lr.get("fatal"), "reason": lr.get("reason"),
+                              "parseErrors": lr.get("parseErrors", 0), "failureKinds": lr.get("failureKinds", {}), "nearMisses": lr.get("nearMisses", 0), "maxOutputTokens": lr.get("maxOutputTokens", 0), "errorClasses": lr.get("errorClasses", {}), "fatal": lr.get("fatal"), "reason": lr.get("reason"),
                               "screenedWithoutAI": lr.get("screened", 0), "recordUnavailable": lr.get("recordUnavailable", 0),
                               "usage": {"inputTokens": lr.get("inputTokens", 0), "outputTokens": lr.get("outputTokens", 0), "estimatedCostUSD": lr.get("costUSD", 0.0), "model": evaluate_queue.MODEL}}
                 if lr.get("batch"):   # only present when the useBatch option is on: submitted / pending / collected, with counts
@@ -650,6 +651,8 @@ class Cycle:
                                    **({"cacheReadTokens": evaluation["usage"]["cacheReadTokens"], "cacheWriteTokens": evaluation["usage"]["cacheWriteTokens"]} if "cacheReadTokens" in evaluation["usage"] else {}),
                                    **({"batch": True} if evaluation.get("batchCollected") else {})})
             self.stage("engine/usage-ledger.json", ledger)
+        ran = evaluation["usage"].get("estimatedCostUSD", 0.0) if (evaluation.get("usage") and evaluation.get("attempted")) else 0.0   # this run's cost is in the staged ledger but not on disk yet
+        evaluation["budget"] = evaluate_queue.budget_status(extra=ran)
 
         register = self.published_register()
         study_ids = {s["id"] for s in self.load("data/studies.json", [])}

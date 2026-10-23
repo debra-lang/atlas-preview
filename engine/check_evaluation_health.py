@@ -35,6 +35,23 @@ elif state in ("failed", "blocked-gate"):
 elif state == "degraded":
     (problems if attempted and failed * 2 >= attempted else warnings).append(f"AI evaluation degraded: {failed} of {attempted} attempts failed {ev.get('errorClasses')}"
                                                                           + (f"; {ev.get('parseErrors')} answer(s) unusable {ev.get('failureKinds') or ''}" if ev.get("parseErrors") else "") + ".")
+# Cost and answer-quality alerts (a run is red only for things that need a decision; everything else is a warning in the log and the digest)
+kinds = ev.get("failureKinds") or {}
+if kinds.get("truncated"):
+    problems.append(f"{kinds['truncated']} AI answer(s) were cut off at the output ceiling; see the plan: raise the ceiling once, or investigate if two or more in one cycle.")
+others = sum(n for k, n in kinds.items() if k != "truncated")
+if others >= 2:
+    problems.append(f"{others} AI answers were unusable in one cycle {kinds}.")
+elif others == 1:
+    warnings.append(f"1 AI answer was unusable {kinds}; it was held and not retried.")
+if ev.get("nearMisses"):
+    warnings.append(f"{ev['nearMisses']} AI answer(s) used over 75 % of the output ceiling (largest {ev.get('maxOutputTokens')} tokens).")
+bud = ev.get("budget") or {}
+if bud.get("fraction") is not None:
+    if bud["fraction"] >= 1.0:
+        problems.append(f"The monthly AI budget is used up: ${bud.get('spentUSD')} of ${bud.get('monthlyUSD')} estimated. Evaluation stays paused until next month or the budget is raised in eval_settings.json.")
+    elif bud["fraction"] >= 0.6:
+        warnings.append(f"{round(bud['fraction'] * 100)} % of the monthly AI budget is used (${bud.get('spentUSD')} of ${bud.get('monthlyUSD')}).")
 for e in status.get("errors") or []:
     if "coverage gap" in str(e):      # a source was not scanned for longer than the maximum look-back: records may have been missed, so this is a red run, not a footnote
         problems.append(str(e))

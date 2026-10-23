@@ -281,7 +281,7 @@ class SyncPath(unittest.TestCase):
                 self.assertIsInstance(blocks, list)
                 self.assertEqual([("cache_control" in b) for b in blocks], [True, False])
                 self.assertEqual(kw["thinking"], {"type": "adaptive"})     # same thinking and sampling settings as without caching
-                self.assertEqual((kw["model"], kw["max_tokens"]), ("claude-opus-5", 4000))
+                self.assertEqual((kw["model"], kw["max_tokens"]), ("claude-opus-5", 8000))
             self.assertTrue(all(i["evalInput"].get("promptCaching") is True for i in sb.queue()["items"]))
             self.assertEqual(sb.eq.LAST_RUN["cacheReadTokens"], 15000)
             expect = 3 * (1000 * 5 + 5000 * 0.5 + 500 * 25) / 1e6
@@ -321,7 +321,7 @@ class BatchPath(unittest.TestCase):
             for r in reqs:
                 self.assertRegex(r["custom_id"], r"^[A-Za-z0-9_-]{1,64}$")
                 p = r["params"]
-                self.assertEqual((p["model"], p["max_tokens"], p["thinking"]), ("claude-opus-5", 4000, {"type": "adaptive"}))
+                self.assertEqual((p["model"], p["max_tokens"], p["thinking"]), ("claude-opus-5", 8000, {"type": "adaptive"}))
                 self.assertEqual([("cache_control" in b) for b in p["messages"][0]["content"]], [True, False])   # caching composes with the batch
             self.assertEqual(len({r["custom_id"] for r in reqs}), 3)
             self.assertEqual(sdk.calls, [])                                    # no per-item request was made
