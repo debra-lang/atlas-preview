@@ -260,6 +260,12 @@ class Cycle:
         flagged = False
         smap = {s["id"]: s for s in slist}
         for f in findings:
+            if f["severity"] == "erratum":
+                # a published correction (erratum) is routine and says nothing about the evidence: it is recorded in the audit log and counted, never queued for a reviewer and never shown as a notice
+                self.status["retractionErrata"] = self.status.get("retractionErrata", 0) + 1
+                self.log(step="retraction-check", identifier=f["identifier"], severity="erratum", studyIds=f["studyIds"], notices=f["notices"], published=False, held=False,
+                         note="correction notice (erratum): recorded; no review item and no public change")
+                continue
             already = any(h.get("item", {}).get("id") == "retraction-" + f["identifier"]
                           for h in held["items"])
             if not already:
