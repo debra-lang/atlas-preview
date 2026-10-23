@@ -36,6 +36,11 @@ def main():
     _cp = ROOT / "data" / "claims.json"
     if _cp.exists():
         data["claims"] = json.loads(_cp.read_text(encoding="utf-8"))
+    # Phase 1 automatic listings and update history (only present when listings are on, or in a private preview that places the files in data/)
+    for key, fname in (("listings", "listings.json"), ("updateHistory", "update-history.json")):
+        _p = ROOT / "data" / fname
+        if _p.exists():
+            data[key] = json.loads(_p.read_text(encoding="utf-8"))
     data["weeklyIndex"] = json.loads((ROOT / "data" / "weekly" / "index.json").read_text(encoding="utf-8"))
     data["weeklyAll"] = {}
     for rep in data["weeklyIndex"]["reports"]:

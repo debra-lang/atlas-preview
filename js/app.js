@@ -1212,7 +1212,9 @@
     };
     drawArchive();
     /* Phase 1 listings and update history: shown only when data/listings.json / data/update-history.json exist (the sections are hidden otherwise). Bibliographic facts only. */
-    const jsonOrNull = f => fetch('data/' + f, { cache: 'no-cache' }).then(r => (r.ok ? r.json() : null), () => null);
+    const EMBEDDED = { 'listings.json': 'listings', 'update-history.json': 'updateHistory' };     // single-file preview mode carries the data inside the page
+    const jsonOrNull = f => (window.__TA_DATA__ ? Promise.resolve(window.__TA_DATA__[EMBEDDED[f]] || null)
+      : fetch('data/' + f, { cache: 'no-cache' }).then(r => (r.ok ? r.json() : null), () => null));
     const listingLi = e => `<li class="listing"><a href="${esc(e.url)}" rel="noopener" target="_blank">${esc(e.title)}</a>
       <div class="small muted">${esc(e.source || '')} · ${esc(e.date || '')} · ${esc((e.articleTypes || []).join(', '))} · ${esc(e.key)}${e.status ? ' · registry status: ' + esc(String(e.status).replace(/_/g, ' ').toLowerCase()) : ''}
       ${(e.treatments || []).length ? ' · title mentions: ' + e.treatments.map(id => (DB.tById[id] ? '<a href="treatment.html?id=' + esc(id) + '">' + esc(DB.tById[id].name) + '</a>' : esc(id))).join(', ') : ''}
