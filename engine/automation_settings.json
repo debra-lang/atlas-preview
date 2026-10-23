@@ -1,0 +1,10 @@
+{
+  "comment": "Phase 1 automatic switches (engine/listings.py). Each is ON only when its value is exactly true; a missing file or any other value means OFF. listings: verify new records against their primary source and list them on the research page (bibliographic facts only, no AI). updateHistory: add one row per run to data/update-history.json. listingsIncludePaused: owner-paused PubMed records that may be LISTED as bibliographic facts while staying paused for everything else (never evaluated by AI, never published as research, no assessment changed): the three 2026 AAO-HNSF guideline records, owner decision 23 Oct 2026. To switch listings off, delete this file or set listings to false.",
+  "listings": true,
+  "updateHistory": true,
+  "listingsIncludePaused": [
+    "pubmed-42861423",
+    "pubmed-42861475",
+    "pubmed-42861486"
+  ]
+}
