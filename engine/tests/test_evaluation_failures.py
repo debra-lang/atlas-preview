@@ -185,7 +185,10 @@ class DedupePauseAndPreview(unittest.TestCase):
         self.assertEqual(p.returncode, 0, p.stdout[-500:] + p.stderr[-500:])
         r = json.loads(out.read_text(encoding="utf-8"))
         b = r["run2"]
-        self.assertEqual(sorted(b["queueRemaining"]), sorted(set(paused) | {i["id"] for i in _queue() if _th.match_item(i)}))   # exactly the paused and topic-held ones remain queued
+        held_back = set(paused) | {i["id"] for i in _queue() if _th.match_item(i)}
+        # an older update of the same registry record is deliberately preserved while its newer sibling is paused or held (weekly_cycle: "preserved until its newer sibling is processed")
+        preserved = {old for old, new in _eq.superseded_map(_queue()).items() if new in held_back}
+        self.assertEqual(sorted(b["queueRemaining"]), sorted(held_back | preserved))   # exactly the paused and topic-held ones (and their preserved older siblings) remain queued
         for pid in paused:
             self.assertNotIn(pid, b["apiCallsPerId"])                               # never sent to the API
             self.assertNotIn(pid, b["published"] + b["held"] + b["archived"] + b["droppedLogged"])

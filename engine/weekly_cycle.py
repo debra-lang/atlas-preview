@@ -691,7 +691,9 @@ class Cycle:
                      published=r.startswith("publish"), held=r in ("hold", "publish-under-eval", "awaiting-eval"))
             self._effect(r, reason, item, ev, held, publish, remaining, remember)
         queue["items"] = remaining
-        self.status["evaluation"]["awaitingEvaluation"] = len(remaining) - self.status.get("paused", 0)
+        # an older update of a registry record whose newer update is paused or held is preserved, but it cannot be evaluated until its sibling is: not a backlog
+        waiting_on_sibling = set(evaluate_queue.superseded_map(remaining))
+        self.status["evaluation"]["awaitingEvaluation"] = len(remaining) - self.status.get("paused", 0) - len(waiting_on_sibling)
         self.status["evaluation"]["paused"] = self.status.get("paused", 0)
         self.stage("data/review-queue/queue.json", queue)
         self.stage("data/review-queue/held.json", held)

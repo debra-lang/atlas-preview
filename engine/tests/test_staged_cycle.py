@@ -166,8 +166,18 @@ class DuplicateRegistryTests(unittest.TestCase):
         self.assertEqual(list(a["apiCalls"]), ["ctgov-NCT06898515-2026-10-13"])
 
     def test_helper_on_the_real_queue_finds_the_two_known_duplicates(self):
-        sup = evaluate_queue.superseded_ids(real_queue())
-        self.assertEqual(sup, {"ctgov-NCT06898515-2026-10-08", "ctgov-NCT07784192-2026-10-05"})
+        # The live queue changes every cycle, so this is a property of the helper on real data, not a count: the two duplicates known on 21 Oct are still found while they are
+        # queued, and everything the helper returns is the OLDER entry of a registry record that has a newer entry in the queue (a newest entry is never returned).
+        q = real_queue()
+        sup = evaluate_queue.superseded_ids(q)
+        ids = {i["id"] for i in q}
+        self.assertEqual(sup & {"ctgov-NCT06898515-2026-10-08", "ctgov-NCT07784192-2026-10-05"}, {"ctgov-NCT06898515-2026-10-08", "ctgov-NCT07784192-2026-10-05"} & ids)
+        newest = evaluate_queue.superseded_map(q)
+        for old_id in sup:
+            new_id = newest[old_id]
+            self.assertEqual(evaluate_queue.nct_of({"id": old_id}), evaluate_queue.nct_of({"id": new_id}))
+            self.assertLess(old_id[-10:], new_id[-10:])
+            self.assertNotIn(new_id, sup)
 
 
 class NoticeCycleTests(unittest.TestCase):

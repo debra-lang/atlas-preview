@@ -47,7 +47,14 @@ class TestDisclosureEdits(unittest.TestCase):
         import subprocess, copy
         BASE = "a69020cc76615cfff7827ca3c3d4c438623cb128"
         log = corrections_log()
-        changed = subprocess.run(["git", "diff", "--name-only", BASE, "--", "data/weekly", "data/studies.json", "data/treatments.json", "data/trials.json"], cwd=ROOT, capture_output=True, text=True).stdout.split()
+        # Only files that already existed at BASE are held to the rule (--diff-filter=M): a new weekly report added by a later cycle is not a change to a published record.
+        # The weekly index is the one existing file a cycle legitimately rewrites; it may only GAIN entries, every entry that existed at BASE must be unchanged.
+        changed = subprocess.run(["git", "diff", "--name-only", "--diff-filter=M", BASE, "--", "data/weekly", "data/studies.json", "data/treatments.json", "data/trials.json"], cwd=ROOT, capture_output=True, text=True).stdout.split()
+        if "data/weekly/index.json" in changed:
+            base_idx = json.loads(subprocess.run(["git", "show", f"{BASE}:data/weekly/index.json"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout)["reports"]
+            now_idx = json.loads(read("data/weekly/index.json"))["reports"]
+            self.assertEqual([r for r in now_idx if r["date"] in {b["date"] for b in base_idx}], base_idx, "existing index entries are unchanged; the index only gains newer reports")
+            changed.remove("data/weekly/index.json")
         self.assertEqual(sorted(changed), sorted({c["file"] for c in log["corrections"]}))
         for f in changed:
             base = json.loads(subprocess.run(["git", "show", f"{BASE}:{f}"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout)
