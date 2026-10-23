@@ -105,12 +105,16 @@ class TestPublicStatementsAreAccurate(unittest.TestCase):
 
     def test_the_research_page_and_the_about_page_say_what_is_true(self):
         r, a = self.text("research.html"), self.text("about.html")
-        for need in ("twice-monthly digest", "AI-written study summaries are currently paused", "Summaries published between September 7 and September 26, 2026, were not reviewed by a person before publication",
-                     "Before new summaries are published, the site editor will review each summary against its source", "it does not mean that a clinician has reviewed or endorsed a summary",
-                     "Items that could affect an evidence rating will be held for additional review", "Evidence ratings will not change automatically"):
+        # wording approved by the owner on 23 Oct 2026 (version 3): the research page no longer promises an editor's review of summaries and no longer repeats the September disclosure (About keeps it)
+        for need in ("twice-monthly digest", "AI-written study summaries are currently paused", "Listed records have not been read or assessed by Tinnitus Evidence",
+                     "listing a record does not change an evidence rating", "Evidence ratings do not change automatically"):
             self.assertIn(need, r, need)
-        for need in ("AI-written summaries have been paused since September 28, 2026", "each summary will require editorial review against its source before it is published", "none will be published automatically",
-                     "It is not a clinical review, and it does not mean that a clinician has reviewed or endorsed a summary", "Trial status changes</strong> verified directly at the registry",
+        for gone in ("the site editor will review", "editorial check", "Summaries published between September 7"):
+            self.assertNotIn(gone, r, gone)
+        for gone in ("will require editorial review", "none will be published automatically", "the site editor"):
+            self.assertNotIn(gone, a, gone)
+        for need in ("AI-written research summaries have been paused since September 28, 2026", "Research listings are automatic", "Ratings, rankings and safety assessments never change automatically",
+                     "Answers from Ask Tinnitus Evidence are generated automatically by an AI model", "Trial status changes</strong> verified directly at the registry",
                      "twice a month, on the 1st and 15th", "The scheduled start is 06:00 Pacific Time, but that is when the run is triggered, not a guaranteed publication time",
                      "we cannot guarantee that nothing is missed after a long interruption", "The AI is instructed not to infer missing information",
                      "published between September 7 and September 26, 2026, were not reviewed by any person before publication"):
@@ -279,10 +283,13 @@ class TestPublicStatementsAreAccurate(unittest.TestCase):
         self.assertNotIn("honest quiet week", worker)                                          # the instruction that made "quiet week" the answer
         self.assertNotIn("IS the answer", worker)
 
-    def test_editorial_review_is_never_presented_as_clinical_review_or_endorsement(self):
-        for page in ("research.html", "about.html"):
-            self.assertRegex(self.text(page), r"not a clinical review|does not mean that a clinician")
-        self.assertIn("editorial review (not a clinical review)", read("js/app.js"))
+    def test_no_page_promises_editorial_review_and_automated_checks_are_never_called_clinical_review(self):
+        for page in ("research.html", "about.html", "ask/index.html"):
+            self.assertNotRegex(self.text(page), r"editorial review|site editor will review|editorial check", page)
+        self.assertNotRegex(read("js/app.js"), r"editorial review|site editor will review")
+        a = self.text("about.html")
+        self.assertIn("they do not establish whether a study's conclusions are valid or whether a treatment is effective", a)
+        self.assertIn("These words describe automated comparison and the site's own updates, not clinical review", a)
 
     def test_the_label_is_only_put_on_items_the_ai_actually_wrote(self):
         js = read("js/app.js")
@@ -305,7 +312,8 @@ class TestPublicStatementsAreAccurate(unittest.TestCase):
 
     def test_the_footer_line_on_every_page_matches(self):
         js = read("js/app.js")
-        self.assertIn("AI-written summaries are currently paused and, when they resume, will receive editorial review (not a clinical review) before publication", js)
+        self.assertIn("New research records are checked against their sources before listing. Listings are not evidence assessments. Treatment ratings and safety assessments are not automatically changed.", js)
+        self.assertNotIn("will receive editorial review", js)
         self.assertNotIn("Routine updates publish automatically after source verification", js)
 
     def test_no_unfinished_placeholder_text_is_on_any_public_page(self):

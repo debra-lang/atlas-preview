@@ -68,8 +68,7 @@
   and Find My Quiet Sound does not influence any treatment rating, tier, ranking or Claims verdict, including the sound-therapy
   category itself, which is rated Tier 4 with limited evidence. Wherever Find My Quiet Sound appears on a treatment page, it is
   marked as a product link with this same-ownership disclosure, visually separated from the evidence.</p>
-  <p class="small muted">This site is an educational resource, not a medical institution: content is not
-  physician-reviewed, and the platform claims no academic affiliation or nonprofit status.</p>
+  <p id="review"><strong>Who prepares this site.</strong> Tinnitus Evidence is an independent educational resource developed by its owner using published scientific research and automated tools, including AI. It is not affiliated with or endorsed by a medical institution. Its content, including treatment assessments and Ask responses, has not undergone independent clinical review. Automated source checks verify that research records match their original sources; they do not establish whether a study's conclusions are valid or whether a treatment is effective.</p>
 </section>
 <section class="card about-card about-distinction">
   <h2>The one distinction that matters most</h2>
@@ -222,21 +221,28 @@
     <li><strong>Automated systems</strong> monitor trusted research sources (PubMed, ClinicalTrials.gov, FDA,
     NIH/NIDCD, Cochrane ENT, major journals, EMA and others), identify relevant new material, and keep a record of
     everything they find. Every item links to its original source.</li>
+    <li><strong>Research listings are automatic.</strong> Every record the scan finds is checked by software against its
+    PubMed or ClinicalTrials.gov record: the identifier and title must match it, and it must not be a correction, retraction
+    or expression-of-concern notice. Records that pass and are about tinnitus are listed on the research page with
+    bibliographic facts only (title, journal or sponsor, date, identifier, article type, registry status and a link); records
+    in which tinnitus is not in the title appear under "Other records that mention tinnitus". No person and no AI reads or
+    assesses a listed record. Records in which tinnitus is only mentioned in passing are not listed. Nothing is deleted:
+    the update history on the research page shows, for every run, how many records were scanned, listed, set aside or are waiting.</li>
     <li><strong>Trial status changes</strong> verified directly at the registry (ClinicalTrials.gov) publish to the
     research updates page ("Latest Tinnitus Research") automatically, after checks of the identifier, the registry
     record and duplicates. These items report what happened; they do not change our conclusions.</li>
-    <li><strong>AI-written summaries have been paused since September 28, 2026.</strong> When publication resumes, an
-    AI model will extract structured study information (design, sample size, endpoints, outcomes, funding) and
-    each summary will require editorial review against its source before it is published; none will be published
-    automatically. Editorial review is a check by the site editor against the source. It is not a clinical review,
-    and it does not mean that a clinician has reviewed or endorsed a summary. Automated checks of the source,
-    identifiers, dates and duplicates do not verify every statement in an AI-written summary.</li>
-    <li><strong>Anything that could change a conclusion is never automatic.</strong> A possible evidence-score,
-    tier, ranking, loudness/distress-rating, safety or regulatory-status change is placed in a held queue with
-    a full proposed-change report. The existing public assessment stands unchanged until that hold is resolved —
-    one new paper is never allowed to silently rewrite a medical conclusion. Where a held item's underlying fact
-    is verified, it may appear in the research-updates feed marked <em>"Impact on Tinnitus Evidence rating: Under
-    evaluation."</em></li>
+    <li><strong>AI-written research summaries have been paused since September 28, 2026.</strong> No AI-written text
+    is currently published in the research updates. (Answers from Ask Tinnitus Evidence are generated automatically by an
+    AI model from this site's database.) If summaries resume, they will be limited to what a study's own record states
+    (design, sample size and the outcomes as the authors report them, quoted rather than paraphrased); software will check
+    every quoted statement against the source text and record the check; and they will be labeled as automatic. Any
+    statement shown to be unsupported will be corrected publicly and will suspend further summaries until the cause is
+    fixed. A check against the source is not a review of whether a study is sound.</li>
+    <li><strong>Ratings, rankings and safety assessments never change automatically.</strong> A rating changes only when
+    Tinnitus Evidence reassesses a treatment under the method described in "How we research the evidence", and a single
+    new study is not enough to raise one. Until a treatment is reassessed, its page keeps the published rating and says so
+    when newer records have been listed that have not been assessed ("Newer records not yet assessed") or when an assessment
+    is more than a year old. Research listings and notices make no statement about safety.</li>
     <li><strong>Company announcements</strong> are monitored for pipeline intelligence but always labeled
     "Company-reported development" and never treated as independent evidence. Regulatory statuses update only
     against authoritative records (FDA databases, ClinicalTrials.gov, EMA), never from press coverage.</li>
@@ -248,14 +254,18 @@
     rather than implying that nothing happened.</li>
     <li><strong>Retractions and corrections are monitored monthly:</strong> every research paper cited on this
     site is re-checked against PubMed and Crossref for retraction, expression-of-concern and erratum notices.
-    A detected notice is flagged visibly on the affected study record and routed to held review — cited
-    research is never silently left standing after its source is withdrawn.</li>
+    A retraction, partial retraction or expression of concern is shown on the study record, and the treatment pages that
+    cite the study are marked "Rating provisional"; no rating is changed automatically. Routine corrections (errata)
+    are recorded in the audit log.</li>
+    <li><strong>What "verified", "checked" and "last reviewed" mean here.</strong> "Verified" and "checked" mean that
+    software compared an item with the primary source record (identifiers, titles, dates, numbers). "Last reviewed" and
+    "evidence through" on a treatment page are the dates Tinnitus Evidence last updated its own assessment of that
+    treatment. These words describe automated comparison and the site's own updates, not clinical review.</li>
   </ul>
-  <p>Automated analysis is a monitoring and triage tool — it does not replace medical judgment, and this site
-  does not claim physician or clinician editorial review of research-update items. AI-written weekly summaries
-  published between September 7 and September 26, 2026, were not reviewed by any person before publication, and
-  none was reviewed by a physician or other clinician. A complete audit trail (source, identifier, extraction,
-  classification, and publish/hold decision) is kept for every automated update.</p>
+  <p>Automated analysis is a monitoring and triage tool; it does not replace medical judgment. AI-written weekly
+  summaries published between September 7 and September 26, 2026, were not reviewed by any person before publication.
+  A complete audit trail (source, identifier, extraction, classification, and publish/hold decision) is kept for every
+  automated update.</p>
 </details>
 <details class="sec"><summary>Source hierarchy <span class="small">which sources outrank which</span></summary>
   <p>When the same development appears in many places we rank credibility roughly as: regulatory record /
@@ -305,7 +315,7 @@
       <li>does <strong>not</strong> replace an ENT physician, audiologist, or other qualified professional —
           if you have tinnitus, especially new, pulsatile or one-sided tinnitus, see a clinician;</li>
       <li>ranks treatments as an <strong>evaluation of available evidence</strong>, which can change as science evolves;</li>
-      <li>publishes Tinnitus Claims articles that have <strong>not</strong> been reviewed or approved by a physician or other qualified healthcare professional;</li>
+      <li>is <strong>not</strong> reviewed or endorsed by a physician or other qualified healthcare professional (see <a href="#review">Who prepares this site</a>);</li>
       <li>cannot predict individual results — tinnitus subtypes differ and individual responses differ.</li>
     </ul>
     <p style="margin-bottom:0">Never start, stop or change a treatment based on this site without professional advice.</p>

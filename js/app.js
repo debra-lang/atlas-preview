@@ -1463,7 +1463,7 @@
     const scan = (DB.weeklyIndex && DB.weeklyIndex.reports && DB.weeklyIndex.reports[0] && DB.weeklyIndex.reports[0].date) || '';
     if (fm) fm.innerHTML = esc(`Evidence database: hundreds of research results screened · ${DB.treatments.length} selected treatments · ${DB.studies.length} research records · ${DB.trials.length} trials watched`) +
       '<br>' + esc(`Last full evidence review: ${fmtDate(DB.meta.lastFullReview)}` + (scan ? ` · Latest automated research scan: ${fmtDate(scan)}` : '')) +
-      '<br>' + esc('Trial status changes are verified at the registry before they publish. AI-written summaries are currently paused and, when they resume, will receive editorial review (not a clinical review) before publication. Evidence ratings, rankings and safety assessments never change automatically.');
+      '<br>' + esc('New research records are checked against their sources before listing. Listings are not evidence assessments. Treatment ratings and safety assessments are not automatically changed.');
   }
   /* Deep links into collapsed sections: open every <details> ancestor of the target so
      about.html#rankings, #timeline etc. never land on a closed expander. */

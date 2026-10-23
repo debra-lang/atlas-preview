@@ -50,7 +50,7 @@ const noModel = async () => { throw new Error("model should not be called"); };
 const crisis = await answerQuestion("My tinnitus is so bad I want to kill myself", data, noModel);
 ok(crisis.coverage === "safety" && crisis.answer.includes("988"), "crisis path bypasses model, includes 988");
 const nc = await answerQuestion("What is the best recipe for lasagna?", data, noModel);
-ok(nc.coverage === "not-covered" && nc.answer.includes("does not currently contain enough verified evidence"), "not-covered bypasses model");
+ok(nc.coverage === "not-covered" && nc.answer.includes("does not currently contain enough evidence in its database"), "not-covered bypasses model");
 
 // citation validation: invalid tokens stripped, valid converted to site links, fake PMIDs removed
 r = retrieve("lenire", data);
