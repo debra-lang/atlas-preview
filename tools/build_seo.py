@@ -54,6 +54,7 @@ E = html.escape
 # Without data/listings.json (listings off) only the provisional and out-of-date notices can appear, and only when their conditions hold today.
 sys.path.insert(0, str(ROOT / "tools"))
 import evidence_status
+import guide_art
 _LP = ROOT / "data" / "listings.json"
 LISTINGS = json.loads(_LP.read_text(encoding="utf-8")) if _LP.exists() else None
 
@@ -85,6 +86,25 @@ def claims_xlink(kind, tid):
     return (f'<section class="card sec-card cl-xlink" id="claim-checks"><h2>Claim checks that mention this treatment</h2><ul>{items}</ul>'
             '<p class="small muted">From <a href="claims/">Tinnitus Claims: Fact vs. Evidence</a>, which checks popular claims against the research. '
             'It does not change this treatment\u2019s evidence rating.</p></section>\n')
+# Practical guides (Living with tinnitus): which treatment pages point to which guide. One map in data/patient-guides.json.
+_PGP = ROOT / "data" / "patient-guides.json"
+PGX = json.loads(_PGP.read_text(encoding="utf-8")) if _PGP.exists() else {}
+def pg_href(ref):
+    gid, _, anchor = ref.partition("#")
+    base = "urgent/" if gid == "urgent" else PGX.get("guides", {}).get(gid, {}).get("path")
+    assert base, f"practical-guide link to an unknown guide: {ref}"
+    return base + ("#" + anchor if anchor else "")
+def pg_title(ref):
+    gid = ref.split("#")[0]
+    return "When to get help quickly" if gid == "urgent" else PGX["guides"][gid]["title"]
+def guide_xlink(tid):
+    """Compact 'Practical help' block for static treatment pages (empty when no guide is linked)."""
+    links = PGX.get("treatmentLinks", {}).get(tid)
+    if not links: return ""
+    items = "".join(f'<li><a href="{E(pg_href(r))}">{E(lbl)}</a>' + (f' <span class="small muted">· {E(pg_title(r))}</span>' if lbl != pg_title(r) else "") + "</li>"
+                    for r, lbl in links)
+    return (f'<section class="card sec-card pg-xlink" id="practical-help"><h2>Practical help</h2><ul>{items}</ul>'
+            '<p class="small muted">From <a href="living/">Living with tinnitus</a>, our practical guides. They don\u2019t change this treatment\u2019s evidence rating.</p></section>\n')
 RISKY = re.compile(r"\b(cure[sd]?|guaranteed|clinically proven|miracle|breakthrough cure|works for everyone)\b", re.I)
 
 def scrub(text, fallback):
@@ -97,6 +117,9 @@ def trunc(s, n=160):
     return s[:n - 1].rsplit(" ", 1)[0].rstrip(",.;:") + "…"
 
 LV = {"none": "None shown", "limited": "Limited", "moderate": "Moderate", "strong": "Strong"}
+def lv_label(o):
+    """Outcome label. 'notMeasured' marks an outcome the human evidence never assessed (approved 26 Oct 2026): same rating level, clearer label."""
+    return "Not measured" if o.get("notMeasured") else LV.get(o.get("level"), "Not assessed")
 REP = {"none": "None yet", "same-group": "Same group/sponsor only", "limited-independent": "Limited independent",
        "strong-independent": "Strong independent", "conflicting": "Conflicting results"}
 IND = {"primarily-independent": "Primarily independent", "mixed": "Mixed",
@@ -115,6 +138,7 @@ FOOTER_LINKS = [
     ("research.html", "Latest tinnitus research updates"),
     ("about.html", "About & methodology"), ("about.html#limitations", "Research limitations"),
     ("about.html#corrections", "Corrections & editorial integrity"), ("about.html#disclaimer", "Medical disclaimer"),
+    ("urgent/", "When to get help quickly"), ("support/", "Support & crisis lines"), ("living/", "Living with tinnitus"),
 ]
 
 def footer_html(depth):
@@ -124,7 +148,7 @@ def footer_html(depth):
 <p class="small muted">Tinnitus Evidence is an educational evidence-navigation resource — not medical advice.
 It does not diagnose, and never replaces an ENT physician, audiologist or other qualified professional.</p></div></footer>"""
 
-def page(path_rel, title, desc, h1, crumbs, body, jsonld_extra=None, article=None, modified=None, main_cls=""):
+def page(path_rel, title, desc, h1, crumbs, body, jsonld_extra=None, article=None, modified=None, main_cls="", extra_css="", crumb_extra=""):
     """path_rel like 'treatments/lenire/index.html' — canonical derives from it."""
     depth = path_rel.count("/")
     canon = PROD + "/" + path_rel.replace("index.html", "")
@@ -140,6 +164,9 @@ def page(path_rel, title, desc, h1, crumbs, body, jsonld_extra=None, article=Non
                 # hrefs are site-root-relative; the page's <base> tag resolves them (never prepend up)
                 items.append(f'<a href="{href if href else "./"}">{E(name)}</a>')
         crumb_html = '<nav class="crumbs small" aria-label="Breadcrumb" style="margin:14px 0 0">' + " › ".join(items) + "</nav>"
+        if crumb_extra:   # phones: the page name (the title just below) gives way to a support link on the same row
+            cur = f'<span class="crumb-cur"> › {items[-1]}</span>'
+            crumb_html = f'<div class="crumb-row"><nav class="crumbs small" aria-label="Breadcrumb">{" › ".join(items[:-1])}{cur}</nav>{crumb_extra}</div>'
         crumb_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": i + 1, "name": name,
              **({"item": PROD + "/" + href} if href is not None else {})}
@@ -157,6 +184,9 @@ def page(path_rel, title, desc, h1, crumbs, body, jsonld_extra=None, article=Non
     if crumb_ld: ld.append(crumb_ld)
     if jsonld_extra: ld.append(jsonld_extra)
     ld_html = "\n".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in ld)
+    sp = re.findall(r'<!--sprite:([a-z0-9 -]+)-->', body)   # icons used on the page, as one hidden SVG sprite
+    body_pre = guide_art.sprite(sorted({n for x in sp for n in x.split()})) if sp else ""
+    body = re.sub(r'<!--sprite:[a-z0-9 -]+-->', "", body)
     doc = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -180,10 +210,10 @@ def page(path_rel, title, desc, h1, crumbs, body, jsonld_extra=None, article=Non
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/styles.css">{extra_css}
 {ld_html}
 </head>
-<body data-page="">
+<body data-page="">{body_pre}
 <a class="skip-link" href="#content">Skip to content</a>
 <main id="content" class="wrap prose{main_cls}">
 {crumb_html}
@@ -276,9 +306,9 @@ Evidence independence: <strong>{E(IND.get(t.get('independence'), 'Not assessed')
 <section class="card sec-card sec-indigo" id="outcomes"><h2>Did tinnitus loudness or distress improve?</h2>
 <div class="duo ld-full">
 <div class="cell" id="loud"><div class="k">🔉 Did tinnitus loudness improve?</div>
-<div class="v lv-{E(lo.get('level', 'none'))}">{E(LV.get(lo.get('level'), 'Not assessed'))}.</div><p class="small">{E(lo.get('summary', ''))}</p></div>
+<div class="v lv-{E(lo.get('level', 'none'))}">{E(lv_label(lo))}.</div><p class="small">{E(lo.get('summary', ''))}</p></div>
 <div class="cell" id="distress"><div class="k">🧠 Did tinnitus distress improve?</div>
-<div class="v lv-{E(di.get('level', 'none'))}">{E(LV.get(di.get('level'), 'Not assessed'))}.</div><p class="small">{E(di.get('summary', ''))}</p></div>
+<div class="v lv-{E(di.get('level', 'none'))}">{E(lv_label(di))}.</div><p class="small">{E(di.get('summary', ''))}</p></div>
 </div>
 <p class="small muted">Loudness means the tinnitus percept itself became quieter (psychoacoustic matching or loudness
 ratings). Distress means questionnaire scores such as THI/TFI, sleep, anxiety or quality of life improved — the sound
@@ -301,7 +331,7 @@ may be unchanged. A THI/TFI improvement is never evidence the tinnitus got quiet
 {f'''<details class="sec"><summary>Related clinical trials <span class="small">{len(rel_trials)}</span></summary><ul>{''.join(f'<li><a href="trials/{E(x["nctId"])}/">{E(x["title"])}</a> — {E(x.get("status", ""))}</li>' for x in rel_trials)}</ul>
 <p class="small muted">Tracked trials are research in progress, not recommended treatments.</p></details>''' if rel_trials else ''}
 {f'''<details class="sec"><summary>Related treatments <span class="small">{len(related)}</span></summary><ul>{''.join(f'<li><a href="treatments/{E(x["id"])}/">{E(x["name"])}</a> — {E(trunc(x.get("oneLiner", ""), 110))}</li>' for x in related)}</ul></details>''' if related else ''}
-{claims_xlink("treatments", tid)}<p class="small muted">Evidence last reviewed: {E(t.get('lastReviewed', ''))} · Evidence included through: {E(t.get('evidenceThrough', ''))} ·
+{guide_xlink(tid)}{claims_xlink("treatments", tid)}<p class="small muted">Evidence last reviewed: {E(t.get('lastReviewed', ''))} · Evidence included through: {E(t.get('evidenceThrough', ''))} ·
 Confidence: {E(t.get('confidence', ''))}. <a href="treatment.html?id={E(tid)}">Open the interactive evidence profile</a> ·
 <a href="about.html#methodology">How we rate evidence</a>.</p>
 <p class="small muted">This page summarizes published research for education. It is not medical advice; it cannot say
@@ -454,32 +484,71 @@ canon = page("research/index.html",
 sitemap_urls.append(canon)
 
 # ---------------- guides ----------------
-def guide(slug, title, h1, desc, body):
+def guide(slug, title, h1, desc, body, extra_css="", main_cls=""):
     canon = page(f"guides/{slug}/index.html", title, desc, h1,
                  [("", "Home"), ("guides/", "Guides"), (None, h1.split(":")[0])], body,
-                 article={"headline": h1, "published": "2026-09-04"})
+                 article={"headline": h1, "published": "2026-09-04"}, extra_css=extra_css, main_cls=main_cls)
     sitemap_urls.append(canon)
 
 top5 = [(r, T[r["id"]]) for r in rankings.get("top", [])[:5] if r["id"] in T]
+def evidence_brief_body():
+    """Approved 26 Oct 2026: plain-language treatment cards. Ranks, ratings, tiers, stability and caveats are read from
+    data/rankings.json and data/treatments.json; nothing here sets or changes a rating."""
+    ic = guide_art.icon; used = {"research", "speaker-low", "heart", "spark", "waves", "check-list", "tag-off", "focus"}
+    SEG = {"none": 0, "limited": 1, "moderate": 2, "strong": 3}
+    EW = {1: "Weak", 2: "Limited", 3: "Moderate", 4: "Strong", 5: "Very strong"}
+    TIERW = {1: "Strongest evidence", 2: "Promising", 3: "Experimental", 4: "Supportive", 5: "Weak / unsupported"}
+    POS = {"stable-top": "Stable position", "stable": "Stable position", "weighting-sensitive": "Position could change"}
+    def meter(kind, o):
+        segs = "".join(f'<i class="{"on" if i < SEG.get(o["level"], 0) else ""}"></i>' for i in range(3))
+        q = ("Quieter sound?", "speaker-low", "Loudness") if kind == "l" else ("Less bothered?", "heart", "Distress")
+        lvl = "nm" if o.get("notMeasured") else o["level"]
+        return (f'<div class="v-m v-{kind}"><span class="v-mk">{ic(q[1])}{q[2]}</span><span class="v-mq">{q[0]}</span>'
+                f'<span class="v-mv lv-{E(lvl)}"><span class="v-segs" aria-hidden="true">{segs}</span>{E(lv_label(o))}</span></div>')
+    def card(r, t, featured):
+        href = f'treatments/{E(r["id"])}/'; avail = t.get("availability", {}).get("availableNow"); sc = t["evidenceScore"]
+        dots = "".join(f'<i class="{"on" if i <= sc else ""}"></i>' for i in range(1, 6))
+        pos = POS.get(r.get("stability"), "")
+        note = f'<p class="v-posnote">{E(r["stabilityNote"])}</p>' if featured and r.get("stabilityNote") else ""
+        why = E(scrub(r.get("whyPlain", t.get("oneLiner", "")), t.get("oneLiner", "")))
+        return (f'<li class="v-card{" v-feat" if featured else ""}"><div class="v-top"><span class="v-rank">Ranked #{r["rank"]}</span>'
+                + (f'<span class="v-pos v-{"ok" if pos.startswith("Stable") else "move"}">{pos}</span>' if pos else "")
+                + f'<span class="v-av v-{"yes" if avail else "no"}">{"Available now" if avail else "Not currently available"}</span></div>'
+                f'<h3><a href="{href}">{E(t["name"])}</a></h3>{note}<p class="v-why">{why}</p>'
+                f'<div class="v-meters">{meter("l", t["loudness"])}{meter("d", t["distress"])}</div>'
+                f'<p class="v-sure"><span class="v-sk">How sure are we?</span><span class="emeter v-dots" role="img" aria-label="Evidence score {sc} out of 5, {EW[sc]}">{dots}</span>'
+                f'<span class="v-sv">{EW[sc]} ({sc}/5) · {TIERW[t["tier"]]}</span></p>'
+                + (f'<p class="v-for"><span class="v-sk">Best suited for</span>{E(t["bestSuitedFor"])}</p>' if t.get("bestSuitedFor") else "") + "</li>")
+    principles = ["We rate loudness and distress separately (most good evidence is for distress)", "Require independent replication before calling anything established",
+                  "Show who funded the research", "And label ranking positions that are sensitive to how you weigh the evidence"]
+    return (f"""
+<nav class="e-start" aria-label="Start here"><span class="e-start-h">Start here</span><ul>
+<li><a href="guides/tinnitus-loudness-vs-distress/">Loudness vs distress</a><span class="small muted">: how to read our ratings</span></li>
+<li><a href="treatments.html?flag=avail">Treatments you can try now</a><span class="small muted">, with clear evidence labels</span></li>
+<li><a href="trials.html">Clinical trials to watch</a></li>
+<li><a href="claims/">Check a claim</a><span class="small muted"> before you spend money</span></li></ul>
+<p class="small">Looking for practical help rather than research? <a href="living/">Living with tinnitus</a></p></nav>
+<section class="v-answer" aria-labelledby="v-ans-h"><p class="v-kicker">{ic("research")}Key message</p><h2 id="v-ans-h">The short answer</h2>
+<p class="v-lead"><strong>Cognitive behavioral therapy (CBT) has the strongest evidence of any tinnitus treatment</strong> — for reducing
+distress and improving quality of life, not for making the sound quieter. No treatment has been established as a universal
+cure for tinnitus. Beyond CBT, the best-supported options depend on your situation — hearing loss, sleep problems, and
+tinnitus subtype all change the picture.</p></section>
+<section class="v-two" aria-labelledby="v-two-h"><h2 id="v-two-h">Two different questions</h2><div class="v-two-grid">
+<div class="v-q v-l"><span class="v-qi">{ic("speaker-low")}</span><div><p class="v-qk">Loudness</p><p class="v-qq">Did the sound itself get quieter?</p></div></div>
+<div class="v-q v-d"><span class="v-qi">{ic("heart")}</span><div><p class="v-qk">Distress</p><p class="v-qq">Did it bother people less, even if the sound stayed?</p></div></div></div></section>
+<section class="v-top5" aria-labelledby="v-top-h"><h2 id="v-top-h">The current top-ranked treatments</h2>
+<p class="v-order">{ic("spark")}<span>{E(rankings.get('uncertaintyNote', ''))}</span></p>
+<ol class="v-cards">{''.join(card(r, t, i == 0) for i, (r, t) in enumerate(top5))}</ol>
+<p class="v-all"><a href="treatments/">See all {len(treatments)} treatments ranked by evidence tier</a> — including the ones that have
+failed their trials, because negative evidence protects people from wasting money and hope.</p></section>
+<section class="v-how" aria-labelledby="v-how-h"><h2 id="v-how-h">How to read "strongest evidence"</h2><ul class="v-principles">"""
+      + "".join(f'<li><span class="c-ic">{ic(n)}</span><span>{E(p)}</span></li>' for p, n in zip(principles, ["waves", "check-list", "tag-off", "focus"]))
+      + f"""</ul><p><a href="about.html#methodology">Read the full methodology</a>.</p></section><!--sprite:{" ".join(sorted(used))}-->""")
 guide("tinnitus-treatments",
       "Tinnitus Treatments: What Has the Strongest Evidence? | Tinnitus Evidence",
       "Tinnitus Treatments: What Has the Strongest Evidence?",
       "Which tinnitus treatments have the strongest clinical evidence? A conservative, source-linked answer based on evidence scores, replication, and loudness vs distress outcomes.",
-      f"""
-<section><h2>The short answer</h2>
-<p><strong>Cognitive behavioral therapy (CBT) has the strongest evidence of any tinnitus treatment</strong> — for reducing
-distress and improving quality of life, not for making the sound quieter. No treatment has been established as a universal
-cure for tinnitus. Beyond CBT, the best-supported options depend on your situation — hearing loss, sleep problems, and
-tinnitus subtype all change the picture.</p></section>
-<section><h2>The current top-ranked treatments</h2>
-<p class="small muted">{E(rankings.get('uncertaintyNote', ''))}</p>
-<ul>{''.join(f'<li><strong>#{r["rank"]}: <a href="treatments/{E(r["id"])}/">{E(t["name"])}</a></strong> — {E(scrub(r.get("whyPlain", t.get("oneLiner", "")), t.get("oneLiner", "")))}</li>' for r, t in top5)}</ul>
-<p><a href="treatments/">See all {len(treatments)} treatments ranked by evidence tier</a> — including the ones that have
-failed their trials, because negative evidence protects people from wasting money and hope.</p></section>
-<section><h2>How to read "strongest evidence"</h2>
-<p>We rate loudness and distress separately (most good evidence is for distress), require independent replication before
-calling anything established, show who funded the research, and label ranking positions that are sensitive to how you
-weigh the evidence. <a href="about.html#methodology">Read the full methodology</a>.</p></section>""")
+      evidence_brief_body(), extra_css='\n<link rel="stylesheet" href="css/evidence-brief.css">', main_cls=" v-page")
 
 recent = []
 for t in treatments:
@@ -728,6 +797,416 @@ if CL:
                  [("", "Home"), ("claims/", "Tinnitus Claims"), (None, "Verdicts")], label_tables(vpage), modified=CL["meta"]["lastReviewed"], main_cls=" cl-page")
     sitemap_urls.append(canon); LASTMOD[canon] = CL["meta"]["lastReviewed"]
 
+# ---------------- Safety pages (Phase 1): /urgent/ and /support/ from data/safety.json ----------------
+# One source for urgent-care tiers and crisis lines; the same file feeds the Profile (js/app.js) and is mirrored by the
+# Ask worker (checked by tools/ask_core_test.mjs). Wording is calm and specific; NICE wording is marked as a secondary
+# summary until checked against the original.
+SAF = json.load(open(os.path.join(ROOT, "data", "safety.json"), encoding="utf-8"))
+TIER_COLOR = {"emergency": "var(--c-watch)", "today": "var(--c-emerging)", "soon": "var(--c-promising)"}
+
+def crisis_list_html():
+    rows = []
+    for l in SAF["crisis"]["lines"]:
+        svc = "".join(f'<li><strong>{E(sv["name"])}</strong>: {E(sv["contact"])} ({E(sv["hours"])}). '
+                      f'<a href="{E(sv["url"])}" rel="noopener">Website</a>'
+                      + (f' <span class="small muted">{E(sv["note"])}</span>' if sv.get("note") else "") + '</li>'
+                      for sv in l["services"])
+        rows.append(f'<div class="card" style="padding:12px 16px;margin:10px 0"><h3 style="margin:0 0 6px;font-size:1rem">{E(l["country"])}</h3><ul style="margin:0">{svc}</ul></div>')
+    d = SAF["crisis"]["directory"]
+    rows.append(f'<div class="card" style="padding:12px 16px;margin:10px 0"><h3 style="margin:0 0 6px;font-size:1rem">Anywhere else</h3>'
+                f'<p style="margin:0"><a href="{E(d["url"])}" rel="noopener"><strong>{E(d["name"])}</strong></a>: {E(d["contact"])}. <span class="small muted">{E(d["note"])}.</span></p></div>')
+    return "".join(rows)
+
+U = SAF["urgent"]
+tiers_html = "".join(
+    f'<section class="card" style="padding:14px 18px;margin:14px 0;border-left:4px solid {TIER_COLOR[t["id"]]}" aria-labelledby="tier-{t["id"]}">'
+    f'<h2 id="tier-{t["id"]}" style="margin:0 0 6px;font-size:1.2rem">{E(t["label"])}</h2><p style="margin:0 0 6px">{E(t["lead"])}</p>'
+    f'<ul style="margin:0">{"".join("<li>" + E(i) + "</li>" for i in t["items"])}</ul></section>'
+    for t in U["tiers"])
+nums_src_html = " · ".join(f'<a href="{E(sv["url"])}" rel="noopener">{E(sv["label"])}</a>' for n in U["emergencyNumbers"] for sv in n.get("sources", []))
+nums_html = " · ".join(f'{E(n["where"])}: <strong>{E(n["number"])}</strong>' for n in U["emergencyNumbers"])
+basis_html = "".join(f'<li><a href="{E(b["url"])}" rel="noopener">{E(b["label"])}</a>'
+                     + (' <span class="small muted">(our summary, not an official quotation)</span>' if b.get("summary") else "") + '</li>'
+                     for b in U["basis"])
+urgent_body = f"""
+<p class="lead">{E(U["intro"])}</p>
+<p class="small muted">Emergency numbers: {nums_html}.</p>
+{tiers_html}
+<section class="notice" style="margin:18px 0" aria-labelledby="urgent-crisis-h">
+  <h2 id="urgent-crisis-h" style="margin:0 0 6px;font-size:1.1rem">If you feel you can't cope</h2>
+  <p style="margin:0">{E(U["crisisLine"])} <a href="support/#crisis"><strong>Crisis lines by country</strong></a></p>
+</section>
+<h2>Where this guidance comes from</h2>
+<ul class="small">{basis_html}</ul>
+<p class="small muted">Emergency numbers checked {E(SAF["lastVerified"])} on official sources: {nums_src_html}.</p>
+<p class="small muted">Last checked {E(SAF["lastVerified"])}. Educational information, not a diagnosis and not medical advice; it has not been reviewed by a clinician.
+If you are unsure how urgent something is, contact a doctor, a nurse advice line or an emergency service.</p>
+"""
+canon = page("urgent/index.html", "When to Get Help Quickly for Tinnitus | Tinnitus Evidence",
+             "Which tinnitus symptoms need emergency care, same-day medical help or a routine appointment, explained calmly and with sources.",
+             E(U["title"]), [("", "Home"), (None, U["title"])], urgent_body, modified=SAF["lastVerified"])
+sitemap_urls.append(canon); LASTMOD[canon] = SAF["lastVerified"]
+
+C = SAF["crisis"]
+orgs_html = "".join(f'<li><a href="{E(o["url"])}" rel="noopener"><strong>{E(o["name"])}</strong></a> ({E(o["country"])}): {E(o["offers"])}.</li>'
+                    for o in SAF["organizations"])
+support_body = f"""
+<p class="lead">Living with tinnitus can be hard, and you don't have to manage it alone. This page lists crisis lines for
+anyone who needs to talk to someone now, and organizations that support people with tinnitus.</p>
+<section id="crisis" aria-labelledby="crisis-h">
+  <h2 id="crisis-h">If you need help now</h2>
+  <p>{E(C["intro"])} <strong>{E(C["danger"])}</strong></p>
+  {crisis_list_html()}
+  <p class="small muted">{E(C["limits"])}</p>
+</section>
+<section id="organizations" aria-labelledby="orgs-h">
+  <h2 id="orgs-h">Tinnitus support organizations</h2>
+  <p>These charities and associations offer information, helplines and support groups for people with tinnitus.</p>
+  <ul>{orgs_html}</ul>
+  <p class="small muted">We list organizations whose contact details we could check on their own websites. Inclusion is not an endorsement, and
+  Tinnitus Evidence has no connection with any of them.</p>
+</section>
+<section id="professional" aria-labelledby="pro-h">
+  <h2 id="pro-h">Professional support for tinnitus distress</h2>
+  <p>Talking therapies, especially <a href="treatments/cbt/">cognitive behavioural therapy (CBT)</a>, have the strongest evidence for
+  reducing how much tinnitus affects daily life. They don't make the sound quieter, but they help many people sleep, cope and feel
+  better. Ask your doctor or audiologist what is available where you live. If sleep is the main problem, ask about
+  <a href="treatments/cbt-i/">CBT for insomnia</a>.</p>
+  <p>Worried about a symptom? See <a href="urgent/">When to get help quickly</a>.</p>
+</section>
+<p class="small muted">Contact details last checked {E(SAF["lastVerified"])}. If a number has changed, please tell us through the corrections process on
+<a href="about.html#corrections">About</a>.</p>
+"""
+canon = page("support/index.html", "Tinnitus Support and Crisis Lines | Tinnitus Evidence",
+             "Crisis lines by country for anyone who needs to talk to someone now, and tinnitus support organizations, with contact details checked on their own websites.",
+             "Support and crisis lines", [("", "Home"), (None, "Support and crisis lines")], support_body, modified=SAF["lastVerified"])
+sitemap_urls.append(canon); LASTMOD[canon] = SAF["lastVerified"]
+
+# ---------------- Patient experience (Phase 2): "What would help you today?" + /living/ hub ----------------
+# One source (data/patient-guides.json) for the homepage section and the hub. A choice links to its guide once the guide is
+# published; until then to its short card on /living/. Plain links: no JavaScript, no questions, nothing stored.
+PG = json.load(open(os.path.join(ROOT, "data", "patient-guides.json"), encoding="utf-8"))
+PG_NEEDS = PG["needs"]
+PG_GUIDES = PG.get("guides", {})
+NEED_IDS = {n["id"] for n in PG_NEEDS}
+def tile_items(ids):
+    """Choice tiles, in the order given: a homepage choice, or another published guide from the library (Phase 4)."""
+    out = []
+    for i in ids:
+        n = next((x for x in PG_NEEDS if x["id"] == i), None)
+        if n:
+            out.append((need_href(n), n["icon"], n["label"], n["short"], n["desc"]))
+        elif i in PG_GUIDES:
+            g = PG_GUIDES[i]; out.append((g["path"], g["icon"], g["tileLabel"], g["tileShort"], g["tileDesc"]))
+    return "".join(f'<li><a href="{E(h)}"><span class="hi" aria-hidden="true">{ic}</span><span><b><span class="lf">{E(l)}</span><span class="ls">{E(sh)}</span></b>'
+                   f'<span class="d">{E(d)}</span></span></a></li>' for h, ic, l, sh, d in out)
+def need_href(n):
+    return n["guide"]
+
+def chooser_html(hid, with_intro=True):
+    C = PG["chooser"]
+    tiles = "".join(
+        f'<li><a href="{E(need_href(n))}"><span class="hi" aria-hidden="true">{n["icon"]}</span><span>'
+        f'<b><span class="lf">{E(n["label"])}</span><span class="ls">{E(n["short"])}</span></b>'
+        f'<span class="d">{E(n["desc"])}</span></span></a></li>' for n in PG_NEEDS)
+    intro = (f'<h2 id="{hid}-h">{E(C["title"])}</h2>\n  <p class="help-sub">{E(C["sub"])}</p>\n  '
+             f'<p class="help-q" id="{hid}-q">{E(C["question"])}</p>') if with_intro else f'<h2 class="help-q" id="{hid}-q">{E(C["question"])}</h2>'
+    explore = " · ".join(f'<a href="{E(h)}">{E(t)}</a>' for h, t in PG["explore"])
+    shield = f'<svg class="vi" viewBox="0 0 24 24" aria-hidden="true" focusable="false">{guide_art.ICONS["shield"]}</svg>'   # approved 26 Oct 2026
+    return (f'<section class="help-entry{" f-help" if with_intro else ""}" aria-labelledby="{hid}-{"h" if with_intro else "q"}">\n  {intro}\n'
+            f'  <ul class="help-grid" aria-labelledby="{hid}-q">{tiles}</ul>\n'
+            f'  <p class="help-urgent f-urgent">{shield}<span>{PG["urgentLine"]}</span></p>\n'
+            + (f'  <p class="help-explore">Explore the research: {explore}</p>\n' if with_intro else "")
+            + '</section>')
+
+# homepage: the section sits in the hero, after the lead (replaces the three research path cards; their destinations are the
+# "Explore the research" row). Rewritten between markers on every build, so the hand-authored page stays in sync with the data.
+_ip = ROOT / "index.html"
+_ih = _ip.read_text(encoding="utf-8")
+_m = re.search(r"(<!-- help-entry:start[^>]*-->\n)[\s\S]*?(\s*<!-- help-entry:end -->)", _ih)
+assert _m, "index.html: help-entry markers missing"
+_new = _ih[:_m.end(1)] + "    " + chooser_html("help") + _ih[_m.start(2):]
+if _new != _ih:
+    _ip.write_text(_new, encoding="utf-8")
+
+living_body = f"""
+<p class="lead">Practical help for everyday life with tinnitus. Choose what's closest to how you feel today, or browse all the guides.</p>
+{chooser_html("lw", with_intro=False)}
+{('<section class="help-entry g-related lw-more-guides" aria-labelledby="lw-more-h"><h2 class="help-q" id="lw-more-h">More practical guides</h2><ul class="help-grid">'
+  + tile_items([k for k in PG_GUIDES if k not in NEED_IDS]) + '</ul></section>') if any(k not in NEED_IDS for k in PG_GUIDES) else ""}
+<p class="small muted lw-note">Not sure where to start? Begin with <a href="{E(need_href(PG_NEEDS[0]))}">New to tinnitus? Start here</a>.</p>
+<section class="card lw-evidence" aria-labelledby="lw-ev-h"><h2 id="lw-ev-h">The research behind the guides</h2>
+<p>Every guide links to its sources, and to our evidence pages. To explore the research on treatments:</p>
+<ul><li><a href="guides/tinnitus-treatments/">What has the strongest evidence?</a></li>
+<li><a href="guides/tinnitus-loudness-vs-distress/">Loudness vs distress: how to read our ratings</a></li>
+<li><a href="treatments.html">All treatments, ranked by evidence</a></li>
+<li><a href="claims/">Check a claim</a></li></ul></section>
+<p class="small muted">Last reviewed {E(PG["lastReviewed"])}. Educational information, not a diagnosis and not medical advice; it has not been reviewed
+by a clinician. Worried about a symptom? See <a href="urgent/">When to get help quickly</a>.</p>
+"""
+# ---- Patient guides (Phase 3): one template, content in data/patient-guides.json "guides" ----
+# Order on the page: reassurance, "Right now" box, On this page, sections (urgent block from data/safety.json where asked),
+# checklist or worksheet (tick or type; nothing is stored or sent; print or save as PDF), what the research says, related
+# choices, numbered sources. Citations are written [[key]] in the content and become numbered links to the source list.
+def crisis_links(contact):
+    """'call 116 123' -> a 'call 116 123' button (tel:); numbers in a 'text ...' clause become sms: links. The verb right before a number
+    joins the button only when it matches the action; the accessible label always names it. Short codes are dialled as written.
+    Digits come from data/safety.json unchanged (approved 26 Oct 2026)."""
+    out, pos = "", 0
+    for m in re.finditer(r"\b\d[\d -]*\d\b", contact):
+        digits = re.sub(r"\D", "", m.group(0))
+        if len(digits) < 3: continue
+        clause = contact[:m.start()].split(", ")[-1]
+        sms = "text" in clause.lower() and "call" not in clause.lower()
+        v = re.search(r"\b(call|dial|text)\s+$", contact[pos:m.start()], re.I)
+        if v and (v.group(1).lower() == "text") != sms: v = None   # "call or text 1737": the button calls, so it shows just the number
+        start = pos + v.start() if v else m.start()
+        if v: label = v.group(1).capitalize() + " " + m.group(0)
+        elif sms: label = clause.strip()[:1].upper() + clause.strip()[1:] + " " + m.group(0)   # "Text SHOUT to 85258"
+        else: label = "Call " + m.group(0)
+        out += E(contact[pos:start]) + f'<a class="o-num" href="{"sms:" if sms else "tel:"}{digits}" aria-label="{E(label)}">{E(contact[start:m.end()])}</a>'
+        pos = m.end()
+    return out + E(contact[pos:])
+
+def harbour_crisis(gid, G, sec, cite):
+    """Compact crisis support beneath the practical help: every verified contact visible, tap to call or text, country links on phones."""
+    C = SAF["crisis"]; d = C["directory"]; lc = lambda t: t[:1].lower() + t[1:]
+    cid = lambda name: "crisis-" + re.sub(r"[^a-z]+", "-", name.lower()).strip("-")
+    index = ('<nav class="o-index" aria-label="Crisis lines by country">' + "".join(f'<a href="{G["path"]}#{cid(l["country"])}">{E(l["country"])}</a>' for l in C["lines"])
+             + f'<a href="{G["path"]}#crisis-anywhere">Anywhere else</a></nav>')
+    cells = "".join(f'<li id="{cid(l["country"])}"><strong class="o-country">{E(l["country"])}</strong>' + "".join(
+        f'<span class="g-svc"><span class="o-svc">{E(sv["name"])}</span>: {crisis_links(lc(sv["contact"]))}</span>' for sv in l["services"]) + "</li>" for l in C["lines"])
+    cells += (f'<li class="o-any" id="crisis-anywhere"><strong class="o-country">Anywhere else</strong><span class="g-svc"><a href="{E(d["url"])}" rel="noopener">{E(d["name"])}</a>: '
+              f'{E(lc(d["contact"]))}</span></li>')
+    return (f'<section class="g-sec g-crisis o-crisis" id="{sec["id"]}" aria-labelledby="{gid}-{sec["id"]}-h">'
+            f'<header class="o-crisis-h"><h2 id="{gid}-{sec["id"]}-h"><span class="o-badge">{guide_art.icon("support")}</span>{E(sec["title"])}</h2>'
+            f'<p class="o-intro">{cite(sec["intro"])}</p></header>'
+            f'<p class="o-danger">{guide_art.icon("siren")}<strong>{E(C["danger"])}</strong></p>{index}'
+            f'<ul class="g-lines o-grid">{cells}</ul>'
+            f'<p class="small muted o-limits">{E(C["limits"])} <a href="support/#crisis">All support and crisis lines</a></p></section>')
+
+STEP_ART = {"lighthouse": 0, "headphones": 1, "moon-waves": 2, "leaf": 3, "tag": 4}
+def now_section(gid, G, L, cite):
+    """Approved 26 Oct 2026. 'steps': numbered cards with a small illustration (Start here). 'routine': Right now / Still awake? /
+    Tomorrow cards with a night-to-dawn tint (Sleep). Same words and citations as the plain list; nothing is hidden behind a tap."""
+    ic = guide_art.icon; used = set()
+    def icon(n): used.add(n); return ic(n)
+    secs = {x["id"]: x for x in G["sections"]}
+    def lis(sid): return re.findall(r"<li>(.*?)</li>", secs[sid]["html"], re.S)
+    def src(ref): return G["now"][ref[1]] if ref[0] == "now" else lis(ref[0])[ref[1]]
+    foot = lambda n: (f'<p class="g-now-foot f-foot">{icon(n)}<span>{cite(G["nowFoot"])}</span></p>' if G.get("nowFoot") else "")
+    if L["style"] == "groups":
+        # Approved 26 Oct 2026 (Concentration): the steps grouped by what you can change, each group with a small scene
+        cards = "".join(f'<li class="c-group"><span class="c-art" aria-hidden="true">{guide_art.conc_art(gr["art"])}</span><h3>{E(gr["title"])}</h3><ul class="c-tips">'
+                        + "".join(f'<li><span class="c-ic">{icon(ic)}</span><div>{cite(G["now"][i])}</div></li>' for i, ic in gr["items"]) + "</ul></li>"
+                        for gr in L["groups"])
+        assert sorted(i for gr in L["groups"] for i, _ in gr["items"]) == list(range(len(G["now"]))), f"{gid}: every step in exactly one group"
+        hint = (f'<p class="g-now-foot c-hint">{icon(L.get("hintIcon", "spark"))}<span>{cite(G["nowFoot"])}</span></p>' if G.get("nowFoot") else "")
+        html = (f'<section class="g-now c-now" aria-labelledby="{gid}-now-h"><h2 id="{gid}-now-h">{E(G["nowTitle"])}</h2>'
+                f'<ul class="c-groups">{cards}</ul>{hint}</section>')
+        return html + f'<!--sprite:{" ".join(sorted(used))}-->'
+    if L["style"] == "stages":
+        # Approved 26 Oct 2026 (Appointment): stage 1's box; the stages themselves are assembled in guide_page
+        items = "".join(f'<li><span class="a-tick" aria-hidden="true">{icon("check-list")}</span><div>{cite(x)}</div></li>' for x in G["now"])
+        alert = (f'<p class="g-now-foot a-alert">{icon("siren")}<span>{cite(G["nowFoot"])}</span></p>' if G.get("nowFoot") else "")
+        html = (f'<section class="g-now a-before" id="before" aria-labelledby="{gid}-now-h"><h2 id="{gid}-now-h">{E(G["nowTitle"])}</h2>'
+                f'<ol class="g-now-list a-list">{items}</ol>{alert}</section>')
+        return html + f'<!--sprite:{" ".join(sorted(used))}-->'
+    if L["style"] == "harbour":
+        # Approved 26 Oct 2026 ("When it feels like too much"): practical help first, the urgent lines at its top, compact crisis support beneath
+        used.update(["support", "siren"])
+        safe = (f'<li class="o-safe"><p class="o-safe-danger">{icon("siren")}<span>{E(SAF["crisis"]["danger"])}</span></p>'
+                f'<span class="o-safe-ic">{icon("support")}</span><div>{cite(G["now"][0])}</div></li>')
+        tiles = "".join(f'<li class="o-act"><span class="o-act-art" aria-hidden="true">{guide_art.tile_art(k)}</span><span class="o-act-n" aria-hidden="true">{i + 2}</span>'
+                        f'<div>{cite(t)}</div></li>' for i, (t, k) in enumerate(zip(G["now"][1:], L["art"])))
+        now = (f'<section class="g-now o-now" aria-labelledby="{gid}-now-h"><header class="o-now-h"><h2 id="{gid}-now-h">{E(G["nowTitle"])}</h2>'
+               f'<span class="o-art" aria-hidden="true">{guide_art.harbour_art()}</span></header>'
+               f'<ol class="g-now-list o-list">{safe}<li class="o-then" aria-hidden="true">{E(L["then"])}</li>{tiles}</ol>'
+               + (f'<p class="g-now-foot o-foot">{icon("leaf")}<span>{cite(G["nowFoot"])}</span></p>' if G.get("nowFoot") else "") + "</section>")
+        html = f'<div class="o-top">{now}{harbour_crisis(gid, G, secs[L["crisis"]], cite)}</div>'
+        return html + f'<!--sprite:{" ".join(sorted(used))}-->'
+    if L["style"] == "steps":
+        out = ""
+        for i, li in enumerate(G["now"]):
+            m = re.match(r"\s*<strong>(.*?)</strong>(.*)", li, re.S); short, rest = m.group(1), m.group(2).lstrip()
+            more = L["more"][i]
+            more = f' <a class="f-more" href="{G["path"]}#{more}">{E(secs[more]["title"])}</a>' if more else ""
+            out += (f'<li class="f-step" id="step-{i + 1}"><span class="f-step-art" aria-hidden="true">{guide_art.step_art(STEP_ART[L["art"][i]])}</span>'
+                    f'<span class="f-num" aria-hidden="true">{i + 1}</span><h3>{cite(short)}</h3><p>{cite(rest)}{more}</p></li>')
+        html = (f'<section class="g-now f-start" aria-labelledby="{gid}-now-h"><h2 id="{gid}-now-h">{E(G["nowTitle"])}</h2>'
+                f'<ol class="g-now-list f-steps">{out}</ol>{foot("support")}</section>')
+    else:
+        loop = (f'<span class="f-loop" aria-hidden="true">' + f'{icon("arrow")}'.join(f'<span>{icon(n)}{E(t)}</span>' for n, t in L["loop"]) + "</span>")
+        def item(ref):
+            when = f'<span class="f-when">{E(ref[3])}</span>' if len(ref) > 3 and ref[3] != "loop" else ""
+            extra = loop if len(ref) > 3 and ref[3] == "loop" else ""
+            return f'<li><span class="f-li-ic">{icon(ref[2])}</span><div>{when}{cite(src(ref))}{extra}</div></li>'
+        cards = ""
+        for k, c in enumerate(L["cards"]):
+            inner = f'<ul class="f-items">{"".join(item(r) for r in c["items"])}</ul>'
+            if c.get("group"):
+                inner += f'<h4 class="f-h4">{E(secs[c["group"]]["title"])}</h4><ul class="f-items">{"".join(item(r) for r in c["groupItems"])}</ul>'
+            if c.get("support"):
+                inner += f'<p class="f-support">{icon("support")}<span>{cite(src(c["support"]))}</span></p>'
+            cards += (f'<section class="f-card f-c{k + 1}" id="{c["id"]}" aria-labelledby="{gid}-card-{c["id"]}-h"><header class="f-card-h">'
+                      f'<span class="f-card-art" aria-hidden="true">{guide_art.card_art(c["art"])}</span><div><p class="f-kicker">{E(c["kicker"])}</p>'
+                      f'<h3 id="{gid}-card-{c["id"]}-h">{E(c["title"])}</h3><p class="f-sub">{E(c["sub"])}</p></div></header>{inner}</section>')
+        html = (f'<section class="g-now f-night" aria-labelledby="{gid}-now-h"><h2 id="{gid}-now-h">{E(G["nowTitle"])}</h2>'
+                f'<div class="f-cards">{cards}</div>{foot("leaf")}</section>')
+    return html + f'<!--sprite:{" ".join(sorted(used))}-->'
+
+def guide_page(gid, G):
+    path = G["path"]
+    src_keys = [x["key"] for x in G["sources"]]
+    def cite(html_text):
+        def one(m):
+            keys = [k.strip() for k in m.group(1).split(",")]
+            for k in keys: assert k in src_keys, f"guide {gid}: unknown source [[{k}]]"
+            keys.sort(key=src_keys.index)
+            return '<sup class="g-cite">' + ", ".join(f'<a href="{path}#src-{k}" aria-label="Source {src_keys.index(k) + 1}">{src_keys.index(k) + 1}</a>' for k in keys) + "</sup>"
+        return re.sub(r"\[\[([a-z0-9_, -]+)\]\]", one, html_text)
+    toc, body, tile_icons = [], [], set()
+    body.append(f'<p class="lead">{cite(G["lead"])}</p>')
+    L = G.get("nowLayout")
+    body.append(now_section(gid, G, L, cite) if L else
+                f'<section class="g-now" aria-labelledby="{gid}-now-h"><h2 id="{gid}-now-h">{E(G["nowTitle"])}</h2>'
+                f'<ol class="g-now-list">{"".join("<li>" + cite(x) + "</li>" for x in G["now"])}</ol>'
+                + (f'<p class="g-now-foot">{cite(G["nowFoot"])}</p>' if G.get("nowFoot") else "") + "</section>")
+    sec_html, sec_ids = [], []
+    for sec in G["sections"]:
+        if sec.get("inNow"):   # shown inside the illustrated "Right now" layout (same id), not repeated here
+            if sec.get("toc", True): toc.append((sec["id"], sec.get("short", sec["title"])))
+            continue
+        if sec.get("type") == "urgent":
+            T = {t["id"]: t for t in SAF["urgent"]["tiers"]}
+            rows = "".join(f'<li style="border-left-color:{TIER_COLOR[k]}"><strong>{E(T[k]["label"])}:</strong> {E(sec["summary"][k])}</li>' for k in ("emergency", "today", "soon"))
+            sec_html.append(f'<section class="g-sec g-urgent{" " + sec["class"] if sec.get("class") else ""}" id="{sec["id"]}" aria-labelledby="{gid}-{sec["id"]}-h"><h2 id="{gid}-{sec["id"]}-h">{E(sec["title"])}</h2>'
+                            f'<p>{cite(sec["intro"])}</p><ul class="g-tiers">{rows}</ul><p><a class="see" href="urgent/">All the signs, explained calmly</a></p></section>')
+        elif sec.get("type") == "crisis":
+            # crisis lines rendered from data/safety.json (the single source; drift-tested), never typed into a guide
+            C = SAF["crisis"]; d = C["directory"]
+            lc = lambda t: t[:1].lower() + t[1:]
+            rows = "".join(f'<li><strong>{E(l["country"])}</strong>' + "".join(f'<span class="g-svc">{E(sv["name"])}: {E(lc(sv["contact"]))}</span>' for sv in l["services"]) + "</li>" for l in C["lines"])
+            rows += f'<li><strong>Anywhere else</strong><span class="g-svc"><a href="{E(d["url"])}" rel="noopener">{E(d["name"])}</a>: {E(lc(d["contact"]))}</span></li>'
+            sec_html.append(f'<section class="g-sec g-crisis" id="{sec["id"]}" aria-labelledby="{gid}-{sec["id"]}-h"><h2 id="{gid}-{sec["id"]}-h">{E(sec["title"])}</h2>'
+                            f'<p>{cite(sec["intro"])}</p><ul class="g-lines">{rows}</ul><p><strong>{E(C["danger"])}</strong></p>'
+                            f'<p class="small muted">{E(C["limits"])} <a href="support/#crisis">All support and crisis lines</a></p></section>')
+        elif sec.get("type") == "checklist":
+            items = "".join(f'<li><label><input type="checkbox"> <span>{cite(x)}</span></label></li>' for x in sec["items"])
+            sec_html.append(f'<section class="g-sec g-print{" " + sec["class"] if sec.get("class") else ""}" id="{sec["id"]}" aria-labelledby="{gid}-{sec["id"]}-h"><h2 id="{gid}-{sec["id"]}-h">{E(sec["title"])}</h2>'
+                            f'<p>{cite(sec["intro"])}</p><ul class="g-check">{items}</ul>'
+                            f'<p class="g-tools"><button type="button" class="btn" data-print="{sec["id"]}">Print or save this checklist</button>'
+                            f'<span class="small muted">Ticks are not saved or sent anywhere.</span></p></section>')
+        elif sec.get("type") == "worksheet":
+            fields = "".join(f'<div class="g-field"><label for="ws-{i}">{E(f["label"])}</label>'
+                             + (f'<span class="small muted" id="ws-{i}-h">{E(f["hint"])}</span>' if f.get("hint") else "")
+                             + f'<textarea id="ws-{i}" rows="{f.get("rows", 2)}" autocomplete="off"' + (f' aria-describedby="ws-{i}-h"' if f.get("hint") else "") + '></textarea></div>'
+                             for i, f in enumerate(sec["fields"]))
+            top = (f'<p class="a-print-top"><button type="button" class="btn btn-primary" data-print="{sec["id"]}">Print or save as PDF</button>'
+                   f'<span class="small muted">{E(sec["printTop"])}</span></p>') if sec.get("printTop") else ""   # approved 26 Oct 2026
+            sec_html.append(f'<section class="g-sec g-print g-sheet{" " + sec["class"] if sec.get("class") else ""}" id="{sec["id"]}" aria-labelledby="{gid}-{sec["id"]}-h"><h2 id="{gid}-{sec["id"]}-h">{E(sec["title"])}</h2>'
+                            f'{top}<p>{cite(sec["intro"])}</p>{fields}'
+                            f'<p class="g-tools"><button type="button" class="btn btn-primary" data-print="{sec["id"]}">Print or save as PDF</button>'
+                            f'<span class="small muted">What you type stays on this page: it is not saved or sent, and it disappears when you leave.</span></p></section>')
+        else:
+            h = sec["html"]
+            if sec.get("tiles"):   # approved 26 Oct 2026: the section's list as icon tiles (same items, same order)
+                its = re.findall(r"<li>(.*?)</li>", h, re.S); assert len(its) == len(sec["tiles"]), sec["id"]
+                h = re.sub(r"<ul>.*?</ul>", lambda _m: '<ul class="o-steps">' + "".join(f'<li><span class="o-step-ic">{guide_art.icon(n)}</span><div>{t}</div></li>'
+                                                                                     for t, n in zip(its, sec["tiles"])) + "</ul>", h, count=1, flags=re.S)
+                tile_icons.update(sec["tiles"])
+            card, head_extra = sec.get("card"), ""
+            if card:   # approved 26 Oct 2026: a small scene beside the heading; the first list as icon rows (same items, same order)
+                m = re.search(r"<ul>(.*?)</ul>", h, re.S); its = re.findall(r"<li>(.*?)</li>", m.group(1), re.S); assert len(its) == len(card["icons"]), sec["id"]
+                tag, lcls = ("ol", "c-path") if card.get("path") else ("ul", "c-tips")
+                h = h[:m.start()] + f'<{tag} class="{lcls}">' + "".join(f'<li><span class="c-ic">{guide_art.icon(n)}</span><div>{t}</div></li>' for t, n in zip(its, card["icons"])) + f"</{tag}>" + h[m.end():]
+                tile_icons.update(card["icons"])
+            if sec.get("ticks"):   # approved 26 Oct 2026: tick the questions you want to ask (not saved or sent)
+                m = re.search(r"<ul>(.*?)</ul>", h, re.S); its = re.findall(r"<li>(.*?)</li>", m.group(1), re.S)
+                h = h[:m.start()] + '<ul class="a-qs">' + "".join(f'<li><label><input type="checkbox"> <span>{t}</span></label></li>' for t in its) + "</ul>" + h[m.end():]
+                head_extra = f'<p class="small muted a-qhint">{sec["ticks"]}</p>'
+            cls = " " + sec["class"] if sec.get("class") else ""
+            if card:
+                cls += " c-help" if card.get("path") else " c-sit" + (" c-wide" if card.get("wide") else "")
+                sec_html.append(f'<section class="g-sec{cls}" id="{sec["id"]}" aria-labelledby="{gid}-{sec["id"]}-h"><header class="c-sit-h">'
+                                f'<span class="c-art" aria-hidden="true">{guide_art.conc_art(card["art"])}</span><h2 id="{gid}-{sec["id"]}-h">{E(sec["title"])}</h2></header>{cite(h)}</section>')
+            else:
+                sec_html.append(f'<section class="g-sec{cls}" id="{sec["id"]}" aria-labelledby="{gid}-{sec["id"]}-h"><h2 id="{gid}-{sec["id"]}-h">{E(sec["title"])}</h2>{head_extra}{cite(h)}</section>')
+        sec_ids.append(sec["id"])
+        if sec.get("toc", True): toc.append((sec["id"], sec.get("short", sec["title"])))   # minor sections stay out of the chip row
+    ev = "".join(f'<li><span class="g-lv g-lv-{E(x["kind"])}">{E(x["level"])}</span> {cite(x["text"])}</li>' for x in G["evidence"])
+    sec_html.append(f'<section class="g-sec g-ev" id="research" aria-labelledby="{gid}-ev-h"><h2 id="{gid}-ev-h">What the research says</h2>'
+                    f'<ul class="g-ev-list">{ev}</ul>' + (f'<p class="small muted">{cite(G["evidenceNote"])}</p>' if G.get("evidenceNote") else "") + "</section>")
+    toc.append(("research", "The research")); sec_ids.append("research")
+    groups = {x["id"]: x.get("group") for x in G["sections"]}
+    merged, ids2 = [], []
+    for sid, h in zip(sec_ids, sec_html):   # consecutive sections with the same "group" share one wrapper (Concentration: the situations)
+        g = groups.get(sid)
+        if g and ids2 and groups.get(ids2[-1]) == g: merged[-1] = merged[-1][:-len("</div>")] + h + "</div>"
+        else: merged.append(f'<div class="c-where">{h}</div>' if g else h)
+        ids2.append(sid)
+    sec_html = merged
+    if L and L["style"] == "stages":
+        # Approved 26 Oct 2026: five stages in order, a step navigator that stays in view on desktop (with the print action),
+        # and the stage the reader is in marked in the navigator (js). Everything stays on the page; nothing is collapsed.
+        now_html = body.pop()                     # stage 1's box, built by now_section
+        blocks = dict(zip(sec_ids, sec_html)); used_ids = set(); stages = ""
+        for k, st in enumerate(L["stages"]):
+            inner = ""
+            for part in st["parts"]:
+                inner += now_html if part == "now" else blocks[part]; used_ids.add(part)
+            stages += (f'<div class="a-stage" id="stage-{k + 1}"><div class="a-stage-mark" aria-hidden="true"><span class="a-sn">{k + 1}</span><span class="a-line"></span></div>'
+                       f'<div class="a-stage-body"><p class="a-kicker">{guide_art.icon(st["icon"])}Step {k + 1} · {E(st["label"])}</p>{inner}</div></div>')
+            tile_icons.add(st["icon"])
+        tops = {i: t for i, t in toc}
+        rail = (f'<nav class="g-toc a-stages" aria-label="On this page"><span class="g-toc-h">{E(L["railTitle"])}</span><ol>'
+                + "".join(f'<li><a href="{path}#{"before" if st["parts"][0] == "now" else st["parts"][0]}" data-stage="stage-{k + 1}"><span class="a-sn">{k + 1}</span><span class="a-sl">{E(st["label"])}</span></a></li>'
+                          for k, st in enumerate(L["stages"]))
+                + f'</ol><p class="a-rail-print"><button type="button" class="btn btn-primary" data-print="{L["print"]}">{guide_art.icon("check-list")}{E(L["printLabel"])}</button></p>'
+                + '<p class="a-sub small">Also on this page: ' + " · ".join(f'<a href="{path}#{i}">{E(tops.get(i, i))}</a>' for i in L["also"]) + "</p></nav>")
+        body.append(f'<div class="a-wrap">{rail}<div class="a-flow">{stages}</div></div>')
+        sec_html = [h for sid, h in zip(ids2, sec_html) if sid not in used_ids]
+    else:
+        body.append('<nav class="g-toc" aria-label="On this page"><span class="g-toc-h">On this page</span><ul>'
+                    + "".join(f'<li><a href="{path}#{i}">{E(t)}</a></li>' for i, t in toc) + "</ul></nav>")
+    if L and L.get("later"): body.append(f'<p class="o-later"><span>{E(L["later"])}</span></p>')
+    if tile_icons: body.append(f'<!--sprite:{" ".join(sorted(tile_icons))}-->')
+    body.extend(sec_html)
+    rel_tiles = tile_items(G.get("related", []))
+    body.append(f'<section class="help-entry g-related" aria-labelledby="{gid}-rel-h"><h2 class="help-q" id="{gid}-rel-h">You might also find helpful</h2>'
+                f'<ul class="help-grid">{rel_tiles}</ul><p class="help-urgent">{PG["urgentLine"]}</p></section>')
+    srcs = "".join(f'<li id="src-{E(x["key"])}">{E(x["cite"])}' + (f' <a href="{E(x["url"])}" rel="noopener">{E(x.get("linkText", "Source"))}</a>' if x.get("url") else "") + "</li>" for x in G["sources"])
+    body.append(f'<section class="g-sources" aria-labelledby="{gid}-src-h"><h2 id="{gid}-src-h">Sources</h2><ol class="small">{srcs}</ol>'
+                f'<p class="small muted">Last reviewed {E(G["lastReviewed"])}. Educational information, not a diagnosis and not medical advice; it has not been reviewed by a clinician. '
+                f'Spotted something wrong? Tell us through the <a href="about.html#corrections">corrections process</a>.</p></section>')
+    canon = page(path + "index.html", G["metaTitle"], G["metaDesc"], E(G["title"]),
+                 [("", "Home"), ("living/", "Living with tinnitus"), (None, G["crumb"])], "\n".join(body), modified=G["lastReviewed"],
+                 main_cls=" g-page" + ({"harbour": " o-page", "groups": " c-page", "stages": " a-page"}.get(L["style"], "") if L else ""),
+                 extra_css='\n<link rel="stylesheet" href="css/guides.css">' if L else "",
+                 crumb_extra=(f'<a class="crumb-help" href="{path}#{L["crisis"]}">{E(L["crumbLink"])}</a>' if L and L.get("crumbLink") else ""))
+    sitemap_urls.append(canon); LASTMOD[canon] = G["lastReviewed"]
+
+for _gid, _G in PG.get("guides", {}).items():
+    guide_page(_gid, _G)
+
+canon = page("living/index.html", "Living with Tinnitus: Practical Help and Next Steps | Tinnitus Evidence",
+             "Practical, evidence-based guides for living with tinnitus: new tinnitus, sleep, feeling overwhelmed, concentration, appointments, spikes, sound sensitivity, social life and travel, and family.",
+             "Living with tinnitus", [("", "Home"), (None, "Living with tinnitus")], living_body, modified=PG["lastReviewed"], main_cls=" lw-hub")
+sitemap_urls.append(canon); LASTMOD[canon] = PG["lastReviewed"]
+
+# data/guide-index.json: a few KB the browser can fetch instead of the full guide data. Used by Search ("Guide" results),
+# the Profile ("Practical guides for you") and the interactive treatment page (same "Practical help" block as static pages).
+def _plain(x):
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>|\[\[[^\]]+\]\]", "", x or ""))).strip()
+_gi = {"_comment": "Generated by tools/build_seo.py from data/patient-guides.json. Do not edit.",
+       "guides": [{"id": k, "path": g["path"], "title": g["title"], "desc": g.get("tileDesc") or next(n["desc"] for n in PG_NEEDS if n["id"] == k),
+                   "terms": _plain(" ".join([g["metaTitle"], g["metaDesc"], g["lead"]] + [x.get("title", "") for x in g.get("sections", [])]))} for k, g in PG_GUIDES.items()],
+       "treatmentLinks": {tid: [[pg_href(r), lbl, pg_title(r)] for r, lbl in v] for tid, v in sorted(PG.get("treatmentLinks", {}).items())}}
+_gip = ROOT / "data" / "guide-index.json"
+_gtxt = json.dumps(_gi, ensure_ascii=False, indent=1) + "\n"
+if not _gip.exists() or _gip.read_text(encoding="utf-8") != _gtxt:
+    _gip.write_text(_gtxt, encoding="utf-8", newline="\n")
+
 # ---------------- Research Questions (hypotheses — NEVER data-driven) ----------------
 # CONTENT POLICY: this section is authored and human-approved IN THIS SCRIPT, never generated
 # from data/*.json and never writable by the weekly pipeline. The automation may flag candidate
@@ -902,6 +1381,7 @@ or research findings.</strong> Answers are generated from the Tinnitus Evidence 
   research database. AI does not determine treatment ratings or rankings. Evidence ratings, safety assessments,
   rankings, and major research conclusions remain subject to the site's human-review rules.
   Looking for a specific study or treatment? <a href="search.html">Search the database →</a></p>
+  <p class="small" id="ask-help" style="margin:10px 0 0">Ask is an automated research tool and can’t recognise every urgent situation. Struggling right now? <a href="support/#crisis">Find support</a> · Worried about a symptom? <a href="urgent/">When to get help quickly</a></p>
 </div>
 
 <div id="ask-status" role="status" aria-live="polite" class="small muted" style="position:absolute;left:-9999px"></div>
@@ -979,9 +1459,15 @@ or research findings.</strong> Answers are generated from the Tinnitus Evidence 
     ans.innerHTML="<div class='notice'>Ask Tinnitus Evidence is temporarily unavailable. You can still search "+
       "<a href='treatments/'>treatments</a>, <a href='research/'>studies</a> and <a href='trials/'>trials</a> directly.</div>";
   }
+  // Distress tier (worker sets res.support): a calm panel above the answer. Lines mirror data/safety.json.
+  var SUPPORT_PANEL="<div class='notice' role='note' style='margin:0 0 14px'><p style='margin:0 0 6px'><strong>If tinnitus feels overwhelming, you're not alone, and support can help.</strong> "+
+    "Talking therapies such as cognitive behavioural therapy (CBT) have the strongest evidence for reducing tinnitus distress.</p>"+
+    "<p class='small' style='margin:0'>If you're thinking about suicide, talk to someone now: US <strong>988</strong> · UK &amp; Ireland <strong>116 123</strong> · "+
+    "Canada <strong>9-8-8</strong> · Australia <strong>13 11 14</strong> · New Zealand <strong>1737</strong> · elsewhere <a href='https://findahelpline.com/'>findahelpline.com</a>. "+
+    "<a href='support/#crisis'>More support and crisis lines</a></p></div>";
   function render(res){
     stopLoading();
-    ans.hidden=false; ans.innerHTML=md(res.answer||"");
+    ans.hidden=false; ans.innerHTML=(res.support? SUPPORT_PANEL : "")+md(res.answer||"");
     if(res.sources && res.sources.length){
       src.hidden=false;
       src.innerHTML="<h3 style='margin-top:18px'>Sources</h3><ul class='small'>"+res.sources.map(function(s){

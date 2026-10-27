@@ -659,7 +659,7 @@
     "mechanism": "Restored auditory input + ambient masking",
     "loudness": {
       "level": "limited",
-      "summary": "Observational reports of reduced audibility/awareness; controlled percept-level evidence is weak."
+      "summary": "In UNITI, a large randomised trial (461 people), people given hearing aids alone rated their tinnitus 1.4 points quieter on a 0–10 scale after 12 weeks (95% CI 0.6 to 2.1); the trial did not report a statistical comparison with the other treatments. Loudness measured by matching it to a tone did not change, and a small trial with a counselling-only comparison also found little change in matched loudness. Before–after studies report reductions, more so with verified fittings. There is no placebo-controlled test."
     },
     "distress": {
       "level": "moderate",
@@ -762,6 +762,16 @@
         "date": "2026-10-20",
         "change": "Guideline statements added to \"Latest developments\" (2026 AAO-HNSF update, abstract only; 2024 VA/DoD, recommendation table and discussion).",
         "reason": "Guideline review of 19 October 2026. Text only: evidence score, tier, rank and levels unchanged."
+      },
+      {
+        "date": "2026-10-27",
+        "change": "loudness.summary rewritten to describe the direct loudness evidence (wording only)",
+        "reason": "Held review 2026-10-27 (classification-review-hearing-aids-loudness-2026-10-27), approved by the owner 27 Oct 2026: the previous wording ('audibility/awareness') had no cited source. No score, tier, level, ranking, or numerical result changed."
+      },
+      {
+        "date": "2026-10-27",
+        "change": "loudness.summary corrected: separates UNITI's self-rated loudness reduction from unchanged tone-matched loudness; no claim of superiority over other treatments (wording only)",
+        "reason": "Held review 2026-10-27 (classification-review-hearing-aids-loudness-level-2026-10-27), approved by the owner 27 Oct 2026: the earlier wording said UNITI's hearing-aid arm showed no loudness change, which is true only of tone-matched loudness (Schiele 2025); self-rated loudness fell 1.4 points (Schoisswohl 2025, Nat Commun). UNITI reports no statistical loudness comparison between treatments (supplement Table S17). Loudness level 'Limited', score, tier and rank unchanged."
       }
     ],
     "scoreRationale": "Guideline recommendation and the UNITI head-to-head result earn 3/5; a trial isolating the tinnitus effect from the hearing benefit would settle it. Amplification-SPECIFIC randomized evidence is thin: Cochrane CD010151 found one RCT (N=91) and concluded there is no evidence to support or refute hearing aids as a routine tinnitus intervention; the rating rests on guideline consensus (all three major guidelines recommend aids with hearing loss), UNITI results and observational data.",
@@ -1060,17 +1070,17 @@
     "category": "drugs",
     "tier": 3,
     "evidenceScore": 2,
-    "oneLiner": "The most advanced drug with a tinnitus-relevant claim — but its trials are in Meniere's disease, and the tinnitus data are unblinded.",
+    "oneLiner": "The most advanced drug with a tinnitus-relevant claim — but its trials are in Meniere's disease, and in placebo-controlled trials tinnitus improved no more than with placebo.",
     "whatItIs": "An oral anti-inflammatory/antioxidant (glutathione peroxidase mimetic) from Sound Pharmaceuticals, in Phase 3 for Meniere's disease with tinnitus tracked as a patient-reported outcome.",
     "howItWorks": "Mimics glutathione peroxidase to reduce oxidative stress and inflammation in the inner ear — a mechanism relevant to hearing loss, Meniere's symptoms and possibly the cochlear component of tinnitus.",
     "mechanism": "Glutathione peroxidase mimetic (anti-oxidative, anti-inflammatory)",
     "loudness": {
-      "level": "limited",
-      "summary": "Company reports ≥30% patient-reported tinnitus severity improvement — from an open-label extension, so high bias risk and not a loudness measurement."
+      "level": "none",
+      "summary": "In two placebo-controlled trials in people with Ménière's disease, self-rated tinnitus loudness (the 0–10 loudness question of the TFI) improved no more with SPI-1005 than with placebo (Phase 3, 220 people: −0.8 vs −0.9 points; Phase 2b: about a third improved by 2 or more points in each group, placebo included). Registry results, not yet peer-reviewed. There are no loudness data in other kinds of tinnitus."
     },
     "distress": {
-      "level": "limited",
-      "summary": "Same open-label PRO data; no blinded tinnitus outcome has been published."
+      "level": "none",
+      "summary": "In two placebo-controlled trials in people with Ménière's disease, tinnitus impact (TFI) improved about as much with placebo as with SPI-1005 (Phase 3, 220 people: −7.9 vs −6.6 points; Phase 2b: more people improved on placebo than on either dose). An open-label extension reported improvement, but without a comparison group. Registry results, not yet peer-reviewed. There are no data in other kinds of tinnitus."
     },
     "regulatory": {
       "status": "Investigational (FDA Breakthrough Therapy designation — for hearing loss in Meniere's, NOT tinnitus)",
@@ -1095,12 +1105,14 @@
     "bestResult": "Phase 3 co-primary endpoints met (company-reported); ≥30% tinnitus PRO improvement in open-label extension",
     "limitations": [
       "No peer-reviewed Phase 3 publication yet",
-      "Tinnitus data are open-label PROs",
+      "Tinnitus data: in the placebo-controlled Ménière's trials (registry results, secondary outcomes) tinnitus improved no more than with placebo; the reported improvement comes from an uncontrolled open-label extension",
       "Indication is Meniere's, not tinnitus"
     ],
     "conflicts": "All results to date are company press releases.",
     "studies": [
-      "stopmd3-2024"
+      "stopmd3-2024",
+      "stopmd3-ctgov-results",
+      "spi1005-phase2b-ctgov-results"
     ],
     "timeline": [
       {
@@ -1138,9 +1150,24 @@
         "date": "2026-09-04",
         "change": "independence: 'primarily-sponsor' (new evidence-independence field)",
         "reason": "Research-quality audit: replication now means independent reproduction of positive findings (same-lab/sponsor repeats are 'same-group'; attempted-and-discordant is 'conflicting', never forced onto the positive scale); evidence independence made an explicit, visible dimension. Evidence scores unchanged by this relabeling."
+      },
+      {
+        "date": "2026-10-27",
+        "change": "loudness.level: limited → none (shown as 'None shown'); loudness.summary rewritten (Ménière's population named); registry results NCT04677972 and NCT03325790 added as study records",
+        "reason": "Held review 2026-10-27 (classification-review-spi-1005-loudness-2026-10-27), approved by the owner 27 Oct 2026: the 'limited' rating rested on an open-label severity outcome, which is not a loudness measure; two placebo-controlled trials in Ménière's disease that measured self-rated loudness (TFI item 2) show no difference from placebo. Evidence score, tier and distress rating unchanged by this review (distress is under a separate held review)."
+      },
+      {
+        "date": "2026-10-27",
+        "change": "distress.level: limited → none (shown as 'None shown'); distress.summary, oneLiner and scoreRationale corrected (they described the tinnitus data as open-label/unblinded only)",
+        "reason": "Held review 2026-10-27 (classification-review-spi-1005-distress-2026-10-27), approved by the owner 27 Oct 2026: two placebo-controlled trials in Ménière's disease (NCT04677972, NCT03325790) show no distress (TFI) advantage over placebo; the only positive result is an uncontrolled open-label extension. The 3 Sept 2026 note that SPI-1005 had 'zero controlled tinnitus data' is superseded by these registry results (the Top 10 outcome is unaffected). Evidence score (2/5) and tier unchanged; a separate consistency review of the score is open."
+      },
+      {
+        "date": "2026-10-27",
+        "change": "limitations[1] corrected: separates the placebo-controlled Ménière's trial results from the uncontrolled open-label extension (wording only)",
+        "reason": "Held review 2026-10-27 (classification-review-spi-1005-score-2026-10-27, factual correction only), approved by the owner 27 Oct 2026: the item still described the tinnitus data as open-label only. Evidence score (2/5), tier, loudness and distress ratings and rankings unchanged; the score question remains open in that review."
       }
     ],
-    "scoreRationale": "A Phase 3 program with BTD earns 2/5 for tinnitus specifically: the tinnitus outcomes are open-label, company-reported, and in a Meniere's population. The ongoing Phase 3 (NCT06859788) is open-label single-group — it cannot produce controlled tinnitus evidence.",
+    "scoreRationale": "A Phase 3 program with BTD earns 2/5 for tinnitus specifically: in its placebo-controlled Phase 2b and Phase 3 trials (registry results, Ménière's disease) the tinnitus outcomes were secondary and showed no advantage over placebo; the positive tinnitus result comes from an open-label extension. The ongoing Phase 3 (NCT06859788) is open-label single-group — it cannot produce controlled tinnitus evidence.",
     "lastReviewed": "2026-09-04",
     "evidenceThrough": "2026-09-04",
     "confidence": "moderate",
@@ -1165,10 +1192,12 @@
     "mechanism": "GABA-A positive allosteric modulation (restoring central inhibition)",
     "loudness": {
       "level": "none",
+      "notMeasured": true,
       "summary": "No human tinnitus data yet."
     },
     "distress": {
       "level": "none",
+      "notMeasured": true,
       "summary": "No human tinnitus data yet."
     },
     "regulatory": {
@@ -1935,6 +1964,7 @@
     "mechanism": "Auditory + vibrotactile pairing (wrist)",
     "loudness": {
       "level": "none",
+      "notMeasured": true,
       "summary": "No loudness data."
     },
     "distress": {
@@ -3370,10 +3400,12 @@
     "mechanism": "Deep-brain neuromodulation via focused ultrasound",
     "loudness": {
       "level": "none",
+      "notMeasured": true,
       "summary": "No human tinnitus data yet."
     },
     "distress": {
       "level": "none",
+      "notMeasured": true,
       "summary": "No human tinnitus data yet."
     },
     "regulatory": {
@@ -3863,10 +3895,12 @@
     "mechanism": "None validated; preclinical signal points toward harm",
     "loudness": {
       "level": "none",
+      "notMeasured": true,
       "summary": "No human trials at all."
     },
     "distress": {
       "level": "none",
+      "notMeasured": true,
       "summary": "No human trials. NHANES population analysis: tinnitus prevalence is HIGHER among cannabis users (OR ~1.8 for high-volume use, adjusted)."
     },
     "regulatory": {

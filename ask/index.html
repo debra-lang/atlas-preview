@@ -47,6 +47,7 @@ or research findings.</strong> Answers are generated from the Tinnitus Evidence 
   research database. AI does not determine treatment ratings or rankings. Evidence ratings, safety assessments,
   rankings, and major research conclusions remain subject to the site's human-review rules.
   Looking for a specific study or treatment? <a href="search.html">Search the database →</a></p>
+  <p class="small" id="ask-help" style="margin:10px 0 0">Ask is an automated research tool and can’t recognise every urgent situation. Struggling right now? <a href="support/#crisis">Find support</a> · Worried about a symptom? <a href="urgent/">When to get help quickly</a></p>
 </div>
 
 <div id="ask-status" role="status" aria-live="polite" class="small muted" style="position:absolute;left:-9999px"></div>
@@ -124,9 +125,15 @@ or research findings.</strong> Answers are generated from the Tinnitus Evidence 
     ans.innerHTML="<div class='notice'>Ask Tinnitus Evidence is temporarily unavailable. You can still search "+
       "<a href='treatments/'>treatments</a>, <a href='research/'>studies</a> and <a href='trials/'>trials</a> directly.</div>";
   }
+  // Distress tier (worker sets res.support): a calm panel above the answer. Lines mirror data/safety.json.
+  var SUPPORT_PANEL="<div class='notice' role='note' style='margin:0 0 14px'><p style='margin:0 0 6px'><strong>If tinnitus feels overwhelming, you're not alone, and support can help.</strong> "+
+    "Talking therapies such as cognitive behavioural therapy (CBT) have the strongest evidence for reducing tinnitus distress.</p>"+
+    "<p class='small' style='margin:0'>If you're thinking about suicide, talk to someone now: US <strong>988</strong> · UK &amp; Ireland <strong>116 123</strong> · "+
+    "Canada <strong>9-8-8</strong> · Australia <strong>13 11 14</strong> · New Zealand <strong>1737</strong> · elsewhere <a href='https://findahelpline.com/'>findahelpline.com</a>. "+
+    "<a href='support/#crisis'>More support and crisis lines</a></p></div>";
   function render(res){
     stopLoading();
-    ans.hidden=false; ans.innerHTML=md(res.answer||"");
+    ans.hidden=false; ans.innerHTML=(res.support? SUPPORT_PANEL : "")+md(res.answer||"");
     if(res.sources && res.sources.length){
       src.hidden=false;
       src.innerHTML="<h3 style='margin-top:18px'>Sources</h3><ul class='small'>"+res.sources.map(function(s){
@@ -167,7 +174,7 @@ or research findings.</strong> Answers are generated from the Tinnitus Evidence 
 })();
 </script>
 </main>
-<footer class="footer-links"><div class="wrap"><p class="small"><a href="treatments/">Tinnitus treatments</a> · <a href="trials/">Clinical trials</a> · <a href="research/">Research records</a> · <a href="ask/">Ask Tinnitus Evidence</a> · <a href="research-questions/">Research questions</a> · <a href="guides/tinnitus-treatments/">What has the strongest evidence?</a> · <a href="guides/tinnitus-loudness-vs-distress/">Loudness vs distress</a> · <a href="emerging-unproven/">Emerging, experimental &amp; unproven treatments</a> · <a href="claims/">Tinnitus claims: fact vs. evidence</a> · <a href="research.html">Latest tinnitus research updates</a> · <a href="about.html">About &amp; methodology</a> · <a href="about.html#limitations">Research limitations</a> · <a href="about.html#corrections">Corrections &amp; editorial integrity</a> · <a href="about.html#disclaimer">Medical disclaimer</a></p>
+<footer class="footer-links"><div class="wrap"><p class="small"><a href="treatments/">Tinnitus treatments</a> · <a href="trials/">Clinical trials</a> · <a href="research/">Research records</a> · <a href="ask/">Ask Tinnitus Evidence</a> · <a href="research-questions/">Research questions</a> · <a href="guides/tinnitus-treatments/">What has the strongest evidence?</a> · <a href="guides/tinnitus-loudness-vs-distress/">Loudness vs distress</a> · <a href="emerging-unproven/">Emerging, experimental &amp; unproven treatments</a> · <a href="claims/">Tinnitus claims: fact vs. evidence</a> · <a href="research.html">Latest tinnitus research updates</a> · <a href="about.html">About &amp; methodology</a> · <a href="about.html#limitations">Research limitations</a> · <a href="about.html#corrections">Corrections &amp; editorial integrity</a> · <a href="about.html#disclaimer">Medical disclaimer</a> · <a href="urgent/">When to get help quickly</a> · <a href="support/">Support &amp; crisis lines</a> · <a href="living/">Living with tinnitus</a></p>
 <p class="small muted">Tinnitus Evidence is an educational evidence-navigation resource — not medical advice.
 It does not diagnose, and never replaces an ENT physician, audiologist or other qualified professional.</p></div></footer>
 <script src="js/app.js"></script>

@@ -105,7 +105,7 @@
         "weakest": "Cochrane 2018: insufficient controlled evidence; tinnitus benefit hard to separate from hearing benefit.",
         "studies": "UNITI head-to-head plus a large observational literature; thin on placebo-controlled designs.",
         "replication": "Widely replicated observationally.",
-        "loudness": "Limited — reduced audibility/awareness reported; controlled percept evidence weak.",
+        "loudness": "Limited — people rate their tinnitus somewhat quieter with hearing aids alone (UNITI: −1.4 on 0–10, not statistically compared with other treatments), but tone-matched loudness did not change and there is no placebo-controlled test.",
         "distress": "Moderate — consistent severity reductions when hearing loss coexists (consensus + UNITI, low-certainty trial base).",
         "availability": "Widely available; OTC from ~$200 (incl. FDA-authorized AirPods hearing-aid software since 2024).",
         "uncertainty": "How much is tinnitus-specific vs simply hearing better."
@@ -324,6 +324,38 @@
     {
       "date": "2026-09-06",
       "note": "Editorial precision pass: 'one lab, one study' → 'one research group without independent replication' (two studies exist: Marks 2018 pilot + Shore 2023 RCT); 'the strongest…in any RCT' → 'among the strongest'; hearing-aid line reframed from directive advice to evidence description. NO rank, order, or stability changes.",
+      "top": [
+        "cbt",
+        "lenire",
+        "shore-bimodal",
+        "digital-cbt",
+        "cochlear-implants",
+        "hearing-aids",
+        "cbt-i",
+        "act",
+        "mbct",
+        "rtms"
+      ]
+    },
+    {
+      "date": "2026-10-27",
+      "note": "Editorial correction (held review 2026-10-27, owner-approved): the hearing-aid loudness line now describes the direct loudness evidence instead of 'audibility/awareness'. NO rank, order, or stability changes.",
+      "top": [
+        "cbt",
+        "lenire",
+        "shore-bimodal",
+        "digital-cbt",
+        "cochlear-implants",
+        "hearing-aids",
+        "cbt-i",
+        "act",
+        "mbct",
+        "rtms"
+      ]
+    },
+    {
+      "date": "2026-10-27",
+      "note": "Editorial correction (held review 2026-10-27, owner-approved): the hearing-aid loudness line now separates self-rated from tone-matched loudness and makes no comparison claim. NO rank, order, or stability changes.",
       "top": [
         "cbt",
         "lenire",

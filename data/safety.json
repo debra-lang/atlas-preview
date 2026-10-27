@@ -1,0 +1,293 @@
+{
+  "_comment": "Single source for urgent-care guidance and crisis lines (Phase 1 safety, 26 Oct 2026). Rendered on /urgent/, /support/, the Profile and the footer; the Ask worker carries a copy of the crisis lines that tools/ask_core_test.mjs checks against this file. Re-verify every entry at least every 3 months (verifyBy).",
+  "lastVerified": "2026-10-26",
+  "verifyBy": "2027-01-26",
+  "urgent": {
+    "title": "When to get help quickly",
+    "intro": "Most tinnitus is not a sign of anything dangerous. A few situations need medical attention quickly. This page explains which ones, calmly and without guesswork.",
+    "tiers": [
+      {
+        "id": "emergency",
+        "label": "Get emergency help now",
+        "lead": "Call your emergency number or go to an emergency department if tinnitus comes with:",
+        "items": [
+          "sudden weakness or drooping of the face, arm or leg, numbness, trouble speaking or seeing, a sudden severe headache, or other sudden changes in how your body works. These can be signs of a stroke.",
+          "pulsing tinnitus together with new head or neck pain, especially after a neck injury or neck manipulation. This can be a sign of a torn artery in the neck.",
+          "sudden, severe spinning dizziness (vertigo) that does not settle.",
+          "a recent head injury."
+        ]
+      },
+      {
+        "id": "today",
+        "label": "Get medical help today",
+        "lead": "Contact a doctor the same day if:",
+        "items": [
+          "your hearing has suddenly dropped or sounds muffled in one or both ears, even if it started days or a few weeks ago. Treatment works best when started early. If you cannot be seen today, go to an emergency department or urgent care.",
+          "you have new tinnitus that beats in time with your pulse and came on suddenly.",
+          "you have ear pain with fluid coming from the ear, swelling around the ear or a high temperature, or earache that has lasted more than 2 to 3 days."
+        ]
+      },
+      {
+        "id": "soon",
+        "label": "Book an appointment soon",
+        "lead": "Arrange a non-urgent appointment with your doctor or an audiologist if:",
+        "items": [
+          "you hear tinnitus in one ear only and it does not go away.",
+          "you have pulsing tinnitus that has been there for a while. The NHS advises asking for an urgent GP appointment for this.",
+          "your hearing is getting worse over weeks, or is clearly different between your ears.",
+          "you keep getting earache, or dizziness that keeps coming back.",
+          "tinnitus is affecting your sleep, mood, concentration or daily life."
+        ]
+      }
+    ],
+    "crisisLine": "If you are thinking about suicide, or feel you cannot cope, you can talk to someone now. If you are in immediate danger, call your emergency number.",
+    "emergencyNumbers": [
+      {
+        "where": "US and Canada",
+        "number": "911",
+        "sources": [
+          {
+            "label": "911.gov (US)",
+            "url": "https://www.911.gov/"
+          },
+          {
+            "label": "Public Health Agency of Canada",
+            "url": "https://www.canada.ca/en/public-health/corporate/contact-us.html"
+          }
+        ]
+      },
+      {
+        "where": "UK",
+        "number": "999 or 112",
+        "sources": [
+          {
+            "label": "GOV.UK",
+            "url": "https://www.gov.uk/guidance/999-and-112-the-uks-national-emergency-numbers"
+          }
+        ]
+      },
+      {
+        "where": "Ireland and the EU",
+        "number": "112 (Ireland also 999)",
+        "sources": [
+          {
+            "label": "gov.ie",
+            "url": "https://www.gov.ie/en/department-of-the-taoiseach/services/how-to-contact-emergency-services-in-ireland/"
+          }
+        ]
+      },
+      {
+        "where": "Australia",
+        "number": "000",
+        "sources": [
+          {
+            "label": "Australian Government: Triple Zero",
+            "url": "https://www.infrastructure.gov.au/media-communications/phone/triple-zero"
+          }
+        ]
+      },
+      {
+        "where": "New Zealand",
+        "number": "111",
+        "sources": [
+          {
+            "label": "New Zealand Police",
+            "url": "https://www.police.govt.nz/call-111"
+          }
+        ]
+      }
+    ],
+    "basis": [
+      {
+        "label": "NHS: Tinnitus (reviewed 12 Jan 2024; checked 26 Oct 2026): go to A&E or call 999 for tinnitus after a head injury, or with sudden hearing loss, facial weakness or vertigo; urgent GP appointment for tinnitus that beats with your pulse",
+        "url": "https://www.nhs.uk/conditions/tinnitus/"
+      },
+      {
+        "label": "NHS: Hearing loss (reviewed 30 May 2025): urgent GP appointment or NHS 111 for sudden hearing loss",
+        "url": "https://www.nhs.uk/conditions/hearing-loss/"
+      },
+      {
+        "label": "NICE NG155 (2020), recommendations 1.2.1 to 1.2.7, checked against nice.org.uk on 26 Oct 2026: refer immediately to a crisis mental health team for tinnitus with a high risk of suicide; refer immediately for sudden-onset significant neurological symptoms or signs, acute uncontrolled vertigo or suspected stroke; within 24 hours for hearing loss that developed suddenly (over 3 days or less) in the past 30 days; within 2 weeks for distress affecting mental wellbeing, or hearing loss that is rapidly worsening; consider referral for persistent pulsatile or one-sided tinnitus",
+        "url": "https://www.nice.org.uk/guidance/ng155/chapter/Recommendations",
+        "summary": true
+      },
+      {
+        "label": "Ellis et al., British Journal of General Practice 2022: sudden-onset pulsatile tinnitus warrants emergency assessment",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8966951/"
+      },
+      {
+        "label": "NHS: Earache (reviewed 27 Oct 2025): urgent GP appointment or NHS 111 for earache lasting more than 2 to 3 days, fluid from the ear, swelling around the ear, a very high temperature or a change in hearing",
+        "url": "https://www.nhs.uk/symptoms/earache/"
+      },
+      {
+        "label": "NIDCD: Sudden deafness (updated 14 Sep 2018): treat as a medical emergency; treatment delayed more than two to four weeks is less likely to help",
+        "url": "https://www.nidcd.nih.gov/health/sudden-deafness"
+      },
+      {
+        "label": "RNID: Sudden hearing loss (updated 27 May 2026): can be a medical emergency; contact NHS 111 or your GP, or go to A&E if you cannot",
+        "url": "https://rnid.org.uk/information-and-support/hearing-loss/types-of-hearing-loss-and-deafness/sudden-hearing-loss/"
+      },
+      {
+        "label": "CDC: Signs and Symptoms of Stroke (page dated 19 May 2026): call 911 right away for any sudden sign of stroke, including a severe headache with no known cause",
+        "url": "https://www.cdc.gov/stroke/signs-symptoms/index.html"
+      },
+      {
+        "label": "Keser, Meschia and Lanzino, Mayo Clinic Proceedings 2022 (PMID 35379423), and Pacheco-López et al., Journal of Clinical Medicine 2025 (PMID 40648801) (both reviewed for Tinnitus Claims Check, Oct 2026): pulsatile tinnitus with head or neck pain can signal a torn neck artery, which needs emergency assessment",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/35379423/"
+      },
+      {
+        "label": "AAO-HNSF Clinical Practice Guideline: Tinnitus Update (Otolaryngology–Head and Neck Surgery, Oct 2026; doi 10.1002/ohn.70417): clinicians should ask about self-harm risk (KAS 3) and obtain a comprehensive audiological evaluation (KAS 5)",
+        "url": "https://doi.org/10.1002/ohn.70417"
+      }
+    ]
+  },
+  "crisis": {
+    "title": "Crisis support",
+    "intro": "If you are thinking about suicide, or feel you cannot keep yourself safe, please talk to someone now. These services are free and confidential, and staffed by trained people.",
+    "lines": [
+      {
+        "country": "United States",
+        "services": [
+          {
+            "name": "988 Suicide & Crisis Lifeline",
+            "contact": "Call or text 988, or chat online",
+            "hours": "24/7",
+            "url": "https://988lifeline.org/"
+          },
+          {
+            "name": "Veterans Crisis Line",
+            "contact": "Dial 988, then press 1, or text 838255",
+            "hours": "24/7",
+            "url": "https://www.veteranscrisisline.net/"
+          }
+        ]
+      },
+      {
+        "country": "United Kingdom",
+        "services": [
+          {
+            "name": "Samaritans",
+            "contact": "Call 116 123",
+            "hours": "24/7",
+            "url": "https://www.samaritans.org/how-we-can-help/contact-samaritan/"
+          },
+          {
+            "name": "Shout",
+            "contact": "Text SHOUT to 85258",
+            "hours": "24/7",
+            "url": "https://giveusashout.org/get-help/"
+          }
+        ]
+      },
+      {
+        "country": "Ireland",
+        "services": [
+          {
+            "name": "Samaritans Ireland",
+            "contact": "Call 116 123",
+            "hours": "24/7",
+            "url": "https://www.samaritans.org/samaritans-ireland/"
+          },
+          {
+            "name": "Text 50808",
+            "contact": "Text HELLO to 50808",
+            "hours": "24/7",
+            "url": "https://www2.hse.ie/mental-health/services-support/supports-services/",
+            "note": "Verified on the HSE (Irish health service) page; the service's own site was unavailable when checked"
+          }
+        ]
+      },
+      {
+        "country": "Canada",
+        "services": [
+          {
+            "name": "9-8-8 Suicide Crisis Helpline",
+            "contact": "Call or text 9-8-8",
+            "hours": "24/7",
+            "url": "https://988.ca/"
+          }
+        ]
+      },
+      {
+        "country": "Australia",
+        "services": [
+          {
+            "name": "Lifeline",
+            "contact": "Call 13 11 14, text 0477 13 11 14, or chat online",
+            "hours": "24/7",
+            "url": "https://www.lifeline.org.au/get-help/"
+          }
+        ]
+      },
+      {
+        "country": "New Zealand",
+        "services": [
+          {
+            "name": "1737, Need to talk?",
+            "contact": "Call or text 1737",
+            "hours": "24/7",
+            "url": "https://1737.org.nz/"
+          }
+        ]
+      },
+      {
+        "country": "Germany",
+        "services": [
+          {
+            "name": "TelefonSeelsorge",
+            "contact": "Call 0800 111 0 111 or 0800 111 0 222, or 116 123",
+            "hours": "24/7",
+            "url": "https://www.telefonseelsorge.de/"
+          }
+        ]
+      }
+    ],
+    "directory": {
+      "name": "Find A Helpline",
+      "contact": "Free helplines in more than 175 countries",
+      "url": "https://findahelpline.com/",
+      "note": "Run by ThroughLine; helplines verify their details directly"
+    },
+    "danger": "If you are in immediate danger, call your local emergency number.",
+    "limits": "Tinnitus Evidence is an information website. It cannot provide counselling, does not monitor messages, and cannot follow up with anyone."
+  },
+  "organizations": [
+    {
+      "name": "Tinnitus UK",
+      "country": "United Kingdom",
+      "offers": "Free helpline 0800 018 0527 (Monday to Friday, 10am to 4pm UK time), webchat, text and email (details on their website), support groups and a free online course",
+      "url": "https://tinnitus.org.uk/"
+    },
+    {
+      "name": "American Tinnitus Association",
+      "country": "United States",
+      "offers": "Information line 800-634-8978, support-group directory and peer volunteers",
+      "url": "https://www.ata.org/"
+    },
+    {
+      "name": "Chime: tinnitus support",
+      "country": "Ireland",
+      "offers": "Information and one-to-one support for people with tinnitus",
+      "url": "https://www.chime.ie/"
+    },
+    {
+      "name": "Deutsche Tinnitus-Liga",
+      "country": "Germany",
+      "offers": "Peer advice line and self-help groups (in German)",
+      "url": "https://www.tinnitus-liga.de/"
+    },
+    {
+      "name": "Acouphènes Québec",
+      "country": "Canada (Québec)",
+      "offers": "Listening and information line 1-877-276-7772, in French and English",
+      "url": "https://www.acouphenesquebec.org/"
+    }
+  ],
+  "pending": [
+    "Tinnitus UK text/SMS number: Tinnitus UK's own materials give three different numbers (0786 000 8241 on its 'How we can help' page, 26 Oct 2026; 07531 416841 in its 2025 brochure; 07537 416841 on its support-hours page). Not published until the charity confirms which is current.",
+    "Text 50808 (Ireland): confirmed on the HSE page; the service's own site (text50808.ie) was unreachable on 26 Oct 2026 (server error).",
+    "Canada 911: confirmed on the Public Health Agency of Canada page; the CRTC 9-1-1 page is behind a browser security check and was not read.",
+    "Soundfair / Tinnitus Awareness (Australia): winding down; not listed",
+    "Tinnitus Association of Canada: could not be verified; not listed"
+  ]
+}

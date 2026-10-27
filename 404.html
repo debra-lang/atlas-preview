@@ -8,6 +8,7 @@
 (function () {
   var h = location.hostname;
   if (h !== 'tinnitusevidence.com' && h !== 'www.tinnitusevidence.com') return;
+  if (/^\/(support|urgent)(\/|$)/.test(location.pathname)) return;   // as in js/app.js
   window.__teGa = true;
   var s = document.createElement('script');
   s.async = true;
@@ -34,6 +35,7 @@
   <p><a class="btn" href="index.html">← Back to Tinnitus Evidence</a>&nbsp;
      <a class="btn" href="treatments.html">Browse all treatments</a>&nbsp;
      <a class="btn" href="search.html">Search</a></p>
+  <p class="small">Worried about a symptom? <a href="urgent/">When to get help quickly</a> · Need to talk to someone? <a href="support/#crisis">Crisis support</a></p>
 </main>
 </body>
 </html>

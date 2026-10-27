@@ -1,0 +1,2558 @@
+{
+  "_comment": "Patient experience (Phase 2, 26 Oct 2026). One source for the 'What would help you today?' choices: the homepage section, the /living/ hub and, later, each guide's 'You might also find helpful' row. A choice links to its guide when 'published' is true; until then it links to its short card on /living/. Cards link only to pages that already exist. Educational information, not medical advice.",
+  "lastReviewed": "2026-10-26",
+  "chooser": {
+    "title": "Living with tinnitus?",
+    "sub": "Whether it's new or you've lived with it for years, find clear answers and practical next steps.",
+    "question": "What would help you today?"
+  },
+  "needs": [
+    {
+      "id": "start",
+      "icon": "🌱",
+      "label": "Tinnitus is new to me",
+      "short": "New tinnitus",
+      "desc": "What to do in the first days and weeks",
+      "guide": "start/",
+      "published": true
+    },
+    {
+      "id": "sleep",
+      "icon": "🌙",
+      "label": "I'm having trouble sleeping",
+      "short": "Trouble sleeping",
+      "desc": "For tonight, and for the longer term",
+      "guide": "living/sleep/",
+      "published": true
+    },
+    {
+      "id": "overwhelmed",
+      "icon": "🤝",
+      "label": "I'm feeling overwhelmed",
+      "short": "Feeling overwhelmed",
+      "desc": "Support now, and ways to ease the strain",
+      "guide": "living/overwhelmed/",
+      "published": true
+    },
+    {
+      "id": "concentration",
+      "icon": "🎯",
+      "label": "I need help concentrating",
+      "short": "Hard to concentrate",
+      "desc": "Work, study and busy days",
+      "guide": "living/concentration/",
+      "published": true
+    },
+    {
+      "id": "appointment",
+      "icon": "📋",
+      "label": "I'm preparing for an appointment",
+      "short": "Appointment prep",
+      "desc": "What to note, ask and expect",
+      "guide": "appointment/",
+      "published": true
+    },
+    {
+      "id": "treatments",
+      "icon": "🔬",
+      "label": "I want to understand treatments",
+      "short": "Understand treatments",
+      "desc": "What the research shows, in plain English",
+      "guide": "guides/tinnitus-treatments/",
+      "published": true
+    }
+  ],
+  "urgentLine": "Sudden hearing loss, tinnitus after a head injury, or new pulsing tinnitus? <a href=\"urgent/\">Get medical help today</a>. Struggling to cope or thinking about suicide? <a href=\"support/#crisis\">Find support now</a>.",
+  "explore": [
+    [
+      "treatments.html?flag=avail",
+      "Treatments you can try now"
+    ],
+    [
+      "treatments.html?flag=loud#results",
+      "What may reduce loudness"
+    ],
+    [
+      "trials.html",
+      "Trials to watch"
+    ]
+  ],
+  "guides": {
+    "start": {
+      "path": "start/",
+      "crumb": "New to tinnitus",
+      "title": "New to tinnitus? Start here",
+      "metaTitle": "New to Tinnitus? What to Do First, and What to Expect | Tinnitus Evidence",
+      "metaDesc": "Just noticed ringing in your ears? What helps in the first days and weeks, the few warning signs that need quick help, and an honest answer to whether it goes away.",
+      "lastReviewed": "2026-10-26",
+      "lead": "Hearing a sound no one else can hear can be frightening, especially at first. You are not alone: about 1 in 7 adults has some tinnitus,[[jarach]] and it is usually not a sign of anything serious.[[nhs]]",
+      "nowTitle": "If it has just started, here's what helps first",
+      "now": [
+        "<strong>Check the few warning signs.</strong> Sudden hearing loss, tinnitus after a head injury, new tinnitus that beats with your pulse, weakness in your face or severe dizziness need medical help quickly. <a href=\"urgent/\">When to get help quickly</a>",
+        "<strong>Book a check with a doctor or an audiologist</strong> (a hearing specialist). A hearing test is the usual first step, and simple causes such as earwax or an ear infection can be treated.[[aao,nice]]",
+        "<strong>Tonight, avoid total silence.</strong> A soft sound you like, such as a fan or quiet music, can make the ringing less noticeable.[[nhs]] <a href=\"living/sleep/\">Help for difficult nights</a>",
+        "<strong>Go easy on yourself.</strong> Worry and stress can make tinnitus more noticeable.[[nhs]] Feeling alarmed by a new sound is a normal reaction, and it often settles as the sound becomes familiar.",
+        "<strong>Hold off on buying \"cures\".</strong> No pill, supplement or device has been shown to switch tinnitus off.[[nidcd,aao]] <a href=\"start/#buy\">Before you spend money</a>"
+      ],
+      "nowFoot": "Feeling desperate or unsafe? <a href=\"support/#crisis\">Talk to someone now</a>. For tinnitus advice, Tinnitus UK's free helpline (0800 018 0527) is open Monday to Friday, 10am to 4pm UK time.",
+      "sections": [
+        {
+          "id": "urgent",
+          "type": "urgent",
+          "short": "Warning signs",
+          "title": "The few signs that need quick help",
+          "intro": "Most tinnitus can wait for a routine appointment. A few situations can't:[[nhs,nice]]",
+          "summary": {
+            "emergency": "sudden weakness in the face, arm or leg, trouble speaking or seeing, severe spinning dizziness that won't settle, or tinnitus after a recent head injury.",
+            "today": "a sudden drop in hearing (even if it started days or a few weeks ago), or new tinnitus that beats with your pulse and came on suddenly.",
+            "soon": "tinnitus in one ear only, pulsing tinnitus that has been there a while, or tinnitus that is affecting your sleep or mood."
+          }
+        },
+        {
+          "id": "what",
+          "toc": false,
+          "short": "What it is",
+          "title": "What tinnitus is",
+          "html": "<p>Tinnitus means hearing a sound, such as ringing, buzzing, hissing or humming, that doesn't come from outside you. It is a symptom, not a disease.[[aao]]</p><p>It can follow loud noise, or come with hearing loss, an ear infection or earwax. Some medicines can cause it, and sometimes there's no clear reason.[[nidcd]] Most people with tinnitus have some hearing loss, which a hearing test can show.[[aao]] Stress doesn't usually cause tinnitus, but it can make it more noticeable.[[nhs]]</p><p class=\"small muted\">A sudden ringing in one ear that fades within about 5 minutes is different. The main US tinnitus guideline doesn't cover it, because it doesn't usually need medical care.[[aao]]</p>"
+        },
+        {
+          "id": "weeks",
+          "short": "First weeks",
+          "title": "The first few weeks: what helps",
+          "html": "<ul><li><strong>Use sound, not silence.</strong> Quiet rooms make tinnitus stand out. Low background sound, such as a fan, the radio or nature sounds, gives your ears something else to hear.[[nhs]]</li><li><strong>Protect your ears from loud noise, but not from everyday sound.</strong> Wear earplugs at concerts or with power tools. In one trial at a music festival, 12% of people wearing earplugs had new tinnitus afterwards, against 40% without.[[ramakers]] But try not to block out ordinary sounds. Wearing earplugs for long stretches can make everyday sounds seem too loud.[[tukhyper,ata,munro]]</li><li><strong>Look after your sleep.</strong> Tinnitus and poor sleep often go together. <a href=\"living/sleep/\">Sleep and difficult nights</a> has practical steps for tonight and the longer term.</li><li><strong>Keep doing the things you enjoy.</strong> Absorbing activities give your attention somewhere else to go. Try not to spend long periods listening for the sound.[[nhs]]</li><li><strong>Be careful with forums and videos.</strong> Talking with others can help you feel less alone, but some online spaces are full of worst-case stories and conflicting advice.[[ainscough]] If reading makes you more frightened, take a break.</li><li><strong>If you take a medicine you think might be linked</strong>, don't stop it on your own. Ask the person who prescribed it.</li></ul><p>If tinnitus is bothering you, or affecting your sleep or mood, you don't have to wait months to ask for help.[[ata,nice]]</p>"
+        },
+        {
+          "id": "expect",
+          "short": "Will it go away?",
+          "title": "Will it go away? An honest answer",
+          "html": "<p><strong>Some tinnitus goes away, especially soon after it starts, but often it doesn't. Even when the sound stays, it often becomes less of a problem, and there is help for that.</strong></p><div class=\"g-box\"><ul><li><strong>Soon after it starts:</strong> two small studies followed people who saw an ear specialist in the first month. About 1 to 2 in 10 had no tinnitus 6 months later.[[wallhausser,vielsmeier]] People whose tinnitus faded quickly may never have seen a specialist, so the real chance may be higher.</li><li><strong>Tinnitus that has been there a while:</strong> a large UK study followed adults aged 40 to 69. About 2 in 10 no longer had it 4 years later. Of those who still had it, most said it was about the same; about 1 in 10 said it was better and 1 in 10 worse.[[dawes]]</li><li><strong>How much it bothers people:</strong> on average this eases a little over time, though it varies a lot from person to person.[[phillips]] Talking therapies such as CBT (cognitive behavioural therapy) can reduce its impact on daily life.[[cochrane_cbt]]</li></ul></div><p>We can't promise that it will fade, or that everyone gets used to it, and anyone who promises either is guessing. What we can say is that there are ways to manage tinnitus that help many people live well with it.[[nice]] <a href=\"claims/does-tinnitus-go-away/\">The full evidence: does tinnitus go away?</a></p>"
+        },
+        {
+          "id": "buy",
+          "short": "Before you buy",
+          "title": "Before you spend money",
+          "html": "<p>Tinnitus attracts a lot of marketing, and it is natural to want a quick fix. Leading guidelines advise against these as tinnitus treatments:</p><ul><li><strong>Dietary supplements</strong>, such as ginkgo, zinc or vitamin blends sold for tinnitus.[[aao]] <a href=\"treatments/supplements/\">The evidence</a></li><li><strong>Betahistine</strong>, a medicine sometimes prescribed for tinnitus or dizziness.[[nice]]</li><li><strong>Hearing aids if your hearing test shows no hearing loss.</strong> They are a good option when there is hearing loss.[[nice]]</li><li><strong>Antidepressants, anti-seizure or anti-anxiety medicines as a routine tinnitus treatment.</strong> They may still be right for you for other reasons, such as low mood.[[aao]]</li><li><strong>rTMS</strong> (magnetic brain stimulation).[[aao]] <a href=\"treatments/rtms/\">The evidence</a></li></ul><p>Expensive sound gadgets aren't proven to work better than a fan, a radio or a free app. The UK guideline found too little evidence to recommend any particular sound therapy.[[nice]] If something promises a cure, <a href=\"claims/\">check the claim</a> or look it up in <a href=\"emerging-unproven/\">Emerging and unproven treatments</a>.</p>"
+        },
+        {
+          "id": "doctor",
+          "toc": false,
+          "short": "Seeing a doctor",
+          "title": "Seeing a doctor about it",
+          "html": "<p>A family doctor (GP) or an audiologist is usually the first step. It helps to say clearly what is happening. For example:</p><div class=\"g-box\"><ul><li>\"It started on <em>[date]</em>, in <em>[one / both]</em> ears.\"</li><li>\"It <em>does / doesn't</em> beat in time with my pulse.\"</li><li>\"My hearing <em>has / hasn't</em> changed, and I <em>do / don't</em> feel dizzy.\"</li><li>\"It's affecting my <em>sleep / mood / work</em>.\"</li><li>\"Could I have a hearing test?\"</li></ul></div><p>If you're told nothing can be done, that usually means there's no cure, not that nothing can help. It's fine to ask about support for sleep and distress, or for a referral or second opinion.[[ata]] <a href=\"appointment/\">Prepare for your appointment</a> has a notes sheet you can fill in and print.</p>"
+        },
+        {
+          "id": "checklist",
+          "type": "checklist",
+          "short": "Checklist",
+          "title": "Your first-weeks checklist",
+          "intro": "Tick off what you've done. Print it or save it as a PDF if that helps.",
+          "items": [
+            "Read the warning signs, and know where to find them again",
+            "Book a hearing check with a doctor or audiologist",
+            "Note when it started, which ear, what it sounds like, and anything that changed (noise, illness, new medicines)",
+            "Use soft background sound in quiet rooms and at bedtime",
+            "Protect your ears in loud places, and skip earplugs in quiet ones",
+            "Keep a regular sleep routine",
+            "Hold off on buying supplements or devices that promise a cure",
+            "If it's affecting your sleep or mood, ask about tinnitus support and CBT",
+            "Know where to find support if it ever feels like too much"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "guideline",
+          "level": "Guideline advice",
+          "text": "A hearing test (audiological assessment) is recommended for people with tinnitus.[[aao,nice]]"
+        },
+        {
+          "kind": "guideline",
+          "level": "Guideline advice",
+          "text": "Talking therapy based on CBT is recommended for tinnitus that keeps bothering you. It reduces the impact on daily life, not the sound itself; the evidence is rated low certainty.[[aao,cochrane_cbt]]"
+        },
+        {
+          "kind": "guideline",
+          "level": "Guideline advice",
+          "text": "Supplements, betahistine and rTMS are advised against as tinnitus treatments.[[aao,nice]]"
+        },
+        {
+          "kind": "limited",
+          "level": "One trial",
+          "text": "Earplugs at a loud music festival reduced new tinnitus afterwards (12% vs 40%).[[ramakers]]"
+        },
+        {
+          "kind": "limited",
+          "level": "Mixed advice",
+          "text": "Background sound is an option in the US guideline, but the UK guideline found too little evidence to recommend it. Many people find it comforting.[[aao,nice,nhs]]"
+        },
+        {
+          "kind": "practical",
+          "level": "Practical tip",
+          "text": "Keeping busy, limiting time on forums, and not over-using earplugs are expert advice with little direct research.[[ata,tukhyper,ainscough]]"
+        }
+      ],
+      "evidenceNote": "We separate what guidelines recommend, what single studies found, and practical tips with little research behind them. <a href=\"guides/tinnitus-loudness-vs-distress/\">Why we keep loudness and distress apart</a>.",
+      "related": [
+        "sleep",
+        "overwhelmed",
+        "appointment"
+      ],
+      "sources": [
+        {
+          "key": "jarach",
+          "cite": "Jarach CM, et al. Global prevalence and incidence of tinnitus: a systematic review and meta-analysis. JAMA Neurology 2022;79(9):888-900. Pooled prevalence of any tinnitus in adults: 14.4%.",
+          "url": "https://doi.org/10.1001/jamaneurol.2022.2189"
+        },
+        {
+          "key": "nhs",
+          "cite": "NHS. Tinnitus (page last reviewed 12 January 2024).",
+          "url": "https://www.nhs.uk/conditions/tinnitus/"
+        },
+        {
+          "key": "nice",
+          "cite": "NICE. Tinnitus: assessment and management (guideline NG155), 2020. Recommendations 1.1.3, 1.2, 1.4.1, 1.5.3, 1.5.5 and the sound-therapy evidence review.",
+          "url": "https://www.nice.org.uk/guidance/ng155/chapter/Recommendations"
+        },
+        {
+          "key": "nidcd",
+          "cite": "US National Institute on Deafness and Other Communication Disorders (NIDCD). Tinnitus (updated 1 May 2023).",
+          "url": "https://www.nidcd.nih.gov/health/tinnitus"
+        },
+        {
+          "key": "aao",
+          "cite": "Adams ME, Cramer JD, Tunkel DE, et al. Clinical Practice Guideline: Tinnitus Update. Otolaryngology-Head and Neck Surgery 2026 (American Academy of Otolaryngology-Head and Neck Surgery Foundation). Key action statements 5, 7, 10, 11, 12, 13 and 14A, and the guideline's scope, as stated in the published abstracts.",
+          "url": "https://doi.org/10.1002/ohn.70418"
+        },
+        {
+          "key": "cochrane_cbt",
+          "cite": "Fuller T, et al. Cognitive behavioural therapy for tinnitus. Cochrane Database of Systematic Reviews 2020 (low-certainty evidence that CBT reduces the impact of tinnitus on quality of life).",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31912887/"
+        },
+        {
+          "key": "phillips",
+          "cite": "Phillips JS, McFerran DJ, Hall DA, Hoare DJ. The natural history of subjective tinnitus in adults: a systematic review and meta-analysis of no-intervention periods in controlled trials. Laryngoscope 2018;128(1):217-227.",
+          "url": "https://doi.org/10.1002/lary.26607"
+        },
+        {
+          "key": "dawes",
+          "cite": "Dawes P, Newall J, Stockdale D, Baguley DM. Natural history of tinnitus in adults: a cross-sectional and longitudinal analysis. BMJ Open 2020;10:e041290 (UK Biobank, about 4 years' follow-up).",
+          "url": "https://doi.org/10.1136/bmjopen-2020-041290"
+        },
+        {
+          "key": "wallhausser",
+          "cite": "Wallhäusser-Franke E, et al. Transition from acute to chronic tinnitus: predictors for the development of chronic distressing tinnitus. Frontiers in Neurology 2017;8:605 (complete remission by 6 months in 11% of 47).",
+          "url": "https://doi.org/10.3389/fneur.2017.00605"
+        },
+        {
+          "key": "vielsmeier",
+          "cite": "Vielsmeier V, et al. From acute to chronic tinnitus: pilot data on predictors and progression. Frontiers in Neurology 2020;11:997 (full remission in 18.4%).",
+          "url": "https://doi.org/10.3389/fneur.2020.00997"
+        },
+        {
+          "key": "ramakers",
+          "cite": "Ramakers GG, et al. Effectiveness of earplugs in preventing recreational noise-induced hearing loss: a randomized clinical trial. JAMA Otolaryngology-Head and Neck Surgery 2016;142(6):551-558.",
+          "url": "https://doi.org/10.1001/jamaoto.2016.0225"
+        },
+        {
+          "key": "tukhyper",
+          "cite": "Tinnitus UK. Hyperacusis: ear protection shouldn't be used for normal day-to-day activities.",
+          "url": "https://tinnitus.org.uk/understanding-tinnitus/what-is-tinnitus/types-of-tinnitus/hyperacusis/"
+        },
+        {
+          "key": "ata",
+          "cite": "American Tinnitus Association. Ringing after 48 hours; Who should I see for help? (hearing protection only for uncomfortably loud sound; seek help if tinnitus continues or bothers you; second opinions).",
+          "url": "https://www.ata.org/about-tinnitus/ringing-after-48-hours/"
+        },
+        {
+          "key": "munro",
+          "cite": "Munro KJ, Turtle C, Schaette R. Plasticity and modified loudness following short-term unilateral deprivation: evidence of multiple gain mechanisms within the auditory system. Journal of the Acoustical Society of America 2014;135(1):315-322 (a week of earplug use made sounds seem louder; the change faded within a day).",
+          "url": "https://doi.org/10.1121/1.4835715"
+        },
+        {
+          "key": "ainscough",
+          "cite": "Ainscough E, Smith SN, Greenwell K, Hoare DJ. Findings and ethical considerations from a thematic analysis of threads within tinnitus online support groups. American Journal of Audiology 2018;27:503-512.",
+          "url": "https://doi.org/10.1044/2018_AJA-IMIA3-18-0013"
+        }
+      ],
+      "nowLayout": {
+        "style": "steps",
+        "art": [
+          "lighthouse",
+          "headphones",
+          "moon-waves",
+          "leaf",
+          "tag"
+        ],
+        "more": [
+          "urgent",
+          "doctor",
+          "weeks",
+          "expect",
+          null
+        ]
+      }
+    },
+    "sleep": {
+      "path": "living/sleep/",
+      "crumb": "Sleep and difficult nights",
+      "title": "Sleep and difficult nights",
+      "metaTitle": "Tinnitus and Sleep: What Helps Tonight and in the Long Run | Tinnitus Evidence",
+      "metaDesc": "Can't sleep because of tinnitus? What to do right now, how to use sound at night, what to do after a bad night, and the treatment with the best evidence for long-term sleep problems.",
+      "lastReviewed": "2026-10-26",
+      "lead": "Tinnitus often seems louder at night and in the early morning,[[probst]] and around half of people with tinnitus say they sleep poorly.[[gu]] If you're reading this awake, you're not alone, and there are things that can help.",
+      "nowTitle": "Having a difficult night? Try this now",
+      "now": [
+        "<strong>Put on a soft, steady sound you like</strong>, such as a fan, rain or low music. Keep it a little quieter than your tinnitus: it doesn't have to cover it.[[tuksound]]",
+        "<strong>Let yourself rest.</strong> You don't have to force sleep; resting in bed is still helpful.[[tuksleep]]",
+        "<strong>If you've been wide awake for what feels like 20 to 30 minutes</strong> (guess, don't check the clock), get up and do something calm in dim light. Go back to bed when you feel sleepy.[[aasm2021,tuksleep]] Take care on the stairs in the dark.",
+        "<strong>When you've finished reading, put your phone face down</strong>, or set a timer on your bedtime sound.",
+        "<strong>If you feel desperate tonight</strong>, you don't have to cope alone. <a href=\"support/#crisis\">Talk to someone now</a>"
+      ],
+      "nowFoot": "One bad night is hard, but it is usually nothing to worry about. Take extra care tomorrow if you need to drive and feel very drowsy.",
+      "sections": [
+        {
+          "id": "sound",
+          "short": "Sound at night",
+          "title": "Using sound at night",
+          "html": "<p>A quiet bedroom makes tinnitus stand out. Gentle background sound gives your ears something else to hear.[[tuksleep]]</p><ul><li><strong>Choose something pleasant that doesn't demand attention:</strong> a fan, rain, waves, soft music or a quiet radio. If a sound annoys you, try another.[[tuksound]]</li><li><strong>Keep the volume low</strong>, a little quieter than your tinnitus, so you can still just hear it. Very loud sound can give relief in the moment, but the tinnitus may seem louder when it stops.[[tuksound]]</li><li><strong>Timer or all night?</strong> Either is fine. A timer suits you if you mainly struggle to fall asleep. Leaving a soft sound on helps if you wake in the early hours.[[tuksound]]</li><li><strong>Use a bedside speaker or a pillow speaker</strong> rather than earbuds all night, and keep it at a gentle level. A pillow speaker is quieter for a partner.[[tuksound]]</li></ul><div class=\"g-box\"><p><strong>On an iPhone:</strong> Settings, then Accessibility, Audio &amp; Visual, Background Sounds. Choose rain, ocean or another sound, set the volume, and use the timer if you like. If you want the sound to keep playing with the screen locked, turn off <em>Stop Sounds When Locked</em>.[[apple]]</p></div><p class=\"small muted\">Sound can make nights more comfortable. It hasn't been shown to reduce tinnitus over time, and expensive devices aren't proven to do better than a fan or a free app.[[cochrane_sound,nice]]</p>"
+        },
+        {
+          "id": "awake",
+          "toc": false,
+          "short": "Lying awake",
+          "title": "If your mind is racing",
+          "html": "<ul><li><strong>Try a worry list earlier in the evening.</strong> Spend 15 to 20 minutes writing down what's on your mind and what you could do about it. Worries are then less likely to arrive at bedtime.[[tuksleep]]</li><li><strong>Give yourself an hour to wind down</strong> before bed, away from work and bright screens.[[tuksleep,nhs_insomnia]]</li><li><strong>Keep the bed for sleep.</strong> If you can't sleep, get up for a while rather than lying there getting frustrated.[[aasm2021]]</li><li><strong>Relaxation can help</strong>, such as slow breathing or relaxing your muscles one group at a time.[[aasm2021]]</li></ul>",
+          "inNow": true
+        },
+        {
+          "id": "tomorrow",
+          "short": "After a bad night",
+          "title": "Tomorrow, after a bad night",
+          "html": "<ul><li><strong>Get up at your usual time</strong>, even after a poor night. Sleeping in can make the next night harder.[[nhs_insomnia,aasm2021]]</li><li><strong>Avoid long naps.</strong> If you must nap, keep it short and early in the day.[[aasm2021,tuksleep]]</li><li><strong>Stay active in the day</strong>, but not with hard exercise close to bedtime.[[tuksleep]]</li><li><strong>Go easy on caffeine and alcohol.</strong> Avoid tea, coffee and alcohol for about 6 hours before bed. Alcohol and over-the-counter sleep aids can make you wake earlier.[[nhs_insomnia,tuksleep]]</li><li><strong>Be careful driving</strong> if you feel very sleepy.</li></ul>",
+          "inNow": true
+        },
+        {
+          "id": "cbti",
+          "short": "CBT for insomnia",
+          "title": "If poor sleep has gone on for a while: CBT for insomnia",
+          "html": "<p><strong>CBT for insomnia (CBT-I) is the recommended first treatment for long-term insomnia.</strong> It suits people with other health conditions too, and it can be done online.[[aasm2021,acp,euro2023]] It is a short course that changes the habits and worries that keep poor sleep going.</p><p>In people with tinnitus, the early evidence is encouraging. In one trial, more than 8 in 10 people who had CBT-I said their sleep clearly improved. That compared with 47% in an audiology-based sleep programme and 20% in a support group. Their tinnitus distress fell too.[[marks]] A review of four smaller trials found sleep improved on average.[[curtis]]</p><h3>What it's like</h3><p>It usually takes several weeks. You may feel more tired at first, especially if it includes \"sleep restriction\": spending less time in bed for a while, so that sleep becomes deeper. If you drive for work, or have bipolar disorder or seizures, do that part with a clinician.[[aasm2021]] <a href=\"treatments/cbt-i/\">CBT-I: our evidence page</a></p><h3>Where to find it</h3><ul><li><strong>UK:</strong> ask your GP. NICE recommends the digital programme Sleepio; in England whether it's offered depends on your local NHS area, and it's free for adults in Scotland.[[htg624,parl]]</li><li><strong>US:</strong> the VA's free <a href=\"https://mobile.va.gov/app/insomnia-coach\" rel=\"noopener\">Insomnia Coach</a> app is a self-help programme based on CBT-I, available to everyone.[[insomniacoach]] (The VA's CBT-i Coach app is meant to be used with a therapist.) SleepioRx is an FDA-cleared digital CBT-I programme; ask your doctor.[[fda]] Sleep specialists who offer CBT-I are listed by the <a href=\"https://www.behavioralsleep.org/\" rel=\"noopener\">Society of Behavioral Sleep Medicine</a>.</li><li><strong>Australia:</strong> the free online <a href=\"https://thiswayup.org.au/what-we-treat/insomnia\" rel=\"noopener\">THIS WAY UP Insomnia Program</a>, which you can do on your own or with a clinician.[[thiswayup]]</li><li><strong>Elsewhere:</strong> ask your doctor about CBT-I, including online CBT-I.</li></ul><p class=\"small muted\">See a doctor before starting a self-help programme if you snore loudly, stop breathing in your sleep or feel very sleepy in the day. The same goes if you have bipolar disorder or seizures, or are at risk of falls.[[insomniacoach,htg624]]</p>"
+        },
+        {
+          "id": "medicines",
+          "short": "Pills and melatonin",
+          "title": "Sleeping tablets and melatonin",
+          "html": "<ul><li><strong>Sleeping tablets</strong> are only for short-term use, usually a few days or weeks. They can have serious side effects and you can become dependent on them.[[nhs_insomnia,euro2023]] <strong>If you already take them, don't stop suddenly:</strong> talk to your prescriber first.</li><li><strong>Melatonin</strong> doesn't treat tinnitus.[[s3]] For sleep, US sleep specialists advise against it for long-term insomnia.[[aasm2017]] In the UK it's prescription-only, and mainly for short-term use in people aged 55 and over.[[nhs_melatonin]] Supplements sold in the US are often wrongly labelled.[[jama2023]] Ask a doctor before trying it. <a href=\"treatments/supplements/\">Supplements: the evidence</a></li><li><strong>Other medicines</strong>, such as antidepressants, aren't a routine treatment for tinnitus itself. A doctor may still use them for sleep or mood problems.[[aao,s3]]</li></ul>"
+        },
+        {
+          "id": "doctor",
+          "toc": false,
+          "short": "Seeing a doctor",
+          "title": "When to talk to a doctor, and what to say",
+          "html": "<p>If poor sleep happens on 3 or more nights a week for 3 months or more and affects your days, doctors call it long-term insomnia.[[aasm2017,nhs_insomnia]] <strong>You don't have to wait that long:</strong> see a doctor sooner if it's making it hard to cope.[[nhs_insomnia]]</p><div class=\"g-box\"><p><strong>You could say:</strong> \"Tinnitus is stopping me sleeping on <em>[number]</em> nights a week, for <em>[weeks or months]</em>. It's affecting my <em>[work / mood / concentration]</em>. Could you check my sleep, for example with the Insomnia Severity Index, and refer me for CBT-I?\"[[nice]]</p><p>Also mention loud snoring, gasping in your sleep or feeling very sleepy in the day. These can be signs of sleep apnoea, when breathing stops and starts during sleep, which is treatable.[[htg624]]</p></div><p>Keep a simple sleep diary for a week or two: when you went to bed, roughly when you fell asleep, when you woke and when you got up. It helps your doctor see the pattern.[[euro2023]] <a href=\"appointment/\">Prepare for your appointment</a></p>"
+        },
+        {
+          "id": "checklist",
+          "type": "checklist",
+          "short": "Bedtime plan",
+          "title": "Your calmer-night plan",
+          "intro": "Pick the steps that suit you. Tick them off, print them, or keep this page open by the bed.",
+          "items": [
+            "Choose a soft bedtime sound, and set it a little quieter than my tinnitus",
+            "Write a worry list earlier in the evening",
+            "Wind down for an hour before bed",
+            "No tea, coffee or alcohol in the 6 hours before bed",
+            "If I'm wide awake for a while, get up and do something calm, then go back to bed",
+            "Get up at the same time every morning, even after a bad night",
+            "Keep naps short and early, or skip them",
+            "If this has gone on for weeks, ask a doctor about CBT for insomnia"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "strong",
+          "level": "Strong guideline support",
+          "text": "CBT for insomnia is the recommended first treatment for long-term insomnia in adults, including online CBT-I.[[aasm2021,acp,euro2023]]"
+        },
+        {
+          "kind": "limited",
+          "level": "Encouraging, early",
+          "text": "In people with tinnitus, CBT-I improved sleep in one 102-person trial and, on average, in a review of four small trials.[[marks,curtis]]"
+        },
+        {
+          "kind": "guideline",
+          "level": "Guideline advice",
+          "text": "Getting up when you can't sleep, keeping a regular wake-up time, and relaxation are recommended parts of insomnia treatment. Sleep tips on their own aren't recommended as the main treatment.[[aasm2021]]"
+        },
+        {
+          "kind": "limited",
+          "level": "Comfort, not cure",
+          "text": "Gentle sound is an option in the US tinnitus guideline. Studies haven't shown that sound devices reduce tinnitus over time, and none measured sleep.[[aao,cochrane_sound]]"
+        },
+        {
+          "kind": "practical",
+          "level": "Practical tip",
+          "text": "Sound volume, worry lists and phone habits are expert advice from tinnitus charities, with little direct research.[[tuksound,tuksleep]]"
+        }
+      ],
+      "evidenceNote": "How we label evidence: guideline recommendations, results from trials, and practical tips with little research. <a href=\"treatments/cbt-i/\">See the full CBT-I evidence</a>.",
+      "related": [
+        "overwhelmed",
+        "start",
+        "appointment"
+      ],
+      "sources": [
+        {
+          "key": "probst",
+          "cite": "Probst T, Pryss RC, Langguth B, et al. Does tinnitus depend on time-of-day? An ecological momentary assessment study with the TrackYourTinnitus application. Frontiers in Aging Neuroscience 2017;9:253 (louder and more distressing from midnight to 8am).",
+          "url": "https://doi.org/10.3389/fnagi.2017.00253"
+        },
+        {
+          "key": "gu",
+          "cite": "Gu H, Kong W, Yin H, Zheng Y. Prevalence of sleep impairment in patients with tinnitus: a systematic review and single-arm meta-analysis. European Archives of Oto-Rhino-Laryngology 2022;279(5):2211-2221 (pooled prevalence 53.5%, mostly clinic samples).",
+          "url": "https://doi.org/10.1007/s00405-021-07092-x"
+        },
+        {
+          "key": "tuksleep",
+          "cite": "Tinnitus UK. Tips for a good night's sleep.",
+          "url": "https://tinnitus.org.uk/understanding-tinnitus/living-with-tinnitus/sleeping/tips-for-a-good-nights-sleep/"
+        },
+        {
+          "key": "tuksound",
+          "cite": "Tinnitus UK. Sound therapy (sound enrichment a little quieter than your tinnitus; timers; pillow speakers).",
+          "url": "https://tinnitus.org.uk/support-for-you/what-can-i-do/sound-therapy/"
+        },
+        {
+          "key": "apple",
+          "cite": "Apple Support. Play background sounds on iPhone (a built-in phone feature; not a medical device).",
+          "url": "https://support.apple.com/guide/iphone/play-background-sounds-iphb2cfa052c/ios"
+        },
+        {
+          "key": "aasm2021",
+          "cite": "Edinger JD, et al. Behavioral and psychological treatments for chronic insomnia disorder in adults: an American Academy of Sleep Medicine clinical practice guideline. Journal of Clinical Sleep Medicine 2021;17(2):255-262 (CBT-I: strong; stimulus control, sleep restriction and relaxation: conditional; sleep hygiene alone: conditional against).",
+          "url": "https://doi.org/10.5664/jcsm.8986"
+        },
+        {
+          "key": "acp",
+          "cite": "Qaseem A, et al. Management of chronic insomnia disorder in adults: a clinical practice guideline from the American College of Physicians. Annals of Internal Medicine 2016;165(2):125-133.",
+          "url": "https://doi.org/10.7326/M15-2175"
+        },
+        {
+          "key": "euro2023",
+          "cite": "Riemann D, Espie CA, et al. The European Insomnia Guideline: an update on the diagnosis and treatment of insomnia 2023. Journal of Sleep Research 2023;32(6):e14035.",
+          "url": "https://doi.org/10.1111/jsr.14035"
+        },
+        {
+          "key": "marks",
+          "cite": "Marks E, Hallsworth C, Vogt F, Klein H, McKenna L. Cognitive behavioural therapy for insomnia (CBTi) as a treatment for tinnitus-related insomnia: a randomised controlled trial. Cognitive Behaviour Therapy 2023;52(2):91-109 (102 people, one research team).",
+          "url": "https://doi.org/10.1080/16506073.2022.2084155"
+        },
+        {
+          "key": "curtis",
+          "cite": "Curtis F, et al. Effects of cognitive behavioural therapy on insomnia in adults with tinnitus: systematic review and meta-analysis of randomised controlled trials. Sleep Medicine Reviews 2021;56:101405 (about 3 points better on a 0-28 insomnia scale).",
+          "url": "https://doi.org/10.1016/j.smrv.2020.101405"
+        },
+        {
+          "key": "cochrane_sound",
+          "cite": "Sereda M, et al. Sound therapy (using amplification devices and/or sound generators) for tinnitus. Cochrane Database of Systematic Reviews 2018;CD013094 (no evidence that devices beat no device; low-quality evidence; sleep not measured).",
+          "url": "https://doi.org/10.1002/14651858.CD013094.pub2"
+        },
+        {
+          "key": "nice",
+          "cite": "NICE. Tinnitus: assessment and management (NG155), 2020. Recommendation 1.3.5 (ask about sleep; consider the Insomnia Severity Index); no recommendation could be made on sound therapy.",
+          "url": "https://www.nice.org.uk/guidance/ng155/chapter/Recommendations"
+        },
+        {
+          "key": "aao",
+          "cite": "Adams ME, et al. Clinical Practice Guideline: Tinnitus Update. Otolaryngology-Head and Neck Surgery 2026 (KAS 10 sound enrichment as an option; KAS 12 against routine medicines for tinnitus), as stated in the published abstracts.",
+          "url": "https://doi.org/10.1002/ohn.70418"
+        },
+        {
+          "key": "nhs_insomnia",
+          "cite": "NHS. Insomnia (page last reviewed 19 March 2024).",
+          "url": "https://www.nhs.uk/conditions/insomnia/"
+        },
+        {
+          "key": "aasm2017",
+          "cite": "Sateia MJ, et al. Clinical practice guideline for the pharmacologic treatment of chronic insomnia in adults: an American Academy of Sleep Medicine clinical practice guideline. Journal of Clinical Sleep Medicine 2017;13(2):307-349 (definition of chronic insomnia; suggests against melatonin).",
+          "url": "https://doi.org/10.5664/jcsm.6470"
+        },
+        {
+          "key": "s3",
+          "cite": "Mazurek B, et al. Chronic tinnitus (summary of the German S3 guideline). Deutsches Ärzteblatt International 2022;119:219-225 (melatonin, benzodiazepines and other drugs are not effective against chronic tinnitus).",
+          "url": "https://doi.org/10.3238/arztebl.m2022.0135"
+        },
+        {
+          "key": "nhs_melatonin",
+          "cite": "NHS. About melatonin (prescription-only in the UK; mainly short-term use in people aged 55 and over).",
+          "url": "https://www.nhs.uk/medicines/melatonin/about-melatonin/"
+        },
+        {
+          "key": "jama2023",
+          "cite": "Cohen PA, et al. Quantity of melatonin and CBD in melatonin gummies sold in the US. JAMA 2023;329(16):1401-1402 (22 of 25 products inaccurately labelled).",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37097362/"
+        },
+        {
+          "key": "htg624",
+          "cite": "NICE. Sleepio to treat insomnia and insomnia symptoms (HealthTech guidance HTG624, formerly MTG70), 2022 (including medical assessment first for people at higher risk of other sleep disorders).",
+          "url": "https://www.nice.org.uk/guidance/htg624/chapter/1-Recommendations"
+        },
+        {
+          "key": "parl",
+          "cite": "UK Parliament, written answer UIN 101541, 8 January 2026: local NHS areas decide whether to offer CBT-I or Sleepio. NHS inform (Scotland) offers Sleepio free to adults."
+        },
+        {
+          "key": "insomniacoach",
+          "cite": "US Department of Veterans Affairs. Insomnia Coach (free self-help app for everyone; see a provider first if you have certain conditions).",
+          "url": "https://mobile.va.gov/app/insomnia-coach"
+        },
+        {
+          "key": "fda",
+          "cite": "US Food and Drug Administration. 510(k) K233577, Sleepio (Big Health), cleared 5 August 2024, computerized behavioral therapy device for insomnia."
+        },
+        {
+          "key": "thiswayup",
+          "cite": "THIS WAY UP (St Vincent's Hospital Sydney). Insomnia Program (free online CBT-based course).",
+          "url": "https://thiswayup.org.au/what-we-treat/insomnia"
+        }
+      ],
+      "nowLayout": {
+        "style": "routine",
+        "cards": [
+          {
+            "id": "now",
+            "art": "now",
+            "kicker": "Tonight",
+            "title": "Right now",
+            "sub": "Immediate steps to make tonight easier",
+            "items": [
+              [
+                "now",
+                0,
+                "speaker"
+              ],
+              [
+                "now",
+                1,
+                "bed"
+              ],
+              [
+                "now",
+                3,
+                "phone-down"
+              ]
+            ],
+            "support": [
+              "now",
+              4
+            ]
+          },
+          {
+            "id": "awake",
+            "art": "awake",
+            "kicker": "Later tonight",
+            "title": "Still awake?",
+            "sub": "What to do when sleep won't come",
+            "items": [
+              [
+                "now",
+                2,
+                "lamp",
+                "loop"
+              ]
+            ],
+            "group": "awake",
+            "groupItems": [
+              [
+                "awake",
+                0,
+                "notebook"
+              ],
+              [
+                "awake",
+                1,
+                "screen-off"
+              ],
+              [
+                "awake",
+                2,
+                "bed-only"
+              ],
+              [
+                "awake",
+                3,
+                "breath"
+              ]
+            ]
+          },
+          {
+            "id": "tomorrow",
+            "art": "tomorrow",
+            "kicker": "The next day",
+            "title": "Tomorrow",
+            "sub": "After a bad night: steps that may help the following night",
+            "items": [
+              [
+                "tomorrow",
+                0,
+                "sunrise",
+                "Morning"
+              ],
+              [
+                "tomorrow",
+                1,
+                "nap",
+                "During the day"
+              ],
+              [
+                "tomorrow",
+                2,
+                "walk",
+                "During the day"
+              ],
+              [
+                "tomorrow",
+                3,
+                "cup",
+                "Evening"
+              ],
+              [
+                "tomorrow",
+                4,
+                "car",
+                "If you feel very sleepy"
+              ]
+            ]
+          }
+        ],
+        "loop": [
+          [
+            "bed",
+            "Awake 20–30 min"
+          ],
+          [
+            "lamp",
+            "Calm, dim light"
+          ],
+          [
+            "bed-only",
+            "Back when sleepy"
+          ]
+        ]
+      }
+    },
+    "appointment": {
+      "path": "appointment/",
+      "crumb": "Prepare for your appointment",
+      "title": "Prepare for your appointment",
+      "metaTitle": "Tinnitus Appointment: What to Say, Ask and Expect | Tinnitus Evidence",
+      "metaDesc": "Seeing a doctor or audiologist about tinnitus? A notes sheet you can fill in and print, questions to ask, what a hearing test is like, and what to do if you're told nothing can be done.",
+      "lastReviewed": "2026-10-26",
+      "lead": "A family doctor or an audiologist (a hearing specialist) is usually the first step.[[nidcd,aaocare]] A little preparation helps you get the most from a short appointment, and leave with a plan.",
+      "nowTitle": "Before you go",
+      "now": [
+        "<strong>Start with how it affects you, in one sentence.</strong> For example: \"Tinnitus is stopping me sleeping, and I've had to cut back at work.\" Doctors often interrupt within seconds, so say the most important thing first.[[singh,aao]]",
+        "<strong>Say why you're coming now</strong>, especially if you've had it a while.[[nice]]",
+        "<strong>Bring notes.</strong> Fill in the <a href=\"appointment/#notes\">notes sheet</a> below, and list your medicines and supplements.[[ahrq]]",
+        "<strong>Choose your top 3 questions</strong> from the <a href=\"appointment/#questions\">list below</a>.[[ahrq,sansoni]]",
+        "<strong>Bring someone if you can.</strong> A second pair of ears helps you remember what was said.[[wolff]]"
+      ],
+      "nowFoot": "Sudden hearing loss, new pulsing tinnitus or tinnitus after a head injury shouldn't wait for a routine appointment. <a href=\"urgent/\">When to get help quickly</a>",
+      "sections": [
+        {
+          "id": "who",
+          "toc": false,
+          "short": "Who to see",
+          "title": "Who to see first",
+          "html": "<ul><li><strong>US:</strong> your primary care doctor, or an audiologist for a full hearing test.[[nidcd,aaocare]] On Medicare you can see an audiologist once a year without a referral for gradual hearing changes; other insurance varies.[[asha_medicare]]</li><li><strong>UK:</strong> your GP. They can check your ears and refer you for a free NHS hearing test.[[nhs,nhs_tests]] Some areas let you refer yourself to NHS audiology.</li><li><strong>Australia:</strong> your GP.[[healthdirect]]</li><li><strong>Elsewhere:</strong> your family doctor.</li></ul><p class=\"small muted\">In the US and thinking about over-the-counter hearing aids? See a doctor first if your tinnitus is only in one ear, or your hearing changed suddenly.[[fda_otc]]</p>",
+          "class": "a-card"
+        },
+        {
+          "id": "notes",
+          "type": "worksheet",
+          "short": "Notes sheet",
+          "title": "Your notes to take",
+          "intro": "Type here, or print it and write by hand. Skip anything that doesn't apply. These are the things you'll usually be asked about.[[aaoehr,nice]]",
+          "fields": [
+            {
+              "label": "Why I'm coming now",
+              "rows": 2
+            },
+            {
+              "label": "How it affects me",
+              "hint": "Sleep, focus, mood, work. A score from 0 to 10 is fine.",
+              "rows": 3
+            },
+            {
+              "label": "When it started",
+              "hint": "Roughly when, and whether it came on suddenly or slowly.",
+              "rows": 2
+            },
+            {
+              "label": "Where I hear it, and what it sounds like",
+              "hint": "One ear, both, or in my head. Ringing, buzzing, hissing? Always there, or comes and goes?",
+              "rows": 2
+            },
+            {
+              "label": "Does it beat in time with my heartbeat?",
+              "hint": "If yes: is it louder when I exercise? Any headaches or eyesight changes?",
+              "rows": 2
+            },
+            {
+              "label": "Does it change when I move my jaw, head or neck?",
+              "rows": 1
+            },
+            {
+              "label": "My hearing and ears",
+              "hint": "Hearing loss, a blocked feeling, ear pain or discharge, sounds seeming too loud.",
+              "rows": 2
+            },
+            {
+              "label": "Dizziness, balance problems or falls",
+              "rows": 1
+            },
+            {
+              "label": "Anything that happened around the start",
+              "hint": "Loud noise, an ear infection, a cold, a head injury or whiplash.",
+              "rows": 2
+            },
+            {
+              "label": "Sleep",
+              "hint": "Trouble getting to sleep or staying asleep? Loud snoring or gasping at night?",
+              "rows": 2
+            },
+            {
+              "label": "Medicines and supplements",
+              "hint": "Include when you started each one. Don't stop a prescribed medicine without asking.",
+              "rows": 3
+            },
+            {
+              "label": "What I've tried, and what helped",
+              "rows": 2
+            },
+            {
+              "label": "My top 3 questions",
+              "rows": 3
+            }
+          ],
+          "printTop": "Fill in on screen, then print, or print it blank and write by hand.",
+          "class": "a-sheet"
+        },
+        {
+          "id": "questions",
+          "short": "Questions",
+          "title": "Questions you could ask",
+          "html": "<ul><li>What might be causing my tinnitus? Do I have any hearing loss?</li><li>Do I need any other tests? Why, or why not?</li><li>Would hearing aids help me?</li><li>What help is there for sleep, stress or low mood? Can I be referred for CBT?</li><li>What can I do about sounds that feel too loud?</li><li>When should I protect my ears?</li><li>What should make me come back sooner?</li><li>What's the next step if this doesn't help?</li></ul>",
+          "ticks": "Tick the ones you want to ask, then copy your top 3 into the <a href=\"appointment/#notes\">notes sheet</a>. Ticks are not saved or sent anywhere.",
+          "class": "a-card"
+        },
+        {
+          "id": "leave",
+          "toc": false,
+          "short": "Before you leave",
+          "title": "Before you leave",
+          "html": "<ul><li><strong>Check you've understood:</strong> \"So the next step is... is that right?\" Saying it back helps you remember.[[talevski]]</li><li><strong>Ask who will contact whom</strong>, how long it might take, and what should make you come back sooner.</li><li><strong>Ask for a copy of your hearing test</strong> and any written information.[[nice,ahrq]] You have a right to see your health records.[[hipaa]]</li><li><strong>Afterwards, jot down</strong> what was found and what was suggested, while it's fresh.</li></ul>",
+          "class": "a-card"
+        },
+        {
+          "id": "expect",
+          "short": "What to expect",
+          "title": "What to expect",
+          "html": "<p>Good tinnitus care usually includes:</p><div class=\"g-box\"><ul><li>Questions about your tinnitus and your health, and a look in your ears.[[aao]]</li><li>A full hearing test.[[aao,nice]]</li><li>Questions about how much it bothers you, your sleep and your mood.[[aao,nice]]</li><li>An explanation of what tinnitus is and what can help, and a plan you agree on.[[aao,nice]]</li><li>Hearing aids if you have hearing loss, or a cochlear implant assessment if it is severe.[[aao]]</li><li>CBT, a talking therapy that helps you cope, if tinnitus keeps affecting your life. In the UK it's often offered online first.[[aao,nice,nhs]]</li><li>A follow-up to see how you're doing.[[aao]]</li></ul></div><h3>Questions about your mood are normal</h3><p>You may be asked how you're feeling, and whether you've had thoughts of harming yourself. This is routine for anyone bothered by tinnitus, and it's safe to answer honestly. It helps your clinician find the right support.[[aao,aaomh]] Struggling now? <a href=\"support/#crisis\">Support and crisis lines</a></p><h3>What usually isn't needed</h3><p><strong>A scan.</strong> Most people with tinnitus don't need one. Scans are for specific signs, such as tinnitus in one ear only, tinnitus that pulses, or new symptoms like weakness or numbness.[[aao,aaopatient,nice]]</p><p><strong>Medicines or supplements for the tinnitus itself.</strong> They aren't recommended, although medicines may still help with sleep, anxiety or low mood.[[aao]]</p><p class=\"small muted\">If your tinnitus changes when you move your jaw, head or neck, mention it. Some people are referred to a physiotherapist or dentist to check for a jaw or neck problem; the evidence that this helps is limited.[[aao,aaocare]] <a href=\"claims/neck-jaw-move-stop-tinnitus/\">Read more</a></p>",
+          "class": "a-card"
+        },
+        {
+          "id": "tests",
+          "short": "Hearing test",
+          "title": "What a hearing test is like",
+          "html": "<p>A hearing test is painless. It usually takes 15 minutes to an hour, and you often get the results the same day.[[nhs_tests]]</p><ul><li><strong>Audiogram</strong> (the main hearing test): you wear headphones and press a button whenever you hear a beep, even a very faint one.[[nhs_tests,bsa]]</li><li><strong>Speech test:</strong> the same idea, with words instead of beeps.[[nhs_tests]]</li><li><strong>Middle-ear check</strong> (tympanometry): a soft tip rests in your ear for a few seconds to see how well your eardrum moves. Not everyone needs it.[[nhs_tests,nice]]</li><li><strong>A short questionnaire</strong> about how tinnitus affects you.[[nice]]</li></ul><div class=\"g-box\"><p><strong>Tips for test day</strong></p><ul><li>If loud sounds bother you, say so before you start. You can ask them to begin quietly, and you can stop at any time.[[aazh,bsa]]</li><li>If you can't tell the beeps from your tinnitus, tell the tester. They can use a different kind of tone.[[bsa]]</li><li>Ask for a copy of your results.</li></ul></div><p class=\"small muted\">Some clinics also try to match the pitch and loudness of your tinnitus. UK guidance doesn't recommend this, so don't worry if it isn't done.[[nice]]</p>",
+          "class": "a-card"
+        },
+        {
+          "id": "nothing",
+          "short": "\"Nothing can be done\"",
+          "title": "If you're told \"nothing can be done\"",
+          "html": "<p>There's no cure yet, but there is help. Advice, hearing care and CBT help many people feel better, even when the sound stays the same.[[aao,aaopatient,nice]] Tinnitus charities advise doctors not to tell patients that nothing can be done.[[tukgp]]</p><div class=\"g-box\"><p><strong>You could say:</strong> \"I understand there's no cure yet. I'd like help with how it's affecting my sleep and mood. Could I have a full hearing test, and talk about options like CBT or a referral to audiology?\"</p></div><p>If it still bothers you after this first advice, UK guidance says you should be referred for specialist tinnitus care.[[nice]] You can also ask to see another doctor.[[rnid]]</p>",
+          "class": "a-card"
+        },
+        {
+          "id": "urgent",
+          "type": "urgent",
+          "toc": false,
+          "short": "Don't wait",
+          "title": "When it shouldn't wait for an appointment",
+          "intro": "Get help sooner than a routine appointment if you have:[[nhs,nice]]",
+          "summary": {
+            "emergency": "sudden weakness in the face, arm or leg, trouble speaking or seeing, severe spinning dizziness that won't settle, or tinnitus after a recent head injury.",
+            "today": "a sudden drop in hearing (even if it started days or a few weeks ago), or new tinnitus that beats with your pulse and came on suddenly.",
+            "soon": "tinnitus in one ear only, pulsing tinnitus that has been there a while (ask for an urgent appointment), or hearing that is getting worse."
+          },
+          "class": "a-urgent"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "guideline",
+          "level": "Strong guideline advice",
+          "text": "Clinicians should find out how much tinnitus bothers you. If it does, they should ask about your mood and any thoughts of self-harm.[[aao]]"
+        },
+        {
+          "kind": "guideline",
+          "level": "Guideline advice",
+          "text": "Everyone with tinnitus should be offered a full hearing test. CBT is recommended if tinnitus keeps bothering you.[[aao,nice]]"
+        },
+        {
+          "kind": "guideline",
+          "level": "Strong guideline advice",
+          "text": "Most people with tinnitus don't need a scan unless there are specific warning signs.[[aao,nice]]"
+        },
+        {
+          "kind": "limited",
+          "level": "Some evidence",
+          "text": "A list of questions can help people ask more and get more information. Bringing someone along is linked to longer visits and more information, with mixed results.[[sansoni,wolff]]"
+        },
+        {
+          "kind": "limited",
+          "level": "One study",
+          "text": "About 1 in 5 people seeking help for tinnitus or sound sensitivity found standard test sounds uncomfortable, so asking to start quietly is reasonable.[[aazh]]"
+        },
+        {
+          "kind": "practical",
+          "level": "Practical tip",
+          "text": "Leading with the impact and saying why you're coming now are practical tips, based on what guidelines ask clinicians to explore.[[nice,singh]]"
+        }
+      ],
+      "evidenceNote": "We link the guideline statements behind each suggestion, so you can show them to your clinician if it helps.",
+      "related": [
+        "start",
+        "sleep",
+        "overwhelmed"
+      ],
+      "sources": [
+        {
+          "key": "aao",
+          "cite": "Adams ME, Cramer JD, Tunkel DE, et al. Clinical Practice Guideline: Tinnitus Update. Otolaryngology-Head and Neck Surgery 2026;175(Suppl 1):S1-S62 and executive summary 175(4):739-756 (key action statements 1 to 15, as stated in the published abstracts).",
+          "url": "https://doi.org/10.1002/ohn.70418"
+        },
+        {
+          "key": "aaopatient",
+          "cite": "AAO-HNSF. Tinnitus Update patient guide (2026): most people need a hearing test but not an MRI or CT scan.",
+          "url": "https://www.entnet.org/TinnitusUpdate"
+        },
+        {
+          "key": "aaocare",
+          "cite": "AAO-HNSF. Tinnitus Update care plan (2026): evaluation can start with a hearing test by an audiologist; referral to a physical therapist or oral specialist when jaw, neck or muscle activity affects tinnitus.",
+          "url": "https://www.entnet.org/TinnitusUpdate"
+        },
+        {
+          "key": "aaomh",
+          "cite": "AAO-HNSF. Tinnitus Update mental health FAQ (2026): your doctor may ask whether you have thought about harming yourself.",
+          "url": "https://www.entnet.org/TinnitusUpdate"
+        },
+        {
+          "key": "aaoehr",
+          "cite": "AAO-HNSF. Tinnitus Update clinician checklist (2026): history items and follow-up options.",
+          "url": "https://www.entnet.org/TinnitusUpdate"
+        },
+        {
+          "key": "nice",
+          "cite": "NICE. Tinnitus: assessment and management (NG155), 2020. Recommendations 1.1 (information and why now), 1.2.6 (referral if still bothered after support), 1.3 (questionnaires, sleep, mood), 1.4 (hearing assessment; pitch and loudness matching not recommended; imaging), 1.5.4 (stepped psychological care).",
+          "url": "https://www.nice.org.uk/guidance/ng155/chapter/Recommendations"
+        },
+        {
+          "key": "nidcd",
+          "cite": "NIDCD. Tinnitus (updated 1 May 2023): first see your primary care doctor.",
+          "url": "https://www.nidcd.nih.gov/health/tinnitus"
+        },
+        {
+          "key": "nhs",
+          "cite": "NHS. Tinnitus (page last reviewed 12 January 2024).",
+          "url": "https://www.nhs.uk/conditions/tinnitus/"
+        },
+        {
+          "key": "nhs_tests",
+          "cite": "NHS. Hearing tests (page last reviewed 12 November 2024).",
+          "url": "https://www.nhs.uk/tests-and-treatments/hearing-tests/"
+        },
+        {
+          "key": "bsa",
+          "cite": "British Society of Audiology. Recommended procedure: pure-tone air-conduction and bone-conduction threshold audiometry (2018): patients may interrupt testing if uncomfortable, and should tell the tester if they can't tell tones from their tinnitus.",
+          "url": "https://www.thebsa.org.uk/wp-content/uploads/2024/01/Recommended-Procedure-Pure-Tone-Audiometry-2018.pdf"
+        },
+        {
+          "key": "aazh",
+          "cite": "Aazh H, Moore BCJ. Incidence of discomfort during pure-tone audiometry and measurement of uncomfortable loudness levels among people seeking help for tinnitus and/or hyperacusis. American Journal of Audiology 2017;26(3):226-232.",
+          "url": "https://doi.org/10.1044/2017_AJA-17-0011"
+        },
+        {
+          "key": "asha_medicare",
+          "cite": "ASHA. Medicare hearing assessments provided by audiologists without a physician order (once every 12 months, for non-acute hearing loss).",
+          "url": "https://www.asha.org/practice/reimbursement/medicare/medicare-hearing-assessments-provided-by-audiologists-without-a-physician-order/"
+        },
+        {
+          "key": "fda_otc",
+          "cite": "US FDA. OTC hearing aids: what you should know (updated 3 May 2023): see a doctor first if you hear ringing in only one ear, among other signs.",
+          "url": "https://www.fda.gov/medical-devices/hearing-aids/otc-hearing-aids-what-you-should-know"
+        },
+        {
+          "key": "rnid",
+          "cite": "RNID. What to do if you have tinnitus (updated 27 May 2026): explain how tinnitus affects your daily life; you can ask to see a different GP.",
+          "url": "https://rnid.org.uk/information-and-support/tinnitus/what-to-do-if-you-have-tinnitus"
+        },
+        {
+          "key": "healthdirect",
+          "cite": "healthdirect Australia. Tinnitus (reviewed February 2025).",
+          "url": "https://www.healthdirect.gov.au/tinnitus"
+        },
+        {
+          "key": "tukgp",
+          "cite": "Tinnitus UK. Tinnitus guidance for GPs, version 2.2 (January 2024).",
+          "url": "https://tinnitus.org.uk/wp-content/uploads/2024/03/Tinnitus-guidance-for-GPs-Ver-2.2-Tinnitus-UK.pdf"
+        },
+        {
+          "key": "singh",
+          "cite": "Singh Ospina N, et al. Eliciting the patient's agenda: secondary analysis of recorded clinical encounters. Journal of General Internal Medicine 2019;34:36-40 (patients were interrupted after a median of 11 seconds).",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29968051/"
+        },
+        {
+          "key": "ahrq",
+          "cite": "US Agency for Healthcare Research and Quality. Be more involved in your health care: tips for patients (Questions are the Answer), 2011.",
+          "url": "https://www.ahrq.gov/questions/"
+        },
+        {
+          "key": "sansoni",
+          "cite": "Sansoni JE, Grootemaat P, Duncan C. Question prompt lists in health consultations: a review. Patient Education and Counseling 2015.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/26104993/"
+        },
+        {
+          "key": "wolff",
+          "cite": "Wolff JL, Roter DL. Family presence in routine medical visits: a meta-analytical review. Social Science & Medicine 2011;72:823-831.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/21353358/"
+        },
+        {
+          "key": "talevski",
+          "cite": "Talevski J, et al. Teach-back: a systematic review of implementation and impacts. PLoS One 2020;15:e0231350.",
+          "url": "https://doi.org/10.1371/journal.pone.0231350"
+        },
+        {
+          "key": "hipaa",
+          "cite": "US Code of Federal Regulations, 45 CFR 164.524 (HIPAA right of access to health records). In the UK, you can ask your GP surgery or hospital for your records.",
+          "url": "https://www.law.cornell.edu/cfr/text/45/164.524"
+        }
+      ],
+      "nowLayout": {
+        "style": "stages",
+        "railTitle": "Your appointment, step by step",
+        "print": "notes",
+        "printLabel": "Print or save the notes sheet",
+        "also": [
+          "tests",
+          "nothing",
+          "research"
+        ],
+        "stages": [
+          {
+            "label": "Before you go",
+            "icon": "clipboard",
+            "parts": [
+              "now",
+              "who"
+            ]
+          },
+          {
+            "label": "Write it down",
+            "icon": "notebook",
+            "parts": [
+              "notes"
+            ]
+          },
+          {
+            "label": "Questions to ask",
+            "icon": "talk",
+            "parts": [
+              "questions"
+            ]
+          },
+          {
+            "label": "What to expect",
+            "icon": "ear",
+            "parts": [
+              "expect",
+              "tests"
+            ]
+          },
+          {
+            "label": "Afterwards",
+            "icon": "check-list",
+            "parts": [
+              "leave",
+              "nothing",
+              "urgent"
+            ]
+          }
+        ]
+      }
+    },
+    "overwhelmed": {
+      "path": "living/overwhelmed/",
+      "crumb": "When it feels like too much",
+      "title": "When it feels like too much",
+      "metaTitle": "When Tinnitus Feels Like Too Much: Support and Help That Works | Tinnitus Evidence",
+      "metaDesc": "Struggling to cope with tinnitus? Where to talk to someone now, small steps that help today, the talking therapies with the best evidence, and how to reach them where you live.",
+      "lastReviewed": "2026-10-26",
+      "lead": "Living with a sound you can't switch off can be exhausting. If it feels like too much right now, you're not alone, and with the right help it can get easier.",
+      "nowTitle": "If you're struggling right now",
+      "now": [
+        "<strong>If you're thinking about suicide, or feel you can't keep yourself safe, please talk to someone now.</strong> The lines below are free and confidential. <a href=\"living/overwhelmed/#crisis\">Crisis lines</a>",
+        "<strong>Take a few slow breaths</strong>, or try 5 to 10 minutes of relaxation. Relaxation helped people in a tinnitus trial.[[mckenna,nhs]]",
+        "<strong>Give your attention somewhere gentle to go:</strong> a sound you like, a short walk, or something that absorbs you.[[nhs]]",
+        "<strong>Tell someone you trust</strong> how you're feeling, or call a tinnitus helpline when it's open.[[nhs]] <a href=\"support/#organizations\">Tinnitus helplines</a>",
+        "<strong>Be kind to yourself.</strong> Feeling this way is common, it isn't a personal failing, and it can ease.[[salazar,cochrane_cbt]]"
+      ],
+      "nowFoot": "Not in danger, but worn down? That's very common. <a href=\"living/overwhelmed/#steps\">Small steps that help</a> are just below the helplines.",
+      "sections": [
+        {
+          "id": "crisis",
+          "type": "crisis",
+          "short": "Crisis lines",
+          "title": "Talk to someone now",
+          "intro": "These services are free, confidential and staffed by trained people. You don't have to be in crisis to call. <a class=\"g-skip\" href=\"living/overwhelmed/#steps\">Not in danger right now? Skip to small steps</a>",
+          "inNow": true
+        },
+        {
+          "id": "feel",
+          "toc": false,
+          "short": "What you may feel",
+          "title": "What you may be feeling",
+          "html": "<p>Many people with tinnitus feel anxious, low, angry or hopeless at times, especially when sleep suffers. In studies of people seeking help for tinnitus, around 1 in 3 had depression, and anxiety is common too.[[salazar,pattyn]]</p><p>Feeling this way doesn't mean you've failed to cope. It means you need, and deserve, support.</p>",
+          "class": "o-feel"
+        },
+        {
+          "id": "steps",
+          "short": "Small steps",
+          "title": "Small steps that help",
+          "html": "<ul><li><strong>Plan one small, enjoyable thing each day</strong>, and gently return to things you've stopped doing because of tinnitus. Planning pleasant activities is a recommended way to ease low mood.[[nice_dep,ptm_wb]]</li><li><strong>Keep doing what matters to you</strong>, with short breaks rather than pushing through.</li><li><strong>Move your body.</strong> Gentle exercise, especially with others, can help with low mood.[[nice_dep]]</li><li><strong>Practise relaxation</strong>, such as slow breathing or relaxing your muscles one by one.[[nhs,mckenna]]</li><li><strong>Look after your sleep.</strong> Everything feels harder after bad nights. <a href=\"living/sleep/\">Sleep and difficult nights</a></li><li><strong>Take breaks from forums and from searching for cures.</strong> Some people leave online forums feeling there is no help, which isn't true.[[budimir]]</li><li><strong>Connect with people who understand.</strong> Many people say tinnitus support groups help them feel less alone and more hopeful.[[pryce,nhs]] <a href=\"support/#organizations\">Support organizations</a></li></ul>",
+          "tiles": [
+            "calendar",
+            "spark",
+            "walk",
+            "breath",
+            "moon",
+            "screen-off",
+            "talk"
+          ]
+        },
+        {
+          "id": "therapy",
+          "short": "Talking therapies",
+          "title": "Help that works: talking therapies",
+          "html": "<p><strong>CBT is the best-supported help for tinnitus distress</strong>, and US, UK and European guidelines recommend it.[[aao,nice,cochrane_cbt]] CBT (cognitive behavioural therapy) is a talking therapy. It helps you change the thoughts and habits that make tinnitus harder to live with. On average it reduces how much tinnitus affects daily life and mood, though it usually doesn't change the sound itself.[[cochrane_cbt]]</p><p>Online CBT with some support from a therapist or audiologist also helps many people. In one trial it worked about as well as group CBT.[[sattel,jasper]] Two related therapies, acceptance and commitment therapy (ACT) and mindfulness-based therapy (MBCT), have also helped in smaller trials.[[westin,mckenna]]</p><p><a href=\"treatments/cbt/\">CBT</a> · <a href=\"treatments/digital-cbt/\">Online CBT</a> · <a href=\"treatments/act/\">ACT</a> · <a href=\"treatments/mbct/\">MBCT</a>: the evidence</p>"
+        },
+        {
+          "id": "where",
+          "short": "Where to get help",
+          "title": "How to get CBT-based help where you live",
+          "html": "<ul><li><strong>UK:</strong> ask your GP. You'll usually be offered online CBT first.[[nhs,nice]] In England you can also refer yourself to <a href=\"https://www.nhs.uk/nhs-services/mental-health-services/find-nhs-talking-therapies-for-anxiety-and-depression/\" rel=\"noopener\">NHS Talking Therapies</a> for anxiety or low mood, including when you have a long-term condition. It's for adults, and it's general support, not tinnitus-specific.[[talking]] Is distress stopping you doing your usual daily activities, even after first support? Then NICE says you should be referred and seen within 2 weeks. You can ask your GP about this.[[nice]]</li><li><strong>US:</strong> ask your doctor or an audiologist about CBT-based tinnitus care. The American Tinnitus Association's directory lists local providers, but it doesn't check them. Ask whether they offer CBT-based tinnitus care.[[ata_dir]] The ABCT finder lists CBT therapists (top listings are paid).[[abct]] Veterans can ask VA audiology about Progressive Tinnitus Management.[[ptm_rct]]</li><li><strong>Australia:</strong> if tinnitus has led to depression or anxiety, your usual GP can make a Mental Health Treatment Plan. Medicare then covers up to 10 individual and 10 group sessions a year.[[betteraccess]] <a href=\"https://www.mindspot.org.au/\" rel=\"noopener\">MindSpot</a> offers free online courses.[[mindspot]]</li><li><strong>Canada:</strong> in Ontario, <a href=\"https://www.ontariohealth.ca/clinical/mental-health-addictions/structured-psychotherapy\" rel=\"noopener\">Ontario Structured Psychotherapy</a> offers free CBT for depression and anxiety.[[ontario]] Elsewhere, ask your family doctor.</li><li><strong>Germany:</strong> Kalmeda is a tinnitus CBT app in the official DiGA directory. A doctor can prescribe it, and statutory health insurance pays.[[diga]]</li></ul><h3>Free places to start</h3><ul><li>The <a href=\"https://www.health.mil/Reference-Center/Publications/2024/12/12/PTM-Workbook\" rel=\"noopener\">Living Better with Tinnitus workbook</a> (US VA and Department of Defense), free for anyone, covering sound, pleasant activities, relaxation and balancing thoughts.[[ptm_wb]]</li><li>Tinnitus UK's free <a href=\"https://tinnitus.org.uk/take-on-tinnitus/\" rel=\"noopener\">Take on Tinnitus</a> online course. It hasn't been formally evaluated.[[tot]]</li></ul>"
+        },
+        {
+          "id": "money",
+          "short": "Before you spend money",
+          "title": "Before you spend money",
+          "html": "<p>When you feel desperate, offers of a cure can be very tempting. Before you pay for anything, ask:</p><ol><li><strong>Has it been tested against a placebo or sham treatment in people with tinnitus?</strong> <a href=\"claims/\">Check a claim</a></li><li><strong>Do guidelines advise against it?</strong> Supplements, rTMS, betahistine, and medicines used to treat the tinnitus itself are advised against.[[aao,nice]]</li><li><strong>Are there warning signs?</strong> \"Miracle cure\", \"all natural\", one product that does it all, quick fixes, glowing testimonials, or claims that doctors are hiding it.[[fda_fraud]]</li><li><strong>Is there a big upfront cost or subscription with no trial or refund?</strong></li><li><strong>What does your doctor or audiologist think?</strong> Free, guideline-backed help (talking therapy, sound, hearing aids if you have hearing loss) comes first.[[fda_fraud,aao]]</li></ol><p><a href=\"emerging-unproven/\">Emerging, experimental and unproven treatments</a></p>"
+        },
+        {
+          "id": "more",
+          "toc": false,
+          "short": "More help",
+          "title": "When to get more help",
+          "html": "<p>If tinnitus is affecting your mood, sleep or work most days, tell your doctor. You can say: \"It's affecting my mental health.\" You may be asked about your mood and whether you've had thoughts of harming yourself. That's routine, and it's safe to answer honestly.[[aao]] <a href=\"appointment/\">Prepare for your appointment</a></p><p><strong>If you feel you can't keep yourself safe, use the <a href=\"living/overwhelmed/#crisis\">lines above</a> now.</strong></p>"
+        },
+        {
+          "id": "plan",
+          "type": "checklist",
+          "short": "Support plan",
+          "title": "Your support plan",
+          "intro": "Choose a few. Tick them off, or print this as a reminder.",
+          "items": [
+            "Save the crisis line for my country in my phone",
+            "Do one small, enjoyable thing today",
+            "Ten minutes of slow breathing or relaxation",
+            "Tell one person how I'm really feeling",
+            "Take a break from forums and cure searches",
+            "Ask my doctor about CBT for tinnitus",
+            "Look after my sleep"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "guideline",
+          "level": "Best-supported",
+          "text": "CBT is recommended by US, UK and European guidelines for tinnitus that keeps bothering you. The evidence is low certainty, and most studies follow people only to the end of treatment.[[aao,nice,cochrane_cbt]]"
+        },
+        {
+          "kind": "limited",
+          "level": "Moderate benefit",
+          "text": "Online CBT with support from a therapist or audiologist helps many people, though many studies had high drop-out.[[sattel,jasper]]"
+        },
+        {
+          "kind": "limited",
+          "level": "Smaller trials",
+          "text": "ACT and mindfulness-based therapy (MBCT) helped in single trials of 64 and 75 people.[[westin,mckenna]]"
+        },
+        {
+          "kind": "guideline",
+          "level": "Guideline advice",
+          "text": "Planning activities and group exercise are recommended for less severe depression in general.[[nice_dep]]"
+        },
+        {
+          "kind": "limited",
+          "level": "People's experience",
+          "text": "Many people describe support groups as helping them feel connected and hopeful; this hasn't been measured as an outcome.[[pryce]]"
+        },
+        {
+          "kind": "practical",
+          "level": "Practical tip",
+          "text": "Taking breaks from forums, pacing yourself and the support plan are expert advice with little direct research.[[budimir]]"
+        }
+      ],
+      "evidenceNote": "We don't promise that tinnitus will go away. We point to the help with the best evidence for making it easier to live with.",
+      "related": [
+        "sleep",
+        "spikes",
+        "appointment"
+      ],
+      "sources": [
+        {
+          "key": "salazar",
+          "cite": "Salazar JW, Meisel K, Smith ER, Quiggle A, McCoy DB, Amans MR. Depression in patients with tinnitus: a systematic review. Otolaryngology-Head and Neck Surgery 2019;161(1):28-35 (median prevalence 33% across 28 studies).",
+          "url": "https://doi.org/10.1177/0194599819835178"
+        },
+        {
+          "key": "pattyn",
+          "cite": "Pattyn T, et al. Tinnitus and anxiety disorders: a review. Hearing Research 2016;333:255-265.",
+          "url": "https://doi.org/10.1016/j.heares.2015.08.014"
+        },
+        {
+          "key": "cochrane_cbt",
+          "cite": "Fuller T, Cima R, Langguth B, Mazurek B, Vlaeyen JWS, Hoare DJ. Cognitive behavioural therapy for tinnitus. Cochrane Database of Systematic Reviews 2020;CD012614 (CBT may reduce the impact of tinnitus; low certainty; end-of-treatment results).",
+          "url": "https://doi.org/10.1002/14651858.CD012614.pub2"
+        },
+        {
+          "key": "aao",
+          "cite": "Adams ME, et al. Clinical Practice Guideline: Tinnitus Update. Otolaryngology-Head and Neck Surgery 2026 (KAS 3 ask about self-harm; KAS 11 recommend CBT; KAS 12-14A against routine medicines, supplements and rTMS), as stated in the published abstracts.",
+          "url": "https://doi.org/10.1002/ohn.70418"
+        },
+        {
+          "key": "nice",
+          "cite": "NICE. Tinnitus: assessment and management (NG155), 2020. Recommendations 1.2.5 (referral within 2 weeks for distress despite support), 1.5.4 (stepped psychological care), 1.5.5 (no betahistine).",
+          "url": "https://www.nice.org.uk/guidance/ng155/chapter/Recommendations"
+        },
+        {
+          "key": "nhs",
+          "cite": "NHS. Tinnitus (page last reviewed 12 January 2024): relax, support groups, digital CBT usually offered first.",
+          "url": "https://www.nhs.uk/conditions/tinnitus/"
+        },
+        {
+          "key": "sattel",
+          "cite": "Sattel H, Brueggemann P, Steinmetzger K, et al. Short- and long-term outcomes of e-health and internet-based psychological interventions for chronic tinnitus: a systematic review and meta-analysis. Telemedicine and e-Health 2025;31(2):151-166.",
+          "url": "https://doi.org/10.1089/tmj.2024.0050"
+        },
+        {
+          "key": "jasper",
+          "cite": "Jasper K, et al. Psychotherapy and Psychosomatics 2014;83:234-246 (internet CBT and group CBT both helped, with no significant difference).",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/24970708/"
+        },
+        {
+          "key": "westin",
+          "cite": "Westin VZ, Schulin M, Hesser H, et al. Acceptance and commitment therapy versus tinnitus retraining therapy in the treatment of tinnitus: a randomised controlled trial. Behaviour Research and Therapy 2011;49(11):737-747.",
+          "url": "https://doi.org/10.1016/j.brat.2011.08.001"
+        },
+        {
+          "key": "mckenna",
+          "cite": "McKenna L, Marks EM, Hallsworth CA, Schaette R. Mindfulness-based cognitive therapy as a treatment for chronic tinnitus: a randomized controlled trial. Psychotherapy and Psychosomatics 2017;86(6):351-361 (relaxation training also helped).",
+          "url": "https://doi.org/10.1159/000478267"
+        },
+        {
+          "key": "pryce",
+          "cite": "Pryce H, Moutela T, Bunker C, Shaw R. Tinnitus groups: a model of social support and social connectedness from peer interaction. British Journal of Health Psychology 2019;24(4):913-930 (qualitative).",
+          "url": "https://doi.org/10.1111/bjhp.12386"
+        },
+        {
+          "key": "budimir",
+          "cite": "Budimir S, et al. Reasons for discontinuing active participation on the internet forum Tinnitus Talk. JMIR Formative Research 2021;5(4):e21444.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33830060/"
+        },
+        {
+          "key": "nice_dep",
+          "cite": "NICE. Depression in adults: treatment and management (NG222), 2022 (behavioural activation and group exercise for less severe depression).",
+          "url": "https://www.nice.org.uk/guidance/ng222"
+        },
+        {
+          "key": "ptm_wb",
+          "cite": "US Department of Veterans Affairs and Department of Defense. Progressive Tinnitus Management 2.0: Living Better with Tinnitus workbook (December 2024).",
+          "url": "https://www.health.mil/Reference-Center/Publications/2024/12/12/PTM-Workbook"
+        },
+        {
+          "key": "talking",
+          "cite": "NHS. Find NHS Talking Therapies for anxiety and depression (self-referral, England; reviewed 14 February 2025).",
+          "url": "https://www.nhs.uk/nhs-services/mental-health-services/find-nhs-talking-therapies-for-anxiety-and-depression/"
+        },
+        {
+          "key": "ata_dir",
+          "cite": "American Tinnitus Association. Provider directory (the ATA does not sponsor or endorse listed providers).",
+          "url": "https://www.ata.org/provider-directory/"
+        },
+        {
+          "key": "abct",
+          "cite": "Association for Behavioral and Cognitive Therapies. Find a therapist (not a certifying body; top results are paid placements).",
+          "url": "https://services.abct.org/find-a-therapist/"
+        },
+        {
+          "key": "ptm_rct",
+          "cite": "Henry JA, et al. Journal of Speech, Language, and Hearing Research 2017;60(5):1378-1397 (Progressive Tinnitus Management trial in veterans).",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28418492/"
+        },
+        {
+          "key": "betteraccess",
+          "cite": "Australian Government Department of Health. Better Access initiative (updated 6 February 2026).",
+          "url": "https://www.health.gov.au/our-work/better-access-initiative"
+        },
+        {
+          "key": "mindspot",
+          "cite": "MindSpot (Macquarie University). Free, government-funded online and phone assessment and courses.",
+          "url": "https://www.mindspot.org.au/about-mindspot"
+        },
+        {
+          "key": "ontario",
+          "cite": "Ontario Health. Ontario Structured Psychotherapy: free, publicly funded CBT for depression and anxiety.",
+          "url": "https://www.ontariohealth.ca/clinical/mental-health-addictions/structured-psychotherapy"
+        },
+        {
+          "key": "diga",
+          "cite": "BfArM (Germany). DiGA directory: kalmeda (permanently listed; updated 19 October 2026).",
+          "url": "https://diga.bfarm.de/de/verzeichnis/00350"
+        },
+        {
+          "key": "tot",
+          "cite": "Tinnitus UK. Take on Tinnitus (free online course).",
+          "url": "https://tinnitus.org.uk/take-on-tinnitus/"
+        },
+        {
+          "key": "fda_fraud",
+          "cite": "US FDA. 6 tip-offs to rip-offs: don't fall for health fraud scams.",
+          "url": "https://www.fda.gov/consumers/consumer-updates/6-tip-offs-rip-offs-dont-fall-health-fraud-scams"
+        }
+      ],
+      "nowLayout": {
+        "style": "harbour",
+        "art": [
+          "breath",
+          "attention",
+          "talk",
+          "kind"
+        ],
+        "crisis": "crisis",
+        "then": "Then, one small step at a time",
+        "later": "When you're ready",
+        "crumbLink": "Support now ↓"
+      }
+    },
+    "concentration": {
+      "path": "living/concentration/",
+      "crumb": "Concentration, work and study",
+      "title": "Concentration, work and study",
+      "metaTitle": "Tinnitus and Concentration: Practical Help at Work and Study | Tinnitus Evidence",
+      "metaDesc": "Finding it hard to focus with tinnitus? Practical steps for work and study, how to ask for adjustments, safe headphone use, and noise at work, with the research explained.",
+      "lastReviewed": "2026-10-26",
+      "lead": "If tinnitus makes it harder to focus, you're not imagining it: many people with tinnitus find concentration harder, and studies back this up.[[tegg,clarke]] Small, practical changes often help.",
+      "nowTitle": "Things to try today",
+      "now": [
+        "<strong>Use low, steady background sound</strong> while you work, such as a fan, gentle music or nature sounds, a little quieter than your tinnitus.[[tuksound]] Treat it as a tool you can use when it helps, not something you must always have on.[[hesser]]",
+        "<strong>Do your hardest task at your best time of day</strong>, and break long tasks into shorter chunks.",
+        "<strong>Take short, regular breaks.</strong> Trying to push through for hours tends to raise stress.[[tukself]]",
+        "<strong>Choose a quieter seat</strong>, away from printers, busy walkways or rattling air vents, if you can.[[jan]]",
+        "<strong>Look after your sleep.</strong> Tiredness makes focusing much harder. <a href=\"living/sleep/\">Help for difficult nights</a>"
+      ],
+      "nowFoot": "If you strain to follow conversations, a hearing check is worth booking: hearing difficulties can drain concentration more than tinnitus itself.[[waechter,fuel]] <a href=\"appointment/\">Prepare for your appointment</a>",
+      "sections": [
+        {
+          "id": "work",
+          "short": "At work",
+          "title": "At work",
+          "html": "<ul><li><strong>Background sound at your desk:</strong> a quiet fan or a low, pleasant sound through one earbud or a small speaker.[[tuksound,jan]]</li><li><strong>Meetings and video calls:</strong> turn on captions, sit where you can see faces, and ask for written notes afterwards.[[jan]]</li><li><strong>Noise-cancelling headphones</strong> can help you keep the volume low in noisy places.[[who]] If you use them to block office chatter, play a soft sound through them. Total silence can make tinnitus more noticeable.</li><li><strong>On a headset all day?</strong> Keep the volume below about 60% of maximum and give your ears breaks between calls.[[who]]</li></ul><h3>Asking for changes</h3><p>Small adjustments are often easy for an employer: a quieter desk, a sound machine, flexible hours or home working, spread-out breaks, captions in meetings.[[jan,acas]] You don't have to tell anyone about your tinnitus unless you want to.[[acas]]</p><div class=\"g-box\"><p><strong>You could say:</strong> \"I have tinnitus, a constant sound in my ears. It can make concentrating harder in quiet rooms or long meetings. A few small changes help me, such as <em>[a quieter desk with low background sound / captions in meetings / short breaks / some home working]</em>. Could we try them for a month and review?\" Keep a note of what you agree.</p></div><ul><li><strong>US:</strong> you can ask in plain words; you don't need to say \"ADA\" or \"reasonable accommodation\".[[eeoc]] Concentrating and hearing count as major life activities under the ADA.[[ada]] The free <a href=\"https://askjan.org/limitations/Ringing-in-the-Ears.cfm\" rel=\"noopener\">Job Accommodation Network</a> lists ideas for tinnitus.[[jan]]</li><li><strong>UK:</strong> if tinnitus has a big, long-term effect on daily life, it can count as a disability under the Equality Act. Your employer must then make reasonable adjustments.[[gov_equality,acas]] Acas has a free template letter for asking. Access to Work can fund extra support, but not the adjustments your employer must make by law.[[atw]] (Northern Ireland has different rules.)</li></ul>",
+          "card": {
+            "art": "work",
+            "icons": [
+              "speaker-low",
+              "talk",
+              "headphones",
+              "timer"
+            ],
+            "wide": true
+          },
+          "group": "where"
+        },
+        {
+          "id": "study",
+          "short": "Studying",
+          "title": "At college or university",
+          "html": "<ul><li><strong>Contact disability or student support services early.</strong> Colleges and universities must make reasonable adjustments, and you usually need to ask.[[gov_equality]]</li><li><strong>Ask what is available</strong>, such as recorded lectures, note-taking support, seating near the front, or a quieter room for exams.</li><li><strong>In England</strong>, Disabled Students' Allowance can pay for equipment or support after a needs assessment.[[dsa]]</li><li>Study in short blocks with breaks, with low background sound rather than silence.[[tuksound,tukself]]</li></ul>",
+          "card": {
+            "art": "study",
+            "icons": [
+              "clipboard",
+              "check-list",
+              "notebook",
+              "timer"
+            ]
+          },
+          "group": "where"
+        },
+        {
+          "id": "noise",
+          "short": "Noise at work",
+          "title": "If your work is noisy",
+          "html": "<p>Did your tinnitus start or get worse with noise at work? Tell your employer, and ask about a noise assessment, hearing protection and hearing checks. Above certain noise levels these are legal duties.[[hse,osha]]</p><ul><li><strong>UK:</strong> from 80 dB(A), your employer must assess the risk and give you hearing protection if you ask. From 85 dB(A), protection must be provided and worn. People who already have hearing loss may need regular hearing checks.[[hse]]</li><li><strong>US:</strong> from 85 dBA averaged over a workday, employers must provide free hearing protection and yearly hearing tests.[[osha]]</li></ul><p class=\"small muted\">For music and other listening, the World Health Organization's safe level for adults is about 80 dB for up to 40 hours a week. Louder sound means less time.[[who]]</p>",
+          "card": {
+            "art": "noise",
+            "icons": [
+              "earplug",
+              "earplug"
+            ]
+          },
+          "group": "where"
+        },
+        {
+          "id": "why",
+          "short": "Why it's harder",
+          "title": "Why focusing can feel harder",
+          "html": "<p>Studies find small-to-moderate links between tinnitus and three things: holding your attention, switching between tasks, and thinking quickly on hard tasks.[[tegg,clarke]] One explanation is that the sound competes for your attention. These are links, not proof that tinnitus causes the difficulty. Many people with tinnitus do just as well as anyone else.[[clarke]]</p><p>Other things often play a part, and most of them can be helped: <strong>hearing loss</strong> (listening takes more effort),[[waechter,fuel]] <strong>poor sleep</strong>, <strong>stress, anxiety and low mood</strong>.[[tegg]]</p>",
+          "class": "c-why"
+        },
+        {
+          "id": "help",
+          "short": "Longer-term help",
+          "title": "If it keeps affecting your work or study",
+          "html": "<ul><li><strong>Get a hearing check.</strong> If you have hearing loss, even mild, hearing aids can make listening easier.[[nice,tukhear]] <a href=\"treatments/hearing-aids/\">Hearing aids: the evidence</a></li><li><strong>Treat poor sleep.</strong> CBT for insomnia has the best evidence for long-term sleep problems.[[curtis]] <a href=\"treatments/cbt-i/\">CBT-I: the evidence</a></li><li><strong>Consider CBT for tinnitus.</strong> It can reduce how much tinnitus interferes with daily life, and it's available online. Evidence on work and concentration specifically is limited.[[cochrane_cbt,beukes]] <a href=\"treatments/cbt/\">CBT</a> · <a href=\"treatments/digital-cbt/\">Online CBT</a></li></ul>",
+          "card": {
+            "art": "help",
+            "icons": [
+              "ear",
+              "moon",
+              "talk"
+            ],
+            "path": true
+          }
+        },
+        {
+          "id": "toolkit",
+          "type": "checklist",
+          "short": "Focus toolkit",
+          "title": "Your focus toolkit",
+          "intro": "Pick what suits you. Tick it off, or print it for your desk.",
+          "items": [
+            "Low, steady background sound, a little quieter than my tinnitus",
+            "Hardest task at my best time of day",
+            "Short breaks every hour or so",
+            "A quieter seat, away from noisy machines",
+            "Captions on in video calls",
+            "Headset volume below about 60%",
+            "A hearing check if I strain to hear",
+            "Ask for one small adjustment at work or college",
+            "Look after my sleep"
+          ],
+          "class": "c-toolkit"
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "limited",
+          "level": "Consistent but small",
+          "text": "Reviews find small-to-moderate links between tinnitus and attention, task-switching and processing speed. They are associations, not proof of cause.[[tegg,clarke]]"
+        },
+        {
+          "kind": "limited",
+          "level": "Small studies",
+          "text": "When hearing is taken into account, hearing difficulties can explain more of the struggle than tinnitus itself.[[waechter]]"
+        },
+        {
+          "kind": "guideline",
+          "level": "Guideline advice",
+          "text": "Hearing aids are recommended when hearing loss affects communication, and CBT for tinnitus that keeps bothering you.[[nice,cochrane_cbt]]"
+        },
+        {
+          "kind": "guideline",
+          "level": "Official guidance",
+          "text": "Safe listening (about 80 dB for up to 40 hours a week) and noise-at-work duties come from the WHO and national regulators.[[who,hse,osha]]"
+        },
+        {
+          "kind": "practical",
+          "level": "Practical tip",
+          "text": "Background sound, breaks, quieter seating and the manager script are expert advice with little direct research. Trying to control every sound can backfire, so use sound flexibly.[[tuksound,jan,hesser]]"
+        }
+      ],
+      "evidenceNote": "Most research on tinnitus and concentration uses lab tasks, not real workplaces, so practical tips here are labelled as such.",
+      "related": [
+        "sleep",
+        "overwhelmed",
+        "appointment"
+      ],
+      "sources": [
+        {
+          "key": "tegg",
+          "cite": "Tegg-Quinn S, Bennett RJ, Eikelboom RH, Baguley DM. The impact of tinnitus upon cognition in adults: a systematic review. International Journal of Audiology 2016;55(10):533-540.",
+          "url": "https://doi.org/10.1080/14992027.2016.1185168"
+        },
+        {
+          "key": "clarke",
+          "cite": "Clarke NA, Henshaw H, Akeroyd MA, Adams B, Hoare DJ. Associations between subjective tinnitus and cognitive performance: systematic review and meta-analyses. Trends in Hearing 2020;24:2331216520918416.",
+          "url": "https://doi.org/10.1177/2331216520918416"
+        },
+        {
+          "key": "waechter",
+          "cite": "Waechter S, et al. Frontiers in Psychology 2022;13:913944 (after accounting for hearing, anxiety and depression, tinnitus was not linked to performance on an office-like task).",
+          "url": "https://doi.org/10.3389/fpsyg.2022.913944"
+        },
+        {
+          "key": "fuel",
+          "cite": "Pichora-Fuller MK, et al. Hearing impairment and cognitive energy: the Framework for Understanding Effortful Listening (FUEL). Ear and Hearing 2016;37 Suppl 1:5S-27S.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27355771/"
+        },
+        {
+          "key": "hesser",
+          "cite": "Hesser H, Pereswetoff-Morath CE, Andersson G. Rehabilitation Psychology 2009;54(4):381-389 (trying to control background sound went with more tinnitus interference).",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/19929119/"
+        },
+        {
+          "key": "tuksound",
+          "cite": "Tinnitus UK. Sound therapy (use sound a little quieter than your tinnitus most of the time).",
+          "url": "https://tinnitus.org.uk/support-for-you/what-can-i-do/sound-therapy/"
+        },
+        {
+          "key": "tukself",
+          "cite": "Tinnitus UK. Self help tips (trying to do too much may produce stress).",
+          "url": "https://tinnitus.org.uk/support-for-you/what-can-i-do/self-help-tips/"
+        },
+        {
+          "key": "tukhear",
+          "cite": "Tinnitus UK. Tinnitus and hearing loss.",
+          "url": "https://tinnitus.org.uk/understanding-tinnitus/living-with-tinnitus/tinnitus-and-hearing-loss/"
+        },
+        {
+          "key": "jan",
+          "cite": "Job Accommodation Network (US). Ringing in the ears: accommodation ideas (quieter workspace, sound machines, noise abatement, noise-cancelling headsets, captioning).",
+          "url": "https://askjan.org/limitations/Ringing-in-the-Ears.cfm"
+        },
+        {
+          "key": "who",
+          "cite": "World Health Organization. Deafness and hearing loss: safe listening (6 March 2026): about 80 dB for up to 40 hours a week; keep device volume below 60% of maximum; give your ears breaks.",
+          "url": "https://www.who.int/news-room/questions-and-answers/item/deafness-and-hearing-loss-safe-listening"
+        },
+        {
+          "key": "acas",
+          "cite": "Acas. Reasonable adjustments at work (examples include spreading breaks, flexible and hybrid working, changing a work area; template request letter).",
+          "url": "https://www.acas.org.uk/reasonable-adjustments"
+        },
+        {
+          "key": "gov_equality",
+          "cite": "GOV.UK. Definition of disability under the Equality Act 2010 (substantial and long-term effect on normal daily activities).",
+          "url": "https://www.gov.uk/definition-of-disability-under-equality-act-2010"
+        },
+        {
+          "key": "atw",
+          "cite": "GOV.UK. Access to Work (a grant you don't pay back; it does not pay for reasonable adjustments your employer must legally make).",
+          "url": "https://www.gov.uk/access-to-work"
+        },
+        {
+          "key": "dsa",
+          "cite": "GOV.UK. Disabled Students' Allowance (England).",
+          "url": "https://www.gov.uk/disabled-students-allowance-dsa"
+        },
+        {
+          "key": "eeoc",
+          "cite": "US Equal Employment Opportunity Commission. Enforcement guidance on reasonable accommodation and undue hardship under the ADA (requests can be made in plain English).",
+          "url": "https://www.eeoc.gov/laws/guidance/enforcement-guidance-reasonable-accommodation-and-undue-hardship-under-ada"
+        },
+        {
+          "key": "ada",
+          "cite": "Americans with Disabilities Act, 42 U.S.C. 12102 (major life activities include hearing, concentrating and working).",
+          "url": "https://www.law.cornell.edu/uscode/text/42/12102"
+        },
+        {
+          "key": "hse",
+          "cite": "UK Health and Safety Executive. Noise at work (Control of Noise at Work Regulations 2005: action values 80 and 85 dB(A); health surveillance for those at risk, including people who already have hearing loss).",
+          "url": "https://www.hse.gov.uk/noise/"
+        },
+        {
+          "key": "osha",
+          "cite": "US OSHA occupational noise exposure standard, 29 CFR 1910.95 (hearing conservation programme at an 85 dBA action level).",
+          "url": "https://www.law.cornell.edu/cfr/text/29/1910.95"
+        },
+        {
+          "key": "nice",
+          "cite": "NICE. Tinnitus: assessment and management (NG155), 2020, recommendations 1.5.1 to 1.5.4.",
+          "url": "https://www.nice.org.uk/guidance/ng155/chapter/Recommendations"
+        },
+        {
+          "key": "curtis",
+          "cite": "Curtis F, et al. Effects of cognitive behavioural therapy on insomnia in adults with tinnitus: systematic review and meta-analysis. Sleep Medicine Reviews 2021;56:101405.",
+          "url": "https://doi.org/10.1016/j.smrv.2020.101405"
+        },
+        {
+          "key": "cochrane_cbt",
+          "cite": "Fuller T, Cima R, Langguth B, et al. Cognitive behavioural therapy for tinnitus. Cochrane Database of Systematic Reviews 2020;CD012614 (reduced tinnitus impact; low certainty; no work or concentration outcome).",
+          "url": "https://doi.org/10.1002/14651858.CD012614.pub2"
+        },
+        {
+          "key": "beukes",
+          "cite": "Beukes E, Sharpe JA, Andersson G, Manchaiah V. Exploring the impact of tinnitus on work productivity. Brain Sciences 2026;16(2):150 (exploratory, uncontrolled).",
+          "url": "https://doi.org/10.3390/brainsci16020150"
+        }
+      ],
+      "nowLayout": {
+        "style": "groups",
+        "hintIcon": "ear",
+        "groups": [
+          {
+            "art": "space",
+            "title": "Your space",
+            "items": [
+              [
+                0,
+                "speaker-low"
+              ],
+              [
+                3,
+                "focus"
+              ]
+            ]
+          },
+          {
+            "art": "pace",
+            "title": "Your day",
+            "items": [
+              [
+                1,
+                "calendar"
+              ],
+              [
+                2,
+                "timer"
+              ]
+            ]
+          },
+          {
+            "art": "recharge",
+            "title": "Your energy",
+            "items": [
+              [
+                4,
+                "moon"
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "spikes": {
+      "path": "living/spikes/",
+      "crumb": "Spikes and difficult days",
+      "icon": "🌊",
+      "tileLabel": "My tinnitus is louder today",
+      "tileShort": "Louder today",
+      "tileDesc": "Spikes and difficult days",
+      "title": "Spikes and difficult days",
+      "metaTitle": "Tinnitus Spikes: What to Do When It Suddenly Gets Louder | Tinnitus Evidence",
+      "metaDesc": "Tinnitus louder than usual today? A quick check for the rare changes that need help, what to do right now, common triggers (and the coffee myth), and when to get checked.",
+      "lastReviewed": "2026-10-26",
+      "lead": "Tinnitus often goes up and down: most people who seek help say theirs varies.[[devos]] A louder spell can be frightening, but it often eases back towards your usual level.",
+      "nowTitle": "If it's louder today",
+      "now": [
+        "<strong>Do a quick check.</strong> Has your hearing suddenly dropped? Is there new dizziness, weakness in your face, or a recent head injury? Is it newly beating with your pulse? If yes, <a href=\"urgent/\">get checked today</a>. If not, this sounds like an ordinary spike.[[nhs]]",
+        "<strong>Add gentle sound.</strong> Quiet rooms are the most common thing people say makes tinnitus worse.[[pan]] A fan, music or the radio at a low level can take the edge off.[[nhs]]",
+        "<strong>Slow your breathing</strong>, or try a short relaxation exercise. Stress and tinnitus often rise and fall together.[[goldberg,nhs]]",
+        "<strong>Give your attention somewhere else:</strong> a walk, a phone call, a task that absorbs you. Try not to keep checking whether it's still there.[[nhs,tuktame]]",
+        "<strong>Keep your plans, at a gentler pace.</strong> Avoiding things can make tinnitus feel more important.[[tuktame,tukself]]"
+      ],
+      "nowFoot": "If it feels like too much, you don't have to cope alone. <a href=\"support/#crisis\">Talk to someone now</a>",
+      "sections": [
+        {
+          "id": "settle",
+          "short": "Will it settle?",
+          "title": "Will it settle?",
+          "html": "<p>For most people, tinnitus goes up and down. A louder spell often eases back towards your usual level, sometimes within hours, sometimes over a few days.[[goldberg,simoes]] Researchers haven't yet measured exactly how long spikes last, and they can be hard to predict.[[engelke]]</p><p>It's also common for tinnitus to seem louder at night or first thing in the morning.[[probst]] And a lasting change is less common than you might fear: in a large UK study, most people said their tinnitus bothered them about the same amount 4 years later.[[dawes]]</p><div class=\"g-box\"><p><strong>A few words to tell yourself</strong></p><p>\"This is a spike. I've had louder days before, and they've eased. A louder day doesn't usually mean something is wrong. I don't need to keep checking it. I'll put on some gentle sound and do one small thing I enjoy.\"</p><p class=\"small muted\">Noticing a worried thought and answering it kindly is a technique from CBT.[[tukstress]]</p></div>"
+        },
+        {
+          "id": "triggers",
+          "short": "Common triggers",
+          "title": "What people often notice before a spike",
+          "html": "<p>What goes with louder days differs from person to person.[[simoes,pan]] Things people often mention:</p><ul><li><strong>Quiet rooms</strong>, and bedtime.[[pan]]</li><li><strong>Stress or worry.</strong>[[pan,goldberg]]</li><li><strong>A poor night's sleep.</strong>[[pan]] <a href=\"living/sleep/\">Help for difficult nights</a></li><li><strong>Loud noise</strong>, such as a concert or power tools.[[pan]]</li><li><strong>A cold or other illness</strong>, or ears blocked with wax.[[beukes,nidcd]]</li><li><strong>A new medicine.</strong> Ask your pharmacist or doctor, and don't stop a prescribed medicine on your own.</li></ul><div class=\"g-box\"><p><strong>What about coffee?</strong> Studies haven't found that caffeine makes tinnitus worse.[[stclaire,glicksman]] Stopping suddenly can cause headaches, so keep your usual amount steady. It can still affect sleep, so go easy in the evening.[[tukfood]]</p><p><strong>And alcohol?</strong> It affects people differently: in one study, most noticed no change.[[pugh]]</p></div>"
+        },
+        {
+          "id": "noise",
+          "short": "After loud noise",
+          "title": "After a loud event",
+          "html": "<p>Ringing after a concert or other loud noise usually fades by the next day.[[ata]] Dull or muffled hearing after loud noise often recovers within a day or two.[[nidcd_nihl]] <strong>If your hearing still feels reduced after that, or drops suddenly, <a href=\"urgent/\">get it checked the same day</a>.</strong> Even when it settles, it's a sign your ears needed protecting.[[nidcd_nihl]]</p><p>Carry earplugs for loud places. But don't wear them in everyday quiet, because that can make you more sensitive to sound.[[nhs_hyper]]</p>"
+        },
+        {
+          "id": "check",
+          "type": "urgent",
+          "short": "When to get checked",
+          "title": "When a change needs checking",
+          "intro": "Most spikes aren't a sign of anything serious. Get help if a change comes with any of these:[[nhs,nice]]",
+          "summary": {
+            "emergency": "tinnitus after a head injury, or with weakness in your face, arm or leg, trouble speaking, or severe spinning dizziness that won't settle.",
+            "today": "a sudden drop in hearing, hearing that hasn't recovered a day or two after loud noise, or new tinnitus that beats with your pulse.",
+            "soon": "a spike that keeps getting worse or hasn't started to ease after about a week, a change in one ear only, or tinnitus that is affecting your sleep or mood."
+          }
+        },
+        {
+          "id": "keep",
+          "short": "If spikes keep coming",
+          "title": "If spikes keep coming",
+          "html": "<ul><li><strong>Try a simple spike diary for 2 to 4 weeks</strong>, filled in once a day, then stop. Note how intrusive it was (0 to 10), how you slept, stress, loud noise, illness and any new medicine. Look for your own pattern, and test one suspected trigger at a time.[[tukfood]] Keep it short: in one study, half of people noticed their tinnitus more while tracking it.[[goldberg]]</li><li><strong>See your doctor</strong> for a check-up and a hearing test if spikes are frequent and you can't work out why.[[nhs]]</li><li><strong>Get longer-term help.</strong> CBT, a talking therapy, can reduce how much tinnitus affects your life.[[cochrane_cbt]] <a href=\"treatments/cbt/\">CBT: the evidence</a></li></ul>"
+        },
+        {
+          "id": "plan",
+          "type": "checklist",
+          "short": "Spike plan",
+          "title": "Your spike plan",
+          "intro": "Keep this for your next louder day. Print it or save it as a PDF if that helps.",
+          "items": [
+            "Do the quick check: no sudden hearing loss, new dizziness, weakness, head injury or new pulsing",
+            "Put on gentle sound",
+            "Take a few slow breaths, or do a short relaxation",
+            "Read my few words to myself",
+            "Do one absorbing thing",
+            "Keep my plans, at a gentler pace",
+            "Protect my ears only in genuinely loud places",
+            "If it hasn't started to ease after about a week, book an appointment"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "limited",
+          "level": "Consistent studies",
+          "text": "Tinnitus loudness and bother go up and down within the same person, and tend to move together with stress.[[goldberg,simoes,devos]]"
+        },
+        {
+          "kind": "limited",
+          "level": "Not yet measured",
+          "text": "How long spikes last, and how often they return to baseline, hasn't been studied.[[engelke]]"
+        },
+        {
+          "kind": "limited",
+          "level": "Trial evidence",
+          "text": "Cutting out caffeine didn't help tinnitus in a blinded trial, and caused withdrawal symptoms.[[stclaire]]"
+        },
+        {
+          "kind": "guideline",
+          "level": "NHS advice",
+          "text": "Avoid total silence, try relaxation, don't focus on the sound, and don't wear earplugs all the time.[[nhs,nhs_hyper]]"
+        },
+        {
+          "kind": "limited",
+          "level": "Low certainty",
+          "text": "CBT may reduce the impact of tinnitus on daily life.[[cochrane_cbt]]"
+        },
+        {
+          "kind": "practical",
+          "level": "Practical tip",
+          "text": "The quick check, the words to tell yourself, the spike plan and the diary are practical tools built from expert advice; they haven't been tested as such.[[tukstress,tukfood,tuktame]]"
+        }
+      ],
+      "evidenceNote": "Most of what we know about spikes comes from people rating their tinnitus on their phones through the day. It shows patterns, not causes.",
+      "related": [
+        "overwhelmed",
+        "sleep",
+        "start"
+      ],
+      "sources": [
+        {
+          "key": "devos",
+          "cite": "Devos JVP, Janssen MLF, Janssen AML, Hellingman CA, Smit JV. A prospective self-report survey-based cohort study on factors that have an influence on tinnitus. Audiology Research 2024;14(5):875-892 (about 72% said their tinnitus varies).",
+          "url": "https://doi.org/10.3390/audiolres14050074"
+        },
+        {
+          "key": "goldberg",
+          "cite": "Goldberg RL, Piccirillo ML, Nicklaus J, et al. Evaluation of ecological momentary assessment for tinnitus severity. JAMA Otolaryngology-Head and Neck Surgery 2017;143(7):700-706.",
+          "url": "https://doi.org/10.1001/jamaoto.2017.0020"
+        },
+        {
+          "key": "simoes",
+          "cite": "Simoes J, Bulla J, Neff P, et al. Daily contributors of tinnitus loudness and distress: an ecological momentary assessment study. Frontiers in Neuroscience 2022;16:883665.",
+          "url": "https://doi.org/10.3389/fnins.2022.883665"
+        },
+        {
+          "key": "engelke",
+          "cite": "Engelke M, Müller S, Langguth B, Pryss R, Schlee W. Tinnitus measured in everyday life: a literature review of ecological momentary assessment studies. Journal of the Association for Research in Otolaryngology 2025;26(4):369-388.",
+          "url": "https://doi.org/10.1007/s10162-025-00995-0"
+        },
+        {
+          "key": "probst",
+          "cite": "Probst T, Pryss RC, Langguth B, et al. Does tinnitus depend on time-of-day? An ecological momentary assessment study with the TrackYourTinnitus application. Frontiers in Aging Neuroscience 2017;9:253.",
+          "url": "https://doi.org/10.3389/fnagi.2017.00253"
+        },
+        {
+          "key": "dawes",
+          "cite": "Dawes P, Newall J, Stockdale D, Baguley DM. Natural history of tinnitus in adults: a cross-sectional and longitudinal analysis. BMJ Open 2020;10:e041290.",
+          "url": "https://doi.org/10.1136/bmjopen-2020-041290"
+        },
+        {
+          "key": "pan",
+          "cite": "Pan T, Tyler RS, Ji H, Coelho C, Gogel SA. Differences among patients that make their tinnitus worse or better. American Journal of Audiology 2015;24(4):469-476 (quiet made it worse for 48%).",
+          "url": "https://doi.org/10.1044/2015_AJA-15-0020"
+        },
+        {
+          "key": "beukes",
+          "cite": "Beukes EW, Baguley DM, Jacquemin L, et al. Changes in tinnitus experiences during the COVID-19 pandemic. Frontiers in Public Health 2020;8:592878.",
+          "url": "https://doi.org/10.3389/fpubh.2020.592878"
+        },
+        {
+          "key": "stclaire",
+          "cite": "St Claire L, Stothart G, McKenna L, Rogers PJ. Caffeine abstinence: an ineffective and potentially distressing tinnitus therapy. International Journal of Audiology 2010;49(1):24-29.",
+          "url": "https://doi.org/10.3109/14992020903160884"
+        },
+        {
+          "key": "glicksman",
+          "cite": "Glicksman JT, Curhan SG, Curhan GC. A prospective study of caffeine intake and risk of incident tinnitus. American Journal of Medicine 2014;127(8):739-743.",
+          "url": "https://doi.org/10.1016/j.amjmed.2014.02.033"
+        },
+        {
+          "key": "pugh",
+          "cite": "Pugh R, Budd RJ, Stephens SD. Patients' reports of the effect of alcohol on tinnitus. British Journal of Audiology 1995;29(5):279-283.",
+          "url": "https://doi.org/10.3109/03005369509076743"
+        },
+        {
+          "key": "nhs",
+          "cite": "NHS. Tinnitus (page last reviewed 12 January 2024).",
+          "url": "https://www.nhs.uk/conditions/tinnitus/"
+        },
+        {
+          "key": "nhs_hyper",
+          "cite": "NHS. Hyperacusis (page last reviewed 11 May 2026): don't wear earplugs or muffs all the time.",
+          "url": "https://www.nhs.uk/conditions/hyperacusis/"
+        },
+        {
+          "key": "nidcd",
+          "cite": "NIDCD. Tinnitus (updated 1 May 2023): causes include earwax and ear infection.",
+          "url": "https://www.nidcd.nih.gov/health/tinnitus"
+        },
+        {
+          "key": "nidcd_nihl",
+          "cite": "NIDCD. Noise-induced hearing loss (updated 16 April 2025): temporary hearing loss after loud noise often disappears 16 to 48 hours later; there may still be lasting damage.",
+          "url": "https://www.nidcd.nih.gov/health/noise-induced-hearing-loss"
+        },
+        {
+          "key": "ata",
+          "cite": "American Tinnitus Association. Ringing after 48 hours: tinnitus after a single loud event usually subsides by the next day.",
+          "url": "https://www.ata.org/about-tinnitus/ringing-after-48-hours/"
+        },
+        {
+          "key": "nice",
+          "cite": "NICE. Tinnitus: assessment and management (NG155), 2020, recommendations 1.2.",
+          "url": "https://www.nice.org.uk/guidance/ng155/chapter/Recommendations"
+        },
+        {
+          "key": "tuktame",
+          "cite": "Tinnitus UK. Taming tinnitus (don't 'test' your tinnitus; don't avoid activities).",
+          "url": "https://tinnitus.org.uk/understanding-tinnitus/living-with-tinnitus/taming-tinnitus/"
+        },
+        {
+          "key": "tukself",
+          "cite": "Tinnitus UK. Self help tips (pace yourself; balance activity, rest and social time).",
+          "url": "https://tinnitus.org.uk/support-for-you/what-can-i-do/self-help-tips/"
+        },
+        {
+          "key": "tukstress",
+          "cite": "Tinnitus UK. Tinnitus and stress (write down worried thoughts and test them).",
+          "url": "https://tinnitus.org.uk/understanding-tinnitus/living-with-tinnitus/tinnitus-and-stress/"
+        },
+        {
+          "key": "tukfood",
+          "cite": "Tinnitus UK. Tinnitus, food and drink (no scientific basis for cutting caffeine; keep a moderate, steady intake; test one suspected trigger at a time).",
+          "url": "https://tinnitus.org.uk/understanding-tinnitus/living-with-tinnitus/tinnitus-food-and-drink/"
+        },
+        {
+          "key": "cochrane_cbt",
+          "cite": "Fuller T, Cima R, Langguth B, et al. Cognitive behavioural therapy for tinnitus. Cochrane Database of Systematic Reviews 2020;CD012614 (low-certainty evidence).",
+          "url": "https://doi.org/10.1002/14651858.CD012614.pub2"
+        }
+      ]
+    },
+    "family": {
+      "path": "living/family/",
+      "crumb": "Family and relationships",
+      "icon": "💬",
+      "tileLabel": "Family and relationships",
+      "tileShort": "Family and partners",
+      "tileDesc": "Explaining tinnitus, and how loved ones can help",
+      "title": "Family and relationships",
+      "metaTitle": "Tinnitus and Family: How to Explain It and How Loved Ones Can Help | Tinnitus Evidence",
+      "metaDesc": "Tinnitus affects the whole household. A 30-second way to explain it, what helps and what doesn't for partners and family, home tips, children, and what to do if you're worried.",
+      "lastReviewed": "2026-10-26",
+      "lead": "Tinnitus doesn't only affect the person who hears it. Partners and families often feel it too, and couples often don't talk about it.[[beukes22,mancini18]] A few simple conversations can make home life easier for everyone.",
+      "nowTitle": "Three things to try this week",
+      "now": [
+        "<strong>Explain it in 30 seconds.</strong> For example: \"I hear a sound no one else can hear. It isn't dangerous. On bad days it makes me tired and short-tempered, and that isn't about you. What helps most is ___.\"",
+        "<strong>Say what helps.</strong> People with tinnitus often say they want others to take it seriously, face them when talking, and accept background sound at night.[[mancini18,mancini19]]",
+        "<strong>Agree some ground rules</strong> for talking about it: when to talk, how you'll say it's a bad day (a code word works), and what would help then.[[tukpartner]]"
+      ],
+      "nowFoot": "Worried about someone's mood or safety? <a href=\"living/family/#worried\">What to do if you're worried</a>",
+      "sections": [
+        {
+          "id": "helps",
+          "short": "What helps",
+          "title": "For partners and family: what helps",
+          "html": "<div class=\"g-box\"><p><strong>Usually helps</strong></p><ul><li><strong>Listen and believe them.</strong> Tinnitus is real, even though you can't hear it.</li><li><strong>Ask what would help</strong>, such as choosing a quieter or less echoey place to meet.[[tukpartner,tukfriend]]</li><li><strong>Keep doing things together</strong>, and gently encourage them not to give up things they enjoy.[[tukpartner]]</li><li><strong>Be patient.</strong> Getting used to tinnitus often takes months.[[ata_love]]</li><li><strong>Go to an appointment with them</strong> if they'd like you to.[[mancini18]]</li><li><strong>Wear earplugs with them</strong> at loud events.[[tukpartner]]</li><li><strong>Look after yourself too.</strong>[[tukpartner,tukfriend]]</li></ul></div><div class=\"g-box\"><p><strong>Usually doesn't help</strong></p><ul><li>Brushing it off, or telling them to \"just ignore it\".</li><li>Checking on it all day. Agree ground rules instead.[[tukpartner]]</li><li>Pushing remedies, supplements or adverts. <a href=\"claims/\">Check a claim first</a></li><li>Taking bad moods personally, especially in the early months.[[tukfriend]]</li></ul></div><p class=\"small muted\">This list is our summary of charity guidance and small studies. In one study, more dismissive or punishing responses from a spouse went with more tinnitus disability.[[sullivan]]</p>"
+        },
+        {
+          "id": "home",
+          "short": "At home",
+          "title": "Around the house",
+          "html": "<ul><li><strong>Bedtime sound you can both live with.</strong> A pillow speaker plays sound only for the person lying on it.[[tukpartner,tuksound]] Some couples sleep apart on bad nights or for a while. There's no research either way, so talk it through kindly so neither of you feels pushed away. <a href=\"living/sleep/\">Sleep and difficult nights</a></li><li><strong>TV:</strong> turn on subtitles. A TV listener lets one person choose their own volume while the TV plays for everyone else, and a TV streamer sends sound straight to compatible hearing aids.[[rnidtv]]</li><li><strong>Talking:</strong> face each other, speak clearly without shouting, rephrase rather than repeat, and turn down background noise at meals.[[rnidcomm]]</li><li><strong>If you notice the TV creeping up</strong> or missed words, gently suggest a hearing check.[[nhs]] <a href=\"appointment/\">Prepare for your appointment</a></li></ul>"
+        },
+        {
+          "id": "getting-help",
+          "short": "Getting help",
+          "title": "Getting help can help the whole household",
+          "html": "<ul><li><strong>Talking therapy.</strong> CBT, the best-supported help for tinnitus distress, can make tinnitus easier to live with. In one early study, family members felt less burdened after the person did online CBT, although it had no comparison group.[[beukes24]] <a href=\"treatments/cbt/\">CBT: the evidence</a></li><li><strong>Support groups</strong> often welcome family and friends.[[tukpartner]] <a href=\"support/#organizations\">Support organizations</a></li><li><strong>Counselling together</strong> can help if tensions are hard to manage.[[tukpartner]]</li></ul>"
+        },
+        {
+          "id": "children",
+          "short": "Children",
+          "title": "Children and teenagers",
+          "html": "<p><strong>Explaining a parent's tinnitus</strong> (our suggestion): \"Sometimes my ears make a noise only I can hear. It isn't dangerous, and it's nobody's fault. Some days it makes me tired, and that isn't about you.\"</p><p><strong>If your child has tinnitus:</strong> it's common in children, most aren't troubled by it, and a simple explanation and some reassurance is usually enough. Ask them about it gently.[[tukparents]] See a doctor if they're distressed, or have ear pain, a blocked feeling, dizziness or hearing loss. Tinnitus that beats with the pulse should always be checked.[[tukparents]]</p>"
+        },
+        {
+          "id": "worried",
+          "short": "If you're worried",
+          "title": "If you're worried about their mood or safety",
+          "html": "<p>If you think they might be thinking about suicide, <strong>it's OK to ask them directly and kindly</strong>. Asking doesn't put the idea in their head; it gives them a chance to talk.[[samaritans,nimh]]</p><ul><li>Listen, and take what they say seriously. You don't have to fix it.[[samaritans]]</li><li>Help them connect with support: a crisis line, their doctor, or someone they trust.[[nimh]] <a href=\"support/#crisis\">Crisis lines by country</a></li><li>If they are in immediate danger, call your emergency number and don't leave them alone.[[nimh]]</li><li>Keep in touch afterwards.[[nimh]]</li></ul><p>Supporting someone can be hard. Look after yourself too, and you can call a crisis line for advice about someone else.[[samaritans]] <a href=\"living/overwhelmed/\">When it feels like too much</a> is written for the person with tinnitus.</p>"
+        },
+        {
+          "id": "plan",
+          "type": "checklist",
+          "short": "Household plan",
+          "title": "Your household plan",
+          "intro": "Choose a few to try together. Tick them off, or print this for the fridge.",
+          "items": [
+            "Use the 30-second explanation",
+            "Agree our ground rules, and a 'bad day' code word",
+            "Find a bedtime sound we can both live with",
+            "Subtitles on, and face each other to talk",
+            "Keep doing things we enjoy together",
+            "Earplugs for loud events, for both of us",
+            "Know where to find support",
+            "Look after ourselves too"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "limited",
+          "level": "Small studies",
+          "text": "Most partners say tinnitus affects them too, and couples often don't talk about it.[[beukes22,mancini18]]"
+        },
+        {
+          "kind": "limited",
+          "level": "Association",
+          "text": "Dismissive or punishing responses from a spouse went with more tinnitus disability; this can't show cause.[[sullivan]]"
+        },
+        {
+          "kind": "limited",
+          "level": "Early evidence",
+          "text": "Family members felt less burdened after the person did online CBT, in a study without a comparison group.[[beukes24]]"
+        },
+        {
+          "kind": "guideline",
+          "level": "Official advice",
+          "text": "Asking someone directly about suicide doesn't increase risk and can help them open up.[[nimh,samaritans]]"
+        },
+        {
+          "kind": "practical",
+          "level": "Practical tip",
+          "text": "The 30-second explanation, ground rules and household plan are practical tools from charity guidance; they haven't been tested as such.[[tukpartner]]"
+        }
+      ],
+      "evidenceNote": "Research on tinnitus and families is small, so most of this page is practical guidance from tinnitus and hearing charities, labelled as such.",
+      "related": [
+        "overwhelmed",
+        "sleep",
+        "start"
+      ],
+      "sources": [
+        {
+          "key": "beukes22",
+          "cite": "Beukes EW, Ulep AJ, Andersson G, Manchaiah V. The effects of tinnitus on significant others. Journal of Clinical Medicine 2022;11(5):1393.",
+          "url": "https://doi.org/10.3390/jcm11051393"
+        },
+        {
+          "key": "beukes24",
+          "cite": "Beukes EW, Andersson G, Manchaiah V. The indirect effect of an internet-based intervention on third-party disability for significant others of individuals with tinnitus. Audiology Research 2024;14(5):809-821 (single group, no control).",
+          "url": "https://doi.org/10.3390/audiolres14050068"
+        },
+        {
+          "key": "mancini18",
+          "cite": "Mancini PC, Tyler RS, Perreau A, Batterton LF, Ji H. Considerations for partners of our tinnitus patients. International Tinnitus Journal 2018;22(2):113-122.",
+          "url": "https://doi.org/10.5935/0946-5448.20180020"
+        },
+        {
+          "key": "mancini19",
+          "cite": "Mancini PC, Tyler RS, Smith S, et al. Tinnitus: how partners can help? American Journal of Audiology 2019;28(1):85-94.",
+          "url": "https://doi.org/10.1044/2018_AJA-18-0046"
+        },
+        {
+          "key": "sullivan",
+          "cite": "Sullivan M, Katon W, Russo J, Dobie R, Sakai C. Coping and marital support as correlates of tinnitus disability. General Hospital Psychiatry 1994;16(4):259-266.",
+          "url": "https://doi.org/10.1016/0163-8343(94)90005-1"
+        },
+        {
+          "key": "tukpartner",
+          "cite": "Tinnitus UK. My partner has tinnitus (ask what helps; agree ground rules; pillow speakers; support groups welcome family; counselling together; look after yourself).",
+          "url": "https://tinnitus.org.uk/understanding-tinnitus/support-people/my-partner-has-tinnitus/"
+        },
+        {
+          "key": "tukfriend",
+          "cite": "Tinnitus UK. My friend or relative has tinnitus (don't take withdrawal or irritability personally; ask what would help).",
+          "url": "https://tinnitus.org.uk/understanding-tinnitus/support-people/my-friend-or-relative-has-tinnitus/"
+        },
+        {
+          "key": "tuksound",
+          "cite": "Tinnitus UK. Sound therapy (pillow speakers and sound pillows).",
+          "url": "https://tinnitus.org.uk/support-for-you/what-can-i-do/sound-therapy/"
+        },
+        {
+          "key": "tukparents",
+          "cite": "Tinnitus UK. Tinnitus: a guide for parents (version 3.0, August 2024), from its leaflets and publications.",
+          "url": "https://tinnitus.org.uk/understanding-tinnitus/leaflets-and-publications/"
+        },
+        {
+          "key": "ata_love",
+          "cite": "Hubbard B (American Tinnitus Association). Practical steps to support your loved one with tinnitus.",
+          "url": "https://www.ata.org/practical-steps-to-support-your-loved-one-with-tinnitus/"
+        },
+        {
+          "key": "rnidtv",
+          "cite": "RNID. TV, radio and music (subtitles, TV listeners, TV streamers).",
+          "url": "https://rnid.org.uk/information-and-support/technology-and-products/tv-radio-and-music/"
+        },
+        {
+          "key": "rnidcomm",
+          "cite": "RNID. How to communicate with someone who is deaf or has hearing loss.",
+          "url": "https://rnid.org.uk/information-and-support/how-to-communicate-with-deaf-people-hearing-loss/"
+        },
+        {
+          "key": "nhs",
+          "cite": "NHS. Tinnitus (page last reviewed 12 January 2024): see a GP, who can refer you for a hearing test.",
+          "url": "https://www.nhs.uk/conditions/tinnitus/"
+        },
+        {
+          "key": "samaritans",
+          "cite": "Samaritans. Supporting someone with suicidal thoughts (asking directly can protect people; listen; look after yourself).",
+          "url": "https://www.samaritans.org/how-we-can-help/if-youre-worried-about-someone-else/supporting-someone-suicidal-thoughts/"
+        },
+        {
+          "key": "nimh",
+          "cite": "US National Institute of Mental Health. 5 action steps to help someone having thoughts of suicide (2024): asking does not increase suicidal thoughts or behavior.",
+          "url": "https://www.nimh.nih.gov/health/publications/5-action-steps-to-help-someone-having-thoughts-of-suicide"
+        }
+      ]
+    },
+    "sound-sensitivity": {
+      "path": "living/sound-sensitivity/",
+      "crumb": "Sound sensitivity and hearing protection",
+      "icon": "🎧",
+      "tileLabel": "Sound sensitivity and hearing protection",
+      "tileShort": "Sound sensitivity",
+      "tileDesc": "When sounds feel too loud, and protecting your ears",
+      "title": "Sound sensitivity and hearing protection",
+      "metaTitle": "Hyperacusis and Hearing Protection: When Sounds Feel Too Loud | Tinnitus Evidence",
+      "metaDesc": "Everyday sounds too loud or painful? How to protect your ears without over-protecting, how to fit earplugs, iPhone settings, help that works, and when to get checked.",
+      "lastReviewed": "2026-10-26",
+      "lead": "Many people with tinnitus also find some everyday sounds too loud or uncomfortable.[[cederroth]] It's tempting to block everything out, but over-protecting your ears can make sensitivity worse.[[nhs_hyper]] The aim is to protect your ears from truly loud sound, and gently get used to everyday sound again.",
+      "nowTitle": "Things to try today",
+      "now": [
+        "<strong>Keep earplugs for genuinely loud things</strong>, such as power tools, concerts and motorbikes. A simple test: if you'd have to shout to be heard by someone an arm's length away, protect your ears.[[niosh]]",
+        "<strong>Leave them out for everyday sounds</strong> like the kitchen, the supermarket or traffic. Wearing earplugs all the time can make you more sensitive to sound.[[nhs_hyper,tukhyper]]",
+        "<strong>Have gentle sound around you</strong>, such as quiet music or a fan, rather than silence.[[nhs_hyper]]",
+        "<strong>Remember: uncomfortable isn't the same as harmful.</strong> Sounds below about 70 dB, like normal conversation, are unlikely to damage hearing, even over long periods.[[nidcd_nihl]]",
+        "<strong>Step away rather than plugging up</strong> when a sound is too much, and come back when you're ready."
+      ],
+      "nowFoot": "Severe ear pain with a rash, fluid coming from the ear, or a sudden change in hearing? <a href=\"urgent/\">Get checked today</a>",
+      "sections": [
+        {
+          "id": "what",
+          "toc": false,
+          "short": "What's going on",
+          "title": "What's going on?",
+          "html": "<p><strong>Hyperacusis</strong> means everyday sounds seem much louder than they should, or even painful.[[nhs_hyper]] <strong>Misophonia</strong> is different: strong anger, disgust or anxiety at particular sounds, often other people chewing or breathing, whatever their volume.[[swedo]] The two can overlap, and both can come with tinnitus.[[tukhyper]]</p><p>In a large Swedish study, more than half of people with tinnitus said some sounds were too loud or uncomfortable. Only about 1 in 10 had a severe problem.[[cederroth]]</p>"
+        },
+        {
+          "id": "protect",
+          "short": "Protect or not?",
+          "title": "Protect, or don't plug?",
+          "html": "<div class=\"g-box\"><p><strong>Protect your ears</strong></p><p>Power tools, mowers and leaf blowers; concerts and festivals; motorbikes; fireworks; shooting; loud workplaces.[[nidcd_prot]]</p></div><div class=\"g-box\"><p><strong>Carry earplugs, and use them if you'd have to shout</strong></p><p>Cinemas, gym classes, loud bars, sports events.[[nidcd_prot,niosh]]</p></div><div class=\"g-box\"><p><strong>Leave them out</strong></p><p>The kitchen, the supermarket, traffic, conversation, the office.[[nhs_hyper,tukhyper]]</p></div>"
+        },
+        {
+          "id": "earplugs",
+          "short": "Fitting earplugs",
+          "title": "Wearing foam earplugs properly",
+          "html": "<ol><li>With clean hands, <strong>roll</strong> the earplug into a thin, crease-free \"snake\".</li><li>Reach over your head and <strong>pull</strong> the top of your ear up and back.</li><li>Slide the earplug in and <strong>hold</strong> it for 20 to 30 seconds while it expands.</li><li><strong>Check:</strong> your own voice should sound muffled. If cupping your hands over your ears makes things much quieter, the fit isn't right, so try again.</li><li>To remove, twist it slowly.</li></ol><p class=\"small muted\">This is the NIOSH \"roll, pull, hold\" method.[[niosh_rph,nidcd_prot]]</p><p><strong>Other types:</strong> reusable earplugs, including \"high-fidelity\" or musician's earplugs. These turn the volume down evenly, so they suit concerts and cinemas. Earmuffs are the easiest to fit. A hearing professional can also make custom earplugs. The best type is the one you'll actually wear.[[nidcd_prot]]</p>"
+        },
+        {
+          "id": "phone",
+          "short": "On your phone",
+          "title": "On your phone",
+          "html": "<ul><li><strong>iPhone:</strong> Settings, then Sounds &amp; Haptics, then Headphone Safety. Turn on <em>Reduce Loud Audio</em> to lower headphone volume above a level you choose.[[apple_hs]]</li><li><strong>Keep headphone volume below about 60%</strong> of maximum.[[who]]</li><li><strong>Your weekly listening budget:</strong> about 80 dB for up to 40 hours a week, 90 dB for about 4 hours, and 100 dB for about 20 minutes.[[who]]</li><li><strong>A free sound level meter app from NIOSH</strong> (iPhone) gives a rough reading. Use it to check now and then, not to monitor all day.[[niosh_app]]</li></ul>"
+        },
+        {
+          "id": "help",
+          "short": "Getting help",
+          "title": "Help that works",
+          "html": "<ul><li><strong>An audiologist can offer hyperacusis therapy:</strong> gradually getting used to sound again, often with sound therapy and advice. Evidence for sound therapy is limited, and services vary.[[kalsoom,tukhyper]]</li><li><strong>CBT that includes gradual sound exposure</strong> helped people with hyperacusis in a trial, compared with waiting for treatment.[[juris]] <a href=\"treatments/cbt/\">CBT: the evidence</a></li><li><strong>For misophonia</strong>, group CBT helped in one good trial. Other approaches are mostly untested.[[jager]]</li></ul><p class=\"small muted\">There's no UK professional guideline for hyperacusis yet; the British Society of Audiology says it is working on one.[[bsa]]</p><h3>What to tell your audiologist</h3><ul><li>Which sounds bother you, where, and how much. Is it the loudness, fear, anger or pain?</li><li>How many hours a day you wear earplugs or ear defenders.</li><li>What you're avoiding, and what you'd like to get back to.</li><li>\"Please start the hearing test quietly, and let me stop if it hurts.\"[[aazh]] <a href=\"appointment/\">Prepare for your appointment</a></li></ul>"
+        },
+        {
+          "id": "plan",
+          "short": "Sound plan",
+          "title": "A gradual sound plan to take to your audiologist",
+          "html": "<ol><li>List the everyday sounds you avoid or plug out.</li><li>Put them in order, from easiest to hardest.</li><li>Have low, steady background sound around you each day.</li><li>Cut down earplug time step by step, starting with the easiest situations.</li><li>Note your discomfort from 0 to 10, and how it changes over the weeks.</li><li>Review it with your audiologist.</li></ol><p class=\"small muted\">Based on what CBT and sound-therapy programmes use; the evidence is limited. Do this with an audiologist, not instead of one.[[juris,kalsoom]]</p>"
+        },
+        {
+          "id": "check",
+          "type": "urgent",
+          "short": "When to get checked",
+          "title": "When to get checked quickly",
+          "intro": "Most sound sensitivity can wait for a routine appointment. Get help sooner for:[[nhs,nhs_earache,nord]]",
+          "summary": {
+            "emergency": "weakness or drooping of the face with arm weakness or trouble speaking, sound sensitivity that started after a head injury, or severe spinning dizziness that won't settle.",
+            "today": "severe ear pain with a rash on or in the ear, ear pain with fluid coming out, swelling around the ear or a high temperature, earache lasting more than 2 to 3 days, or a sudden drop in hearing.",
+            "soon": "everyday sounds that feel too loud or painful most of the time, or sound sensitivity that is stopping you doing things."
+          }
+        },
+        {
+          "id": "checklist",
+          "type": "checklist",
+          "short": "Checklist",
+          "title": "Protect, don't over-protect",
+          "intro": "Tick off what you've done. Print it if that helps.",
+          "items": [
+            "Earplugs in my bag for genuinely loud places",
+            "Use the arm's-length shout test",
+            "No earplugs for everyday sounds",
+            "Gentle background sound instead of silence",
+            "Turn on Reduce Loud Audio on my phone",
+            "Ask an audiologist about hyperacusis therapy",
+            "Start my gradual sound plan"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "limited",
+          "level": "One trial",
+          "text": "CBT with gradual sound exposure helped hyperacusis compared with a waiting list (60 people).[[juris]]"
+        },
+        {
+          "kind": "limited",
+          "level": "One trial",
+          "text": "Group CBT helped misophonia compared with a waiting list (54 people).[[jager]]"
+        },
+        {
+          "kind": "limited",
+          "level": "Limited evidence",
+          "text": "Sound therapy for hyperacusis is widely used, but the studies are few and conflicting.[[kalsoom]]"
+        },
+        {
+          "kind": "guideline",
+          "level": "Official advice",
+          "text": "Don't wear earplugs all the time; protect your ears from genuinely loud sound; keep listening within weekly limits.[[nhs_hyper,niosh,who]]"
+        },
+        {
+          "kind": "limited",
+          "level": "Lab studies",
+          "text": "Short experiments in volunteers show that blocking an ear for days makes sounds seem louder, which is why over-protection may backfire.[[munro]]"
+        },
+        {
+          "kind": "practical",
+          "level": "Practical tip",
+          "text": "The protect-or-not table, the gradual sound plan and the audiologist checklist are practical tools built from the advice above.[[tukhyper]]"
+        }
+      ],
+      "evidenceNote": "We describe types of hearing protection, not brands. The best earplug is the one you'll wear when it matters.",
+      "related": [
+        "social-and-travel",
+        "spikes",
+        "appointment"
+      ],
+      "sources": [
+        {
+          "key": "cederroth",
+          "cite": "Cederroth CR, et al. Journal of Clinical Medicine 2020;9(8):2412 (Swedish population study: 58.6% of people with tinnitus reported some hyperacusis; 9.7% severe).",
+          "url": "https://doi.org/10.3390/jcm9082412"
+        },
+        {
+          "key": "nhs_hyper",
+          "cite": "NHS. Hyperacusis (page last reviewed 11 May 2026): don't wear earplugs or muffs all the time; avoid silence; see a GP if sounds are a problem.",
+          "url": "https://www.nhs.uk/conditions/hyperacusis/"
+        },
+        {
+          "key": "tukhyper",
+          "cite": "Tinnitus UK. Hyperacusis leaflet (version 4.0, December 2022; past its review date): ear protection shouldn't be used for normal day-to-day activities.",
+          "url": "https://tinnitus.org.uk/understanding-tinnitus/what-is-tinnitus/types-of-tinnitus/hyperacusis/"
+        },
+        {
+          "key": "swedo",
+          "cite": "Swedo SE, et al. Consensus definition of misophonia: a Delphi study. Frontiers in Neuroscience 2022;16:841816.",
+          "url": "https://doi.org/10.3389/fnins.2022.841816"
+        },
+        {
+          "key": "niosh",
+          "cite": "NIOSH (US). Publication 2026-118: if you must shout to be heard from 3 feet away (arm's length), wear hearing protection.",
+          "url": "https://www.cdc.gov/niosh/media/pdfs/2026/09/2026-118.pdf"
+        },
+        {
+          "key": "niosh_rph",
+          "cite": "NIOSH (US). Roll, pull, hold: how to insert foam earplugs.",
+          "url": "https://cdc.gov/niosh/mining/tools/earplugs.html"
+        },
+        {
+          "key": "niosh_app",
+          "cite": "NIOSH (US). Sound level meter app (free, iPhone; accurate within about 2 dB with a calibrated external microphone).",
+          "url": "https://www.cdc.gov/niosh/noise/about/app.html"
+        },
+        {
+          "key": "nidcd_prot",
+          "cite": "NIDCD (US). Hearing protectors fact sheet (NIH Pub. 20-DC-8122, November 2020): types, fitting and when to use them.",
+          "url": "https://www.nidcd.nih.gov/sites/default/files/documents/health/hearingprotectors.pdf"
+        },
+        {
+          "key": "nidcd_nihl",
+          "cite": "NIDCD. Noise-induced hearing loss (updated 16 April 2025): sounds at or below 70 dBA are unlikely to cause hearing loss.",
+          "url": "https://www.nidcd.nih.gov/health/noise-induced-hearing-loss"
+        },
+        {
+          "key": "apple_hs",
+          "cite": "Apple Support. Headphone notifications and Reduce Loud Audio on iPhone (a built-in feature; not a medical device).",
+          "url": "https://support.apple.com/en-us/108968"
+        },
+        {
+          "key": "who",
+          "cite": "World Health Organization. Deafness and hearing loss: safe listening (6 March 2026): 80 dB for up to 40 hours a week, 90 dB for 4 hours, 100 dB for about 20 minutes; keep volume below 60%.",
+          "url": "https://www.who.int/news-room/questions-and-answers/item/deafness-and-hearing-loss-safe-listening"
+        },
+        {
+          "key": "juris",
+          "cite": "Jüris L, Andersson G, Larsen HC, Ekselius L. Behaviour Research and Therapy 2014;54:30-37 (CBT for hyperacusis vs waiting list).",
+          "url": "https://doi.org/10.1016/j.brat.2014.01.001"
+        },
+        {
+          "key": "jager",
+          "cite": "Jager I, Vulink N, Bergfeld I, van Loon A, Denys D. Depression and Anxiety 2021;38(7):708-718 (group CBT for misophonia vs waiting list).",
+          "url": "https://doi.org/10.1002/da.23127"
+        },
+        {
+          "key": "kalsoom",
+          "cite": "Kalsoom S, Fackrell K, et al. Brain Sciences 2024;14(8):797 (review: limited, conflicting evidence on sound therapy for hyperacusis).",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11352218/"
+        },
+        {
+          "key": "bsa",
+          "cite": "British Society of Audiology. Tinnitus and Hyperacusis Special Interest Group (plans a position statement on hyperacusis practice).",
+          "url": "https://www.thebsa.org.uk/special-interest-groups/tinnitus-and-hyperacusis-special-interest-group/"
+        },
+        {
+          "key": "aazh",
+          "cite": "Aazh H, Moore BCJ. American Journal of Audiology 2017;26(3):226-232 (standard test sounds were uncomfortable for about 1 in 5 people seeking help for tinnitus or hyperacusis).",
+          "url": "https://doi.org/10.1044/2017_AJA-17-0011"
+        },
+        {
+          "key": "munro",
+          "cite": "Munro KJ, Turtle C, Schaette R. Journal of the Acoustical Society of America 2014;135(1):315-322 (a week of earplug use made sounds seem louder; the change faded within a day).",
+          "url": "https://doi.org/10.1121/1.4835715"
+        },
+        {
+          "key": "nhs",
+          "cite": "NHS. Tinnitus (page last reviewed 12 January 2024).",
+          "url": "https://www.nhs.uk/conditions/tinnitus/"
+        },
+        {
+          "key": "nord",
+          "cite": "National Organization for Rare Disorders. Ramsay Hunt syndrome (updated July 2024): ear pain and a rash, sometimes with sound sensitivity; treatment works best when started early.",
+          "url": "https://rarediseases.org/rare-diseases/ramsay-hunt-syndrome/"
+        },
+        {
+          "key": "nhs_earache",
+          "cite": "NHS. Earache (page last reviewed 27 October 2025): urgent GP appointment or NHS 111 for earache lasting more than 2 to 3 days, fluid from the ear, swelling around the ear, a very high temperature or a change in hearing.",
+          "url": "https://www.nhs.uk/symptoms/earache/"
+        }
+      ]
+    },
+    "social-and-travel": {
+      "path": "living/social-and-travel/",
+      "crumb": "Social life, restaurants and travel",
+      "icon": "🍽️",
+      "tileLabel": "Social life, restaurants and travel",
+      "tileShort": "Going out and travel",
+      "tileDesc": "Restaurants, gigs, flights and holidays",
+      "title": "Social life, restaurants and travel",
+      "metaTitle": "Tinnitus and Social Life: Restaurants, Concerts and Flying | Tinnitus Evidence",
+      "metaDesc": "Avoiding restaurants, parties or flights because of tinnitus? Practical tips for noisy places, concerts, flying and holidays, plus a gentle plan to get back to what you enjoy.",
+      "lastReviewed": "2026-10-26",
+      "lead": "Tinnitus can make noisy places and trips feel daunting, and many people start saying no to things they used to enjoy.[[tuksocial]] With a little planning, most of them are still possible.",
+      "nowTitle": "Before you go out",
+      "now": [
+        "<strong>Pick a calmer venue and time.</strong> Soft furnishings such as carpet, curtains and padded seats soak up noise, and off-peak times are quieter.[[tuksocial]]",
+        "<strong>Ask for the right table:</strong> a booth or the quietest area, away from the bar, speakers and kitchen. If tinnitus is in one ear, put your better ear towards your companions.[[tuksocial]]",
+        "<strong>Tell the people you're with.</strong> Tinnitus is invisible, and most people are understanding once they know.[[tuksocial]]",
+        "<strong>Keep earplugs in your pocket</strong> for genuinely loud places. Leave them out at ordinary volumes, because over-protecting can make sound sensitivity worse.[[who,nhs_hyper]]",
+        "<strong>Struggling to follow conversation?</strong> Sit where you can see faces, and ask people to rephrase rather than repeat.[[rnidtips]]"
+      ],
+      "nowFoot": "Ringing afterwards? It often settles. <a href=\"living/spikes/\">Spikes and difficult days</a>",
+      "sections": [
+        {
+          "id": "eating-out",
+          "short": "Eating out",
+          "title": "Restaurants, parties and the cinema",
+          "html": "<ul><li><strong>Restaurants:</strong> it's fine to ask staff to turn down music that's too loud.[[tuksocial]]</li><li><strong>Parties:</strong> move to a quieter room or outside, talk to one person at a time, and accept that you'll miss some of it.[[tuksocial]]</li><li><strong>Cinema:</strong> films can be very loud. Take earplugs, or look for subtitled or relaxed screenings.[[tuksocial]]</li><li><strong>Noise ratings:</strong> some apps and review sites show how loud venues are. Readings are rough and user-submitted, but they can help you choose.</li></ul><h3>Phone tools that can help</h3><ul><li><strong>Live Listen</strong> turns an iPhone into a microphone that sends voices to your AirPods. Put the phone near the person you want to hear, and keep the volume moderate.[[apple_ll]]</li><li><strong>Live Captions</strong> shows captions of speech around you on iPhone 11 or later, in some languages. Accuracy varies.[[apple_lc]]</li><li><strong>If you have hearing loss</strong>, hearing aids with a remote microphone can make noisy places much easier.[[rnidtips]] <a href=\"treatments/hearing-aids/\">Hearing aids: the evidence</a></li></ul><div class=\"g-box\"><p><strong>You could say to friends:</strong> \"I have tinnitus, a constant sound in my ears. Noisy rooms make it hard to follow conversation. If I lean in or ask you to repeat, that's why. A quieter table really helps.\"</p><p><strong>When booking:</strong> \"Could we have a booth, or a table away from the speakers and kitchen? I have a hearing condition.\"</p></div>"
+        },
+        {
+          "id": "gigs",
+          "short": "Gigs",
+          "title": "Concerts, festivals and loud events",
+          "html": "<ul><li><strong>Wear earplugs.</strong> Filtered earplugs turn the volume down without muffling the music.[[tuksocial]] In a festival trial, earplugs cut new tinnitus after the event from 40% to 12%.[[ramakers]]</li><li><strong>Stay away from the speakers.</strong> Sound drops quickly with distance.[[who]]</li><li><strong>Take a 10-minute quiet break every hour.</strong>[[who]]</li><li><strong>Ringing afterwards often fades.</strong> If it doesn't, or your hearing still feels muffled after a day or two, get it checked.[[who,nhs]] <a href=\"urgent/\">When to get help quickly</a></li></ul>"
+        },
+        {
+          "id": "flying",
+          "short": "Flying",
+          "title": "Flying",
+          "html": "<p><strong>Most people with tinnitus have no problems flying</strong>, and any effect is usually minor and temporary.[[tukfly]]</p><ul><li><strong>Help your ears with the pressure:</strong> swallow, yawn, chew gum or suck a sweet, especially as you come in to land, and try to stay awake for the descent.[[tukfly,enthealth]] Pinching your nose and blowing very gently can help too; never force it.[[enthealth]]</li><li><strong>Try not to fly with a heavy cold.</strong> Ask a pharmacist about decongestants, which aren't suitable for everyone.[[tukfly,enthealth]]</li><li><strong>Keep your hearing aids in.</strong>[[tukfly]]</li><li><strong>Don't seal out all sound with earplugs</strong>, because it can make tinnitus more noticeable. If engine noise bothers you, sit in front of the wings.[[tukfly]] Noise-cancelling headphones are fine at a low volume with something pleasant playing.[[who]]</li><li><strong>Pressure-regulating earplugs</strong> are widely sold, but there's little evidence they help.[[ryan]]</li><li><strong>Had ear surgery?</strong> Check with your specialist before flying.[[tukfly]]</li></ul>"
+        },
+        {
+          "id": "travel",
+          "short": "Travel",
+          "title": "Holidays and travel",
+          "html": "<ul><li><strong>Pack your bedtime sound</strong>: a phone app, a small speaker or a fan setting, so unfamiliar quiet rooms are easier.[[tuksound]]</li><li><strong>Jet lag:</strong> shift your sleep times gradually before you go, get daylight when you arrive, and avoid naps.[[nhs_jetlag]] <a href=\"living/sleep/\">Sleep and difficult nights</a></li><li><strong>Airport security (US):</strong> you don't have to remove hearing aids or cochlear implants.[[tsa]]</li><li><strong>Travel insurance:</strong> declare existing health conditions, and check with your insurer whether to list tinnitus.[[govuk_ins]]</li><li><strong>Diving:</strong> new tinnitus during or after a dive needs a prompt medical check. Ask a diving doctor before diving with existing tinnitus if you're unsure.[[dan]]</li></ul>"
+        },
+        {
+          "id": "back",
+          "short": "Getting back out",
+          "title": "Getting back to things you've stopped",
+          "html": "<p>Avoiding things brings quick relief, but over time it can keep worry about tinnitus going.[[cima18,kleinstauber]] A gentle, step-by-step plan can help you get back to what matters:</p><ol><li>List what you've stopped doing because of tinnitus.</li><li>Put them in order, from easiest to hardest.</li><li>Start with a short, easy version, such as a quiet café mid-afternoon for 30 minutes.</li><li>Stay until the worry eases a little, rather than leaving at the first discomfort.</li><li>Afterwards, compare what happened with what you expected.</li><li>Repeat, then move up a step.</li></ol><p class=\"small muted\">No trial has tested this exact plan for social life with tinnitus; it uses the same approach as CBT.[[cima18]] If the anxiety feels bigger than you can manage, try it with a CBT practitioner. <a href=\"living/overwhelmed/\">When it feels like too much</a></p>"
+        },
+        {
+          "id": "checklist",
+          "type": "checklist",
+          "short": "Going-out checklist",
+          "title": "Your going-out checklist",
+          "intro": "Tick off what helps you. Save or print it for next time.",
+          "items": [
+            "Choose a venue with soft furnishings, at a quieter time",
+            "Ask for a booth or a table away from speakers, bar and kitchen",
+            "Tell my friends what helps",
+            "Earplugs in my pocket for genuinely loud places",
+            "Phone charged for Live Listen or captions, if I use them",
+            "A 10-minute quiet break every hour at loud events",
+            "Bedtime sound packed for travel",
+            "One small step back towards something I've stopped doing"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "limited",
+          "level": "Consistent studies",
+          "text": "Avoidance and fear of tinnitus go with more distress and disability; CBT works partly by reducing them.[[cima18,kleinstauber]]"
+        },
+        {
+          "kind": "limited",
+          "level": "One trial",
+          "text": "Earplugs at a music festival reduced new tinnitus afterwards (12% vs 40%).[[ramakers]]"
+        },
+        {
+          "kind": "limited",
+          "level": "Little evidence",
+          "text": "A systematic review found too little evidence that pressure-regulating earplugs prevent ear problems when flying.[[ryan]]"
+        },
+        {
+          "kind": "guideline",
+          "level": "Official guidance",
+          "text": "Safe listening at loud events: distance from speakers, hourly breaks, earplugs.[[who]]"
+        },
+        {
+          "kind": "practical",
+          "level": "Practical tip",
+          "text": "Venue choice, seating, scripts, flying tips and the step-by-step plan are expert advice from tinnitus and hearing charities, with little direct research.[[tuksocial,tukfly,rnidtips]]"
+        }
+      ],
+      "evidenceNote": "We don't name or endorse products or apps. Where a feature is built into a phone, we describe how to find it.",
+      "related": [
+        "spikes",
+        "sound-sensitivity",
+        "overwhelmed"
+      ],
+      "sources": [
+        {
+          "key": "tuksocial",
+          "cite": "Tinnitus UK. Tinnitus and being social (venues, seating, telling people, parties, cinema, concerts).",
+          "url": "https://tinnitus.org.uk/understanding-tinnitus/living-with-tinnitus/tinnitus-and-being-social/"
+        },
+        {
+          "key": "tukfly",
+          "cite": "Tinnitus UK. Tinnitus and flying; Flying and the ear leaflet (version 5.0, February 2024): most people have no problems; avoid earplugs on flights; equalise pressure; keep hearing aids in.",
+          "url": "https://tinnitus.org.uk/understanding-tinnitus/living-with-tinnitus/tinnitus-and-flying/"
+        },
+        {
+          "key": "tuksound",
+          "cite": "Tinnitus UK. Sound therapy.",
+          "url": "https://tinnitus.org.uk/support-for-you/what-can-i-do/sound-therapy/"
+        },
+        {
+          "key": "who",
+          "cite": "World Health Organization. Deafness and hearing loss: safe listening (6 March 2026): keep away from loudspeakers, rest your ears 10 minutes every hour, use earplugs, keep volume below 60%.",
+          "url": "https://www.who.int/news-room/questions-and-answers/item/deafness-and-hearing-loss-safe-listening"
+        },
+        {
+          "key": "nhs_hyper",
+          "cite": "NHS. Hyperacusis (page last reviewed 11 May 2026): don't wear earplugs or muffs all the time.",
+          "url": "https://www.nhs.uk/conditions/hyperacusis/"
+        },
+        {
+          "key": "rnidtips",
+          "cite": "RNID. Communication tips if you have hearing loss (face the speaker, move somewhere quieter, ask people to rephrase; remote microphones).",
+          "url": "https://rnid.org.uk/information-and-support/hearing-loss/living-with-hearing-loss/communication-tips"
+        },
+        {
+          "key": "apple_ll",
+          "cite": "Apple Support. Use Live Listen with AirPods or Beats (a built-in feature; not a medical device).",
+          "url": "https://support.apple.com/en-us/102479"
+        },
+        {
+          "key": "apple_lc",
+          "cite": "Apple Support. Get live captions of spoken audio on iPhone (iPhone 11 or later; accuracy may vary).",
+          "url": "https://support.apple.com/guide/iphone/get-live-captions-of-spoken-audio-iphe0990f7bb/ios"
+        },
+        {
+          "key": "ramakers",
+          "cite": "Ramakers GG, et al. Effectiveness of earplugs in preventing recreational noise-induced hearing loss: a randomized clinical trial. JAMA Otolaryngology-Head and Neck Surgery 2016;142(6):551-558.",
+          "url": "https://doi.org/10.1001/jamaoto.2016.0225"
+        },
+        {
+          "key": "nhs",
+          "cite": "NHS. Tinnitus (page last reviewed 12 January 2024).",
+          "url": "https://www.nhs.uk/conditions/tinnitus/"
+        },
+        {
+          "key": "enthealth",
+          "cite": "ENT Health (American Academy of Otolaryngology-Head and Neck Surgery Foundation). Ears and altitude (barotrauma).",
+          "url": "https://www.enthealth.org/conditions/ears-and-altitude-barotrauma/"
+        },
+        {
+          "key": "ryan",
+          "cite": "Ryan P, Treble A, Patel N, Jufas N. Prevention of otic barotrauma in aviation: a systematic review. Otology & Neurotology 2018;39(5):539-549.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29595579/"
+        },
+        {
+          "key": "nhs_jetlag",
+          "cite": "NHS. Jet lag.",
+          "url": "https://www.nhs.uk/conditions/jet-lag/"
+        },
+        {
+          "key": "tsa",
+          "cite": "US Transportation Security Administration. Disabilities and medical conditions: you are not required to remove hearing aids or cochlear implants.",
+          "url": "https://www.tsa.gov/travel/tsa-cares/disabilities-and-medical-conditions"
+        },
+        {
+          "key": "govuk_ins",
+          "cite": "GOV.UK. Foreign travel insurance: declare existing conditions; failing to declare may invalidate your insurance.",
+          "url": "https://www.gov.uk/guidance/foreign-travel-insurance"
+        },
+        {
+          "key": "dan",
+          "cite": "Divers Alert Network. The ears and diving, chapter 3: symptoms (new tinnitus after a dive needs prompt medical evaluation).",
+          "url": "https://dan.org/health-medicine/health-resource/dive-medical-reference-books/ears-diving/ear-injury-symptoms/"
+        },
+        {
+          "key": "cima18",
+          "cite": "Cima RFF. Bothersome tinnitus: cognitive behavioral perspectives. HNO 2018;66(5):369-374.",
+          "url": "https://doi.org/10.1007/s00106-018-0502-9"
+        },
+        {
+          "key": "kleinstauber",
+          "cite": "Kleinstäuber M, Jasper K, Schweda I, et al. Cognitive Behaviour Therapy 2013;42(2):84-99 (fear-avoidance and tinnitus handicap).",
+          "url": "https://doi.org/10.1080/16506073.2012.717301"
+        }
+      ]
+    }
+  },
+  "treatmentLinks": {
+    "cbt": [
+      [
+        "overwhelmed#where",
+        "How to get CBT-based help where you live"
+      ],
+      [
+        "concentration",
+        "Concentration, work and study"
+      ]
+    ],
+    "digital-cbt": [
+      [
+        "overwhelmed#where",
+        "How to get online CBT where you live"
+      ]
+    ],
+    "act": [
+      [
+        "overwhelmed#therapy",
+        "Talking therapies, and small steps that help"
+      ]
+    ],
+    "mbct": [
+      [
+        "overwhelmed#therapy",
+        "Talking therapies, and small steps that help"
+      ]
+    ],
+    "cbt-i": [
+      [
+        "sleep",
+        "What to do tonight, and where to find CBT for insomnia"
+      ]
+    ],
+    "sound-therapy": [
+      [
+        "sleep#sound",
+        "Using sound at night"
+      ],
+      [
+        "sound-sensitivity",
+        "When everyday sounds feel too loud"
+      ]
+    ],
+    "levo": [
+      [
+        "sleep#sound",
+        "Using sound at night"
+      ]
+    ],
+    "hearing-aids": [
+      [
+        "appointment",
+        "Preparing for a hearing test and appointment"
+      ],
+      [
+        "concentration",
+        "When listening drains your concentration"
+      ]
+    ],
+    "cochlear-implants": [
+      [
+        "appointment",
+        "Preparing for a hearing test and appointment"
+      ]
+    ],
+    "combo-aids-fractal": [
+      [
+        "appointment",
+        "Questions to ask about hearing aids"
+      ]
+    ],
+    "trt": [
+      [
+        "sound-sensitivity",
+        "Hyperacusis therapy, and protecting your ears without over-protecting"
+      ]
+    ],
+    "somatic-physio": [
+      [
+        "appointment#expect",
+        "Mentioning jaw and neck symptoms at your appointment"
+      ]
+    ],
+    "venous-stenting": [
+      [
+        "urgent",
+        "When pulsing tinnitus needs checking quickly"
+      ],
+      [
+        "appointment",
+        "Preparing for your appointment"
+      ]
+    ],
+    "sswr": [
+      [
+        "urgent",
+        "When pulsing tinnitus needs checking quickly"
+      ],
+      [
+        "appointment",
+        "Preparing for your appointment"
+      ]
+    ],
+    "supplements": [
+      [
+        "start#buy",
+        "Before you spend money"
+      ],
+      [
+        "sleep#medicines",
+        "Sleeping tablets and melatonin"
+      ]
+    ],
+    "off-label-drugs": [
+      [
+        "sleep#medicines",
+        "Sleeping tablets and melatonin"
+      ],
+      [
+        "start#buy",
+        "Before you spend money"
+      ]
+    ],
+    "acupuncture": [
+      [
+        "overwhelmed#money",
+        "Before you spend money: a quick checklist"
+      ]
+    ],
+    "hbot": [
+      [
+        "overwhelmed#money",
+        "Before you spend money: a quick checklist"
+      ]
+    ],
+    "lllt": [
+      [
+        "overwhelmed#money",
+        "Before you spend money: a quick checklist"
+      ]
+    ],
+    "cannabis-cbd": [
+      [
+        "overwhelmed#money",
+        "Before you spend money: a quick checklist"
+      ]
+    ],
+    "hypnotherapy": [
+      [
+        "overwhelmed#money",
+        "Before you spend money: a quick checklist"
+      ]
+    ],
+    "neuromonics": [
+      [
+        "overwhelmed#money",
+        "Before you spend money: a quick checklist"
+      ]
+    ],
+    "neurofeedback": [
+      [
+        "overwhelmed#money",
+        "Before you spend money: a quick checklist"
+      ]
+    ]
+  }
+}

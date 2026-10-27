@@ -2317,5 +2317,71 @@
         "reason": "Reviewer audit of 19 October 2026: the site had no VA/DoD guideline record despite substantial veteran-trial coverage. No treatment rating was changed; any rating review is held for the owner."
       }
     ]
+  },
+  {
+    "id": "stopmd3-ctgov-results",
+    "title": "STOPMD-3: SPI-1005 (ebselen) Phase 3 in Ménière's disease — ClinicalTrials.gov posted results",
+    "authors": "Sound Pharmaceuticals (sponsor)",
+    "journal": "ClinicalTrials.gov posted results (first posted 26 June 2026; no peer-reviewed publication found)",
+    "year": 2026,
+    "url": "https://clinicaltrials.gov/study/NCT04677972?tab=results",
+    "n": "220 (112 SPI-1005 400 mg twice daily / 108 placebo)",
+    "design": "Randomized, quadruple-masked, placebo-controlled Phase 3 trial (84 days)",
+    "randomized": true,
+    "sham": true,
+    "independent": false,
+    "primaryOutcome": "Low-frequency hearing (pure-tone audiometry) and Words-in-Noise (co-primary); tinnitus outcomes secondary",
+    "results": {
+      "summary": "Tinnitus loudness (TFI item 2, 0–10): mean change −0.8 with SPI-1005 vs −0.9 with placebo. TFI total: −7.9 vs −6.6. No statistical analysis posted for the tinnitus outcomes.",
+      "detail": "Self-rated loudness and tinnitus impact changed by similar amounts in both groups. Ménière's disease population."
+    },
+    "coi": "Sponsor-run (Sound Pharmaceuticals).",
+    "limitations": "Registry-only reporting; Ménière's disease, not primary tinnitus; tinnitus outcomes secondary; loudness is a single TFI item.",
+    "blinding": null,
+    "control": null,
+    "doi": null,
+    "duration": null,
+    "followUp": null,
+    "pmid": null,
+    "history": [
+      {
+        "date": "2026-10-27",
+        "change": "Record added",
+        "reason": "Held review 2026-10-27 (classification-review-spi-1005-loudness-2026-10-27), approved by the owner 27 Oct 2026."
+      }
+    ]
+  },
+  {
+    "id": "spi1005-phase2b-ctgov-results",
+    "title": "SPI-1005 (ebselen) Phase 2b in Ménière's disease — ClinicalTrials.gov posted results",
+    "authors": "Sound Pharmaceuticals (sponsor)",
+    "journal": "ClinicalTrials.gov posted results (first posted 14 August 2023; no peer-reviewed publication found)",
+    "year": 2023,
+    "url": "https://clinicaltrials.gov/study/NCT03325790?tab=results",
+    "n": "149 enrolled; 124 analysed (41 placebo / 42 SPI-1005 200 mg / 41 SPI-1005 400 mg twice daily)",
+    "design": "Randomized, quadruple-masked, placebo-controlled Phase 2b trial (8 weeks)",
+    "randomized": true,
+    "sham": true,
+    "independent": false,
+    "primaryOutcome": "Hearing, Words-in-Noise, TFI, tinnitus loudness (TFI item 2) and vertigo (each listed as primary on the registry)",
+    "results": {
+      "summary": "Tinnitus loudness improved by ≥2 points (TFI item 2) in 14/41 (34%) on placebo, 15/42 (36%) on 200 mg and 14/41 (34%) on 400 mg. TFI improved by ≥10 points in 20/41 (49%), 19/42 (45%) and 13/41 (32%).",
+      "detail": "No advantage over placebo on loudness or tinnitus impact. Ménière's disease population."
+    },
+    "coi": "Sponsor-run (Sound Pharmaceuticals).",
+    "limitations": "Registry-only reporting; Ménière's disease, not primary tinnitus; loudness is a single TFI item; responder analysis only.",
+    "blinding": null,
+    "control": null,
+    "doi": null,
+    "duration": null,
+    "followUp": null,
+    "pmid": null,
+    "history": [
+      {
+        "date": "2026-10-27",
+        "change": "Record added",
+        "reason": "Held review 2026-10-27 (classification-review-spi-1005-loudness-2026-10-27), approved by the owner 27 Oct 2026."
+      }
+    ]
   }
 ]

@@ -55,12 +55,25 @@ class TestDisclosureEdits(unittest.TestCase):
             now_idx = json.loads(read("data/weekly/index.json"))["reports"]
             self.assertEqual([r for r in now_idx if r["date"] in {b["date"] for b in base_idx}], base_idx, "existing index entries are unchanged; the index only gains newer reports")
             changed.remove("data/weekly/index.json")
-        import release_allowlist                                            # Release A (Acoustic CR): undoing exactly its listed edits must give BASE's record file
-        for f in release_allowlist.FILES:
-            if f in changed:
-                base = json.loads(subprocess.run(["git", "show", f"{BASE}:{f}"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout)
-                self.assertEqual(release_allowlist.undo(f, json.loads(read(f))), base, f)
-                changed.remove(f)
+        if "data/treatments.json" in changed or "data/studies.json" in changed:
+            # owner-approved 26 Oct 2026: '"notMeasured": true' on outcomes the human evidence never assessed (verified against primary studies;
+            # visual-research/not-measured/). Label only: with those flags removed the file must equal the published one exactly.
+            # owner-approved 27 Oct 2026: the held-review record changes listed in engine/approved-record-changes.json, undone exactly by
+            # approved_changes.revert (which raises if any of them is missing or altered). Anything else still fails.
+            import sys
+            sys.path.insert(0, str(ROOT / "engine"))
+            import approved_changes
+            show = lambda f: json.loads(subprocess.run(["git", "show", f"{BASE}:{f}"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout)
+            now_t, now_s, _ = approved_changes.revert(json.loads(read("data/treatments.json")), json.loads(read("data/studies.json")), json.loads(read("data/rankings.json")))
+            import release_allowlist
+            now_t, now_s = release_allowlist.undo("data/treatments.json", now_t), release_allowlist.undo("data/studies.json", now_s)   # Release A
+            for t in now_t:
+                for k in ("loudness", "distress"):
+                    if t[k].pop("notMeasured", None) is not None: self.assertEqual(t[k]["level"], "none", t["id"])
+            self.assertEqual(now_t, show("data/treatments.json"), "treatments.json differs from the published file only by notMeasured flags and the approved held-review changes")
+            self.assertEqual(now_s, show("data/studies.json"), "studies.json differs from the published file only by the approved held-review study records")
+            for f in ("data/treatments.json", "data/studies.json"):
+                if f in changed: changed.remove(f)
         self.assertEqual(sorted(changed), sorted({c["file"] for c in log["corrections"]}))
         for f in changed:
             base = json.loads(subprocess.run(["git", "show", f"{BASE}:{f}"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout)

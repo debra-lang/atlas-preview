@@ -10,6 +10,8 @@
   if (window.__teGa) return;
   var h = location.hostname;
   if (h !== 'tinnitusevidence.com' && h !== 'www.tinnitusevidence.com') return;
+  // no analytics on the crisis-support and urgent-symptoms pages (owner decision, 27 Oct 2026)
+  if (/^\/(support|urgent)(\/|$)/.test(location.pathname)) return;
   window.__teGa = true;
   var s = document.createElement('script');
   s.async = true;
@@ -101,6 +103,51 @@
       }
     } catch (e) { return null; }
     return CLAIMS;
+  }
+  /* ---------------- Safety data (Phase 1) ----------------
+     data/safety.json is the single source for urgency tiers and crisis lines (also used by /urgent/ and /support/).
+     If it can't be loaded, the Profile falls back to the tier labels below and links to the Support page. */
+  let SAFETY = null;
+  async function loadSafety() {
+    if (SAFETY) return SAFETY;
+    try {
+      if (window.__TA_DATA__ && window.__TA_DATA__.safety) SAFETY = window.__TA_DATA__.safety;
+      else {
+        const r = await fetch('data/safety.json', { cache: 'no-cache' });
+        if (!r.ok) return null;
+        SAFETY = await r.json();
+      }
+    } catch (e) { return null; }
+    return SAFETY;
+  }
+  /* ---------------- Practical guides (Phase 5) ----------------
+     data/guide-index.json (generated from data/patient-guides.json) lists the guides for Search and the Profile, and which
+     guides each treatment page links to. Loaded lazily; if it is unavailable, those pages are unchanged. */
+  let GUIDES = null;
+  async function loadGuides() {
+    if (GUIDES) return GUIDES;
+    try {
+      if (window.__TA_DATA__ && window.__TA_DATA__.guideIndex) GUIDES = window.__TA_DATA__.guideIndex;
+      else {
+        const r = await fetch('data/guide-index.json', { cache: 'no-cache' });
+        if (!r.ok) return null;
+        GUIDES = await r.json();
+      }
+    } catch (e) { return null; }
+    return GUIDES;
+  }
+  function attachGuideLinks(root, id) {
+    loadGuides().then(G => {
+      const links = G && (G.treatmentLinks || {})[id];
+      if (!links || !links.length || !root.isConnected || root.querySelector('.pg-xlink')) return;
+      const box = document.createElement('section');
+      box.className = 'card sec-card pg-xlink'; box.id = 'practical-help';
+      box.innerHTML = '<h2>Practical help</h2><ul>' + links.map(([href, label, title]) => '<li><a href="' + esc(href) + '">' + esc(label) + '</a>' +
+        (label !== title ? ' <span class="small muted">· ' + esc(title) + '</span>' : '') + '</li>').join('') +
+        '</ul><p class="small muted">From <a href="living/">Living with tinnitus</a>, our practical guides. They don’t change this treatment’s evidence rating.</p>';
+      const cl = root.querySelector('.cl-xlink');   // same order as static pages: practical help, then claim checks
+      if (cl) cl.before(box); else root.appendChild(box);
+    });
   }
   function attachClaimChecks(root, id) {
     loadClaims().then(C => {
@@ -212,18 +259,34 @@
     const specific = profileTags(p);
     return (t.subtypeTags || []).filter(tag => specific.includes(tag));
   }
-  // Red flags from AAO-HNSF CPG: Tinnitus (2014) + AAO-HNSF CPG: Sudden Hearing Loss (2019)
+  // Red flags in three urgency tiers (data/safety.json; NHS 2024, NICE NG155 secondary summary, AAO-HNSF 2026 and 2019).
+  function flagTiers(p) {
+    const t = { emergency: [], today: [], soon: [] };
+    if (p.neuroSymptoms === 'yes') {
+      t.emergency.push('neurological symptoms such as weakness, numbness, or trouble speaking, seeing or balancing, <em>if they are new or came on suddenly</em>');
+      t.soon.push('neurological symptoms that have been there for a while: mention them to your doctor');
+    }
+    if (p.trauma === 'yes') t.emergency.push('tinnitus after a recent <em>head</em> injury (for an ear injury without a head injury, contact a doctor today)');
+    if (p.vertigo === 'yes') {
+      t.emergency.push('severe spinning dizziness (vertigo) that came on suddenly and does not settle');
+      t.soon.push('dizziness that keeps coming back');
+    }
+    if (p.suddenHL === 'yes') t.today.push('a sudden drop in hearing, even if it started days or a few weeks ago. Treatment works best when started early');
+    if (p.pulsatile === 'yes') {
+      if (p.onset === 'sudden' && p.duration === 'lt3m') t.today.push('new tinnitus that beats with your pulse and came on suddenly');
+      else t.soon.push('tinnitus that beats with your pulse: ask for an urgent appointment, as the NHS advises');
+    }
+    if (p.laterality === 'left' || p.laterality === 'right') t.soon.push('tinnitus in one ear only');
+    if (p.asymmetric === 'yes') t.soon.push('hearing that is clearly different between your ears, or getting worse');
+    if (p.earPainDrainage === 'yes') {   // NHS Earache: urgent GP or 111 for these signs; recurring earache: see a GP
+      t.today.push('ear pain <em>with fluid coming from the ear, swelling around the ear or a high temperature</em>, or earache that has lasted more than 2 to 3 days');
+      t.soon.push('earache that keeps coming back, without those signs: mention it to your doctor');
+    }
+    return t;
+  }
   function redFlags(p) {
-    const f = [];
-    if (p.pulsatile === 'yes') f.push('tinnitus that pulses with your heartbeat');
-    if (p.suddenHL === 'yes') f.push('a sudden drop in hearing (guidelines recommend prompt evaluation for this one)');
-    if (p.laterality === 'left' || p.laterality === 'right') f.push('tinnitus in one ear only');
-    if (p.asymmetric === 'yes') f.push('hearing that is clearly different between ears, or recently changed');
-    if (p.neuroSymptoms === 'yes') f.push('neurological symptoms alongside tinnitus');
-    if (p.vertigo === 'yes') f.push('vertigo or serious dizziness');
-    if (p.earPainDrainage === 'yes') f.push('ear pain or discharge');
-    if (p.trauma === 'yes') f.push('a recent head or ear injury');
-    return f;
+    const t = flagTiers(p);
+    return [...t.emergency, ...t.today, ...t.soon];
   }
 
   /* ---------------- plain-language helpers ---------------- */
@@ -276,7 +339,7 @@
   function epDims(t) {
     const availW = availWord(t);
     const availSeg = { 'Available': 4, 'Limited availability': 3, 'Clinical trials / research only': 1, 'Not currently available': 0 }[availW] ?? 0;
-    const lv = o => ({ segs: SEG[o.level] ?? 0, word: LV_LABELS[o.level] || cap(o.level), na: false });
+    const lv = o => ({ segs: SEG[o.level] ?? 0, word: o.notMeasured ? 'Not measured' : (LV_LABELS[o.level] || cap(o.level)), na: false });
     return [
       { label: 'Evidence quality', segs: t.evidenceScore, total: 5, word: `${EVIDENCE_WORDS[t.evidenceScore]} (${t.evidenceScore}/5)`, na: false,
         def: 'How strong and rigorous is the underlying clinical evidence? (5 segments — one per point of the 1–5 evidence score, so 4/5 and 5/5 look different.)' },
@@ -363,6 +426,8 @@
     5: ['Weak / unsupported', 'b-weak']
   };
   const LV_LABELS = { none: 'None shown', limited: 'Limited', moderate: 'Moderate', strong: 'Strong' };
+  // an outcome the human evidence never assessed keeps its rating level; only the label differs (approved 26 Oct 2026)
+  const lvLabel = o => (o && o.notMeasured) ? 'Not measured' : (LV_LABELS[o && o.level] || esc((o && o.level) || ''));
   const scoreColor = n => n >= 4 ? 'var(--c-strong)' : n >= 3 ? 'var(--c-promising)' : n >= 2 ? 'var(--c-watch)' : 'var(--c-weak)';
 
   function tierBadge(tier) {
@@ -377,7 +442,7 @@
   }
   function duo(t, compact) {
     const cell = (k, o) => `<div class="cell"><div class="k">${k}</div>
-      <div class="v lv-${esc(o.level)}">${LV_LABELS[o.level] || esc(o.level)}</div>
+      <div class="v lv-${esc(o.level)}">${lvLabel(o)}</div>
       ${compact ? '' : `<div class="small muted">${esc(o.summary)}</div>`}</div>`;
     return `<div class="duo">${cell('🔉 Loudness', t.loudness)}${cell('🧠 Distress', t.distress)}</div>`;
   }
@@ -396,7 +461,7 @@
     const cat = DB.catById[t.category] || {};
     return `<div class="card tcard" style="--cat-c:${esc(cat.color || '#888')}">
       <div class="rhead">${opts.rank ? `<span class="rank">#${opts.rank}</span>` : ''}
-        <span class="cat" style="${catVars(cat.color)}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span>${opts.top10 ? `<span class="top10-chip" title="Ranked #${opts.top10} in the homepage Top 10 most promising developments"><b>#${opts.top10}</b> Top 10</span>` : ''}</div>
+        <span class="cat" style="${catVars(cat.color)}">${esc(cat.icon || '')} ${esc(cat.name || t.category)}</span>${opts.top10 ? `<span class="top10-chip" title="Ranked #${opts.top10} in the homepage Top 10"><b>#${opts.top10}</b> Top 10</span>` : ''}</div>
       <h3>${updatedRecently(t) ? '<span class="updated-dot" title="Updated recently"></span>' : ''}<a href="treatment.html?id=${esc(t.id)}">${esc(t.name)}</a></h3>
       <p class="one">${esc(t.oneLiner)}</p>
       ${duo(t, true)}
@@ -414,12 +479,25 @@
   /* ---------------- chrome ---------------- */
   const NAV = [
     ['index.html', 'Home', '🏠'],
+    ['living/', 'Living with tinnitus', '🤝', 'Help'],   // phone bar label 'Help' (Phase 2: replaces Watchlist, which moved to Menu and More)
     ['treatments.html', 'Treatments', '🧭'],
     ['trials.html', 'Trials', '🧪'],
     ['research.html', 'Research', '📰'],
-    ['watchlist.html', 'Watchlist', '⭐'],
+    ['claims/', 'Popular Claims', '⚖️', 'Claims'],   // 4th item: shorter label for the phone bottom bar ('Popular Claims' forces the two-row bar on every phone)
   ];
-  const NAV_MORE = [['search.html', 'Search'], ['ask/', 'Ask'], ['profile.html', 'My Profile'], ['compare.html', 'Compare'], ['research-questions/', 'Research Questions'], ['institutions.html', 'Institutions'], ['about.html', 'About']];
+  // desktop row after NAV; the least-used pages sit under "More" so the row fits (and Popular Claims shows) at every desktop width
+  const NAV_ROW = [['search.html', 'Search'], ['ask/', 'Ask'], ['about.html', 'About']];
+  const NAV_MORE = [['watchlist.html', 'Watchlist'], ['profile.html', 'My Profile'], ['compare.html', 'Compare'], ['research-questions/', 'Research Questions'], ['institutions.html', 'Institutions']];
+  // phones and tablets (below 1180px): the pages that are not in the bottom bar, behind a labelled "Menu" (disclosure pattern),
+  // in four labelled groups.
+  const NAV_MENU = [
+    ['Help and support', [['living/', 'Living with tinnitus', 'Practical guides for everyday life'], ['start/', 'New to tinnitus? Start here', 'The first days and weeks'],
+      ['urgent/', 'When to get help quickly', 'Urgent signs, explained calmly'], ['support/', 'Support & crisis lines', 'Organizations and helplines by country']]],
+    ['Your tools', [['watchlist.html', 'Watchlist', 'What you follow, stored on this device'], ['profile.html', 'My Tinnitus Profile', 'Stored only on this device'],
+      ['compare.html', 'Compare treatments', 'Up to four, side by side']]],
+    ['Find and ask', [['search.html', 'Search', 'Find a treatment, study, trial or researcher'], ['ask/', 'Ask Tinnitus Evidence', 'Questions answered from our research database']]],
+    ['About and research', [['about.html', 'About & methodology', 'Who we are and how we rate evidence'], ['research-questions/', 'Research questions', 'What researchers are still asking'],
+      ['institutions.html', 'Institutions', 'Research groups we follow']]]];
 
   // Before the database has loaded (multi-page first paint) the brand comes from the page itself:
   // og:site_name, else the "… | Brand" / "… — Brand" tail of the document title.
@@ -470,14 +548,26 @@
       document.title = document.title.replace(/Tinnitus Atlas/g, brand);
     }
     const page = document.body.dataset.page || '';
-    const here = f => f.replace('.html', '') === page ? ' aria-current="page"' : '';
+    // aria-current="page" on a section's landing page, "true" on pages inside the section (e.g. a Claims article)
+    const inSec = k => page === k || page.startsWith(k + '/') || (!SINGLE && new RegExp('/' + k + '(/|$)').test(location.pathname));
+    const isTop = k => page === k || (!SINGLE && new RegExp('/' + k + '/?(index\\.html)?$').test(location.pathname));
+    const secCur = k => isTop(k) ? ' aria-current="page"' : inSec(k) ? ' aria-current="true"' : '';
+    const here = f => f === 'claims/' ? secCur('claims') : f === 'living/' ? (secCur('living') || (/\/(start|appointment|urgent|support)(\/|$)/.test(location.pathname) ? ' aria-current="true"' : '')) : f.replace('.html', '') === page ? ' aria-current="page"' : '';
     const top = document.createElement('header');
     top.className = 'topbar';
     top.innerHTML = `
       <a class="brand" href="index.html"><span class="mark" aria-hidden="true">◔</span><span>${esc(brand)}</span></a>
       <nav class="nav-desktop" aria-label="Main">
-        ${NAV.concat(NAV_MORE.map(x => [x[0], x[1], ''])).map(([f, n]) => `<a href="${f}"${here(f)}>${n}</a>`).join('')}
+        ${NAV.concat(NAV_ROW).map(([f, n]) => `<a href="${f}"${here(f)}${f === 'claims/' ? ' class="nav-claims"' : ''}>${n}</a>`).join('')}
+        <div class="nav-more"><button type="button" aria-expanded="false" aria-controls="nav-more-list">More <span aria-hidden="true">▾</span></button>
+          <div id="nav-more-list" class="nav-more-list" hidden>${NAV_MORE.map(([f, n]) => `<a href="${f}"${here(f)}>${n}</a>`).join('')}</div></div>
       </nav>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu"><span class="bars" aria-hidden="true">☰</span>Menu</button>
+      <nav id="site-menu" class="site-menu" aria-label="More pages" hidden><ul>
+        <li class="theme-row"><button type="button" class="menu-theme"><span aria-hidden="true">◐</span><span class="lab"></span></button></li>
+        ${NAV_MENU.map(([g, items], gi) => `<li class="mgrp"><span class="mgrp-h" id="mgrp-${gi}">${esc(g)}</span><ul aria-labelledby="mgrp-${gi}">${items.map(([f, n, d]) =>
+          `<li><a href="${f}"${here(f)}><span class="t">${esc(n)}</span><span class="d">${esc(d)}</span></a></li>`).join('')}</ul></li>`).join('')}
+      </ul></nav>
       <button class="theme-btn" type="button" aria-label="Toggle dark mode">◐</button>`;
     // the skip link must stay the first Tab stop: place the header after it, not before (WCAG 2.4.1)
     const skipLink = document.querySelector('.skip-link');
@@ -500,13 +590,10 @@
     // make the skip-link target programmatically focusable so activating the link moves focus (not just scroll position)
     const mainEl = document.getElementById('content');
     if (mainEl && !mainEl.hasAttribute('tabindex')) mainEl.setAttribute('tabindex', '-1');
-    // featured evidence navigation: second row (desktop) / compact strip (phones). aria-current="page" on a section's
-    // landing page, "true" on pages inside the section (e.g. a Claims article).
-    const inSec = k => page === k || page.startsWith(k + '/') || (!SINGLE && new RegExp('/' + k + '(/|$)').test(location.pathname));
-    const isTop = k => page === k || (!SINGLE && new RegExp('/' + k + '/?(index\\.html)?$').test(location.pathname));
+    // featured evidence navigation: second row (desktop) / compact strip (phones), same aria-current rule as above
     const feat = document.createElement('nav');
     feat.className = 'featnav'; feat.setAttribute('aria-label', 'Featured evidence sections');
-    feat.innerHTML = '<div class="featnav-in">' + [['emerging-unproven/', 'Emerging Treatments', 'feat-em', 'emerging-unproven'], ['claims/', 'Claims: Fact vs. Evidence', 'feat-cl', 'claims']].map(([h, n, c, k]) =>
+    feat.innerHTML = '<div class="featnav-in">' + [['emerging-unproven/', 'Emerging Treatments', 'feat-em', 'emerging-unproven'], ['claims/', 'Popular Claims', 'feat-cl', 'claims']].map(([h, n, c, k]) =>
       `<a class="feat ${c}" href="${h}"${isTop(k) ? ' aria-current="page"' : inSec(k) ? ' aria-current="true"' : ''}><span class="dot" aria-hidden="true"></span><span>${n}</span></a>`).join('') + '</div>';
     top.after(feat);
     const sizeHeader = () => {
@@ -522,17 +609,87 @@
       const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
       applyTheme(t); try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
       themeBtn.setAttribute('aria-pressed', String(t === 'dark'));
+      themeLabel();
     });
+    // "Menu" (phones/tablets) and desktop "More": disclosure buttons (WAI-ARIA APG disclosure navigation): aria-expanded, plain links,
+    // no focus trap; Escape or a click elsewhere closes and Escape returns focus to the button
+    const menuBtn = $('.menu-btn', top), menu = $('#site-menu', top), moreBtn = $('.nav-more > button', top), moreList = $('#nav-more-list', top);
+    const menuTheme = $('.menu-theme', top);
+    function themeLabel() { $('.lab', menuTheme).textContent = document.documentElement.dataset.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'; }
+    themeLabel();
+    menuTheme.addEventListener('click', () => themeBtn.click());   // below 600px the theme switch lives in the menu
+    const placeMenu = () => {
+      const bar = $('.bottomnav'), bh = bar && getComputedStyle(bar).display !== 'none' ? bar.offsetHeight : 0, t = top.getBoundingClientRect().bottom;
+      menu.style.top = t + 'px'; menu.style.maxHeight = Math.max(160, innerHeight - t - bh - 8) + 'px';
+    };
+    const setOpen = (btn, panel, open) => { btn.setAttribute('aria-expanded', String(open)); panel.hidden = !open; if (open && panel === menu) placeMenu(); };
+    menuBtn.addEventListener('click', () => { setOpen(menuBtn, menu, menuBtn.getAttribute('aria-expanded') !== 'true'); setOpen(moreBtn, moreList, false); });
+    moreBtn.addEventListener('click', () => setOpen(moreBtn, moreList, moreBtn.getAttribute('aria-expanded') !== 'true'));
+    top.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      for (const [b, p] of [[menuBtn, menu], [moreBtn, moreList]]) if (!p.hidden) { setOpen(b, p, false); b.focus(); e.stopPropagation(); }
+    });
+    document.addEventListener('click', e => {
+      if (!top.contains(e.target)) { setOpen(menuBtn, menu, false); setOpen(moreBtn, moreList, false); }
+      else if (!$('.nav-more', top).contains(e.target)) setOpen(moreBtn, moreList, false);
+    });
+    addEventListener('resize', () => { if (!menu.hidden) { if (innerWidth >= 1180) setOpen(menuBtn, menu, false); else placeMenu(); } });
+    // Claims article "On this page": mark the section being read (aria-current="true") and keep it in view when the rail scrolls
+    const toc = $('.cl-toc');
+    if (toc && !toc.dataset.spy) {
+      toc.dataset.spy = '1';
+      const tocLinks = [...toc.querySelectorAll('ol a')];
+      const tocMap = tocLinks.map(a => [a, document.getElementById((a.getAttribute('href') || '').split('#')[1] || '')]).filter(x => x[1]);
+      let tocCur = null, tocRaf = 0;
+      const pickSection = () => {
+        if (!tocMap.length) return;
+        const off = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hdr-h')) || 72) + 48;
+        let cur = tocMap[0][0];
+        for (const [a, s] of tocMap) if (s.getBoundingClientRect().top - off <= 0) cur = a;
+        if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) cur = tocMap[tocMap.length - 1][0];
+        if (cur === tocCur) return;
+        tocCur = cur;
+        tocLinks.forEach(l => l === cur ? l.setAttribute('aria-current', 'true') : l.removeAttribute('aria-current'));
+        if (toc.scrollHeight > toc.clientHeight) {
+          const t = cur.offsetTop - toc.offsetTop;
+          if (t < toc.scrollTop || t > toc.scrollTop + toc.clientHeight - 40) toc.scrollTop = t - toc.clientHeight / 3;
+        }
+      };
+      addEventListener('scroll', () => { cancelAnimationFrame(tocRaf); tocRaf = requestAnimationFrame(pickSection); }, { passive: true });
+      addEventListener('resize', pickSection);
+      pickSection();
+    }
 
     const bottom = document.createElement('nav');
     bottom.className = 'bottomnav'; bottom.setAttribute('aria-label', 'Primary');
-    bottom.innerHTML = NAV.map(([f, n, i]) =>
-      `<a href="${f}"${here(f)}><span class="ico" aria-hidden="true">${i}</span>${n}</a>`).join('');
+    bottom.innerHTML = NAV.map(([f, n, i, short]) =>
+      `<a href="${f}"${here(f)}><span class="ico" aria-hidden="true">${i}</span>${short || n}</a>`).join('');
     document.body.append(bottom);
+    // reserve exactly the bar's height at the bottom of the page (it grows with larger text, page zoom or two rows on narrow
+    // screens; a fixed 72px let it cover the last lines). 13px matches the old gap above a default-height bar.
+    const padForBar = () => {
+      const r = document.documentElement.style;
+      if (getComputedStyle(bottom).display === 'none') r.removeProperty('--bn-pad'); else r.setProperty('--bn-pad', (bottom.offsetHeight + 13) + 'px');
+    };
+    // when any label no longer fits on one line (narrow phone, page zoom or larger text), use two rows of three instead of
+    // letting words break mid-word; decided from the one-row layout, so the class cannot flip back and forth
+    const lines = a => { const t = [...a.childNodes].find(n => n.nodeType === 3); if (!t) return 1;
+      const rg = document.createRange(); rg.selectNodeContents(t); return new Set([...rg.getClientRects()].map(x => Math.round(x.top))).size; };
+    const fitBar = () => {
+      if (getComputedStyle(bottom).display === 'none') { bottom.classList.remove('bn-grid'); padForBar(); return; }
+      bottom.classList.remove('bn-grid');
+      bottom.classList.toggle('bn-grid', [...bottom.querySelectorAll('a')].some(a => lines(a) > 1));
+      padForBar();
+    };
+    fitBar();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitBar);
+    addEventListener('resize', fitBar);
+    if ('ResizeObserver' in window) new ResizeObserver(padForBar).observe(bottom);
 
     const foot = document.createElement('footer');
     foot.className = 'footer';
     foot.innerHTML = `<div class="wrap">
+      <p class="small foot-help"><strong>Need help now?</strong> <a href="urgent/">When to get help quickly</a> · <a href="support/#crisis">Crisis support</a> · <a href="living/">Living with tinnitus</a></p>
       <p><strong>${esc(brand)}</strong> is an educational and scientific information resource. It does not diagnose
       tinnitus, does not provide personalized medical advice, and does not replace an ENT physician, audiologist, or
       other qualified professional. Treatment rankings reflect our evaluation of available evidence; scientific
@@ -577,7 +734,16 @@
     // every treatment that meets the rule is shown (no cut-off, so equal scores are never split by data-file order)
     const avail = treatments.filter(t => t.availability && t.availability.availableNow && t.tier <= 4 && t.evidenceScore >= 3)
       .sort((a, b) => b.evidenceScore - a.evidenceScore);
-    $('#available').innerHTML = avail.map(t => treatmentCard(t)).join('');
+    // Release D (D4): one compact row per treatment instead of repeating the Top 10's large cards. Every row keeps the same evidence
+    // score, tier, availability, population caveat, "studied in" line, loudness/distress result and its Top 10 position.
+    const topPos = id => rankings.top.findIndex(r => r.id === id) + 1;
+    $('#available').innerHTML = avail.map(t => `<li>
+      <div class="av-main"><h3 class="av-name"><a href="treatment.html?id=${esc(t.id)}">${esc(t.name)}</a></h3>
+        <div class="av-meta">${emeter(t.evidenceScore)} ${availBadge(t)} ${tierBadge(t.tier)}
+          ${t.narrowPopulation ? '<span class="badge b-watch" title="Results apply only to a specific diagnosed population">⚠ Specific population only</span>' : ''}</div>
+        <p class="who">👥 ${esc(whoStudied(t))}</p></div>
+      ${duo(t, true)}
+      <div class="av-rank">${topPos(t.id) ? `#${topPos(t.id)} in our Top 10` : 'Not in our Top 10'}</div></li>`).join('');
 
     // What's new this week
     if (weekly) {
@@ -604,8 +770,8 @@
         { label: 'Weak / unsupported (1/5)', n: g(s => s === 1), color: 'var(--c-weak)' }
       ], { aria: 'Treatments by evidence strength' }) +
       `<p class="small muted" style="margin:10px 0 0">Of ${treatments.length} tracked treatments,
-        <a href="treatments.html?flag=loud">${loudN} have at least moderate evidence for the sound itself</a>,
-        <a href="treatments.html?flag=distress">${distN} for being less bothered</a> — and only ${bothN} for both.
+        <a href="treatments.html?flag=loud#tg-strong">${loudN} have at least moderate evidence for the sound itself</a>,
+        <a href="treatments.html?flag=distress#results">${distN} for being less bothered</a> — and only ${bothN} for both.
         Counts update automatically; the underlying classifications only change through the held-review process.</p>`;
     }
 
@@ -733,6 +899,40 @@
     </div>`;
   }
 
+
+  /* Loudness / Distress outcome explainer above the filtered results (approved 27 Oct 2026): what the outcome means, how it is
+     measured, how it differs from the other one. Each outcome's collapsed state is a per-viewer convenience only. */
+  const oeKey = k => 'ta:oe-closed-' + k;
+  const oeClosed = k => { try { return localStorage.getItem(oeKey(k)) === '1'; } catch (e) { return false; } };
+  function outcomeExplainer(state, list) {
+    if (state.loud && state.distress) return `<div class="oe oe-both" role="note"><p><span aria-hidden="true">🔉🧠</span> <b>Two different outcomes.</b>
+      These treatments have evidence on both: whether the sound itself got quieter, and whether it bothered people less.
+      <a href="guides/tinnitus-loudness-vs-distress/">Loudness, distress, or both? Read the guide →</a></p></div>`;
+    const loud = !!state.loud, k = loud ? 'loud' : 'dist', n = list.length;
+    const C = loud ? {
+      icon: '🔉', label: 'Loudness', q: 'Did the sound itself get quieter?',
+      items: [
+        ['What it means', 'How loud the tinnitus sound seems to you, not how much it bothers you.'],
+        ['How it’s measured', 'By matching it to an adjustable tone, or rating it (for example 0–10). THI and TFI questionnaires measure impact on daily life, not loudness.'],
+        ['Why it isn’t the same as distress', 'Loudness and distress are related, but they are not the same outcome. Many treatments ease distress without making the sound quieter, so a better questionnaire score never counts here as a quieter sound.']],
+      other: ['distress', 'Switch to distress']
+    } : {
+      icon: '🧠', label: 'Distress', q: 'Did it bother people less, even if the sound stayed?',
+      items: [
+        ['What it means', 'How much tinnitus affects your life: sleep, concentration, mood and worry. Also called tinnitus impact or severity.'],
+        ['How it’s measured', 'With questionnaires such as the Tinnitus Functional Index (TFI) and Tinnitus Handicap Inventory (THI), scored 0–100; lower means less impact.'],
+        ['Why it can improve while the sound stays', 'Distress depends on how we react to the sound, and reactions can change: as it feels less threatening, it can fade into the background. CBT works this way, easing impact with little or no effect on loudness.']],
+      other: ['loud', 'Switch to loudness']
+    };
+    return `<details class="oe oe-${k}" data-oe="${k}"${oeClosed(k) ? '' : ' open'}>
+      <summary><span class="oe-ic" aria-hidden="true">${C.icon}</span><span class="oe-t"><span class="oe-row"><span class="oe-k"><span class="oe-ki" aria-hidden="true">${C.icon} </span>${C.label}</span><span class="oe-tog" aria-hidden="true"></span></span><span class="oe-q">${C.q}</span></span></summary>
+      <div class="oe-body">
+        <a class="oe-jump" href="#tlist">Jump to the ${n} treatment${n === 1 ? '' : 's'} <span aria-hidden="true">↓</span></a>
+        <div class="oe-grid">${C.items.map(([h, p]) => `<p><b>${h}</b> ${p}</p>`).join('')}</div>
+        <p class="oe-links"><a href="guides/tinnitus-loudness-vs-distress/">Full guide: loudness, distress, or both →</a> <button type="button" class="oe-swap" data-oe-swap="${C.other[0]}">${C.other[1]}</button></p>
+      </div></details>`;
+  }
+
   /* ----- treatments browse ----- */
   PAGES.treatments = function () {
     const flagParam = qs('flag') || '';
@@ -775,11 +975,25 @@
       else list.sort((a, b) => a.tier - b.tier || b.evidenceScore - a.evidenceScore || a.name.localeCompare(b.name));
       // filter explanations render above the grid (#tnote), never as a cell inside it
       const note =
-        state.loud ? `<div class="notice">🔉 <strong>Honest note:</strong> very few treatments have credible evidence of making the tinnitus sound itself quieter — and most of those apply only to specific tinnitus types. Sorted by strength of loudness evidence; check each card's population.</div>` :
+        (state.loud || state.distress) ? outcomeExplainer(state, list) :
         state.negative ? `<div class="fnote" role="note"><b>What the evidence has shown</b><p>These treatments have failed trials, never beat placebo, or are marketed well beyond their evidence. No judgment if you've tried them — the marketing is persuasive. The evidence just isn't.</p></div>` :
         state.profile ? `<div class="match-note">👤 Showing research studied in people who share characteristics with your Tinnitus Profile. This is evidence navigation, not a recommendation.</div>` : '';
       if (noteEl) noteEl.innerHTML = note;
-      listEl.innerHTML = (noteEl ? '' : note) + (list.length ? list.map(t => treatmentCard(t, { top10: topRank[t.id] })).join('') :
+      // the chosen outcome is also marked on every card (its Loudness or Distress cell)
+      listEl.dataset.focus = state.loud && !state.distress ? 'loud' : state.distress && !state.loud ? 'dist' : '';
+      const cardsHtml = list.map(t => treatmentCard(t, { top10: topRank[t.id] }));
+      // the loudness filter also includes 'limited' ratings: label the two levels so preliminary evidence never reads as established
+      if (state.loud && !state.distress && list.length) {
+        const k = list.filter(t => ['moderate', 'strong'].includes(t.loudness.level)).length;
+        const allNarrow = list.slice(0, k).every(t => t.narrowPopulation);
+        const grp = (id, h, ct, p) => `<div class="tgroup" id="${id}"><h3>${h} <span class="tgroup-n">${ct}</span></h3><p>${p}</p></div>`;
+        if (k < list.length) cardsHtml.splice(k, 0, grp('tg-limited', 'Limited loudness evidence', list.length - k,
+          'Preliminary: early, small, uncontrolled or indirect results. This does not establish that the treatment reliably makes the sound quieter.'));
+        if (k) cardsHtml.unshift(grp('tg-strong', 'Moderate or strong loudness evidence', k,
+          allNarrow ? 'Measured changes in the sound itself. Each applies only to a specific group of patients, so check who was studied.'
+                    : 'Measured changes in the sound itself. Check who was studied: some apply only to specific groups of patients.'));
+      }
+      listEl.innerHTML = (noteEl ? '' : note) + (list.length ? cardsHtml.join('') :
         '<div class="empty">Nothing matches those filters.</div>');
       // results heading names the active filter: "All tracked treatments — 38 shown", "Available now — 28 treatments"
       // (+ "28 of 38 tracked treatments match this filter."), or "Matching treatments — n treatments" when several
@@ -810,7 +1024,17 @@
     if (typeChips) typeChips.addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) { state.type = b.dataset.type; render(); } });
     $('#flag-chips').addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) { state[b.dataset.flag] = !state[b.dataset.flag]; render(); } });
     $('#tsearch').addEventListener('input', e => { state.q = e.target.value.trim(); render(); });
+    if (noteEl) {
+      noteEl.addEventListener('toggle', e => { const d = e.target; if (d.matches && d.matches('details.oe')) { try { localStorage.setItem(oeKey(d.dataset.oe), d.open ? '0' : '1'); } catch (x) {} } }, true);
+      noteEl.addEventListener('click', e => { const b = e.target.closest('[data-oe-swap]'); if (!b) return;
+        state.loud = b.dataset.oeSwap === 'loud'; state.distress = b.dataset.oeSwap === 'distress'; render();
+        const s = noteEl.querySelector('summary'); if (s) s.focus(); });
+    }
     render();
+    // links into the results (#results from the homepage cards, #tg-strong from 'Where the evidence stands'): the filters and
+    // cards render after the browser's own jump, so land again once they exist (falls back to the results heading)
+    const landing = ['#results', '#tg-strong', '#tg-limited'].includes(location.hash) && ($(location.hash) || $('#results'));
+    if (landing) requestAnimationFrame(() => landing.scrollIntoView());
   };
 
   /* ----- treatment detail ----- */
@@ -856,7 +1080,7 @@
       <p class="small" style="margin-top:14px"><a href="treatments.html">‹ All treatments</a></p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
         <span class="cat" style="${catVars(cat.color)};font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em">${esc(cat.icon)} ${esc(cat.name)}</span>
-        ${rank ? `<span class="badge b-promising">#${rank} most promising</span>` : ''}
+        ${rank ? `<span class="badge b-promising">#${rank} in our Top 10</span>` : ''}
         ${rEntry ? stabilityBadge(rEntry) : ''}
       </div>
       <h1 style="margin:.2em 0 .3em">${esc(t.name)}</h1>
@@ -885,9 +1109,9 @@
         <section class="card sec-card sec-indigo" id="outcomes"><h2>Does it make tinnitus quieter — or easier to live with?</h2>
           <div class="duo ld-full">
             <div class="cell" id="loud"><div class="k">🔉 Loudness — did tinnitus loudness improve?</div>
-              <div class="v lv-${esc(t.loudness.level)}">${LV_LABELS[t.loudness.level]}</div><p class="small">${esc(t.loudness.summary)}</p></div>
+              <div class="v lv-${esc(t.loudness.level)}">${lvLabel(t.loudness)}</div><p class="small">${esc(t.loudness.summary)}</p></div>
             <div class="cell" id="distress"><div class="k">🧠 Distress — did tinnitus distress improve?</div>
-              <div class="v lv-${esc(t.distress.level)}">${LV_LABELS[t.distress.level]}</div><p class="small">${esc(t.distress.summary)}</p></div>
+              <div class="v lv-${esc(t.distress.level)}">${lvLabel(t.distress)}</div><p class="small">${esc(t.distress.summary)}</p></div>
           </div>
           <p class="small muted">These are different outcomes. Loudness = the sound itself is reduced.
           Distress = the reaction to it improves (THI/TFI, anxiety, sleep, quality of life).</p></section>
@@ -916,8 +1140,8 @@
             <div class="cell"><div class="k">Available now</div><div class="v">${av.availableNow ? 'Yes' : 'No'}</div></div>
             <div class="cell"><div class="k">Regulatory status</div><div class="v">${esc(t.regulatory.status)}</div>
               ${regExplain(t.regulatory.status) ? `<div class="small muted" style="margin-top:3px">${esc(regExplain(t.regulatory.status))}</div>` : ''}</div>
-            <div class="cell"><div class="k">Loudness effect</div><div class="v lv-${esc(t.loudness.level)}">${LV_LABELS[t.loudness.level]}</div></div>
-            <div class="cell"><div class="k">Distress effect</div><div class="v lv-${esc(t.distress.level)}">${LV_LABELS[t.distress.level]}</div></div>
+            <div class="cell"><div class="k">Loudness effect</div><div class="v lv-${esc(t.loudness.level)}">${lvLabel(t.loudness)}</div></div>
+            <div class="cell"><div class="k">Distress effect</div><div class="v lv-${esc(t.distress.level)}">${lvLabel(t.distress)}</div></div>
             <div class="cell"><div class="k">Cost (approx.)</div><div class="v">${esc(av.cost || 'Unknown')}</div></div>
             <div class="cell"><div class="k">Confidence</div><div class="v"><span class="badge ${conf[0]}">${conf[1]}</span></div></div>
             <div class="cell"><div class="k">Best suited for</div><div class="v small">${esc(t.bestSuitedFor || '—')}</div></div>
@@ -960,6 +1184,7 @@
       this.setAttribute('aria-pressed', on);
       $('span:last-child', this).textContent = on ? 'On your watchlist' : 'Add to watchlist';
     });
+    attachGuideLinks(root, t.id);
     attachClaimChecks(root, t.id);
     attachPendingEvidence(root, t);
   };
@@ -1085,8 +1310,8 @@
         ${row('Tier', t => tierBadge(t.tier))}
         ${row('Category', t => esc((DB.catById[t.category] || {}).name || ''))}
         ${row('Mechanism', t => esc(t.mechanism))}
-        ${row('Loudness effect', t => `<span class="lv-${esc(t.loudness.level)}" style="font-weight:600">${LV_LABELS[t.loudness.level]}</span><div class="small muted">${esc(t.loudness.summary)}</div>`)}
-        ${row('Distress effect', t => `<span class="lv-${esc(t.distress.level)}" style="font-weight:600">${LV_LABELS[t.distress.level]}</span><div class="small muted">${esc(t.distress.summary)}</div>`)}
+        ${row('Loudness effect', t => `<span class="lv-${esc(t.loudness.level)}" style="font-weight:600">${lvLabel(t.loudness)}</span><div class="small muted">${esc(t.loudness.summary)}</div>`)}
+        ${row('Distress effect', t => `<span class="lv-${esc(t.distress.level)}" style="font-weight:600">${lvLabel(t.distress)}</span><div class="small muted">${esc(t.distress.summary)}</div>`)}
         ${row('Best result reported', t => esc(t.bestResult || '—'))}
         ${row('Safety', t => esc(t.safety))}
         ${row('Regulatory status', t => esc(t.regulatory.status))}
@@ -1280,6 +1505,8 @@
     (window.__TA_EU__ ? Promise.resolve(window.__TA_EU__.data)
       : fetch('data/emerging-unproven.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : null))
       .then(d => { if (d && d.T) { EU = d; render(); } }).catch(() => {});
+    let GI = null;
+    loadGuides().then(G => { if (G && G.guides) { GI = G.guides; render(); } });
     // punctuation- and accent-tolerant matching that never joins separate words:
     // "NAD" finds "NAD+", "bpc157" / "BPC 157" find "BPC-157", "AC 102" finds "AC102", "meniere" finds "Menière"
     const fold = s => (s || '').toLowerCase().normalize('NFD').replace(/\p{M}/gu, '');
@@ -1293,6 +1520,9 @@
         return (ql.length >= 2 && loose(f).includes(ql)) || (qt.length >= 2 && (' ' + t).includes(' ' + qt)) ||
           (qs.length >= 2 && t.split(' ').some(w => w.startsWith(qs))); };
       const r = [];
+      // practical guides first (title matches before matches elsewhere in the guide)
+      if (GI) GI.filter(g => hit(g.title + ' ' + g.desc + ' ' + g.terms)).map(g => [hit(g.title) ? 0 : 1, g]).sort((a, b) => a[0] - b[0])
+        .forEach(([, g]) => r.push(['Guide', g.title, g.path, 'Living with tinnitus · ' + g.desc]));
       DB.treatments.forEach(t => { if (hit(t.name + ' ' + t.oneLiner + ' ' + t.mechanism + ' ' + t.developer + ' ' + (t.researchers || []).join(' ')))
         r.push(['Treatment', t.name, `treatment.html?id=${t.id}`, t.oneLiner]); });
       // same fields the Emerging page's own search uses: name, other names, description
@@ -1316,13 +1546,13 @@
     function render() {
       const q = input.value.trim();
       if (q.length < 2) { // untouched box: orientation line; started typing: the short-input hint
-        out.innerHTML = '<div class="empty">' + (q.length ? 'Type at least two characters.' : 'Search across treatments, research, clinical trials, researchers and institutions.') + '</div>'; return; }
+        out.innerHTML = '<div class="empty">' + (q.length ? 'Type at least two characters.' : 'Search across practical guides, treatments, research, clinical trials, researchers and institutions.') + '</div>'; return; }
       const r = rows(q);
       out.innerHTML = r.length ? r.map(([type, title, href, sub, ext]) =>
         `<div class="sr-row sr-${type.toLowerCase().replace(/[^a-z]+/g, '-')}"><span class="type">${type}</span>
           <span><a href="${esc(href)}"${ext ? ' rel="noopener" target="_blank"' : ''}>${esc(title)}${ext ? ' ↗' : ''}</a>
           ${sub ? `<br><span class="small muted">${esc(sub)}</span>` : ''}</span></div>`).join('')
-        : '<div class="empty">No matches across treatments, studies, trials, institutions, categories or updates.</div>';
+        : '<div class="empty">No matches across guides, treatments, studies, trials, institutions, categories or updates.</div>';
       announce(r.length ? `${r.length} result${r.length === 1 ? '' : 's'}` : 'No matches');
     }
     input.addEventListener('input', render);
@@ -1335,18 +1565,42 @@
     const existing = getProfile();
     if (existing) Object.entries(existing).forEach(([k, v]) => { const el = form.elements[k]; if (el) el.value = v; });
 
+    const TIER_FALLBACK = { emergency: 'Get emergency help now', today: 'Get medical help today', soon: 'Book an appointment soon' };
+    const TIER_LEAD = {
+      emergency: 'Call your emergency number or go to an emergency department for:',
+      today: 'Contact a doctor the same day. If you cannot be seen today, go to an emergency department or urgent care, for:',
+      soon: 'Arrange a non-urgent appointment with your doctor, an ENT specialist or an audiologist to discuss:' };
+    const TIER_COLOR = { emergency: 'var(--c-watch)', today: 'var(--c-emerging)', soon: 'var(--c-promising)' };
     function renderFlags(p) {
-      const flags = redFlags(p);
-      box.innerHTML = flags.length ? `<div class="redflag">
-        <strong>Please read this first.</strong>
-        <p style="margin:.5em 0">Your answers include a characteristic that clinical guidelines recommend discussing
-        with a healthcare professional: <strong>${flags.map(esc).join('; ')}</strong>.</p>
-        <p class="small" style="margin:.5em 0">This does not mean something is wrong — it means these particular
-        characteristics deserve a professional look (ENT physician or audiologist) before treating tinnitus as routine.
-        ${p.suddenHL === 'yes' ? '<strong>A sudden drop in hearing is time-sensitive — clinical guidelines recommend seeking evaluation promptly.</strong>' : ''}</p>
-        <p class="small muted" style="margin-bottom:0">Based on the AAO-HNSF Clinical Practice Guidelines for Tinnitus (2014)
-        and Sudden Hearing Loss (2019). This page does not diagnose the cause.</p>
+      const tiers = flagTiers(p), S = SAFETY;
+      const label = id => ((S && (S.urgent.tiers || []).find(x => x.id === id)) || {}).label || TIER_FALLBACK[id];
+      const ids = ['emergency', 'today', 'soon'].filter(id => tiers[id].length);
+      const flagsHtml = ids.length ? `<div class="redflag" role="note" aria-labelledby="rf-h">
+        <strong id="rf-h">Please read this first.</strong>
+        <p style="margin:.5em 0">Some of your answers are things clinical guidelines say a healthcare professional should look at.
+        Most tinnitus is not a sign of anything dangerous, and this does not mean something is wrong.</p>
+        ${ids.map(id => `<div class="rf-tier" style="border-left:4px solid ${TIER_COLOR[id]};padding:2px 0 2px 12px;margin:10px 0">
+          <strong>${esc(label(id))}</strong> <span class="small">${TIER_LEAD[id]}</span>
+          <ul style="margin:.3em 0 0">${tiers[id].map(x => '<li>' + x + '</li>').join('')}</ul></div>`).join('')}
+        <p class="small" style="margin:.5em 0">${ids.includes('emergency') ? 'If none of the emergency situations applies to you now, the other advice still stands. ' : ''}<a href="urgent/">When to get help quickly</a> explains each situation.</p>
+        <p class="small muted" style="margin-bottom:0">Based on NHS guidance (2024), the NICE tinnitus guideline NG155 (our summary) and the
+        AAO-HNSF Clinical Practice Guidelines for Tinnitus (2026 update) and Sudden Hearing Loss (2019). This page does not diagnose the cause.</p>
       </div>` : '';
+      let supportHtml = '';
+      if (p.distressLevel === 'severe') {
+        const lines = S ? S.crisis.lines.map(l => `<li><strong>${esc(l.country)}:</strong> ${l.services.map(sv => esc(sv.name) + ', ' + esc(sv.contact.replace(/^C/, 'c'))).join('; ')}</li>`).join('') : '';
+        supportHtml = `<div class="card" id="p-support" role="note" aria-labelledby="ps-h" style="padding:14px 16px;margin:14px 0;border-left:4px solid var(--c-promising)">
+          <strong id="ps-h">Tinnitus that bothers you severely deserves support</strong>
+          <p style="margin:.5em 0">You don't have to manage it alone. Talking therapies, especially <a href="treatments/cbt/">cognitive behavioural therapy (CBT)</a>,
+          have the strongest evidence for reducing how much tinnitus affects daily life. A doctor or audiologist can help you find support, and
+          <a href="support/#organizations">tinnitus charities</a> offer helplines and groups.</p>
+          <p style="margin:.5em 0"><strong>If you feel you can't cope, or are thinking about suicide, please talk to someone now.</strong>
+          ${S ? 'These lines are free, confidential and open day and night:' : ''}</p>
+          ${lines ? `<ul class="small" style="margin:.3em 0">${lines}</ul>` : ''}
+          <p class="small" style="margin:.5em 0 0"><a href="support/#crisis">Crisis lines in other countries</a>. If you are in immediate danger, call your local emergency number.</p>
+        </div>`;
+      }
+      box.innerHTML = flagsHtml + supportHtml;
     }
 
     function renderResults(p) {
@@ -1365,6 +1619,7 @@
           <span class="val">${has ? `${n} pages · ${trialCount(tag)} trials` : 'Not reported'}</span></div>`;
       }).join('');
       results.innerHTML = `
+        <div id="p-guides"></div>
         <h2 style="margin-top:20px">Research potentially relevant to your profile</h2>
         <div class="eprofile"><div class="k">Research relevance map</div>${mapRows}
           <p class="small muted" style="margin:8px 0 0"><strong>This shows research relevance — which studies involved
@@ -1378,8 +1633,25 @@
         <a class="btn" href="trials.html">Check clinical trials →</a></p>`
         : `<p class="small muted">Your answers don't point to a specific studied subtype, which is very common —
           most tinnitus research covers broad populations. <a href="treatments.html">Browse all treatments</a>.</p>`}`;
+      renderGuides(p);
     }
 
+    function renderGuides(p) {
+      const pick = [];
+      if (p.duration === 'lt3m') pick.push('start');
+      if (p.sleepProblems === 'often' || p.sleepProblems === 'sometimes') pick.push('sleep');
+      if (p.distressLevel === 'moderate' || p.distressLevel === 'severe') pick.push('overwhelmed');
+      if (p.hyperacusis === 'yes') pick.push('sound-sensitivity');
+      if (redFlags(p).length) pick.push('appointment');
+      loadGuides().then(G => {
+        const el = $('#p-guides'); if (!el) return;
+        const by = Object.fromEntries(((G && G.guides) || []).map(g => [g.id, g]));
+        const list = pick.filter(id => by[id]).slice(0, 4).map(id => by[id]);
+        el.innerHTML = `<section class="card pg-xlink pg-profile" aria-labelledby="p-guides-h"><h2 id="p-guides-h">Practical guides for you</h2>
+          ${list.length ? `<ul>${list.map(g => `<li><a href="${esc(g.path)}">${esc(g.title)}</a> <span class="small muted">· ${esc(g.desc)}</span></li>`).join('')}</ul>` : ''}
+          <p class="small muted">${list.length ? 'Suggested from your answers, on this device. ' : ''}<a href="living/">${list.length ? 'All practical guides' : 'Browse the practical guides'}</a> in Living with tinnitus.</p></section>`;
+      });
+    }
     form.onsubmit = e => {
       e.preventDefault();
       const p = {}; Array.from(form.elements).forEach(el => { if (el.name) p[el.name] = el.value; });
@@ -1403,6 +1675,7 @@
       form.reset(); box.innerHTML = ''; results.innerHTML = '<p class="small muted">Profile deleted from this device.</p>';
     };
     if (existing) { renderFlags(existing); renderResults(existing); }
+    loadSafety().then(S => { const cur = getProfile(); if (S && cur && box.isConnected) renderFlags(cur); });
   };
 
   /* ----- watchlist (treatments + trials + institutions) ----- */
@@ -1536,6 +1809,36 @@
   }
 
   /* ---------------- boot ---------------- */
+  // Patient guides: "Print or save" prints only that checklist or notes sheet; note boxes grow with what is typed.
+  // Nothing is stored or sent: ticks and typed notes live only in the open page.
+  function guideTools() {
+    if (!document.querySelector('main.g-page') || document.documentElement.dataset.gTools) return;
+    document.documentElement.dataset.gTools = '1';
+    document.addEventListener('click', e => {
+      const b = e.target.closest('[data-print]'); if (!b) return;
+      const sec = document.getElementById(b.dataset.print); if (!sec) return;
+      const html = document.documentElement;
+      // a section inside a layout wrapper (e.g. the appointment steps): mark the wrappers on the way up, so only the path to it prints
+      const path = []; for (let p = sec.parentElement; p && !p.matches('main'); p = p.parentElement) path.push(p);
+      const done = () => { sec.classList.remove('g-printing-target'); path.forEach(p => p.classList.remove('g-printing-path')); html.classList.remove('g-printing'); removeEventListener('afterprint', done); };
+      sec.classList.add('g-printing-target'); path.forEach(p => p.classList.add('g-printing-path')); html.classList.add('g-printing');
+      addEventListener('afterprint', done);
+      window.print();
+    });
+    const grow = t => { t.style.height = 'auto'; t.style.height = t.scrollHeight + 2 + 'px'; };
+    document.addEventListener('input', e => { if (e.target.matches('.g-sheet textarea')) grow(e.target); });
+    // appointment steps: mark the step being read in the step navigator (it stays in view on desktop)
+    const rail = document.querySelector('.a-stages');
+    if (rail && 'IntersectionObserver' in window) {
+      const links = [...rail.querySelectorAll('ol a')], seen = new Map();
+      const io = new IntersectionObserver(es => {
+        es.forEach(e => seen.set(e.target.id, e.isIntersecting ? e.intersectionRatio : 0));
+        let best = null, r = 0; seen.forEach((v, k) => { if (v > r) { r = v; best = k; } });
+        if (best) links.forEach(a => a.dataset.stage === best ? a.setAttribute('aria-current', 'step') : a.removeAttribute('aria-current'));
+      }, { rootMargin: '-20% 0px -55% 0px', threshold: [0, .25, .5, 1] });
+      document.querySelectorAll('.a-stage').forEach(st => io.observe(st));
+    }
+  }
   async function boot() {
     const page = document.body.dataset.page;
     // Multi-page build: the header, navigation and footer are built before the data request, so they are part of
@@ -1546,6 +1849,7 @@
     const gated = !SINGLE && !!(PAGES[page] || (window.TA_PAGE_HOOKS && window.TA_PAGE_HOOKS[page]));
     if (gated) document.documentElement.classList.add('ta-loading');
     if (!SINGLE) chrome();
+    guideTools();
     try {
       await load();
       if (SINGLE) { initRouter(); return; }

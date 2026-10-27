@@ -532,3 +532,6 @@ h5.thead{margin:14px 0 4px;font-size:.95rem;font-family:var(--font-display)}
 
 /* V16: the search box on this page shows keyboard focus (WCAG 2.4.7); it removed its own outline and had no replacement */
 .search:focus-within{outline:2px solid var(--accent);outline-offset:2px;border-radius:999px}
+
+/* Desktop width, Option B: same frame and paragraph cap as the site's wide pages, from 1440px only */
+@media(min-width:1440px){.wrap{max-width:min(1260px,calc(100vw - 160px))}.wrap p{max-width:66ch}}

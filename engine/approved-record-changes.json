@@ -1,0 +1,317 @@
+{
+  "_comment": "Owner-approved record changes from the held-review process (approved 27 Oct 2026). Applied by tools/apply_approved_changes.py and allowed — exactly and only — by the disclosure safeguards in engine/tests via engine/approved_changes.py. History is only ever appended to. Not covered here, so still blocked: somatic physiotherapy (on hold), the SPI-1005 score (separate consistency review), any other rating, rank or record.",
+  "approvals": [
+    {
+      "heldItem": "classification-review-spi-1005-loudness-2026-10-27",
+      "decision": "approved",
+      "date": "2026-10-27",
+      "by": "site owner",
+      "summary": "SPI-1005 loudness 'limited' → 'none' (shown as 'None shown'), Ménière's-specific wording; two registry-results study records added."
+    },
+    {
+      "heldItem": "classification-review-hearing-aids-loudness-2026-10-27",
+      "decision": "approved (wording only)",
+      "date": "2026-10-27",
+      "by": "site owner",
+      "summary": "Hearing-aid loudness wording corrected in treatments.json and rankings.json; 'Limited' and #6 unchanged."
+    },
+    {
+      "heldItem": "classification-review-spi-1005-distress-2026-10-27",
+      "decision": "approved",
+      "date": "2026-10-27",
+      "by": "site owner",
+      "summary": "SPI-1005 distress 'limited' → 'none' (shown as 'None shown'), Ménière's-specific wording; oneLiner, distress summary and scoreRationale corrected. Score 2/5 and tier unchanged (separate consistency review)."
+    },
+    {
+      "heldItem": "classification-review-hearing-aids-loudness-level-2026-10-27",
+      "decision": "approved: keep 'limited'; wording correction",
+      "date": "2026-10-27",
+      "by": "site owner",
+      "summary": "Hearing-aid loudness stays 'Limited' and #6; wording corrected to separate UNITI's self-rated loudness reduction from unchanged tone-matched loudness, without a superiority claim."
+    },
+    {
+      "heldItem": "classification-review-spi-1005-score-2026-10-27",
+      "decision": "approved: factual wording correction only (limitations[1]); score question remains open",
+      "date": "2026-10-27",
+      "by": "site owner",
+      "summary": "SPI-1005 limitations[1] no longer says the tinnitus data are open-label PROs. Score 2/5, tier, ratings and rankings unchanged."
+    }
+  ],
+  "treatments": [
+    {
+      "id": "spi-1005",
+      "fields": [
+        {
+          "path": [
+            "loudness",
+            "level"
+          ],
+          "from": "limited",
+          "to": "none"
+        },
+        {
+          "path": [
+            "loudness",
+            "summary"
+          ],
+          "from": "Company reports ≥30% patient-reported tinnitus severity improvement — from an open-label extension, so high bias risk and not a loudness measurement.",
+          "to": "In two placebo-controlled trials in people with Ménière's disease, self-rated tinnitus loudness (the 0–10 loudness question of the TFI) improved no more with SPI-1005 than with placebo (Phase 3, 220 people: −0.8 vs −0.9 points; Phase 2b: about a third improved by 2 or more points in each group, placebo included). Registry results, not yet peer-reviewed. There are no loudness data in other kinds of tinnitus."
+        },
+        {
+          "path": [
+            "studies"
+          ],
+          "from": [
+            "stopmd3-2024"
+          ],
+          "to": [
+            "stopmd3-2024",
+            "stopmd3-ctgov-results",
+            "spi1005-phase2b-ctgov-results"
+          ]
+        }
+      ],
+      "appendHistory": [
+        {
+          "date": "2026-10-27",
+          "change": "loudness.level: limited → none (shown as 'None shown'); loudness.summary rewritten (Ménière's population named); registry results NCT04677972 and NCT03325790 added as study records",
+          "reason": "Held review 2026-10-27 (classification-review-spi-1005-loudness-2026-10-27), approved by the owner 27 Oct 2026: the 'limited' rating rested on an open-label severity outcome, which is not a loudness measure; two placebo-controlled trials in Ménière's disease that measured self-rated loudness (TFI item 2) show no difference from placebo. Evidence score, tier and distress rating unchanged by this review (distress is under a separate held review)."
+        }
+      ]
+    },
+    {
+      "id": "hearing-aids",
+      "fields": [
+        {
+          "path": [
+            "loudness",
+            "summary"
+          ],
+          "from": "Observational reports of reduced audibility/awareness; controlled percept-level evidence is weak.",
+          "to": "Self-rated loudness and loudness matches have been reported to fall after fitting in before–after studies, more so when the fitting is objectively verified (2022 meta-analysis). No placebo-controlled trial has tested this, and in UNITI's hearing-aid arm measured loudness did not change while distress scores fell."
+        }
+      ],
+      "appendHistory": [
+        {
+          "date": "2026-10-27",
+          "change": "loudness.summary rewritten to describe the direct loudness evidence (wording only)",
+          "reason": "Held review 2026-10-27 (classification-review-hearing-aids-loudness-2026-10-27), approved by the owner 27 Oct 2026: the previous wording ('audibility/awareness') had no cited source. No score, tier, level, ranking, or numerical result changed."
+        }
+      ]
+    },
+    {
+      "id": "spi-1005",
+      "fields": [
+        {
+          "path": [
+            "distress",
+            "level"
+          ],
+          "from": "limited",
+          "to": "none"
+        },
+        {
+          "path": [
+            "distress",
+            "summary"
+          ],
+          "from": "Same open-label PRO data; no blinded tinnitus outcome has been published.",
+          "to": "In two placebo-controlled trials in people with Ménière's disease, tinnitus impact (TFI) improved about as much with placebo as with SPI-1005 (Phase 3, 220 people: −7.9 vs −6.6 points; Phase 2b: more people improved on placebo than on either dose). An open-label extension reported improvement, but without a comparison group. Registry results, not yet peer-reviewed. There are no data in other kinds of tinnitus."
+        },
+        {
+          "path": [
+            "oneLiner"
+          ],
+          "from": "The most advanced drug with a tinnitus-relevant claim — but its trials are in Meniere's disease, and the tinnitus data are unblinded.",
+          "to": "The most advanced drug with a tinnitus-relevant claim — but its trials are in Meniere's disease, and in placebo-controlled trials tinnitus improved no more than with placebo."
+        },
+        {
+          "path": [
+            "scoreRationale"
+          ],
+          "from": "A Phase 3 program with BTD earns 2/5 for tinnitus specifically: the tinnitus outcomes are open-label, company-reported, and in a Meniere's population. The ongoing Phase 3 (NCT06859788) is open-label single-group — it cannot produce controlled tinnitus evidence.",
+          "to": "A Phase 3 program with BTD earns 2/5 for tinnitus specifically: in its placebo-controlled Phase 2b and Phase 3 trials (registry results, Ménière's disease) the tinnitus outcomes were secondary and showed no advantage over placebo; the positive tinnitus result comes from an open-label extension. The ongoing Phase 3 (NCT06859788) is open-label single-group — it cannot produce controlled tinnitus evidence."
+        }
+      ],
+      "appendHistory": [
+        {
+          "date": "2026-10-27",
+          "change": "distress.level: limited → none (shown as 'None shown'); distress.summary, oneLiner and scoreRationale corrected (they described the tinnitus data as open-label/unblinded only)",
+          "reason": "Held review 2026-10-27 (classification-review-spi-1005-distress-2026-10-27), approved by the owner 27 Oct 2026: two placebo-controlled trials in Ménière's disease (NCT04677972, NCT03325790) show no distress (TFI) advantage over placebo; the only positive result is an uncontrolled open-label extension. The 3 Sept 2026 note that SPI-1005 had 'zero controlled tinnitus data' is superseded by these registry results (the Top 10 outcome is unaffected). Evidence score (2/5) and tier unchanged; a separate consistency review of the score is open."
+        }
+      ]
+    },
+    {
+      "id": "hearing-aids",
+      "fields": [
+        {
+          "path": [
+            "loudness",
+            "summary"
+          ],
+          "from": "Self-rated loudness and loudness matches have been reported to fall after fitting in before–after studies, more so when the fitting is objectively verified (2022 meta-analysis). No placebo-controlled trial has tested this, and in UNITI's hearing-aid arm measured loudness did not change while distress scores fell.",
+          "to": "In UNITI, a large randomised trial (461 people), people given hearing aids alone rated their tinnitus 1.4 points quieter on a 0–10 scale after 12 weeks (95% CI 0.6 to 2.1); the trial did not report a statistical comparison with the other treatments. Loudness measured by matching it to a tone did not change, and a small trial with a counselling-only comparison also found little change in matched loudness. Before–after studies report reductions, more so with verified fittings. There is no placebo-controlled test."
+        }
+      ],
+      "appendHistory": [
+        {
+          "date": "2026-10-27",
+          "change": "loudness.summary corrected: separates UNITI's self-rated loudness reduction from unchanged tone-matched loudness; no claim of superiority over other treatments (wording only)",
+          "reason": "Held review 2026-10-27 (classification-review-hearing-aids-loudness-level-2026-10-27), approved by the owner 27 Oct 2026: the earlier wording said UNITI's hearing-aid arm showed no loudness change, which is true only of tone-matched loudness (Schiele 2025); self-rated loudness fell 1.4 points (Schoisswohl 2025, Nat Commun). UNITI reports no statistical loudness comparison between treatments (supplement Table S17). Loudness level 'Limited', score, tier and rank unchanged."
+        }
+      ]
+    },
+    {
+      "id": "spi-1005",
+      "fields": [
+        {
+          "path": [
+            "limitations",
+            1
+          ],
+          "from": "Tinnitus data are open-label PROs",
+          "to": "Tinnitus data: in the placebo-controlled Ménière's trials (registry results, secondary outcomes) tinnitus improved no more than with placebo; the reported improvement comes from an uncontrolled open-label extension"
+        }
+      ],
+      "appendHistory": [
+        {
+          "date": "2026-10-27",
+          "change": "limitations[1] corrected: separates the placebo-controlled Ménière's trial results from the uncontrolled open-label extension (wording only)",
+          "reason": "Held review 2026-10-27 (classification-review-spi-1005-score-2026-10-27, factual correction only), approved by the owner 27 Oct 2026: the item still described the tinnitus data as open-label only. Evidence score (2/5), tier, loudness and distress ratings and rankings unchanged; the score question remains open in that review."
+        }
+      ]
+    }
+  ],
+  "studiesAdded": [
+    {
+      "id": "stopmd3-ctgov-results",
+      "title": "STOPMD-3: SPI-1005 (ebselen) Phase 3 in Ménière's disease — ClinicalTrials.gov posted results",
+      "authors": "Sound Pharmaceuticals (sponsor)",
+      "journal": "ClinicalTrials.gov posted results (first posted 26 June 2026; no peer-reviewed publication found)",
+      "year": 2026,
+      "url": "https://clinicaltrials.gov/study/NCT04677972?tab=results",
+      "n": "220 (112 SPI-1005 400 mg twice daily / 108 placebo)",
+      "design": "Randomized, quadruple-masked, placebo-controlled Phase 3 trial (84 days)",
+      "randomized": true,
+      "sham": true,
+      "independent": false,
+      "primaryOutcome": "Low-frequency hearing (pure-tone audiometry) and Words-in-Noise (co-primary); tinnitus outcomes secondary",
+      "results": {
+        "summary": "Tinnitus loudness (TFI item 2, 0–10): mean change −0.8 with SPI-1005 vs −0.9 with placebo. TFI total: −7.9 vs −6.6. No statistical analysis posted for the tinnitus outcomes.",
+        "detail": "Self-rated loudness and tinnitus impact changed by similar amounts in both groups. Ménière's disease population."
+      },
+      "coi": "Sponsor-run (Sound Pharmaceuticals).",
+      "limitations": "Registry-only reporting; Ménière's disease, not primary tinnitus; tinnitus outcomes secondary; loudness is a single TFI item.",
+      "blinding": null,
+      "control": null,
+      "doi": null,
+      "duration": null,
+      "followUp": null,
+      "pmid": null,
+      "history": [
+        {
+          "date": "2026-10-27",
+          "change": "Record added",
+          "reason": "Held review 2026-10-27 (classification-review-spi-1005-loudness-2026-10-27), approved by the owner 27 Oct 2026."
+        }
+      ]
+    },
+    {
+      "id": "spi1005-phase2b-ctgov-results",
+      "title": "SPI-1005 (ebselen) Phase 2b in Ménière's disease — ClinicalTrials.gov posted results",
+      "authors": "Sound Pharmaceuticals (sponsor)",
+      "journal": "ClinicalTrials.gov posted results (first posted 14 August 2023; no peer-reviewed publication found)",
+      "year": 2023,
+      "url": "https://clinicaltrials.gov/study/NCT03325790?tab=results",
+      "n": "149 enrolled; 124 analysed (41 placebo / 42 SPI-1005 200 mg / 41 SPI-1005 400 mg twice daily)",
+      "design": "Randomized, quadruple-masked, placebo-controlled Phase 2b trial (8 weeks)",
+      "randomized": true,
+      "sham": true,
+      "independent": false,
+      "primaryOutcome": "Hearing, Words-in-Noise, TFI, tinnitus loudness (TFI item 2) and vertigo (each listed as primary on the registry)",
+      "results": {
+        "summary": "Tinnitus loudness improved by ≥2 points (TFI item 2) in 14/41 (34%) on placebo, 15/42 (36%) on 200 mg and 14/41 (34%) on 400 mg. TFI improved by ≥10 points in 20/41 (49%), 19/42 (45%) and 13/41 (32%).",
+        "detail": "No advantage over placebo on loudness or tinnitus impact. Ménière's disease population."
+      },
+      "coi": "Sponsor-run (Sound Pharmaceuticals).",
+      "limitations": "Registry-only reporting; Ménière's disease, not primary tinnitus; loudness is a single TFI item; responder analysis only.",
+      "blinding": null,
+      "control": null,
+      "doi": null,
+      "duration": null,
+      "followUp": null,
+      "pmid": null,
+      "history": [
+        {
+          "date": "2026-10-27",
+          "change": "Record added",
+          "reason": "Held review 2026-10-27 (classification-review-spi-1005-loudness-2026-10-27), approved by the owner 27 Oct 2026."
+        }
+      ]
+    }
+  ],
+  "rankings": {
+    "top": [
+      {
+        "id": "hearing-aids",
+        "fields": [
+          {
+            "path": [
+              "detail",
+              "loudness"
+            ],
+            "from": "Limited — reduced audibility/awareness reported; controlled percept evidence weak.",
+            "to": "Limited — loudness falls in before–after studies (more with verified fitting), but there is no placebo-controlled test, and UNITI's hearing-aid arm found no change."
+          }
+        ]
+      },
+      {
+        "id": "hearing-aids",
+        "fields": [
+          {
+            "path": [
+              "detail",
+              "loudness"
+            ],
+            "from": "Limited — loudness falls in before–after studies (more with verified fitting), but there is no placebo-controlled test, and UNITI's hearing-aid arm found no change.",
+            "to": "Limited — people rate their tinnitus somewhat quieter with hearing aids alone (UNITI: −1.4 on 0–10, not statistically compared with other treatments), but tone-matched loudness did not change and there is no placebo-controlled test."
+          }
+        ]
+      }
+    ],
+    "appendHistory": [
+      {
+        "date": "2026-10-27",
+        "note": "Editorial correction (held review 2026-10-27, owner-approved): the hearing-aid loudness line now describes the direct loudness evidence instead of 'audibility/awareness'. NO rank, order, or stability changes.",
+        "top": [
+          "cbt",
+          "lenire",
+          "shore-bimodal",
+          "digital-cbt",
+          "cochlear-implants",
+          "hearing-aids",
+          "cbt-i",
+          "act",
+          "mbct",
+          "rtms"
+        ]
+      },
+      {
+        "date": "2026-10-27",
+        "note": "Editorial correction (held review 2026-10-27, owner-approved): the hearing-aid loudness line now separates self-rated from tone-matched loudness and makes no comparison claim. NO rank, order, or stability changes.",
+        "top": [
+          "cbt",
+          "lenire",
+          "shore-bimodal",
+          "digital-cbt",
+          "cochlear-implants",
+          "hearing-aids",
+          "cbt-i",
+          "act",
+          "mbct",
+          "rtms"
+        ]
+      }
+    ]
+  }
+}

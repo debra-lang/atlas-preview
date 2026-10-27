@@ -370,20 +370,73 @@ class ProductionConfigTests(unittest.TestCase):
         if not base:
             self.skipTest("no origin/main in this checkout to compare against")
         out = subprocess.run(["git", "diff", "--name-only", base, "--", "data/"], cwd=REPO, capture_output=True, text=True).stdout.split()
-        # Owner-approved exceptions (22 Oct 2026), and nothing else under data/: (1) one cadence phrase in data/claims.json; (2) the September corrections, listed in
-        # data/corrections-log.json together with the reports they change (their exact content is checked in test_disclosure_pages: undoing the logged corrections gives production's files).
+        # Owner-approved exceptions, and nothing else under data/:
+        #   (1) data/claims.json: the approved Claims content of Release D (final-review-preview, commit 6e7bc48, which also carries the
+        #       22 Oct cadence phrase), plus exactly two Phase 1 wording corrections in one safety note (owner-requested 26 Oct 2026);
+        #   (2) the September corrections, listed in data/corrections-log.json with the reports they change (exact content checked in
+        #       test_disclosure_pages);
+        #   (3) data/safety.json, new in Phase 1: urgent-care tiers and crisis lines only, no research data or ratings;
+        #   (4) data/patient-guides.json, new in Phases 2-3: the patient guides and the homepage choices only, no research data or ratings;
+        #       Phase 5 adds "treatmentLinks" (treatment id -> [guide, label] links), which point to guides and carry no ratings;
+        #   (5) data/guide-index.json, new in Phase 5: generated from patient-guides.json (guide titles, short descriptions, search terms
+        #       and those links), no research data or ratings.
+        # Updated 26 Oct 2026: the earlier version expected claims.json to differ from main by the cadence phrase alone, which stopped
+        # being true when the approved Claims releases were merged into Release D. The comparison is now pinned to that approved commit.
         import json
         log = json.loads((REPO / "data" / "corrections-log.json").read_text(encoding="utf-8")) if (REPO / "data" / "corrections-log.json").exists() else {"corrections": []}
-        allowed = {"data/claims.json", "data/corrections-log.json"} | {c["file"] for c in log["corrections"]}
-        import release_allowlist
-        if release_allowlist.state(base) == "active":                       # Release A's explicit allowlist (23 Oct 2026): exactly its listed edits, or this fails; retired once A is in production
-            self.assertEqual(release_allowlist.problems(base), [])
-            out = [f for f in out if f not in release_allowlist.FILES]
-        self.assertEqual(sorted(set(out) - allowed), [], "this branch must not change anything under data/ except the approved claims.json phrase and the logged September corrections")
-        self.assertNotIn("data/treatments.json", out); self.assertNotIn("data/studies.json", out); self.assertNotIn("data/rankings.json", out); self.assertNotIn("data/trials.json", out)
+        #   (6) data/treatments.json, owner-approved 26 Oct 2026: may differ from main ONLY by "notMeasured": true on a loudness or distress
+        #       outcome that the human evidence never assessed (verified against primary studies). Levels, summaries, tiers, scores and every
+        #       other field must be byte-for-byte the same as on main once those flags are removed.
+        #   (7) owner-approved 27 Oct 2026: the held-review record changes listed in engine/approved-record-changes.json (SPI-1005 loudness;
+        #       hearing-aid loudness wording; two SPI-1005 registry study records; the matching rankings wording + history note). They are
+        #       undone exactly by engine/approved_changes.revert, which raises if any is missing or altered; after that, treatments.json,
+        #       studies.json and rankings.json must equal main byte for byte (treatments: once the notMeasured flags are removed too).
+        allowed = {"data/claims.json", "data/corrections-log.json", "data/safety.json", "data/patient-guides.json", "data/guide-index.json", "data/treatments.json",
+                   "data/studies.json", "data/rankings.json"} | {c["file"] for c in log["corrections"]}
+        self.assertEqual(sorted(set(out) - allowed), [], "this branch must not change anything under data/ except the approved Claims content, the logged September corrections, the safety file, the patient guides, the 'not measured' flags and the approved held-review changes")
+        self.assertNotIn("data/trials.json", out)
+        if {"data/treatments.json", "data/studies.json", "data/rankings.json"} & set(out):
+            import sys
+            sys.path.insert(0, str(REPO / "engine"))
+            import approved_changes
+            main = lambda f: json.loads(subprocess.run(["git", "show", f"{base}:{f}"], cwd=REPO, capture_output=True, text=True, encoding="utf-8").stdout)
+            now = lambda f: json.loads((REPO / f).read_text(encoding="utf-8"))
+            now_t, now_s, now_r = approved_changes.revert(now("data/treatments.json"), now("data/studies.json"), now("data/rankings.json"))
+            flags = 0
+            for t in now_t:
+                for k in ("loudness", "distress"):
+                    if t[k].pop("notMeasured", None) is not None:
+                        flags += 1
+                        self.assertEqual(t[k]["level"], "none", f"{t['id']} {k}: 'not measured' is only for outcomes rated none")
+            self.assertEqual(now_t, main("data/treatments.json"), "treatments.json may differ from main only by notMeasured flags and the approved held-review changes")
+            self.assertEqual(now_s, main("data/studies.json"), "studies.json may differ from main only by the approved held-review study records")
+            self.assertEqual(now_r, main("data/rankings.json"), "rankings.json may differ from main only by the approved held-review wording and history note")
+            self.assertGreater(flags, 0)
+        if "data/safety.json" in out:
+            saf = json.loads((REPO / "data" / "safety.json").read_text(encoding="utf-8"))
+            self.assertEqual(sorted(saf), ["_comment", "crisis", "lastVerified", "organizations", "pending", "urgent", "verifyBy"], "safety.json holds safety guidance only")
+        if "data/patient-guides.json" in out:
+            pg = json.loads((REPO / "data" / "patient-guides.json").read_text(encoding="utf-8"))
+            self.assertEqual(sorted(set(pg) - {"treatmentLinks"}), ["_comment", "chooser", "explore", "guides", "lastReviewed", "needs", "urgentLine"] if "guides" in pg else ["_comment", "chooser", "explore", "lastReviewed", "needs", "urgentLine"],
+                             "patient-guides.json holds patient guidance only")
+            _tj = json.loads((REPO / "data" / "treatments.json").read_text(encoding="utf-8"))
+            tids = {t["id"] for t in (_tj["treatments"] if isinstance(_tj, dict) else _tj)}
+            for tid, links in pg.get("treatmentLinks", {}).items():
+                self.assertIn(tid, tids, "treatmentLinks names a real treatment")
+                for ref, label in links:
+                    self.assertIn(ref.split("#")[0], set(pg.get("guides", {})) | {"urgent"}, "treatmentLinks point to guides only")
+                    self.assertIsInstance(label, str)
+            self.assertFalse(any(k in json.dumps(pg) for k in ('"tier":', '"evidenceScore":', '"rank":')), "patient guides carry no ratings")
+        if "data/guide-index.json" in out:
+            gi = json.loads((REPO / "data" / "guide-index.json").read_text(encoding="utf-8"))
+            self.assertEqual(sorted(gi), ["_comment", "guides", "treatmentLinks"], "guide-index.json holds the generated guide index only")
+            self.assertTrue(all(sorted(g) == ["desc", "id", "path", "terms", "title"] for g in gi["guides"]), "guide index entries carry no ratings")
+            self.assertFalse(any(k in json.dumps(gi) for k in ('"tier":', '"evidenceScore":', '"rank":')), "guide index carries no ratings")
         if "data/claims.json" in out:
-            # a single cadence phrase in one human-approved claim, "every week" -> "twice a month". Nothing else in that file may differ.
-            old = json.loads(subprocess.run(["git", "show", f"{base}:data/claims.json"], cwd=REPO, capture_output=True, text=True, encoding="utf-8").stdout)
+            RELEASE_D = "6e7bc48"
+            shown = subprocess.run(["git", "show", f"{RELEASE_D}:data/claims.json"], cwd=REPO, capture_output=True, text=True, encoding="utf-8")
+            self.assertEqual(shown.returncode, 0, "the approved Release D commit 6e7bc48 must be present to check claims.json against it")
+            old = json.loads(shown.stdout)
             new = json.loads((REPO / "data" / "claims.json").read_text(encoding="utf-8"))
             diffs = []
 
@@ -397,12 +450,18 @@ class ProductionConfigTests(unittest.TestCase):
                 elif a != b:
                     diffs.append((path, a, b))
             walk(old, new)
-            self.assertEqual(len(diffs), 1, [d[0] for d in diffs])
-            path, a, b = diffs[0]
-            self.assertTrue(path.endswith("/practical"), path)
-            self.assertEqual(b, a.replace("checked against ClinicalTrials.gov every week", "checked against ClinicalTrials.gov twice a month"))
-            self.assertNotEqual(a, b)
-
+            self.assertIn("checked against ClinicalTrials.gov twice a month", json.dumps(new, ensure_ascii=False))   # the 22 Oct cadence phrase
+            if diffs:
+                self.assertEqual([d[0] for d in diffs], ["/claims[4]/safety"], "only the does-tinnitus-go-away safety note may differ from Release D")
+                self.assertEqual(new["claims"][4]["slug"], "does-tinnitus-go-away")
+                a, b = diffs[0][1], diffs[0][2]
+                cite = '<sup class="cl-cite">[<a href="#ref-3" aria-label="Reference 3">3</a>, <a href="#ref-7" aria-label="Reference 7">7</a>]</sup>'
+                pulse_old = "If it comes with any sign above, call emergency services." + cite + "</p>"
+                pulse_new = ("If it comes with any sign above, call emergency services." + cite + " If it started suddenly, or comes with new head or neck pain, "
+                             'do not wait for a routine appointment: see <a href="urgent/">When to get help quickly</a>.</p>')
+                link_old, link_new = '(see <a href="about.html#severe-distress">crisis support</a>)', '(see <a href="support/#crisis">crisis support</a>)'
+                self.assertEqual((a.count(pulse_old), a.count(link_old)), (1, 1))
+                self.assertEqual(b, a.replace(pulse_old, pulse_new).replace(link_old, link_new), "the safety note may differ only by the two documented corrections")
 
 if __name__ == "__main__":
     unittest.main()
