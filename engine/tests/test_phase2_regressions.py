@@ -371,8 +371,8 @@ class ProductionConfigTests(unittest.TestCase):
             self.skipTest("no origin/main in this checkout to compare against")
         out = subprocess.run(["git", "diff", "--name-only", base, "--", "data/"], cwd=REPO, capture_output=True, text=True).stdout.split()
         # Owner-approved exceptions, and nothing else under data/:
-        #   (1) data/claims.json: the approved Claims content of Release D (final-review-preview, commit 6e7bc48, which also carries the
-        #       22 Oct cadence phrase), plus exactly two Phase 1 wording corrections in one safety note (owner-requested 26 Oct 2026);
+        #   (1) data/claims.json: exactly two Phase 1 wording corrections in one safety note (owner-requested 26 Oct 2026), checked
+        #       against production main (Release P carries no Claims Check content; Release C brings it with its own allowlist);
         #   (2) the September corrections, listed in data/corrections-log.json with the reports they change (exact content checked in
         #       test_disclosure_pages);
         #   (3) data/safety.json, new in Phase 1: urgent-care tiers and crisis lines only, no research data or ratings;
@@ -433,9 +433,8 @@ class ProductionConfigTests(unittest.TestCase):
             self.assertTrue(all(sorted(g) == ["desc", "id", "path", "terms", "title"] for g in gi["guides"]), "guide index entries carry no ratings")
             self.assertFalse(any(k in json.dumps(gi) for k in ('"tier":', '"evidenceScore":', '"rank":')), "guide index carries no ratings")
         if "data/claims.json" in out:
-            RELEASE_D = "6e7bc48"
-            shown = subprocess.run(["git", "show", f"{RELEASE_D}:data/claims.json"], cwd=REPO, capture_output=True, text=True, encoding="utf-8")
-            self.assertEqual(shown.returncode, 0, "the approved Release D commit 6e7bc48 must be present to check claims.json against it")
+            shown = subprocess.run(["git", "show", f"{base}:data/claims.json"], cwd=REPO, capture_output=True, text=True, encoding="utf-8")
+            self.assertEqual(shown.returncode, 0, "production main's claims.json must be readable to check claims.json against it")
             old = json.loads(shown.stdout)
             new = json.loads((REPO / "data" / "claims.json").read_text(encoding="utf-8"))
             diffs = []
@@ -452,7 +451,7 @@ class ProductionConfigTests(unittest.TestCase):
             walk(old, new)
             self.assertIn("checked against ClinicalTrials.gov twice a month", json.dumps(new, ensure_ascii=False))   # the 22 Oct cadence phrase
             if diffs:
-                self.assertEqual([d[0] for d in diffs], ["/claims[4]/safety"], "only the does-tinnitus-go-away safety note may differ from Release D")
+                self.assertEqual([d[0] for d in diffs], ["/claims[4]/safety"], "only the does-tinnitus-go-away safety note may differ from production main")
                 self.assertEqual(new["claims"][4]["slug"], "does-tinnitus-go-away")
                 a, b = diffs[0][1], diffs[0][2]
                 cite = '<sup class="cl-cite">[<a href="#ref-3" aria-label="Reference 3">3</a>, <a href="#ref-7" aria-label="Reference 7">7</a>]</sup>'
