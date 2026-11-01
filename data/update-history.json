@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "date": "2026-11-01",
+      "scanned": 90,
+      "newItems": 49,
+      "listed": 56,
+      "listingsUpdated": 0,
+      "screenedOut": 59,
+      "waitingForVerification": 0,
+      "unverifiable": 0,
+      "failedVerification": 0,
+      "retractionNoticesFound": 3,
+      "trialStatusUpdates": 0,
+      "listingsTotal": 56,
+      "aiEvaluation": "disabled",
+      "aiAttempted": 0,
+      "aiUnusable": 0,
+      "estimatedCostUSD": 0.0
+    }
+  ]
+}

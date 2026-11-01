@@ -1,19 +1,19 @@
 {
   "schedule": "The 1st and 15th of every month, scheduled for 06:00 America/Los_Angeles (timezone-aware — stays 6 AM Pacific through PST/PDT); GitHub often starts scheduled runs hours late, so a run may begin any time that day, via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled",
-  "nextScheduled": "2026-11-01 06:00 America/Los_Angeles",
-  "lastAttempt": "2026-10-22T05:52:53",
+  "nextScheduled": "2026-11-15 06:00 America/Los_Angeles",
+  "lastAttempt": "2026-11-01T18:44:42",
   "sources": [
     {
       "name": "PubMed (title/abstract + MeSH)",
       "checked": true,
-      "count": 42,
+      "count": 59,
       "error": null,
       "lookbackDays": 20
     },
     {
       "name": "ClinicalTrials.gov (condition + full-text)",
       "checked": true,
-      "count": 18,
+      "count": 26,
       "error": null,
       "lookbackDays": 20
     },
@@ -32,38 +32,52 @@
     {
       "name": "News-wire intelligence (labeled, never evidence)",
       "checked": true,
-      "count": 5,
+      "count": 4,
       "error": null
     },
     {
       "name": "Guideline page watcher (AAO-HNSF, NICE)",
       "checked": true,
-      "count": 0,
+      "count": 1,
       "error": null
     }
   ],
-  "examined": 65,
-  "newItems": 2,
+  "examined": 90,
+  "newItems": 49,
   "published": 0,
-  "rejectedDuplicates": 1,
+  "rejectedDuplicates": 0,
   "rejectedIrrelevant": 0,
   "held": 0,
   "publishedUnderEvaluation": 0,
-  "heldAwaitingEvaluation": 72,
+  "heldAwaitingEvaluation": 120,
   "trialStatusUpdates": 0,
   "errors": [],
+  "listings": {
+    "superseded": 4,
+    "notice": 1,
+    "screenedOut": 59,
+    "listed": 56,
+    "total": 56
+  },
   "evaluation": {
     "state": "disabled",
     "reason": "automated evaluation is switched off in engine/eval_settings.json (it runs only when \"enabled\" is true)",
     "disabledSince": "2026-10-21",
     "mode": "staged",
-    "awaitingEvaluation": 72,
-    "paused": 6
+    "budget": {
+      "monthlyUSD": 20.0,
+      "spentUSD": 0.0,
+      "fraction": 0.0
+    },
+    "awaitingEvaluation": 116,
+    "paused": 7
   },
-  "paused": 6,
+  "retractionFindings": 3,
+  "retractionErrata": 3,
+  "paused": 7,
   "staged": {
     "pending": 0,
     "new": 0
   },
-  "lastSuccess": "2026-10-22T05:52:53"
+  "lastSuccess": "2026-11-01T18:44:42"
 }
