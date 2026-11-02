@@ -568,7 +568,7 @@
     "limitations": "—",
     "history": [
       {
-        "date": "2026-10-23",
+        "date": "2026-11-02",
         "change": "independent: true → false; conflict-of-interest and result wording corrected (academic-led, part-funded through a grant made in partnership with the manufacturer).",
         "reason": "The trial's published funding statement (Brain Sci 2022, PMC8946033) reports a grant from a tinnitus clinic awarded in partnership with the device manufacturer, so 'independent' was inaccurate. Found during the Claims Check fact-check of 23 October 2026. The result (no benefit over placebo, p = 0.85), evidence score, tier, replication and independence ratings are unchanged."
       }
