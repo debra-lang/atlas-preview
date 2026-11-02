@@ -42,7 +42,9 @@ class TestApprovedRecordChanges(unittest.TestCase):
         import subprocess
         BASE = "a69020cc76615cfff7827ca3c3d4c438623cb128"
         show = lambda f: json.loads(subprocess.run(["git", "show", f"{BASE}:{f}"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout)
-        self.assertEqual(self.base, (show("data/treatments.json"), show("data/studies.json"), show("data/rankings.json")))
+        sys.path.insert(0, str(ROOT / "engine" / "tests"))
+        import release_allowlist as ra                                      # Release A is in production: its listed edits are undone too
+        self.assertEqual((ra.undo("data/treatments.json", self.base[0]), ra.undo("data/studies.json", self.base[1]), self.base[2]), (show("data/treatments.json"), show("data/studies.json"), show("data/rankings.json")))
 
     def test_apply_then_revert_round_trips(self):
         t, s, r = ac.revert(*self.now)
