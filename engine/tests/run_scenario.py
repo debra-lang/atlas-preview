@@ -16,7 +16,7 @@ REPO, SPEC, OUT = Path(sys.argv[1]), json.load(open(sys.argv[2], encoding="utf-8
 tmp = Path(tempfile.mkdtemp(prefix="te-p2-"))
 shutil.copytree(REPO / "data", tmp / "data")
 shutil.copytree(REPO / "engine", tmp / "engine", ignore=shutil.ignore_patterns("tests", "__pycache__"))
-(tmp / "data" / "trials.json").write_text("[]", encoding="utf-8")                      # no registry status refresh (network)
+(tmp / "data" / "trials.json").write_text(json.dumps(SPEC.get("trials", [])), encoding="utf-8")   # no registry status refresh (network) unless a scenario names tracked trials and their registry answers
 (tmp / "engine" / "retraction-state.json").write_text(json.dumps({"lastRun": date.today().isoformat()}), encoding="utf-8")
 
 
@@ -125,6 +125,15 @@ triage.fetch_xml = lambda ids: None      # the free PubMed lookup of triage fact
 for name in ("scan_pubmed", "scan_ctgov", "scan_feeds", "scan_fda", "scan_news_intel", "scan_pages"):
     setattr(weekly_scan, name, lambda: [])
 check_retractions.due = lambda *a, **k: False
+if SPEC.get("registry"):                                       # spec key registry: {nct: study JSON}: the only network answer a status refresh gets
+    class _Answer(io.BytesIO):
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+    REGISTRY_URLS = []
+    def _registry(req, timeout=None):
+        REGISTRY_URLS.append(req.full_url)
+        return _Answer(json.dumps(SPEC["registry"][re.search(r"/studies/(NCT\d+)", req.full_url).group(1)]).encode("utf-8"))
+    weekly_cycle.urllib.request.urlopen = _registry
 
 
 def sim_record(item):
@@ -230,6 +239,11 @@ def run_once(i, run):
         "ledger": J("engine/usage-ledger.json", {"runs": []}),
         "listings": J("data/listings.json", None),
         "history": J("data/update-history.json", None),
+        "trials": J("data/trials.json"),
+        "treatmentsWithoutLatest": hashlib.sha256(json.dumps([{k: v for k, v in t.items() if k != "latest"} for t in J("data/treatments.json")], sort_keys=True).encode("utf-8")).hexdigest(),
+        "rankingsHash": hashlib.sha256(json.dumps(J("data/rankings.json"), sort_keys=True).encode("utf-8")).hexdigest(),
+        "latest": {t["id"]: t.get("latest", []) for t in J("data/treatments.json")},
+        "registryUrls": list(globals().get("REGISTRY_URLS", [])),
         "triageEvidence": J("engine/triage-evidence.json"),
     }
 

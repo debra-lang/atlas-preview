@@ -1,5 +1,7 @@
 """An owner topic hold (Lenire/Neuromod) must keep an item out of the public listings when ANY part of its complete source record names the topic, whatever the feed and
 whatever the AI settings; unrelated records must not be caught. The REAL weekly cycle runs in a temp sandbox with the AI and all network fetches stubbed (run_scenario.py).
+Known limitation, kept by owner decision (1 Nov 2026), for future review: the hold is conservative. A record by Neuromod authors, or one that names Lenire once, stays unlisted while the hold
+lasts even if its topic is general; it stays queued and is listed when the hold is lifted.
 Run:  python -m unittest discover -s engine/tests -v"""
 import json, sys, unittest
 from pathlib import Path
