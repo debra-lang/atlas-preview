@@ -1043,7 +1043,7 @@
       <div class="flags">
         ${s.randomized ? '<span class="tag">Randomized</span>' : '<span class="tag">Not randomized</span>'}
         ${s.sham ? '<span class="tag">Sham/placebo-controlled</span>' : ''}
-        ${s.independent ? '<span class="tag">Independent</span>' : '<span class="tag">Manufacturer-involved</span>'}
+        ${s.independent ? '<span class="tag">Independent</span>' : `<span class="tag">${esc(s.independenceTag || 'Manufacturer-involved')}</span>`}
         <a class="tag" href="${esc(s.url)}" rel="noopener" target="_blank">${/pubmed\.ncbi\.nlm\.nih\.gov/i.test(s.url || '') ? 'PubMed' : /pmc\.ncbi\.nlm\.nih\.gov/i.test(s.url || '') ? 'Full text (PMC)' : /doi\.org/i.test(s.url || '') ? 'Publisher (DOI)' : 'Publisher / full text'} ↗</a>
       </div></div>`;
   }

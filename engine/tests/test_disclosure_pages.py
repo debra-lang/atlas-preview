@@ -55,6 +55,12 @@ class TestDisclosureEdits(unittest.TestCase):
             now_idx = json.loads(read("data/weekly/index.json"))["reports"]
             self.assertEqual([r for r in now_idx if r["date"] in {b["date"] for b in base_idx}], base_idx, "existing index entries are unchanged; the index only gains newer reports")
             changed.remove("data/weekly/index.json")
+        import release_allowlist                                            # Release A (Acoustic CR): undoing exactly its listed edits must give BASE's record file
+        for f in release_allowlist.FILES:
+            if f in changed:
+                base = json.loads(subprocess.run(["git", "show", f"{BASE}:{f}"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout)
+                self.assertEqual(release_allowlist.undo(f, json.loads(read(f))), base, f)
+                changed.remove(f)
         self.assertEqual(sorted(changed), sorted({c["file"] for c in log["corrections"]}))
         for f in changed:
             base = json.loads(subprocess.run(["git", "show", f"{BASE}:{f}"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout)

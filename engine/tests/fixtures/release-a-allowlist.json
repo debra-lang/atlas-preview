@@ -1,0 +1,120 @@
+{
+ "release": "A: Acoustic CR correction",
+ "baseline": "eedf41109f3e56a818864f02d6ba437ebc608d8c",
+ "approved": "Owner decisions 23 Oct 2026; exact text in claims-check/ACOUSTIC-CR-CORRECTION-BEFORE-AFTER.md",
+ "independentException": {
+  "id": "hall-2022-t30",
+  "before": true,
+  "after": false
+ },
+ "changes": [
+  {
+   "file": "data/treatments.json",
+   "id": "acoustic-cr",
+   "path": "loudness.summary",
+   "before": "The definitive independent double-blind placebo-controlled trial (Hall 2022, N=100) found no benefit over placebo.",
+   "after": "A double-blind placebo-controlled trial led by academic researchers (Hall 2022, N=100) found no benefit over placebo."
+  },
+  {
+   "file": "data/treatments.json",
+   "id": "acoustic-cr",
+   "path": "regulatory.detail",
+   "before": "The T30 CR device was cleared in 2011 under the masker regulation (874.3400) — clearance is not efficacy. A 2017 systematic review already called the evidence insufficient; the independent 2022 RCT was null. Current company status could not be verified.",
+   "after": "The T30 CR device was cleared in 2011 under the masker regulation (874.3400) — clearance is not efficacy. A 2017 systematic review already called the evidence insufficient; the academic-led 2022 RCT was null. Current company status could not be verified."
+  },
+  {
+   "file": "data/treatments.json",
+   "id": "acoustic-cr",
+   "path": "bestResult",
+   "before": "Positive 2012 pilot — refuted by the independent 2022 placebo-controlled trial",
+   "after": "Positive 2012 pilot — not confirmed by the academic-led 2022 placebo-controlled trial"
+  },
+  {
+   "file": "data/treatments.json",
+   "id": "acoustic-cr",
+   "path": "limitations[0]",
+   "before": "Independent double-blind RCT (N=100) was null (p=0.85)",
+   "after": "Academic-led double-blind RCT (N=100) was null (p=0.85)"
+  },
+  {
+   "file": "data/treatments.json",
+   "id": "acoustic-cr",
+   "path": "conflicts",
+   "before": "Original program manufacturer-linked; the null 2022 trial was independent (NIHR Nottingham).",
+   "after": "Original program manufacturer-linked; the null 2022 trial was led by academic researchers (NIHR Nottingham) and part-funded by a grant from a UK tinnitus clinic, awarded in partnership with the device's manufacturer at the time; the funder had no role in study design, data collection, analysis, interpretation or writing of the report. This funding link does not establish that the manufacturer controlled the research."
+  },
+  {
+   "file": "data/treatments.json",
+   "id": "acoustic-cr",
+   "path": "timeline[3].event",
+   "before": "Independent double-blind placebo-controlled trial (Hall et al., N=100): no benefit over placebo.",
+   "after": "Academic-led double-blind placebo-controlled trial (Hall et al., N=100): no benefit over placebo."
+  },
+  {
+   "file": "data/treatments.json",
+   "id": "acoustic-cr",
+   "path": "history[3]",
+   "before": null,
+   "after": {
+    "date": "2026-10-23",
+    "change": "Wording corrected: the 2022 placebo-controlled trial is now described as academic-led and part-funded through a grant made in partnership with the manufacturer, instead of 'independent'; 'refuted by' replaced with 'not confirmed by'.",
+    "reason": "The trial's published funding statement (Brain Sci 2022, PMC8946033) reports a grant from a tinnitus clinic awarded in partnership with the device manufacturer, so 'independent' was inaccurate. Found during the Claims Check fact-check of 23 October 2026. The result (no benefit over placebo, p = 0.85), evidence score, tier, replication and independence ratings are unchanged."
+   }
+  },
+  {
+   "file": "data/treatments.json",
+   "id": "acoustic-cr",
+   "path": "replicationNote",
+   "before": "Original manufacturer-linked positive trials vs an independent null trial (2022).",
+   "after": "Original manufacturer-linked positive trials vs a null trial (2022) by a different, academic research group."
+  },
+  {
+   "file": "data/treatments.json",
+   "id": "acoustic-cr",
+   "path": "independenceNote",
+   "before": "The POSITIVE evidence is manufacturer-linked; the independent trial was null.",
+   "after": "The POSITIVE evidence is manufacturer-linked; the null trial was academic-led but part-funded through a grant made in partnership with the manufacturer."
+  },
+  {
+   "file": "data/studies.json",
+   "id": "hall-2022-t30",
+   "path": "independent",
+   "before": true,
+   "after": false
+  },
+  {
+   "file": "data/studies.json",
+   "id": "hall-2022-t30",
+   "path": "results.detail",
+   "before": "The definitive independent test of acoustic coordinated reset. An earlier industry-co-authored commentary (Front Psychol 2017) had called the RESET2 program 'non-conclusive'.",
+   "after": "The pivotal double-blind test of acoustic coordinated reset, led by academic researchers. An earlier industry-co-authored commentary (Front Psychol 2017) had called the RESET2 program 'non-conclusive'."
+  },
+  {
+   "file": "data/studies.json",
+   "id": "hall-2022-t30",
+   "path": "coi",
+   "before": "Independent (NIHR Nottingham).",
+   "after": "Academic-led (NIHR Nottingham Biomedical Research Centre); part-funded by a grant from a UK tinnitus clinic, awarded in partnership with the device's manufacturer at the time; the funder had no role in study design, data collection, analysis, interpretation or writing of the report. Staff of the funding clinic advised on the device-fitting protocol. The authors declare no conflict of interest. Recorded as not independent of the manufacturer because of this funding link; the link does not establish that the manufacturer controlled the research."
+  },
+  {
+   "file": "data/studies.json",
+   "id": "hall-2022-t30",
+   "path": "independenceTag",
+   "before": null,
+   "after": "Manufacturer-linked funding"
+  },
+  {
+   "file": "data/studies.json",
+   "id": "hall-2022-t30",
+   "path": "history",
+   "before": null,
+   "after": [
+    {
+     "date": "2026-10-23",
+     "change": "independent: true → false; conflict-of-interest and result wording corrected (academic-led, part-funded through a grant made in partnership with the manufacturer).",
+     "reason": "The trial's published funding statement (Brain Sci 2022, PMC8946033) reports a grant from a tinnitus clinic awarded in partnership with the device manufacturer, so 'independent' was inaccurate. Found during the Claims Check fact-check of 23 October 2026. The result (no benefit over placebo, p = 0.85), evidence score, tier, replication and independence ratings are unchanged."
+    }
+   ]
+  }
+ ]
+}

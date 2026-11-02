@@ -2026,7 +2026,7 @@
     "mechanism": "Coordinated-reset desynchronization (unconfirmed clinically)",
     "loudness": {
       "level": "none",
-      "summary": "The definitive independent double-blind placebo-controlled trial (Hall 2022, N=100) found no benefit over placebo."
+      "summary": "A double-blind placebo-controlled trial led by academic researchers (Hall 2022, N=100) found no benefit over placebo."
     },
     "distress": {
       "level": "none",
@@ -2034,7 +2034,7 @@
     },
     "regulatory": {
       "status": "FDA 510(k)-cleared as a tinnitus MASKER (K112752); commercially inactive",
-      "detail": "The T30 CR device was cleared in 2011 under the masker regulation (874.3400) — clearance is not efficacy. A 2017 systematic review already called the evidence insufficient; the independent 2022 RCT was null. Current company status could not be verified.",
+      "detail": "The T30 CR device was cleared in 2011 under the masker regulation (874.3400) — clearance is not efficacy. A 2017 systematic review already called the evidence insufficient; the academic-led 2022 RCT was null. Current company status could not be verified.",
       "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8946033/"
     },
     "availability": {
@@ -2054,12 +2054,12 @@
     ],
     "safety": "No serious harms reported in the studies; use sound devices at the volume and settings the manufacturer specifies.",
     "bestSuitedFor": "Nobody currently",
-    "bestResult": "Positive 2012 pilot — refuted by the independent 2022 placebo-controlled trial",
+    "bestResult": "Positive 2012 pilot — not confirmed by the academic-led 2022 placebo-controlled trial",
     "limitations": [
-      "Independent double-blind RCT (N=100) was null (p=0.85)",
+      "Academic-led double-blind RCT (N=100) was null (p=0.85)",
       "Proprietary and expensive when sold"
     ],
-    "conflicts": "Original program manufacturer-linked; the null 2022 trial was independent (NIHR Nottingham).",
+    "conflicts": "Original program manufacturer-linked; the null 2022 trial was led by academic researchers (NIHR Nottingham) and part-funded by a grant from a UK tinnitus clinic, awarded in partnership with the device's manufacturer at the time; the funder had no role in study design, data collection, analysis, interpretation or writing of the report. This funding link does not establish that the manufacturer controlled the research.",
     "studies": [
       "hall-2022-t30"
     ],
@@ -2078,7 +2078,7 @@
       },
       {
         "year": 2022,
-        "event": "Independent double-blind placebo-controlled trial (Hall et al., N=100): no benefit over placebo."
+        "event": "Academic-led double-blind placebo-controlled trial (Hall et al., N=100): no benefit over placebo."
       }
     ],
     "latest": [],
@@ -2097,6 +2097,11 @@
         "date": "2026-10-19",
         "change": "Safety wording scoped to what the studies showed (\"benign\" and \"no reported harms\" replaced).",
         "reason": "Reviewer audit of 19 October 2026; sources re-read. Evidence score, tier and rank unchanged."
+      },
+      {
+        "date": "2026-10-23",
+        "change": "Wording corrected: the 2022 placebo-controlled trial is now described as academic-led and part-funded through a grant made in partnership with the manufacturer, instead of 'independent'; 'refuted by' replaced with 'not confirmed by'.",
+        "reason": "The trial's published funding statement (Brain Sci 2022, PMC8946033) reports a grant from a tinnitus clinic awarded in partnership with the device manufacturer, so 'independent' was inaccurate. Found during the Claims Check fact-check of 23 October 2026. The result (no benefit over placebo, p = 0.85), evidence score, tier, replication and independence ratings are unchanged."
       }
     ],
     "scoreRationale": "The definitive test failed: 1/5, Tier 5.",
@@ -2108,9 +2113,9 @@
     ],
     "replication": "conflicting",
     "safetyLevel": "strong",
-    "replicationNote": "Original manufacturer-linked positive trials vs an independent null trial (2022).",
+    "replicationNote": "Original manufacturer-linked positive trials vs a null trial (2022) by a different, academic research group.",
     "independence": "mixed",
-    "independenceNote": "The POSITIVE evidence is manufacturer-linked; the independent trial was null."
+    "independenceNote": "The POSITIVE evidence is manufacturer-linked; the null trial was academic-led but part-funded through a grant made in partnership with the manufacturer."
   },
   {
     "id": "notched-sound",

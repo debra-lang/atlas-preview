@@ -375,6 +375,10 @@ class ProductionConfigTests(unittest.TestCase):
         import json
         log = json.loads((REPO / "data" / "corrections-log.json").read_text(encoding="utf-8")) if (REPO / "data" / "corrections-log.json").exists() else {"corrections": []}
         allowed = {"data/claims.json", "data/corrections-log.json"} | {c["file"] for c in log["corrections"]}
+        import release_allowlist
+        if release_allowlist.state(base) == "active":                       # Release A's explicit allowlist (23 Oct 2026): exactly its listed edits, or this fails; retired once A is in production
+            self.assertEqual(release_allowlist.problems(base), [])
+            out = [f for f in out if f not in release_allowlist.FILES]
         self.assertEqual(sorted(set(out) - allowed), [], "this branch must not change anything under data/ except the approved claims.json phrase and the logged September corrections")
         self.assertNotIn("data/treatments.json", out); self.assertNotIn("data/studies.json", out); self.assertNotIn("data/rankings.json", out); self.assertNotIn("data/trials.json", out)
         if "data/claims.json" in out:

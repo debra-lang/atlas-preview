@@ -399,7 +399,7 @@ for s in studies:
 <li><strong>Design:</strong> {E(s.get('design', '—'))}</li>
 <li><strong>Sample:</strong> {E(str(s.get('n', '—')))}</li>
 <li><strong>Primary endpoint:</strong> {E(s.get('primaryOutcome', '—'))}</li>
-<li><strong>Randomized:</strong> {'Yes' if s.get('randomized') else 'No'} · <strong>Sham/placebo-controlled:</strong> {'Yes' if s.get('sham') else 'No'} · <strong>Independent of the manufacturer:</strong> {'Yes' if s.get('independent') else 'No'}</li>
+<li><strong>Randomized:</strong> {'Yes' if s.get('randomized') else 'No'} · <strong>Sham/placebo-controlled:</strong> {'Yes' if s.get('sham') else 'No'} · <strong>Independent of the manufacturer:</strong> {'Yes' if s.get('independent') else 'No' + (' (' + E(s['independenceTag'].lower()) + '; see Funding / conflicts)' if s.get('independenceTag') else '')}</li>
 </ul></section>
 <section><h2>What this research found</h2>
 <p>{E(res.get('summary', ''))}</p>
