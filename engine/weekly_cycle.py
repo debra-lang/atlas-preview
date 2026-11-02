@@ -203,12 +203,16 @@ class Cycle:
                         headers={"User-Agent": "TinnitusEvidence-weekly/1.0"})
                     with urllib.request.urlopen(req, timeout=45) as r:
                         new_status = json.loads(r.read())["protocolSection"]["statusModule"]["overallStatus"]
-                    new_status = {  # registry enum -> our display wording
+                    allowed = {  # registry enum -> our display wording: only these can appear publicly
                         "RECRUITING": "Recruiting", "ACTIVE_NOT_RECRUITING": "Active, not recruiting",
                         "NOT_YET_RECRUITING": "Not yet recruiting", "COMPLETED": "Completed",
                         "ENROLLING_BY_INVITATION": "Enrolling by invitation", "TERMINATED": "Terminated",
                         "WITHDRAWN": "Withdrawn", "SUSPENDED": "Suspended", "UNKNOWN": "Unknown status",
-                    }.get(new_status, new_status)
+                    }
+                    if new_status not in allowed:             # never published as it stands; the value itself is not repeated in the status file
+                        self.status["errors"].append(f"trial refresh {tr['nctId']}: registry status outside the allowed list, not published")
+                        continue
+                    new_status = allowed[new_status]
                 if not new_status:
                     continue
                 cur_key = re.sub(r"\W+", "", (tr["status"] or "").lower())
@@ -307,12 +311,20 @@ class Cycle:
             return
         paused = set(self.load("engine/paused_ids.json", {"ids": []}).get("ids", [])) - set(self.auto["includePaused"])   # listed as bibliographic facts only; still paused for everything else
         holds = topic_holds.load_holds(self.root / "engine" / "topic_holds.json")
+
+        def held_by_record(it, text):
+            hold = topic_holds.match_item(it, holds, extra_text=text + "\n" + evaluate_queue.RECORD_FULL.pop(it["id"], ""))
+            if hold:                       # remembered on the item, as the evaluator does, so the route sees a hold that the title does not show; cleared when the hold is lifted
+                it["topicHold"] = hold
+            else:
+                it.pop("topicHold", None)
+            return bool(hold)
         try:
             new, counts = listings.process(
                 queue["items"], self.load(listings.LISTINGS_REL, {"items": []}), today=date.today().isoformat(),
                 fetch_context=evaluate_queue.fetch_context, record_meta=lambda i: evaluate_queue.RECORD_META.pop(i, None),
                 excluded=lambda it: it["id"] in paused or bool(topic_holds.match_item(it, holds)), enrich=triage.enrich,
-                held_by_record=lambda it, text: bool(topic_holds.match_item(it, holds, extra_text=text + "\n" + evaluate_queue.RECORD_FULL.pop(it["id"], ""))))
+                held_by_record=held_by_record)
         except Exception as e:   # a listing problem must never stop the cycle: the queue is untouched on failure
             self.status["errors"].append(f"listings step failed: {type(e).__name__}: {str(e)[:120]}")
             return
@@ -352,13 +364,13 @@ class Cycle:
         """Returns (route, reason). Routes: publish · publish-under-eval · hold · dup · irrelevant · archive · awaiting-eval · paused ·
         notice-cited · notice-uncited · notice-unresolved."""
         keys = [re.sub(r"\W+", "", (item.get(k) or "").lower())[:90] for k in ("url", "title")]
-        if any(k and k in register for k in keys):
-            return "dup", "already published in the research-updates feed"
         if item.get("id") in getattr(self, "paused_ids", ()):
             return "paused", "paused by the owner (engine/paused_ids.json): not evaluated, not published, not lost"
         hold_id = item.get("topicHold") or topic_holds.match_item(item, getattr(self, "topic_hold_list", None))
         if hold_id:
             return "paused", f"topic hold '{hold_id}' (engine/topic_holds.json): not evaluated, not published, not lost"
+        if any(k and k in register for k in keys):   # after the owner's holds: a status update registers its trial's URL, which must not drop a held record of that trial
+            return "dup", "already published in the research-updates feed"
         nt = item.get("notice")
         if nt:   # correction / retraction / expression of concern: never research evidence, never discarded silently
             return "notice-" + nt.get("resolution", "unresolved"), f"{nt.get('kind')} notice: " + {

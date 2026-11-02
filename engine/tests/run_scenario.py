@@ -250,6 +250,10 @@ def run_once(i, run):
 
 R = {"initial": initial, "runs": [], "prompts": None}
 for i, run in enumerate(SPEC.get("runs", [{}])):
+    if "registry" in run:
+        SPEC["registry"] = run["registry"]
+    if "topicHolds" in run:
+        W("engine/topic_holds.json", {"holds": run["topicHolds"]})
     R["runs"].append(run_once(i, run))
 R["prompts"] = PROMPTS
 R["promptHash"] = evaluate_queue.prompt_hash()

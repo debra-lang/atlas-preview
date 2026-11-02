@@ -22,8 +22,12 @@ def study(status="COMPLETED"):
                                 "descriptionModule": {"briefSummary": PROMO}, "sponsorCollaboratorsModule": {"leadSponsor": {"name": PROMO}}}}
 
 
-def scenario(settings, status="COMPLETED", queue=(), records=None, runs=2):
-    return run_scenario({"trials": [dict(TRIAL)], "registry": {NCT: study(status)}, "queue": list(queue), "records": records or {}, "settings": settings, "automation": AUTO, "paused": [], "runs": [{} for _ in range(runs)]})["runs"]
+def scenario(settings, status="COMPLETED", queue=(), records=None, runs=2, paused=(), trial=None, later=()):
+    """later: registry statuses for the cycles after the first, so a trial can change status again."""
+    spec_runs = [{} for _ in range(runs)]
+    for i, s in enumerate(later, start=1):
+        spec_runs[i] = {"registry": {NCT: study(s)}}
+    return run_scenario({"trials": [dict(trial or TRIAL)], "registry": {NCT: study(status)}, "queue": list(queue), "records": records or {}, "settings": settings, "automation": AUTO, "paused": list(paused), "runs": spec_runs})["runs"]
 
 
 class StatusLine(unittest.TestCase):
@@ -78,12 +82,26 @@ class StatusLine(unittest.TestCase):
 
 
 class RegistryValues(unittest.TestCase):
-    # KNOWN GAP, for owner decision (1 Nov 2026): the registry returns a fixed list of status values and no sponsor text, but a value outside the site's own list is published as it stands.
-    @unittest.expectedFailure
-    def test_a_status_outside_the_known_list_is_not_published(self):
-        runs = scenario(SETTINGS["AI off (production)"], status="APPROVED_FOR_MARKETING", runs=1)
-        self.assertEqual([x for x in runs[0]["reportItems"] if NCT in (x.get("title") or "")], [])
-        self.assertEqual(runs[0]["trials"][0]["status"], TRIAL["status"])
+    ALLOWED = {"RECRUITING": "Recruiting", "ACTIVE_NOT_RECRUITING": "Active, not recruiting", "NOT_YET_RECRUITING": "Not yet recruiting", "COMPLETED": "Completed", "ENROLLING_BY_INVITATION": "Enrolling by invitation",
+               "TERMINATED": "Terminated", "WITHDRAWN": "Withdrawn", "SUSPENDED": "Suspended", "UNKNOWN": "Unknown status"}
+
+    def test_a_value_outside_the_allowed_list_is_never_published(self):
+        for value in ("APPROVED_FOR_MARKETING", "AVAILABLE", "NO_LONGER_AVAILABLE", "TEMPORARILY_NOT_AVAILABLE", "WITHHELD", "Recruiting", PROMO):
+            run = scenario(SETTINGS["AI off (production)"], status=value, runs=1)[0]
+            with self.subTest(value=value):
+                self.assertEqual([x for x in run["reportItems"] if NCT in json.dumps(x)], [])
+                self.assertEqual(run["trials"][0]["status"], TRIAL["status"])
+                self.assertEqual([l for l in run["latest"]["lenire"] if NCT in json.dumps(l)], [])
+                self.assertTrue(any("outside the allowed list" in e for e in run["status"]["errors"]))           # reported, and the run carries on
+                self.assertNotIn(value, json.dumps(run["status"]["errors"]))                                     # the value itself goes nowhere public
+
+    def test_every_allowed_value_still_publishes_in_the_sites_own_words(self):
+        for value, words in self.ALLOWED.items():
+            start = "Completed" if value != "COMPLETED" else "Suspended"
+            run = scenario(SETTINGS["AI off (production)"], status=value, runs=1, trial={**TRIAL, "status": start})[0]
+            with self.subTest(value=value):
+                self.assertEqual([x["title"] for x in run["reportItems"] if NCT in (x.get("title") or "")], [f"Trial status change: {NCT} is now '{words}'"])
+                self.assertTrue(run["trials"][0]["status"].startswith(f"{words} (verified at ClinicalTrials.gov "))
 
 
 class HeldRecords(unittest.TestCase):
@@ -112,17 +130,43 @@ class HeldRecords(unittest.TestCase):
                 self.assertFalse(any(it["id"] in r["staged"] for r in runs))
                 self.assertNotIn("A routine Lenire finding", json.dumps([r["reportItems"] for r in runs]))
 
-    # KNOWN DEFECT, for owner decision (1 Nov 2026): route() checks 'already published' before the hold, and a status update registers the trial's URL, so on the next cycle a held record of
-    # that trial is dropped as a duplicate. It is never published, listed or evaluated, but it leaves the queue. No held record has been affected so far.
-    @unittest.expectedFailure
-    def test_a_held_record_of_the_same_trial_stays_held_and_is_not_lost(self):
+    def check_stays_held(self, item, name, runs):
+        with self.subTest(setting=name, item=item["id"]):
+            self.assertFalse(any(item["id"] in r["apiCalls"] for r in runs))
+            self.assertFalse(any(item["id"] in r["staged"] for r in runs))
+            self.assertNotIn(NCT, {e["key"] for e in (runs[-1]["listings"] or {}).get("items", [])})
+            self.assertEqual([x for r in runs for x in r["reportItems"] if item["id"] in json.dumps(x)], [])
+            for r in runs:                                                     # queued after every cycle, not only the last
+                self.assertIn(item["id"], r["queue"], "a held record must stay queued (never lost)")
+
+    def test_a_held_record_of_the_same_trial_stays_held_across_repeated_cycles_and_status_changes(self):
         for name, s in SETTINGS.items():
-            runs = scenario(s, queue=[self.SAME])
+            runs = scenario(s, status="SUSPENDED", later=("SUSPENDED", "TERMINATED", "TERMINATED"), runs=4, queue=[self.SAME])
+            self.check_stays_held(self.SAME, name, runs)
             with self.subTest(setting=name):
-                self.assertFalse(any(self.SAME["id"] in r["apiCalls"] for r in runs))
-                self.assertNotIn(NCT, {e["key"] for e in (runs[1]["listings"] or {}).get("items", [])})
-                self.assertEqual([x for r in runs for x in r["reportItems"] if self.SAME["id"] in json.dumps(x)], [])
-                self.assertIn(self.SAME["id"], runs[1]["queue"], "a held record must stay queued (never lost)")
+                self.assertEqual(len([x for x in runs[-1]["reportItems"] if NCT in (x.get("title") or "")]), 2)    # both factual status changes still went out
+
+    def test_a_record_that_names_the_hold_only_inside_stays_held_too(self):
+        # the real case: this trial's registry title does not name the device, its record does
+        it = ctgov_item(NCT, title="Investigating EEG as a Biomarker for Tinnitus Improvement After Bimodal Stimulation", source="University of Minnesota", date="2026-10-13")
+        rec = "\n".join(["SOURCE: simulated", "RECORD COMPLETENESS: COMPLETE - nothing was left out", "CRITICAL SECTIONS MISSING: no", "REGISTRY FIELD hasResults: FALSE (no results posted)", "---",
+                         f"NCT ID: {NCT}", f"Title: {it['title']}", "Conditions: Tinnitus", "Primary outcome: Tinnitus Handicap Inventory", "Interventions: Device: Lenire", "Sponsor: University of Minnesota"])
+        for name, s in SETTINGS.items():
+            runs = scenario(s, status="SUSPENDED", later=("SUSPENDED", "TERMINATED", "TERMINATED"), runs=4, queue=[it], records={it["id"]: rec})
+            self.check_stays_held(it, name, runs)
+
+    def test_a_record_the_owner_paused_stays_paused_when_its_trial_changes_status(self):
+        it = ctgov_item(NCT, title="Bimodal Stimulation Follow-up", source="University of Minnesota", date="2026-10-13")
+        for name, s in SETTINGS.items():
+            self.check_stays_held(it, name, scenario(s, status="SUSPENDED", later=("SUSPENDED", "TERMINATED"), runs=3, queue=[it], paused=[it["id"]]))
+
+    def test_a_hold_found_in_the_record_is_cleared_when_the_hold_is_lifted(self):
+        it = ctgov_item(NCT, title="Investigating EEG as a Biomarker for Tinnitus Improvement After Bimodal Stimulation", source="University of Minnesota", date="2026-10-13")
+        rec = "\n".join(["SOURCE: simulated", "RECORD COMPLETENESS: COMPLETE - nothing was left out", "CRITICAL SECTIONS MISSING: no", "REGISTRY FIELD hasResults: FALSE (no results posted)", "---",
+                         f"NCT ID: {NCT}", f"Title: {it['title']}", "Conditions: Tinnitus", "Primary outcome: Tinnitus Handicap Inventory", "Interventions: Device: Lenire", "Sponsor: University of Minnesota"])
+        runs = run_scenario({"trials": [], "queue": [it], "records": {it["id"]: rec}, "settings": SETTINGS["AI off (production)"], "automation": AUTO, "paused": [], "runs": [{}, {"topicHolds": []}]})["runs"]
+        self.assertNotIn(NCT, {e["key"] for e in (runs[0]["listings"] or {}).get("items", [])})
+        self.assertIn(NCT, {e["key"] for e in (runs[1]["listings"] or {}).get("items", [])})
 
 
 if __name__ == "__main__":
