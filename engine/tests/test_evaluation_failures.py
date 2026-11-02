@@ -6,37 +6,38 @@ from pathlib import Path
 ENGINE = Path(__file__).resolve().parent.parent
 REPO = ENGINE.parent
 SIM = Path(__file__).resolve().parent / "legacy_sim.py"
+FIXED_QUEUE = Path(__file__).resolve().parent / "fixtures" / "queue-2026-10-23.json"   # the failure-mode tests run on this fixed queue, not on the live one, which grows with every update
 
 
 sys.path.insert(0, str(ENGINE))
 import evaluate_queue as _eq, notices as _notices, topic_holds as _th, weekly_cycle as _wc   # noqa: E402
 
 
-def _queue():
-    return json.loads((REPO / "data" / "review-queue" / "queue.json").read_text(encoding="utf-8"))["items"]
+def _queue(path=None):
+    return json.loads((path or REPO / "data" / "review-queue" / "queue.json").read_text(encoding="utf-8"))["items"]
 
 
-def _already_published():
+def _already_published(q=None):
     import re
     reg = _wc.Cycle(REPO).published_register()
-    return {i["id"] for i in _queue() if any(k and k in reg for k in (re.sub(r"\W+", "", (i.get(x) or "").lower())[:90] for x in ("url", "title")))}
+    return {i["id"] for i in (_queue() if q is None else q) if any(k and k in reg for k in (re.sub(r"\W+", "", (i.get(x) or "").lower())[:90] for x in ("url", "title")))}
 
 
 def _paused_ids():
     return set(json.loads((ENGINE / "paused_ids.json").read_text(encoding="utf-8"))["ids"])
 
 
-def expected_without_api(include_paused=True):
+def expected_without_api(include_paused=True, q=None):
     """Queue entries that never need a paid call: already published, owner-paused, topic-held, superseded registry updates, correction/retraction notices."""
-    q = _queue()
-    ids = _already_published() | _eq.superseded_ids(q) | {i["id"] for i in q if _th.match_item(i)} | {i["id"] for i in q if _notices.looks_like_notice(i)}
+    q = _queue() if q is None else q
+    ids = _already_published(q) | _eq.superseded_ids(q) | {i["id"] for i in q if _th.match_item(i)} | {i["id"] for i in q if _notices.looks_like_notice(i)}
     return ids | (_paused_ids() if include_paused else set())
 
 
-def simulate(mode, second=None):
+def simulate(mode, second=None, queue=None):
     out = Path(tempfile.mkdtemp()) / "sim.json"
     cmd = [sys.executable, str(SIM), str(REPO), mode, str(out)] + ([second] if second else [])
-    p = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=600, env={**os.environ, "PYTHONIOENCODING": "utf-8"})
+    p = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=600, env={**os.environ, "PYTHONIOENCODING": "utf-8", **({"SIM_QUEUE": str(queue)} if queue else {})})
     assert p.returncode == 0, p.stdout[-800:] + p.stderr[-800:]
     return json.loads(out.read_text(encoding="utf-8"))
 
@@ -66,14 +67,14 @@ def conserved(run):
 
 class FailureModes(unittest.TestCase):
     def test_auth_failure_is_loud_and_loses_nothing(self):
-        r = simulate("auth", "ok")
+        r = simulate("auth", "ok", queue=FIXED_QUEUE); q = _queue(FIXED_QUEUE)
         a, b = r["run1"], r["run2"]
         self.assertEqual(a["statusEvaluation"]["state"], "failed")
         self.assertTrue(a["statusErrors"])                       # not silent
         self.assertEqual(a["healthCheckExit"], 1)                # CI job would be red
         self.assertEqual(a["summary"]["totalApiCalls"], 0)       # fail fast: no doomed calls
-        screened = {i["id"] for i in _queue() if _notices.looks_like_notice(i)}
-        self.assertEqual(a["summary"]["counts"]["queueRemaining"], r["initialItems"] - len(_already_published() | screened))   # nothing lost, nothing published
+        screened = {i["id"] for i in q if _notices.looks_like_notice(i)}
+        self.assertEqual(a["summary"]["counts"]["queueRemaining"], r["initialItems"] - len(_already_published(q) | screened))   # nothing lost, nothing published
         self.assertIn("not been evaluated", a["firstReportItem"])  # public notice is not "nothing found"
         self.assertTrue(conserved(a))
         self.assertEqual(b["statusEvaluation"]["state"], "ok")   # recovery once the key works
@@ -88,13 +89,13 @@ class FailureModes(unittest.TestCase):
         self.assertEqual(a["summary"]["totalApiCalls"], 0)
 
     def test_partial_failures_are_reported_and_retried_once(self):
-        r = simulate("flaky", "ok")
+        r = simulate("flaky", "ok", queue=FIXED_QUEUE)
         a, b = r["run1"], r["run2"]
         self.assertEqual(a["statusEvaluation"]["state"], "degraded")
         self.assertGreater(a["statusEvaluation"]["failed"], 0)
         self.assertTrue(a["statusErrors"])
         self.assertTrue(conserved(a)); self.assertTrue(conserved(b))
-        self.assertEqual(set(b["queueRemaining"]), {i["id"] for i in _queue() if _th.match_item(i)})
+        self.assertEqual(set(b["queueRemaining"]), {i["id"] for i in _queue(FIXED_QUEUE) if _th.match_item(i)})
 
     def test_unexpected_client_crash_is_reported(self):
         r = simulate("crash", "ok")
@@ -103,13 +104,13 @@ class FailureModes(unittest.TestCase):
         self.assertTrue(conserved(r["run1"])); self.assertTrue(conserved(r["run2"]))
 
     def test_healthy_run_processes_each_item_once(self):
-        r = simulate("ok", "ok")
+        r = simulate("ok", "ok", queue=FIXED_QUEUE); q = _queue(FIXED_QUEUE)
         a, b = r["run1"], r["run2"]
         self.assertEqual(a["statusEvaluation"]["state"], "ok"); self.assertEqual(a["healthCheckExit"], 0)
-        topic_held = {i["id"] for i in _queue() if _th.match_item(i)}
+        topic_held = {i["id"] for i in q if _th.match_item(i)}
         self.assertEqual(set(b["queueRemaining"]), topic_held)              # only the topic-held (Lenire/Neuromod) items stay queued
         self.assertEqual(b["summary"]["maxApiCallsForOneItem"], 1)          # nothing evaluated twice
-        self.assertEqual(b["summary"]["totalApiCalls"], r["initialItems"] - len(expected_without_api(include_paused=False)))   # (already-published duplicates are no longer paid for)   # every item that needs the AI, exactly once across the two runs
+        self.assertEqual(b["summary"]["totalApiCalls"], r["initialItems"] - len(expected_without_api(include_paused=False, q=q)))   # (already-published duplicates are no longer paid for)   # every item that needs the AI, exactly once across the two runs
         self.assertTrue(conserved(a)); self.assertTrue(conserved(b))
 
 
@@ -177,22 +178,22 @@ class DedupePauseAndPreview(unittest.TestCase):
         self.assertGreater(len(r["run2"]["published"]), 20)   # the scenario really publishes
 
     def test_paused_items_are_never_evaluated_published_or_lost(self):
-        q = json.loads((REPO / "data" / "review-queue" / "queue.json").read_text(encoding="utf-8"))["items"]
+        q = _queue(FIXED_QUEUE)
         paused = [q[0]["id"], q[5]["id"], q[40]["id"]]
-        env = dict(os.environ, SIM_PAUSE=",".join(paused))
+        env = dict(os.environ, SIM_PAUSE=",".join(paused), SIM_QUEUE=str(FIXED_QUEUE))
         out = Path(tempfile.mkdtemp()) / "sim.json"
         p = subprocess.run([sys.executable, str(SIM), str(REPO), "ok", str(out), "ok"], capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=600, env={**env, "PYTHONIOENCODING": "utf-8"})
         self.assertEqual(p.returncode, 0, p.stdout[-500:] + p.stderr[-500:])
         r = json.loads(out.read_text(encoding="utf-8"))
         b = r["run2"]
-        held_back = set(paused) | {i["id"] for i in _queue() if _th.match_item(i)}
+        held_back = set(paused) | {i["id"] for i in q if _th.match_item(i)}
         # an older update of the same registry record is deliberately preserved while its newer sibling is paused or held (weekly_cycle: "preserved until its newer sibling is processed")
-        preserved = {old for old, new in _eq.superseded_map(_queue()).items() if new in held_back}
+        preserved = {old for old, new in _eq.superseded_map(q).items() if new in held_back}
         self.assertEqual(sorted(b["queueRemaining"]), sorted(held_back | preserved))   # exactly the paused and topic-held ones (and their preserved older siblings) remain queued
         for pid in paused:
             self.assertNotIn(pid, b["apiCallsPerId"])                               # never sent to the API
             self.assertNotIn(pid, b["published"] + b["held"] + b["archived"] + b["droppedLogged"])
-        self.assertEqual(b["statusEvaluation"]["paused"], len(set(paused) | {i["id"] for i in _queue() if _th.match_item(i)}))   # paused ids + topic-held items
+        self.assertEqual(b["statusEvaluation"]["paused"], len(set(paused) | {i["id"] for i in q if _th.match_item(i)}))   # paused ids + topic-held items
         self.assertEqual(b["statusEvaluation"]["awaitingEvaluation"], 0)            # paused items are not counted as a backlog
         self.assertEqual(b["healthCheckExit"], 0)
 

@@ -315,9 +315,10 @@ class TopicHoldTests(unittest.TestCase):
     """D12: precise Lenire/Neuromod hold; paused guideline items stay protected."""
 
     def test_holds_exactly_the_lenire_neuromod_news_items_in_the_real_queue(self):
-        held = sorted(i["id"][:60] for i in real_queue() if topic_holds.match_item(i))
-        self.assertEqual(len(held), 3, held)
-        self.assertTrue(all(h.startswith("newsintel-neuromod-lenire-") for h in held))
+        held = sorted(i["id"] for i in real_queue() if topic_holds.match_item(i))
+        lenire_news = sorted(i["id"] for i in real_queue() if i.get("kind") == "news" and re.search(r"\blenire\b|\bneuromod\b", i["title"], re.I))
+        self.assertGreaterEqual(len(held), 3, held)                                     # the 3 known items (19-21 Oct) and any later ones
+        self.assertEqual(held, lenire_news)                                             # exactly the Lenire/Neuromod news items, whatever feed they came from
         self.assertEqual([i["id"] for i in real_queue() if i["id"].startswith("pubmed-") and topic_holds.match_item(i)], [])   # no PubMed item is caught
 
     def test_unrelated_neuromodulation_research_is_not_held(self):

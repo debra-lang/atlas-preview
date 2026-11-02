@@ -83,6 +83,8 @@ class StaticBuild(unittest.TestCase):
         cls.tmp = Path(tempfile.mkdtemp(prefix="te-seo-"))
         shutil.copytree(ROOT, cls.tmp / "site", ignore=shutil.ignore_patterns(".git", "node_modules", "__pycache__", "*.bundle"))
         cls.site = cls.tmp / "site"
+        for p1 in ("listings.json", "update-history.json"):                 # baseline = listings off, whatever the repository holds
+            (cls.site / "data" / p1).unlink(missing_ok=True)
 
     @classmethod
     def tearDownClass(cls):

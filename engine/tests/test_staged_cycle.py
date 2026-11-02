@@ -1,7 +1,7 @@
 """Cycle-level tests: the REAL weekly cycle runs in a temp sandbox with the Anthropic SDK and all network fetches stubbed (see run_scenario.py).
 Covers staged publication (D13), duplicate registry updates (D11), notices in the cycle (D1), topic holds in the cycle (D12) and prompt inputs (D9).
 Run:  python -m unittest discover -s engine/tests -v"""
-import json, os, shutil, sys, tempfile, unittest
+import json, os, re, shutil, sys, tempfile, unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -222,12 +222,13 @@ class TopicHoldCycleTests(unittest.TestCase):
     def test_real_queue_lenire_items_are_never_sent_to_the_api(self):
         a = run_scenario({"settings": {"enabled": True, "mode": "staged", "limitPerRun": 100}, "paused": json.loads((ENGINE / "paused_ids.json").read_text(encoding="utf-8"))["ids"],
                           "runs": [{}]})["runs"][0]
-        lenire = [i["id"] for i in real_queue() if i["id"].startswith("newsintel-neuromod-lenire-")]
-        self.assertEqual(len(lenire), 3)
+        lenire = [i["id"] for i in real_queue() if i.get("kind") == "news" and re.search(r"\blenire\b|\bneuromod\b", i["title"], re.I)]   # every Lenire/Neuromod news item in the live queue, from any feed
+        self.assertGreaterEqual(len(lenire), 3)
         for i in lenire + json.loads((ENGINE / "paused_ids.json").read_text(encoding="utf-8"))["ids"]:
             self.assertNotIn(i, a["apiCalls"]); self.assertIn(i, a["queue"]); self.assertNotIn(i, a["staged"])
         self.assertNotIn("pubmed-42821511", a["apiCalls"])                                # the erratum never reaches the AI
-        self.assertEqual(a["status"]["evaluation"]["paused"], 6)                          # 3 paused guideline records + 3 Lenire/Neuromod items (the 4th paused id IS one of the 3)
+        paused_ids = json.loads((ENGINE / "paused_ids.json").read_text(encoding="utf-8"))["ids"]
+        self.assertEqual(a["status"]["evaluation"]["paused"], len(set(paused_ids) | set(lenire)))   # the paused guideline records + every Lenire/Neuromod item (one paused id IS a Lenire item)
         self.assertEqual(a["leaks"], [])
         self.assertTrue(a["ratingsUnchanged"] and a["studiesUnchanged"])
 

@@ -13,8 +13,15 @@ MODE2 = sys.argv[4] if len(sys.argv) > 4 else None
 tmp = Path(tempfile.mkdtemp(prefix="te-backlog-sim-"))
 shutil.copytree(REPO / "data", tmp / "data")
 shutil.copytree(REPO / "engine", tmp / "engine", ignore=shutil.ignore_patterns("tests", "__pycache__"))
+if os.environ.get("SIM_QUEUE"):                                            # a fixed queue file in place of the live one (deterministic failure-mode tests)
+    shutil.copyfile(os.environ["SIM_QUEUE"], tmp / "data" / "review-queue" / "queue.json")
 (tmp / "data" / "trials.json").write_text("[]", encoding="utf-8")          # no registry refresh (network)
 from datetime import date
+_today_rep = tmp / "data" / "weekly" / f"{date.today().isoformat()}.json"       # the repo may already hold today's real report; tests need a clean weekly run
+_today_rep.unlink(missing_ok=True)
+_idx = json.loads((tmp / "data/weekly/index.json").read_text(encoding="utf-8"))
+_idx["reports"] = [r for r in _idx["reports"] if r["file"] != _today_rep.name]
+(tmp / "data/weekly/index.json").write_text(json.dumps(_idx), encoding="utf-8")
 (tmp / "engine" / "retraction-state.json").write_text(json.dumps({"lastRun": date.today().isoformat()}), encoding="utf-8")  # not due
 sys.path.insert(0, str(tmp / "engine"))
 CALLS = {}      # item id -> number of evaluation calls
