@@ -1,7 +1,9 @@
 {
  "release": "A: Acoustic CR correction",
  "baseline": "eedf41109f3e56a818864f02d6ba437ebc608d8c",
- "approved": "Owner decisions 23 Oct 2026; exact text in claims-check/ACOUSTIC-CR-CORRECTION-BEFORE-AFTER.md",
+ "approved": "Owner decisions 23 Oct 2026; exact text in claims-check/ACOUSTIC-CR-CORRECTION-BEFORE-AFTER.md; owner decisions 1 Nov 2026 (fitting-protocol sentence; history date = actual publication date)",
+ "publicationDate": null,
+ "identified": "2026-10-23",
  "independentException": {
   "id": "hall-2022-t30",
   "before": true,
@@ -94,7 +96,7 @@
    "id": "hall-2022-t30",
    "path": "coi",
    "before": "Independent (NIHR Nottingham).",
-   "after": "Academic-led (NIHR Nottingham Biomedical Research Centre); part-funded by a grant from a UK tinnitus clinic, awarded in partnership with the device's manufacturer at the time; the funder had no role in study design, data collection, analysis, interpretation or writing of the report. Staff of the funding clinic advised on the device-fitting protocol. The authors declare no conflict of interest. Recorded as not independent of the manufacturer because of this funding link; the link does not establish that the manufacturer controlled the research."
+   "after": "Academic-led (NIHR Nottingham Biomedical Research Centre); part-funded by a grant from a UK tinnitus clinic, awarded in partnership with the device's manufacturer at the time; the funder had no role in study design, data collection, analysis, interpretation or writing of the report. The device-fitting protocol was developed in cooperation with the funding clinic and the manufacturer. The authors declare no conflict of interest. Recorded as not independent of the manufacturer because of this funding link; the link does not establish that the manufacturer controlled the research."
   },
   {
    "file": "data/studies.json",

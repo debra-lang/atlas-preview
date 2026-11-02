@@ -1,6 +1,7 @@
 """Release A's data guards (owner decisions, 23 Oct 2026): every difference from the baseline under data/ matches one allowlist entry exactly, every
 entry is applied, and protected fields are locked independently of the list. Offline. Run:  python -m unittest discover -s engine/tests -v"""
 import sys, unittest
+from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -50,6 +51,21 @@ class ReleaseAAllowlist(unittest.TestCase):
                     self.assertIs(a[f], exc["before"]); self.assertIs(b[f], exc["after"])   # the exception must actually be exercised
                 else:
                     self.assertEqual(b.get(f), a.get(f), f"{a['id']}.{f}")
+
+    def test_the_correction_carries_its_actual_publication_date_never_a_future_one(self):
+        pub = ra.LIST["publicationDate"]
+        self.assertIsNotNone(pub, "not stamped: Release A sets its correction date on the day it is published, immediately before the push")
+        self.assertLessEqual(pub, date.today().isoformat(), "a correction date is never in the future")
+        self.assertGreaterEqual(pub, ra.LIST["identified"])
+        for rel, rid in sorted({(e["file"], e["id"]) for e in ra.ENTRIES}):
+            last = [r for r in ra.now(rel) if r["id"] == rid][0]["history"][-1]
+            self.assertEqual(last["date"], pub, rid)
+            self.assertIn("23 October 2026", last["reason"], "the date the error was identified stays in the entry")
+
+    def test_the_fitting_protocol_sentence_keeps_involvement_and_control_apart(self):
+        coi = [s for s in ra.now("data/studies.json") if s["id"] == ra.EXCEPTION["id"]][0]["coi"]
+        self.assertIn("The device-fitting protocol was developed in cooperation with the funding clinic and the manufacturer.", coi)
+        self.assertIn("does not establish that the manufacturer controlled the research", coi)
 
     def test_rankings_and_trials_are_untouched(self):
         for rel in ("data/rankings.json", "data/trials.json"):
