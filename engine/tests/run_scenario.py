@@ -141,6 +141,8 @@ def sim_record(item):
 
 def fake_fetch(item):
     text = SPEC.get("records", {}).get(item["id"]) or sim_record(item)
+    if SPEC.get("fullRecords", {}).get(item["id"]):    # the complete record beside the compact text, as the real fetch_context leaves it
+        evaluate_queue.RECORD_FULL[item["id"]] = SPEC["fullRecords"][item["id"]]
     evaluate_queue.RECORD_META.pop(item["id"], None)
     if SPEC.get("recordMeta", {}).get(item["id"]):     # a record builder's metadata (for example the FDA decision date), as the real fetch_context would leave it
         evaluate_queue.RECORD_META[item["id"]] = dict(SPEC["recordMeta"][item["id"]])

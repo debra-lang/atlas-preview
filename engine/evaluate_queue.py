@@ -297,6 +297,7 @@ def preflight(client, anthropic):
         return None
 
 
+RECORD_FULL = {}   # item id -> the complete source record as fetched, for the owner topic-hold check before a public listing; the AI prompt still uses the compact text
 RECORD_META = {}   # item id -> metadata of the record last built for it (completeness, hasResults, truncation); read by main()
 
 
@@ -326,7 +327,9 @@ def fetch_context(item):
         if iid.startswith("pubmed-"):
             pmid = iid.split("-", 1)[1]
             q = urllib.parse.urlencode({"db": "pubmed", "id": pmid, "rettype": "abstract", "retmode": "text"})
-            text, meta = registry_record.finish_pubmed_record(_get(f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?{q}").decode("utf-8", "replace"), pmid)
+            raw = _get(f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?{q}").decode("utf-8", "replace")
+            RECORD_FULL[iid] = raw
+            text, meta = registry_record.finish_pubmed_record(raw, pmid)
             if not item.get("pubtypes"):   # PubMed's own publication types (free, one extra call): the evidence-adequacy check exempts reviews and case reports only by these
                 try:
                     q2 = urllib.parse.urlencode({"db": "pubmed", "id": pmid, "retmode": "json"})
@@ -335,7 +338,9 @@ def fetch_context(item):
                     meta["pubtypes"] = []   # lookup failed: no exemption (fails closed)
         elif iid.startswith("ctgov-"):
             nct = iid.split("-")[1]
-            text, meta = registry_record.build_ctgov_record(json.loads(_get(f"https://clinicaltrials.gov/api/v2/studies/{nct}?format=json")))
+            study = json.loads(_get(f"https://clinicaltrials.gov/api/v2/studies/{nct}?format=json"))
+            RECORD_FULL[iid] = json.dumps(study, ensure_ascii=False)
+            text, meta = registry_record.build_ctgov_record(study)
         elif iid.startswith("fda-510-k-clearance-") and re.search(r"ID=(K\d{6,7})\b", item.get("url", "")):
             k = re.search(r"ID=(K\d{6,7})\b", item.get("url", "")).group(1)
             res = json.loads(_get("https://api.fda.gov/device/510k.json?" + urllib.parse.urlencode({"search": f"k_number:{k}", "limit": "1"}))).get("results") or []

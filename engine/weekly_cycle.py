@@ -311,7 +311,8 @@ class Cycle:
             new, counts = listings.process(
                 queue["items"], self.load(listings.LISTINGS_REL, {"items": []}), today=date.today().isoformat(),
                 fetch_context=evaluate_queue.fetch_context, record_meta=lambda i: evaluate_queue.RECORD_META.pop(i, None),
-                excluded=lambda it: it["id"] in paused or bool(topic_holds.match_item(it, holds)), enrich=triage.enrich)
+                excluded=lambda it: it["id"] in paused or bool(topic_holds.match_item(it, holds)), enrich=triage.enrich,
+                held_by_record=lambda it, text: bool(topic_holds.match_item(it, holds, extra_text=text + "\n" + evaluate_queue.RECORD_FULL.pop(it["id"], ""))))
         except Exception as e:   # a listing problem must never stop the cycle: the queue is untouched on failure
             self.status["errors"].append(f"listings step failed: {type(e).__name__}: {str(e)[:120]}")
             return

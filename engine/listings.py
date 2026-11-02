@@ -130,7 +130,7 @@ def entry_for(item, tier, checks, meta, today):
     return e
 
 
-def process(items, existing, *, today, fetch_context, record_meta, excluded=lambda it: False, enrich=None):
+def process(items, existing, *, today, fetch_context, record_meta, excluded=lambda it: False, enrich=None, held_by_record=lambda it, text: False):
     """Lists what can be listed. `items` = queue items (mutated: an outcome is recorded on each one processed), `existing` = the current listings.json object.
     Returns (new listings object, counts). fetch_context(item) -> record text; record_meta(item_id) -> its metadata (both from evaluate_queue)."""
     from collections import Counter
@@ -189,6 +189,10 @@ def process(items, existing, *, today, fetch_context, record_meta, excluded=lamb
         handled += 1
         text = fetch_context(it)
         meta = record_meta(it["id"]) or registry_record.parse_header(text) or {"completeness": "UNKNOWN"}
+        if held_by_record(it, text):      # an owner hold that only the record reveals (abstract, registry interventions): untouched, not listed, retried when the hold is lifted; uses none of this run's allowance
+            counts["ownerHeld"] += 1
+            handled -= 1
+            continue
         chk = verify(it, text, meta)
         if not chk["recordFetched"]:
             it["listDeferred"] = (it.get("listDeferred") or 0) + 1
