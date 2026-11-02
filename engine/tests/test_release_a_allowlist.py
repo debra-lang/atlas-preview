@@ -67,6 +67,15 @@ class ReleaseAAllowlist(unittest.TestCase):
         self.assertIn("The device-fitting protocol was developed in cooperation with the funding clinic and the manufacturer.", coi)
         self.assertIn("does not establish that the manufacturer controlled the research", coi)
 
+    def test_the_no_role_statement_is_scoped_to_the_clinics_staff_as_the_paper_states_it(self):
+        coi = [s for s in ra.now("data/studies.json") if s["id"] == ra.EXCEPTION["id"]][0]["coi"]
+        conflicts = [t for t in ra.now("data/treatments.json") if t["id"] == "acoustic-cr"][0]["conflicts"]
+        for text in (coi, conflicts):
+            self.assertIn("the funding clinic's staff had no role in study design, data collection, analysis, interpretation or writing of the report", text)
+            self.assertNotIn("the funder had no role", text)                   # the paper makes this statement about the clinic's staff, and none about the manufacturer
+            self.assertIn("in partnership with the device's manufacturer", text)
+            self.assertIn("does not establish that the manufacturer controlled the research", text)
+
     def test_rankings_and_trials_are_untouched(self):
         for rel in ("data/rankings.json", "data/trials.json"):
             self.assertEqual(ra.now(rel), ra.at(self.base, rel), rel)
