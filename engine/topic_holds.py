@@ -44,12 +44,16 @@ def record_text(record):
     return "\n".join(out)
 
 
+_HYPHENS = "\u2010\u2011\u2012\u2013\u2043\u2212\ufe63\uff0d"     # not the long dashes: "in a tent\u2014a small one" is not the trial TENT-A
+
+
 class _Plain(dict):
-    """For str.translate: accents and invisible characters go, every dash reads as a hyphen, and control characters, unusual spaces and underscores read as a space."""
+    """For str.translate: accents, invisible and control characters go, hyphen-like characters read as a hyphen, and anything that is a space, and underscores, read as a space."""
 
     def __missing__(self, code):
-        cat = unicodedata.category(chr(code))
-        v = None if cat in ("Mn", "Cf") else "-" if cat == "Pd" else " " if cat in ("Cc", "Zs", "Zl", "Zp") or code == 95 else code
+        c = chr(code)
+        cat = unicodedata.category(c)
+        v = "-" if c in _HYPHENS else " " if c.isspace() or c == "_" or cat in ("Zs", "Zl", "Zp") else None if cat in ("Mn", "Cf", "Cc") else code
         self[code] = v
         return v
 
@@ -59,7 +63,11 @@ _PLAIN = _Plain()
 
 def _plain(text):
     """The text with what can hide a name from a whole-word pattern taken out: entities, escapes written out as characters, compatibility forms, accents, invisible characters. Used beside the text as written, never instead of it, so it can only find more."""
-    t = re.sub(r"\\(?:[nrtfvb]|u[0-9a-fA-F]{4})", " ", html.unescape(text))
+    t = html.unescape(html.unescape(text))
+    t = re.sub(r"\\u([0-9a-fA-F]{4})", lambda m: chr(int(m.group(1), 16)), t)
+    t = re.sub(r"\\[nrtfvb]", " ", t)
+    t = re.sub(r"</?[a-zA-Z][^<>]{0,40}>", "", t)                # markup inside a word
+    t = re.sub("[\u00a9\u00ae\u2120\u2122\u00b9\u00b2\u00b3\u2070-\u2079\u2080-\u2089]", " ", t)    # compatibility forms would glue these to the name as TM or a digit
     return re.sub(r" +", " ", unicodedata.normalize("NFKD", t).translate(_PLAIN))
 
 

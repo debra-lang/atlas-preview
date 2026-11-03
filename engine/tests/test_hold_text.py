@@ -18,8 +18,8 @@ def study(**extra):
                              "sponsorCollaboratorsModule": {"leadSponsor": {"name": "A University"}},
                              "descriptionModule": {"briefSummary": "A study of tinnitus.", "detailedDescription": FILLER},
                              "conditionsModule": {"conditions": ["Tinnitus"]},
-                             "designModule": {"studyType": "INTERVENTIONAL"},
-                             "armsInterventionsModule": {"interventions": [{"name": "Sound therapy", "type": "BEHAVIORAL"}]}}, "hasResults": False}
+                             "designModule": {"studyType": "INTERVENTIONAL"}, "eligibilityModule": {"eligibilityCriteria": "Adults."},
+                             "armsInterventionsModule": {"interventions": [{"name": "Sound therapy", "type": "BEHAVIORAL"}]}}, "derivedSection": {"miscInfoModule": {"versionHolder": "2026-11-01"}}, "hasResults": False}
     s.update(extra)
     return s
 
@@ -49,7 +49,7 @@ class LineBreaksAndEscapes(Base):
     def test_a_held_name_after_any_separator_past_the_compact_text_is_found(self):
         for name, tail in (("line break", "\nLenire device daily."), ("two line breaks", "\n\nLenire device daily."), ("windows line break", "\r\nLenire device."), ("tab", "\tLenire device."),
                            ("form feed", "\fLenire device."), ("vertical tab", "\vLenire device."), ("backspace character", "\bLenire device."), ("control character", "\x01Lenire device."),
-                           ("line separator", " Lenire device."), ("paragraph separator", " Lenire device."), ("next line", "\x85Lenire device."),
+                           ("line separator", "\u2028Lenire device."), ("paragraph separator", "\u2029Lenire device."), ("next line", "\x85Lenire device."),
                            ("the company after a break", "\nNeuromod Devices sponsors this."), ("the trial name after a tab", "\tTENT-A1 protocol"), ("a bullet", "\n* Lenire"),
                            ("quoted", ' the "Lenire" device'), ("a backslash", "\\Lenire"), ("a slash", "/Lenire"), ("already mid-sentence", " uses the Lenire device daily.")):
             with self.subTest(name):
@@ -57,12 +57,13 @@ class LineBreaksAndEscapes(Base):
 
     def test_escapes_stored_in_the_text_itself_are_read_through(self):
         for name, tail in (("a written-out line break", "\\nLenire"), ("a written-out tab", "\\tLenire"), ("a written-out unicode escape", "\\u00a0Lenire"), ("an entity quote", "\\&#39;Lenire\\&#39;"),
-                           ("an entity space", "&nbsp;Lenire"), ("an entity hyphen inside", " Le&shy;nire"), ("markup", "<b>Lenire</b>"), ("underscores for emphasis", "_Lenire_")):
+                           ("an entity space", "&nbsp;Lenire"), ("an entity hyphen inside", " Le&shy;nire"), ("markup", "<b>Lenire</b>"), ("underscores for emphasis", "_Lenire_"), ("markup inside the name", " Le<b>nire</b>"), ("a control character inside", " Le\x01nire"), ("an entity encoded twice", " &amp;#76;enire"),
+                           ("a written-out soft hyphen inside", " Le\\u00adnire"), ("a written-out zero-width space inside", " Le\\u200bnire"), ("a written-out letter", " \\u004cenire")):
             with self.subTest(name):
                 self.assertEqual(self.check(self.with_description(tail)), "lenire-neuromod")
 
     def test_a_name_broken_across_lines_is_found(self):
-        for tail in ("\nNeuromod\nDevices", " Neuromod\r\n   Devices", "\nNeuromod\tDevices"):
+        for tail in ("\nNeuromod\nDevices", " Neuromod\r\n   Devices", "\nNeuromod\tDevices", "\nNeuromod\u00a0Devices", "\nNeuromod\u2009Devices", "\nNeuromod\u2028Devices"):
             with self.subTest(tail):
                 self.assertTrue(topic_holds.match_item({"id": "x"}, [{"id": "h", "patterns": ["\\bNeuromod Devices\\b"]}], extra_text=tail), "a pattern written with a plain space")
                 self.assertEqual(self.check(self.with_description(tail)), "lenire-neuromod")
@@ -70,9 +71,11 @@ class LineBreaksAndEscapes(Base):
 
 class UnicodeForms(Base):
     def test_other_forms_of_a_held_name_are_found(self):
-        for name, tail in (("soft hyphen inside", "\nLe­nire"), ("zero-width space inside", "\nLe​nire"), ("zero-width joiner inside", "\nNeuro‍mod"), ("byte order mark before", "\n﻿Lenire"), ("accent", "\nLénire"), ("combining accent", "\nLénire"),
-                           ("capital dotted I", "\nLENİRE"), ("capitals", "\nLENIRE"), ("full-width letters", "\nＬｅｎｉｒｅ"), ("no-break hyphen in the trial name", "\nTENT‑A1"), ("en dash in the trial name", "\nTENT–B"),
-                           ("no-break space after", "\nLenire device"), ("no-break space before", " Lenire"), ("thin space", " Lenire"), ("registered sign", "\nLenire®"), ("trade mark sign", "\nLenire™")):
+        for name, tail in (("soft hyphen inside", "\nLe\u00adnire"), ("zero-width space inside", "\nLe\u200bnire"), ("zero-width joiner inside", "\nNeuro\u200dmod"), ("byte order mark before", "\n\ufeffLenire"), ("accent", "\nL\u00e9nire"), ("combining accent", "\nLe\u0301nire"),
+                           ("capital dotted I", "\nLEN\u0130RE"), ("capitals", "\nLENIRE"), ("full-width letters", "\n\uff2c\uff45\uff4e\uff49\uff52\uff45"), ("no-break hyphen in the trial name", "\nTENT\u2011A1"), ("en dash in the trial name", "\nTENT\u2013B"),
+                           ("no-break space after", "\nLenire\u00a0device"), ("no-break space before", "\u00a0Lenire"), ("thin space", "\u2009Lenire"), ("registered sign", "\nLenire\u00ae"), ("trade mark sign", "\nLenire\u2122"),
+                           ("accent and trade mark sign", "\nL\u00e9nire\u2122"), ("soft hyphen and service mark", "\nLe\u00adnire\u2120"), ("full-width and trade mark sign", "\n\uff2c\uff45\uff4e\uff49\uff52\uff45\u2122"), ("accent and registered sign", "\nL\u00e9nire\u00ae"),
+                           ("minus sign in the trial name", "\nTENT\u2212A1"), ("hyphen bullet in the trial name", "\nTENT\u2043A1"), ("footnote mark", "\nLenire\u00b9"), ("another footnote mark", "\nNeuromod\u00b2 Devices"), ("superscript digit", "\nLenire\u2075")):
             with self.subTest(name):
                 self.assertEqual(self.check(self.with_description(tail)), "lenire-neuromod")
 
@@ -116,13 +119,15 @@ class EveryField(Base):
         raw = ("1. J Audiol. 2026 Oct;1(1):1-2.\n\nA tinnitus trial.\n\nSmith J(1).\n\nAuthor information:\n(1)A University.\n\n" + "Word " * 5000 + "\nNeuromod\nDevices funded this.\n\nDOI: 10.1/x\nPMID: 990701  [Indexed for MEDLINE]\n").encode("utf-8")
         it = {"id": "pubmed-990701", "kind": "study", "title": "A tinnitus trial.", "pubtypes": ["Journal Article"]}
         self.assertEqual(self.check(raw, it), "lenire-neuromod")
+        self.holds = [{"id": "only-the-whole-name", "patterns": ["\\bNeuromod Devices\\b"]}]     # the one word alone would match above, and say nothing about the wrapped line
+        self.assertEqual(self.check(raw, it), "only-the-whole-name")
 
 
 class NoBroaderThanIntended(Base):
     def test_unrelated_words_and_names_are_not_held(self):
         for name, tail in (("neuromodulation", "\nNeuromodulation therapy"), ("neuromodulator", "\tneuromodulators"), ("a longer word", "\nLenires and Lenirea"), ("another word ending the same", "\nSolenire"),
                            ("a name split by a line break is a different text", "\nLe\nnire"), ("split by a space", "\nNeuro mod"), ("another trial letter", "\nTENT-D"), ("too many digits", "\nTENT-A12"), ("a word ending in tent", "\ncontent-A"),
-                           ("after a real tab", "x\tent-A"), ("after a real line break, the n stays out", "x\neuromod"), ("the status words", "\nNOT_YET_RECRUITING"), ("an entity that is not a name", "\n&amp; &lt;device&gt;"), ("accented other word", "\nLénore")):
+                           ("after a real tab", "x\tent-A"), ("after a real line break, the n stays out", "x\neuromod"), ("the status words", "\nNOT_YET_RECRUITING"), ("a long dash is not a trial name", "\nin a tent\u2014a small one"), ("another long dash", "\ntent\u2015B"), ("a trade mark sign after another word", "\nSolenire\u2122"), ("an entity that is not a name", "\n&amp; &lt;device&gt;"), ("accented other word", "\nL\u00e9nore")):
             with self.subTest(name):
                 self.assertIsNone(self.check(self.with_description(tail)))
 
@@ -130,10 +135,10 @@ class NoBroaderThanIntended(Base):
         self.assertIsNone(self.check(study()))
 
     def test_a_record_with_every_kind_of_separator_and_no_held_name_is_not_held(self):
-        self.assertIsNone(self.check(self.with_description("\n\n* An item\t- another\r\n more text ​ &#39;quoted&#39; \\* escaped")))
+        self.assertIsNone(self.check(self.with_description("\n\n* An item\t- another\r\n\u2028more\u00a0text \u200b &#39;quoted&#39; \\* escaped")))
 
     def test_the_item_fields_are_read_the_same_way(self):
-        for title in ("Le​nire results", "TENT‑A follow-up", "A study of\nLenire"):
+        for title in ("Le\u200bnire results", "TENT\u2011A follow-up", "A study of\nLenire"):
             with self.subTest(title):
                 self.assertEqual(topic_holds.match_item({"id": "x", "title": title}, self.holds), "lenire-neuromod")
         self.assertIsNone(topic_holds.match_item({"id": "x", "title": "Neuromodulation for tinnitus"}, self.holds))
@@ -143,7 +148,7 @@ class NoBroaderThanIntended(Base):
 
     def test_a_name_only_the_text_as_written_shows_is_still_found(self):
         """The plain form sits beside the text as written, never instead of it: the trade mark sign turns into the letters TM there, which would hide the name if it stood alone."""
-        self.assertEqual(topic_holds.match_item({"id": "x"}, self.holds, extra_text="Lenire™"), "lenire-neuromod")
+        self.assertEqual(topic_holds.match_item({"id": "x"}, self.holds, extra_text="Lenire\u2122"), "lenire-neuromod")
         self.assertEqual(topic_holds.match_item({"id": "x"}, self.holds, extra_text="\\neuromod"), "lenire-neuromod")
 
 
