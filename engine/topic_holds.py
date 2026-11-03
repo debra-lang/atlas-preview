@@ -61,13 +61,13 @@ class _Plain(dict):
 _PLAIN = _Plain()
 
 
-def _plain(text):
+def _plain(text, markup=""):
     """The text with what can hide a name from a whole-word pattern taken out: entities, escapes written out as characters, compatibility forms, accents, invisible characters. Used beside the text as written, never instead of it, so it can only find more."""
     t = html.unescape(html.unescape(text))
     t = re.sub(r"\\u([0-9a-fA-F]{4})", lambda m: chr(int(m.group(1), 16)), t)
     t = re.sub(r"\\[nrtfvb]", " ", t)
-    t = re.sub(r"</?(?:b|i|u|em|strong|span|font|a)\b[^<>]{0,40}>", "", t, flags=re.I)     # styling can sit inside a word
-    t = re.sub(r"-\s+", "-", t)                                   # a hyphen at the end of a line
+    t = re.sub(r"</?[a-zA-Z][^<>]{0,80}>", markup, t)           # markup can sit inside a word or between two: match_item reads both ways
+    t = re.sub("[-\u2010\u2011\u2012\u2013\u2043\u2212\ufe63\uff0d][\u00ad\u200b ]*[\r\n]+\\s*", "-", t)     # a hyphen at the end of a line joins what follows
     t = re.sub("[\u00a9\u00ae\u2120\u2122\u00b9\u00b2\u00b3\u2070-\u2079\u2080-\u2089]", " ", t)    # compatibility forms would glue these to the name as TM or a digit
     return re.sub(r" +", " ", unicodedata.normalize("NFKD", t).translate(_PLAIN))
 
@@ -76,10 +76,10 @@ def match_item(item, holds=None, extra_text=""):
     """Returns the id of the first hold that matches this item (or the fetched record text), else None."""
     holds = load_holds() if holds is None else holds
     hay = " ".join(str(item.get(k) or "") for k in ("title", "source", "summary")) + " " + (extra_text or "")
-    plain = _plain(hay)
+    forms = (hay, _plain(hay), _plain(hay, " "))
     for h in holds:
         if any(item.get("id", "").startswith(p) for p in h.get("idPrefixes", [])):
             return h["id"]
-        if any(rx.search(hay) or rx.search(plain) for rx in _compiled(h)):
+        if any(rx.search(f) for rx in _compiled(h) for f in forms):
             return h["id"]
     return None
