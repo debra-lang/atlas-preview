@@ -57,7 +57,7 @@ class LineBreaksAndEscapes(Base):
 
     def test_escapes_stored_in_the_text_itself_are_read_through(self):
         for name, tail in (("a written-out line break", "\\nLenire"), ("a written-out tab", "\\tLenire"), ("a written-out unicode escape", "\\u00a0Lenire"), ("an entity quote", "\\&#39;Lenire\\&#39;"),
-                           ("an entity space", "&nbsp;Lenire"), ("an entity hyphen inside", " Le&shy;nire"), ("markup", "<b>Lenire</b>"), ("underscores for emphasis", "_Lenire_"), ("markup inside the name", " Le<b>nire</b>"), ("a control character inside", " Le\x01nire"), ("an entity encoded twice", " &amp;#76;enire"),
+                           ("an entity space", "&nbsp;Lenire"), ("an entity hyphen inside", " Le&shy;nire"), ("markup", "<b>Lenire</b>"), ("underscores for emphasis", "_Lenire_"), ("markup inside the name", " Le<b>nire</b>"), ("a break after an accented name", " L\u00e9nire<br>device"), ("a footnote in markup after an accented name", " L&eacute;nire<sup>2</sup>"), ("a split name before a break", " Neuro\u200bmod<br>Devices"), ("a hyphen at the end of a line", "\nTENT-\nA1"), ("a windows line end after a hyphen", "\nTENT-\r\nB"), ("a control character inside", " Le\x01nire"), ("an entity encoded twice", " &amp;#76;enire"),
                            ("a written-out soft hyphen inside", " Le\\u00adnire"), ("a written-out zero-width space inside", " Le\\u200bnire"), ("a written-out letter", " \\u004cenire")):
             with self.subTest(name):
                 self.assertEqual(self.check(self.with_description(tail)), "lenire-neuromod")
