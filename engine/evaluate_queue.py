@@ -339,7 +339,7 @@ def fetch_context(item):
         elif iid.startswith("ctgov-"):
             nct = iid.split("-")[1]
             study = json.loads(_get(f"https://clinicaltrials.gov/api/v2/studies/{nct}?format=json"))
-            RECORD_FULL[iid] = json.dumps(study, ensure_ascii=False)
+            RECORD_FULL[iid] = topic_holds.record_text(study)
             text, meta = registry_record.build_ctgov_record(study)
         elif iid.startswith("fda-510-k-clearance-") and re.search(r"ID=(K\d{6,7})\b", item.get("url", "")):
             k = re.search(r"ID=(K\d{6,7})\b", item.get("url", "")).group(1)
