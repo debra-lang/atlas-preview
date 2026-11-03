@@ -67,7 +67,6 @@ def _plain(text):
     t = re.sub(r"\\u([0-9a-fA-F]{4})", lambda m: chr(int(m.group(1), 16)), t)
     t = re.sub(r"\\[nrtfvb]", " ", t)
     t = re.sub(r"</?(?:b|i|u|em|strong|span|font|a)\b[^<>]{0,40}>", "", t, flags=re.I)     # styling can sit inside a word
-    t = re.sub(r"</?[a-zA-Z][^<>]{0,40}>", " ", t)                # any other markup separates words
     t = re.sub(r"-\s+", "-", t)                                   # a hyphen at the end of a line
     t = re.sub("[\u00a9\u00ae\u2120\u2122\u00b9\u00b2\u00b3\u2070-\u2079\u2080-\u2089]", " ", t)    # compatibility forms would glue these to the name as TM or a digit
     return re.sub(r" +", " ", unicodedata.normalize("NFKD", t).translate(_PLAIN))
