@@ -92,6 +92,14 @@ class NumericEntities(Base):
             with self.subTest(name):
                 self.assertIsNone(self.found(text))
 
+    def test_it_does_not_depend_on_where_python_sets_its_digit_limit(self):
+        """The limit can be lowered by a setting, so the correction must not sit just under the default."""
+        before = sys.get_int_max_str_digits()
+        self.addCleanup(sys.set_int_max_str_digits, before)
+        sys.set_int_max_str_digits(640)
+        self.assertIsNone(self.found("&#" + "9" * 641 + ";"))
+        self.assertEqual(self.found("&#" + "9" * 641 + "; Lenire"), "lenire-neuromod")
+
     def test_a_held_name_beside_one_is_still_found(self):
         huge = "&#" + "9" * 5000 + ";"
         for name, text in (("after", huge + " Lenire"), ("before", "Lenire " + huge), ("the next line", huge + "\nNeuromod"), ("no semicolon", "&#" + "9" * 5000 + " Lenire"), ("twice encoded", "&amp;#" + "9" * 5000 + "; Lenire"), ("needing the plain form", huge + " L\u00e9nire"), ("trial name", huge + " TENT-A1")):
