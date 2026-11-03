@@ -61,9 +61,14 @@ class _Plain(dict):
 _PLAIN = _Plain()
 
 
+def _unescape(text):
+    """A decimal entity past the last Unicode character, which has 7 digits, is no character. Its digits are taken out first: past 4300 of them, reading it as a number raises an error."""
+    return html.unescape(re.sub(r"&#[0-9]{8,};?", " ", text))
+
+
 def _plain(text, markup=""):
     """The text with what can hide a name from a whole-word pattern taken out: entities, escapes written out as characters, compatibility forms, accents, invisible characters. Used beside the text as written, never instead of it, so it can only find more."""
-    t = html.unescape(html.unescape(text))
+    t = _unescape(_unescape(text))
     t = re.sub(r"\\u([0-9a-fA-F]{4})", lambda m: chr(int(m.group(1), 16)), t)
     t = re.sub(r"\\[nrtfvb]", " ", t)
     t = re.sub(r"</?[a-zA-Z][^<>]{0,80}>", markup, t)           # markup can sit inside a word or between two: match_item reads both ways
