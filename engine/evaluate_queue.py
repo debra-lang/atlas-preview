@@ -572,14 +572,9 @@ def main(limit=None):
     known_words = [w for t in treatments for w in (t["id"].replace("-", " ") + " " + t["name"]).replace("(", " ").replace(")", " ").split()] + \
                   [w for s in studies for w in (s["id"].replace("-", " ") + " " + s["title"]).split()]
 
-    published = set(state_files.checked(ROOT / "engine" / "published_ids.json", state_files._strings))
-
-    def already_published(it):
-        return any(k and k in published for k in (re.sub(r"\W+", "", (it.get(x) or "").lower())[:90] for x in ("url", "title")))
-
     def pending(it):
         return not (it.get("evaluation") or it.get("notice") or it.get("topicHold") or it.get("languageHold") or it.get("catalogued") or it.get("id") in paused or it.get("id") in superseded
-                    or already_published(it) or topic_holds.match_item(it, holds, releases=releases))
+                    or topic_holds.match_item(it, holds, releases=releases))      # a record already in the published register is read too: route() drops a real repeat only after its safety trigger has been checked
 
     # Phase A (free, no AI): correction / retraction notices are classified, never evaluated and never published as research
     for it in [i for i in queue.get("items", []) if pending(i) and notices.looks_like_notice(i)]:

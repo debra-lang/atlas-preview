@@ -74,6 +74,8 @@ if SPEC.get("extraStudies"):
     W("data/studies.json", s)
 if SPEC.get("holdReleases") is not None:
     W("engine/hold_releases.json", SPEC["holdReleases"])
+if SPEC.get("registerAdd"):
+    W("engine/published_ids.json", sorted(set(J("engine/published_ids.json", [])) | {re.sub(r"\W+", "", k.lower())[:90] for k in SPEC["registerAdd"]}))
 W("data/review-queue/held.json", {"items": []})        # the real store is encrypted and stays out of the copy; a working repository always has one or the other
 if SPEC.get("staged") is not None:
     W("data/review-queue/staged.json", SPEC["staged"])

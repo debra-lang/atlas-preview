@@ -445,8 +445,6 @@ class Cycle:
         hold_id = item.get("topicHold") or topic_holds.match_item(item, getattr(self, "topic_hold_list", None), releases=getattr(self, "hold_release_list", ()))
         if hold_id:
             return "paused", f"topic hold '{hold_id}' (engine/topic_holds.json): not evaluated, not published, not lost"
-        if any(k and k in register for k in keys):   # after the owner's holds: a status update registers its trial's URL, which must not drop a held record of that trial
-            return "dup", "already published in the research-updates feed"
         nt = item.get("notice")
         if nt:   # correction / retraction / expression of concern: never research evidence, never discarded silently
             return "notice-" + nt.get("resolution", "unresolved"), f"{nt.get('kind')} notice: " + {
@@ -465,13 +463,18 @@ class Cycle:
         if item.get("id") in getattr(self, "superseded", ()):
             return "dup", "superseded by a newer update of the same registry record (the evaluator reads the current record)"
         ev = item.get("evaluation")
-        if not ev:
+        if not ev:     # nothing is dropped unread: the checks that protect a record, its own safety trigger above all, run only once it has been read
             return "awaiting-eval", "no AI evaluation available yet (evaluation pending or credentials missing)"
         if ev.get("parseError"):
             why = {"truncated": "the AI answer was cut off at the output limit", "refused": "the AI declined to answer", "empty": "the AI returned no text",
                    "unexpected-stop": "the AI stopped unexpectedly",
                    "attempts-exhausted": "the AI could not be reached for this item after repeated attempts"}.get(ev.get("failureKind"), "the AI answer could not be parsed")
             return "hold", f"evaluation unusable ({why}) — uncertainty hold"
+        l3 = [e for e in (ev.get("escalation") or []) if e.get("tier") == "level3"]
+        if l3:   # deterministic Level 3 triggers (safety terms in the record; evidence bearing on a tracked treatment): never published automatically, and no duplicate check or model verdict below can discard them
+            return "hold", "Level 3 trigger (needs a person): " + "; ".join(f"{e['kind']} ({e['detail']})" for e in l3)
+        if any(k and k in register for k in keys) and not str(item.get("id", "")).startswith("ctgov-"):   # a real repeat. A registry URL is the same for every version of a trial, so it alone never makes one: a later update, even with results posted, stays
+            return "dup", "already published in the research-updates feed"
         if ev.get("duplicateOf"):
             return "dup", f"re-reports existing study record '{ev['duplicateOf']}'"
         if ev.get("notRelevant") or ev.get("affectedTreatment") == "none" and ev.get("importance") is None:
@@ -487,9 +490,6 @@ class Cycle:
             return "archive", f"relevance category {rc} (secondary-outcome/adjacent context) — archived as context; never treated as tinnitus treatment evidence"
         if ev.get("studyType") == "other" and ev.get("studyQuality") == "not-a-study":
             return "archive", "no scientific content (not a study) — archived as context; never published as research"
-        l3 = [e for e in (ev.get("escalation") or []) if e.get("tier") == "level3"]
-        if l3:   # deterministic Level 3 triggers (safety terms in the record; evidence bearing on a tracked treatment): never published automatically
-            return "hold", "Level 3 trigger (needs a person): " + "; ".join(f"{e['kind']} ({e['detail']})" for e in l3)
         url = item.get("url", "")
         host = urllib.parse.urlparse(url).netloc.lower()
         trusted = any(host == d or host.endswith("." + d) for d in TRUSTED_DOMAINS)
@@ -619,7 +619,7 @@ class Cycle:
                 out["requeued"] += 1
             else:
                 keys = [re.sub(r"\W+", "", (item.get(k) or "").lower())[:90] for k in ("url", "title")]
-                if action.startswith("publish") and any(k and k in register for k in keys):
+                if action.startswith("publish") and any(k and k in register for k in keys) and not str(item.get("id", "")).startswith("ctgov-"):     # the same rule as route(): the owner's approval of a later registry update is not "already published"
                     out["alreadyPublished"] += 1
                     self.log(step="owner-decision", identifier=d["id"], decision=d["decision"], result="already published; not published again", published=False, held=False)
                     continue

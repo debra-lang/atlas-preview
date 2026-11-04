@@ -10,17 +10,11 @@ FIXED_QUEUE = Path(__file__).resolve().parent / "fixtures" / "queue-2026-10-23.j
 
 
 sys.path.insert(0, str(ENGINE))
-import evaluate_queue as _eq, notices as _notices, topic_holds as _th, weekly_cycle as _wc   # noqa: E402
+import evaluate_queue as _eq, notices as _notices, topic_holds as _th   # noqa: E402
 
 
 def _queue(path=None):
     return json.loads((path or REPO / "data" / "review-queue" / "queue.json").read_text(encoding="utf-8"))["items"]
-
-
-def _already_published(q=None):
-    import re
-    reg = _wc.Cycle(REPO).published_register()
-    return {i["id"] for i in (_queue() if q is None else q) if any(k and k in reg for k in (re.sub(r"\W+", "", (i.get(x) or "").lower())[:90] for x in ("url", "title")))}
 
 
 def _paused_ids():
@@ -28,9 +22,9 @@ def _paused_ids():
 
 
 def expected_without_api(include_paused=True, q=None):
-    """Queue entries that never need a paid call: already published, owner-paused, topic-held, superseded registry updates, correction/retraction notices."""
+    """Queue entries that never need a paid call: owner-paused, topic-held, superseded registry updates, correction/retraction notices. A record in the published register is read too (E2: test_routing_order.py)."""
     q = _queue() if q is None else q
-    ids = _already_published(q) | _eq.superseded_ids(q) | {i["id"] for i in q if _th.match_item(i)} | {i["id"] for i in q if _notices.looks_like_notice(i)}
+    ids = _eq.superseded_ids(q) | {i["id"] for i in q if _th.match_item(i)} | {i["id"] for i in q if _notices.looks_like_notice(i)}
     return ids | (_paused_ids() if include_paused else set())
 
 
@@ -74,7 +68,7 @@ class FailureModes(unittest.TestCase):
         self.assertEqual(a["healthCheckExit"], 1)                # CI job would be red
         self.assertEqual(a["summary"]["totalApiCalls"], 0)       # fail fast: no doomed calls
         screened = {i["id"] for i in q if _notices.looks_like_notice(i)}
-        self.assertEqual(a["summary"]["counts"]["queueRemaining"], r["initialItems"] - len(_already_published(q) | screened))   # nothing lost, nothing published
+        self.assertEqual(a["summary"]["counts"]["queueRemaining"], r["initialItems"] - len(screened))   # nothing lost, nothing published
         self.assertIn("not been evaluated", a["firstReportItem"])  # public notice is not "nothing found"
         self.assertTrue(conserved(a))
         self.assertEqual(b["statusEvaluation"]["state"], "ok")   # recovery once the key works
@@ -110,7 +104,7 @@ class FailureModes(unittest.TestCase):
         topic_held = {i["id"] for i in q if _th.match_item(i)}
         self.assertEqual(set(b["queueRemaining"]), topic_held)              # only the topic-held (Lenire/Neuromod) items stay queued
         self.assertEqual(b["summary"]["maxApiCallsForOneItem"], 1)          # nothing evaluated twice
-        self.assertEqual(b["summary"]["totalApiCalls"], r["initialItems"] - len(expected_without_api(include_paused=False, q=q)))   # (already-published duplicates are no longer paid for)   # every item that needs the AI, exactly once across the two runs
+        self.assertEqual(b["summary"]["totalApiCalls"], r["initialItems"] - len(expected_without_api(include_paused=False, q=q)))   # # every item that needs the AI, exactly once across the two runs
         self.assertTrue(conserved(a)); self.assertTrue(conserved(b))
 
 
@@ -133,10 +127,10 @@ class DeployedConfiguration(unittest.TestCase):
             self.assertEqual(run["statusEvaluation"]["state"], "disabled")
             self.assertEqual(run["summary"]["totalApiCalls"], 0)                      # not even a preflight ping
             self.assertEqual(sorted(run["queueRemaining"]), sorted(set(run["queueRemaining"])))
-            self.assertEqual(len(run["queueRemaining"]), r["initialItems"] - len(_already_published()))   # every queued item preserved (exact duplicates of published items were always dropped)
+            self.assertEqual(len(run["queueRemaining"]), r["initialItems"])   # every queued item preserved: nothing is dropped unread (E2)
             for k in ("published", "held", "archived"):
                 self.assertEqual(run[k], [], k)
-            self.assertEqual(run["droppedLogged"], sorted(_already_published()))             # only exact duplicates of already-published items are dropped (as before)
+            self.assertEqual(run["droppedLogged"], [])
             self.assertEqual(run["healthCheckExit"], 0)                               # a deliberate pause is not a red run
             self.assertTrue(conserved(run))
             self.assertIn("paused", (run["firstReportItem"] or "").lower())           # public notice never says 'quiet week'
