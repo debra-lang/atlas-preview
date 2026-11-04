@@ -136,7 +136,7 @@ def process(items, existing, *, today, fetch_context, record_meta, excluded=lamb
     from collections import Counter
     counts = Counter()
     by_key = {e["key"]: e for e in (existing or {}).get("items", [])}
-    todo = [it for it in items if it.get("kind") in LISTABLE_KINDS and not it.get("intelligenceOnly") and not it.get("listed") and key_of(it)]
+    todo = [it for it in items if it.get("kind") in LISTABLE_KINDS and not it.get("intelligenceOnly") and not it.get("listed") and key_of(it) and not it["id"].startswith("feed-")]   # a news item that links to a trial is not that trial's record, and must not stand in for it
     # one listing per registry record: only the newest queue entry of an NCT is processed, older ones are marked as folded into it
     newest = {}
     for it in todo:

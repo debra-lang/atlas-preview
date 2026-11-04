@@ -358,6 +358,8 @@ def fetch_context(item):
 
 
 def nct_of(item):
+    if item.get("id", "").startswith("feed-"):     # a news item that links to a trial is not an update of that trial's record, and must not supersede it
+        return None
     m = re.search(r"NCT\d{8}", item.get("id", "") + " " + item.get("url", ""))
     return m.group(0) if m else None
 

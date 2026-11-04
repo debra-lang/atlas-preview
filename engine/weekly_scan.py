@@ -138,47 +138,138 @@ def scan_ctgov():
     return items
 
 # ---------- Watched feeds (FDA, NIH/NIDCD, journals, regulators…) ----------
-def scan_feeds():
-    """Generic RSS/Atom watcher driven by engine/sources.json. Failures are per-feed, not fatal."""
-    import xml.etree.ElementTree as ET
+RSS1, ATOM, DC, CONTENT = "{http://purl.org/rss/1.0/}", "{http://www.w3.org/2005/Atom}", "{http://purl.org/dc/elements/1.1/}", "{http://purl.org/rss/1.0/modules/content/}"
+FEED_REPORT = []   # one row per watched feed from the last scan_feeds(): how many entries it offered, how many were kept, or what went wrong
+
+
+def _feed_text(e, *tags):
+    """The text of the first of these children that has any, with nested markup flattened. Finds are compared with None on purpose: an element with no children is False, so `find(a) or find(b)` throws away every ordinary title."""
+    for t in tags:
+        for el in e.findall(t):
+            s = " ".join("".join(el.itertext()).split())
+            if s:
+                return s
+    return ""
+
+
+def _feed_link(e):
+    """The item's address. Only http and https are kept: this text ends up in links on the admin page."""
+    link = _feed_text(e, "link", RSS1 + "link")
+    links = e.findall(ATOM + "link")
+    if not link:
+        for el in links:
+            if el.get("rel", "alternate") == "alternate" and el.get("href"):
+                link = el.get("href").strip()
+                break
+    if not link:
+        guid = _feed_text(e, "guid", ATOM + "id")
+        link = (links[0].get("href", "").strip() if links else "") or (guid if guid.startswith("http") else "")
+    return link if link.lower().startswith(("http://", "https://")) else ""
+
+
+def _feed_date(pub):
+    """RFC 822, ISO 8601, or the month/day/year some feeds use. None if it cannot be read: an undated item is kept for a person to judge."""
     from email.utils import parsedate_to_datetime
+    pub = (pub or "").strip()
+    try:
+        return parsedate_to_datetime(pub).date()
+    except Exception:         # the parser raises several types on odd input, including OverflowError
+        pass
+    try:
+        return date.fromisoformat(pub[:10])
+    except ValueError:
+        pass
+    m = re.search(r"\b(\d{1,2})/(\d{1,2})/(\d{4})\b", pub)
+    if m:
+        try:
+            return date(int(m.group(3)), int(m.group(1)), int(m.group(2)))
+        except ValueError:
+            pass
+    return None
+
+
+def _feed_id(feed, e, link, shown):
+    """Must hold still from run to run, and must not join two different alerts, because a known id is skipped: losing an alert is far worse than queueing one twice. So it uses the feed's own id AND the address, without scheme, www, trailing slash or tracking parameters. Hashed, because long addresses collide once cut short."""
+    import hashlib
+    from urllib.parse import parse_qsl, urlencode, urlsplit
+    guid = _feed_text(e, "guid", ATOM + "id", DC + "identifier")
+    canon = ""
+    if link:
+        try:
+            u = urlsplit(link)
+            query = [(k, v) for k, v in parse_qsl(u.query, keep_blank_values=True) if not k.lower().startswith("utm_") and k.lower() not in ("fbclid", "gclid", "mc_cid", "mc_eid")]
+            canon = u.netloc.lower().removeprefix("www.") + u.path.rstrip("/") + ("?" + urlencode(query) if query else ("?" + u.query if u.query and "=" not in u.query else "")) + ("#" + u.fragment if u.fragment else "")
+        except ValueError:
+            canon = link
+    key = f"{guid}|{canon}" if guid or canon else shown
+    name = re.sub(r"[^a-z0-9]+", "-", feed["name"].lower()).strip("-")
+    return f"feed-{name}-{hashlib.sha256(key.encode('utf-8')).hexdigest()[:16]}"
+
+
+def parse_feed(raw, feed, cutoff):
+    """(items for the review queue, entries the feed offered, entries with any readable text, entries that could not be read). RSS 2.0, RSS 1.0 (RDF, namespaced) and Atom. An item whose title is missing is judged on its description, not dropped for that reason: a safety alert may be badly formed. One bad entry does not cost the rest. Raises on XML that cannot be parsed."""
+    import html
+    import xml.etree.ElementTree as ET
+    root = ET.fromstring(raw)
+    entries = root.findall(".//item") or root.findall(f".//{RSS1}item") or root.findall(f".//{ATOM}entry")
+    items, readable, bad, seen = [], 0, 0, set()
+
+    def plain(s):
+        return " ".join(re.sub(r"<[^>]+>", " ", html.unescape(s)).split())
+    for e in entries[:500]:     # a guard against an endless feed, not a window: some feeds list oldest first
+        try:
+            title = plain(_feed_text(e, "title", RSS1 + "title", ATOM + "title", DC + "title"))
+            full = plain(_feed_text(e, "description", RSS1 + "description", ATOM + "summary", ATOM + "content", CONTENT + "encoded"))
+            readable += bool(title or full)
+            link = _feed_link(e)
+            pub_date = _feed_date(_feed_text(e, "pubDate", DC + "date", ATOM + "published", ATOM + "updated"))
+            if pub_date and pub_date < cutoff:
+                continue
+            blob = (title + " " + full).lower()    # the whole description: a safety alert may mention hearing only late in its text
+            if not feed.get("alwaysRelevant") and not any(k in blob for k in feed.get("filter", [])):
+                continue
+            summary = full[:400]
+            shown = title or summary[:120] or f"Untitled item from {feed['name']}"
+            fid = _feed_id(feed, e, link, shown)
+            if fid in seen:
+                continue
+            seen.add(fid)
+            items.append({
+                "id": fid,
+                "kind": feed.get("kind", "news"), "title": shown, "source": feed["name"],
+                "date": pub_date.isoformat() if pub_date else "", "url": link,
+                "summary": summary or "Watched-feed item — needs evaluation.",
+                "treatment": "", "proposal": "", "why": "",
+            })
+        except Exception:
+            bad += 1
+    return items, len(entries), readable, bad
+
+
+def scan_feeds():
+    """Generic RSS/Atom watcher driven by engine/sources.json. Failures are per-feed, not fatal, and each feed's outcome is reported in FEED_REPORT. A feed that answers with no entries at all counts as a failure: that is how a format change would look. The report is public, so it holds the kind of error, not an outside server's wording."""
     cfg = load(ROOT / "engine" / "sources.json", {"feeds": []})
     cutoff = date.today() - timedelta(days=DAYS)
     items = []
+    FEED_REPORT.clear()
     for feed in cfg.get("feeds", []):
+        row = {"name": feed.get("name", "?"), "entries": 0, "kept": 0, "error": None}
+        FEED_REPORT.append(row)
         try:
             req = urllib.request.Request(feed["url"], headers=UA)
             with urllib.request.urlopen(req, timeout=45) as r:
-                root = ET.fromstring(r.read())
-            # RSS: channel/item; Atom: {ns}entry
-            entries = root.findall(".//item") or root.findall(".//{http://www.w3.org/2005/Atom}entry")
-            for e in entries[:50]:
-                def text(*tags):
-                    for t in tags:
-                        el = e.find(t) or e.find("{http://www.w3.org/2005/Atom}" + t)
-                        if el is not None and (el.text or el.get("href")):
-                            return (el.text or el.get("href")).strip()
-                    return ""
-                title, summary = text("title"), re.sub(r"<[^>]+>", " ", text("description", "summary"))[:400]
-                link = text("link")
-                pub = text("pubDate", "published", "updated")
-                try:
-                    pub_date = parsedate_to_datetime(pub).date() if "," in pub else date.fromisoformat(pub[:10])
-                    if pub_date < cutoff:
-                        continue
-                except Exception:
-                    pub_date = None  # keep undated items; the evaluator/admin can judge
-                blob = (title + " " + summary).lower()
-                if not feed.get("alwaysRelevant") and not any(k in blob for k in feed.get("filter", [])):
-                    continue
-                items.append({
-                    "id": f"feed-{re.sub(r'[^a-z0-9]+', '-', (feed['name'] + '-' + (link or title)).lower())[:120]}",
-                    "kind": feed.get("kind", "news"), "title": title, "source": feed["name"],
-                    "date": pub_date.isoformat() if pub_date else "", "url": link,
-                    "summary": summary or "Watched-feed item — needs evaluation.",
-                    "treatment": "", "proposal": "", "why": "",
-                })
+                found, row["entries"], readable, bad = parse_feed(r.read(), feed, cutoff)
+            row["kept"] = len(found)
+            items += found
+            if not row["entries"]:
+                row["error"] = "the feed answered with no entries"
+            elif not readable:
+                row["error"] = "the feed's entries had no readable text"     # what the first parsing fault looked like from outside
+            elif bad:
+                row["error"] = f"{bad} of its entries could not be read"
         except Exception as ex:
+            code = getattr(ex, "code", None)
+            row["error"] = f"{type(ex).__name__}" + (f" {code}" if isinstance(code, int) else "")
             print(f"WARN: feed '{feed.get('name', '?')}' failed: {ex}", file=sys.stderr)
     return items
 

@@ -52,6 +52,9 @@ if bud.get("fraction") is not None:
         problems.append(f"The monthly AI budget is used up: ${bud.get('spentUSD')} of ${bud.get('monthlyUSD')} estimated. Evaluation stays paused until next month or the budget is raised in eval_settings.json.")
     elif bud["fraction"] >= 0.6:
         warnings.append(f"{round(bud['fraction'] * 100)} % of the monthly AI budget is used (${bud.get('spentUSD')} of ${bud.get('monthlyUSD')}).")
+for s in status.get("sources") or []:      # one failing source is a warning, not a red run: outside sites fail for a day. The watcher follows up if it persists
+    if s.get("error"):
+        warnings.append(f"Source '{s.get('name')}': {str(s['error'])[:160]}")
 for e in status.get("errors") or []:
     if "coverage gap" in str(e):      # a source was not scanned for longer than the maximum look-back: records may have been missed, so this is a red run, not a footnote
         problems.append(str(e))

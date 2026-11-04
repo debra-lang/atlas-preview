@@ -160,6 +160,12 @@ class Cycle:
                         self.status["errors"].append(gap_msg)
                 items = fn()
                 src["count"] = len(items)
+                if use_state and name.startswith("Watched feeds") and weekly_scan.FEED_REPORT:   # one number hid that these feeds found nothing for two months: the status now says what each one offered
+                    src["feeds"] = [dict(r) for r in weekly_scan.FEED_REPORT]
+                    bad = [r["name"] for r in src["feeds"] if r["error"]]
+                    if bad:
+                        src["error"] = f"{len(bad)} of {len(src['feeds'])} watched feeds failed: {', '.join(bad)}"
+                        self.status["errors"].append(("coverage gap: every watched feed failed" if len(bad) == len(src["feeds"]) else f"source '{name}' incomplete") + f": {', '.join(bad)}")
                 self.status["examined"] += len(items)
                 new += [it for it in items if it["id"] not in known and it["id"] not in existing]
                 if key:
