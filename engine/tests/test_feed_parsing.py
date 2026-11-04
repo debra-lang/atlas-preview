@@ -8,7 +8,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ENGINE, pubmed_item, run_scenario   # noqa: E402
-from test_fail_closed import HOLDS, KNOWN, LISTINGS, PAUSED, QUEUE, SOURCES, STATUS, TODAY, Sandbox, W   # noqa: E402
+from cycle_sandbox import HOLDS, KNOWN, LISTINGS, PAUSED, QUEUE, SOURCES, STATUS, TODAY, Sandbox, W   # noqa: E402
 
 import weekly_scan   # noqa: E402
 
