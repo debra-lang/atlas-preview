@@ -199,9 +199,9 @@ class TheRatingLock(unittest.TestCase):
         self.assertEqual(rating_lock.compare(GOOD, json.loads(json.dumps(GOOD))), [])
 
     def test_every_protected_field_stops_it(self):
-        for k in rating_lock.RATINGS:
+        for k in ("tier", "evidenceScore", "confidence", "replication", "independence", "safetyLevel", "category", "subtypeTags"):       # written out, so narrowing the lock's own list fails here
             self.assertTrue(changed(lambda d: d["data/treatments.json"]["treatments"][0].__setitem__(k, "other")), k)
-        for k in rating_lock.LEVELS:
+        for k in ("loudness", "distress"):
             self.assertTrue(changed(lambda d: d["data/treatments.json"]["treatments"][0][k].__setitem__("level", "moderate")), k)
 
     def test_a_treatment_added_removed_or_moved_stops_it(self):
