@@ -15,6 +15,7 @@ Nothing is deleted: every queue item ends with an outcome recorded on it (listed
 Settings: engine/automation_settings.json {"listings": true} turns the listings on; anything else (missing file, false, "true", 1) is OFF.
 """
 import json, re, sys
+from collections import Counter
 from pathlib import Path
 
 ENGINE = Path(__file__).resolve().parent
@@ -133,7 +134,6 @@ def entry_for(item, tier, checks, meta, today):
 def process(items, existing, *, today, fetch_context, record_meta, excluded=lambda it: False, enrich=None, held_by_record=lambda it, text: False):
     """Lists what can be listed. `items` = queue items (mutated: an outcome is recorded on each one processed), `existing` = the current listings.json object.
     Returns (new listings object, counts). fetch_context(item) -> record text; record_meta(item_id) -> its metadata (both from evaluate_queue)."""
-    from collections import Counter
     counts = Counter()
     by_key = {e["key"]: e for e in (existing or {}).get("items", [])}
     todo = [it for it in items if it.get("kind") in LISTABLE_KINDS and not it.get("intelligenceOnly") and not it.get("listed") and key_of(it) and not it["id"].startswith("feed-")]   # a news item that links to a trial is not that trial's record, and must not stand in for it
@@ -228,6 +228,32 @@ def process(items, existing, *, today, fetch_context, record_meta, excluded=lamb
         it["listed"] = {"on": today, "outcome": "listed", "key": e["key"]}
     out = sorted(by_key.values(), key=lambda e: (e["listedOn"], e["key"]), reverse=True)
     return {"version": 1, "updated": today, "count": len(out), "items": out}, dict(counts)
+
+
+def check_result(items, existing, new, *, already, excluded, before):
+    """Checks the finished step before anything is saved, however it was reached. Raises if a record marked listed has no listing, an earlier listing has gone, the count is wrong, a paused or held record was listed by this run, or the queue no longer holds the same records.
+    `already`: ids marked listed before this step. Pausing or holding a record after it was listed is allowed, including earlier the same day: an existing listing is reported by policy, never treated as this step's error. `before`: the queue as the step received it."""
+    if Counter(i.get("id") for i in items) != Counter(i.get("id") for i in before):
+        raise ValueError("the step changed which records are in the queue")
+    was = {i.get("id"): i for i in before}
+    for it in items:
+        old = was[it.get("id")]
+        if any(it.get(k) != old.get(k) for k in ("kind", "title", "url")):
+            raise ValueError(f"{it.get('id')} no longer reads as the same record")
+    keys = {e["key"] for e in new["items"]}
+    if len(keys) != len(new["items"]) or new.get("count") != len(new["items"]):
+        raise ValueError("the new listings repeat a key or miscount their entries")
+    gone = {e["key"] for e in (existing or {}).get("items", [])} - keys
+    if gone:
+        raise ValueError(f"{len(gone)} earlier listing(s) would be lost")
+    for it in items:
+        mark = it.get("listed")
+        if not (isinstance(mark, dict) and mark.get("outcome") == "listed"):
+            continue
+        if mark.get("key") not in keys:
+            raise ValueError(f"{it.get('id')} is marked listed but has no listing")
+        if it.get("id") not in already and (it.get("topicHold") or excluded(it)):
+            raise ValueError(f"{it.get('id')} was listed by this run although it is paused or held")
 
 
 def history_entry(today, status, counts, listings_total, cost_usd):

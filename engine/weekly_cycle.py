@@ -24,7 +24,7 @@ Usage:
   python engine/weekly_cycle.py --simulate      # full end-to-end test in a sandbox copy
   python engine/weekly_cycle.py --skip-eval     # scan + deterministic steps only
 """
-import json, os, re, shutil, sys, tempfile, urllib.request, urllib.parse
+import copy, json, os, re, shutil, sys, tempfile, urllib.request, urllib.parse
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
@@ -349,23 +349,35 @@ class Cycle:
                 it.pop("topicHold", None)
             return bool(hold)
         current = self.load(listings.LISTINGS_REL, {"items": []})   # outside the try: damaged listings stop the run, they are never rebuilt from nothing
+
+        def excluded(it):
+            return it["id"] in paused or bool(topic_holds.match_item(it, holds))
+        work = copy.deepcopy(queue["items"])   # the step marks a copy: its marks reach the queue only if the whole step succeeds, so nothing is marked listed without its listing
+        already = {i["id"] for i in queue["items"] if isinstance(i.get("listed"), dict) and i["listed"].get("outcome") == "listed"}
         try:
             new, counts = listings.process(
-                queue["items"], current, today=date.today().isoformat(),
+                work, current, today=date.today().isoformat(),
                 fetch_context=evaluate_queue.fetch_context, record_meta=lambda i: evaluate_queue.RECORD_META.pop(i, None),
-                excluded=lambda it: it["id"] in paused or bool(topic_holds.match_item(it, holds)), enrich=triage.enrich,
-                held_by_record=held_by_record)
+                excluded=excluded, enrich=triage.enrich, held_by_record=held_by_record)
+            listings.check_result(work, current, new, already=already, excluded=excluded, before=queue["items"])
         except state_files.DamagedFile:
             raise
-        except Exception as e:   # a listing problem does not stop the scan from being saved, but the run goes red and does not count as a success; the records are retried next run
+        except Exception as e:   # a listing problem does not stop the scan from being saved, but the run goes red and does not count as a success; every record stays unmarked and is retried next run
             self.status["listingsFailed"] = True
             self.status["listings"] = {"total": len(current.get("items", [])), "failed": True}   # still says how many exist, so the next run can tell if they vanish
+            marked = {tried.get("id"): tried["topicHold"] for tried in work if tried.get("topicHold")}
+            for kept in queue["items"]:   # one mark is kept, matched by id: a hold found only in the full record protects it, whatever became of the rest of the step
+                if kept["id"] in marked:
+                    kept["topicHold"] = marked[kept["id"]]
             self.status["errors"].append(f"listings step failed: {type(e).__name__}: {str(e)[:120]}")
-            print(f"::error title=Listing step failed::{type(e).__name__}: the records stay queued and are retried next run")
+            print(f"::error title=Listing step failed::{type(e).__name__}: nothing was marked or listed; the records stay queued and are retried next run")
+            self.stage("data/review-queue/queue.json", queue)
+            self.commit()   # the evaluator reads the queue from disk, and the cycle reads it back after: a mark kept only in memory would be lost there
             return
+        queue["items"][:] = work
         self.listing_counts = counts
         self.status["listings"] = {**counts, "total": new["count"]}
-        self.stage(listings.LISTINGS_REL, new)
+        self.stage(listings.LISTINGS_REL, new)     # the listings are written first: an interruption between the two files leaves a record to list again (it folds into its listing), never a mark without its listing
         self.stage("data/review-queue/queue.json", queue)
         self.commit()   # the evaluator reads the queue from disk
         if counts.get("failedVerification"):

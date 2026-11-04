@@ -359,6 +359,11 @@ def preflight(root, scan_files=True, today=None):
     listed = status.get("listings").get("total") if isinstance(status.get("listings"), dict) else None
     if LISTINGS in loaded and not loaded[LISTINGS]["items"] and isinstance(listed, int) and listed > 0 and loaded[LISTINGS].get("emptyOnPurpose") is not True:
         problems.append(f"{LISTINGS}: empty, but the last run left {listed} listing(s) in it; add \"emptyOnPurpose\": true if that is intended")
+    if LISTINGS in loaded and queue is not None:     # the two files must agree, however they came to differ: a record marked listed without its listing would never be retried
+        have = {e["key"] for e in loaded[LISTINGS]["items"]}
+        lost = [i["id"] for i in queue["items"] if isinstance(i.get("listed"), dict) and i["listed"].get("outcome") == "listed" and i["listed"].get("key") not in have]
+        if lost:
+            problems.append(f"data/review-queue/queue.json: {len(lost)} record(s) marked listed have no listing, so they would never be retried: {', '.join(lost[:5])}. Restore the listing, or clear the record's 'listed' mark to list it again")
     for name in ("held", "staged"):
         if (root / f"data/review-queue/{name}.json.enc").exists() and not (root / f"data/review-queue/{name}.json").exists():
             problems.append(f"data/review-queue/{name}.json.enc exists but was not decrypted (STATE_KEY missing, or the restore step failed): refusing to run so {name} items cannot be lost")
