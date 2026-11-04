@@ -176,6 +176,10 @@ if cl_path.exists():
         errors.append("does-tinnitus-go-away: sudden-hearing-loss safety note must appear before the article body")
     print(f"claims: {len(CL['claims'])} claim pages + landing + verdicts checked")
 
+import rating_lock
+_lock, _note = rating_lock.check(ROOT)
+errors += _lock
+if _note: print(_note)
 print(f"checked {len(gen) + len(root_indexable)} indexable pages, sitemap {len(sm_urls)} URLs")
 for w in warns: print("WARN:", w)
 if errors:

@@ -3,7 +3,7 @@
 never cost scanned items (the cycle itself still exits 0 and commits). Reads data/engine-status.json only; changes nothing.
 
 Exit 1 when: evaluation state is 'failed' or 'blocked-gate'; or 'degraded' with at least half of the attempts failing; or the number of items
-awaiting evaluation is at least BACKLOG_LIMIT. Otherwise exit 0 (warnings are printed for milder degradation).
+awaiting evaluation is at least BACKLOG_LIMIT; or an error was recorded that is not on the NOT_RED list. Otherwise exit 0 (warnings are printed for milder problems).
 """
 import json, os, sys
 from pathlib import Path
@@ -55,9 +55,16 @@ if bud.get("fraction") is not None:
 for s in status.get("sources") or []:      # one failing source is a warning, not a red run: outside sites fail for a day. The watcher follows up if it persists
     if s.get("error"):
         warnings.append(f"Source '{s.get('name')}': {str(s['error'])[:160]}")
-for e in status.get("errors") or []:
-    if "coverage gap" in str(e):      # a source was not scanned for longer than the maximum look-back: records may have been missed, so this is a red run, not a footnote
-        problems.append(str(e))
+NOT_RED = ("failed source verification", "' incomplete", "trial refresh", "AI evaluation")   # counted, retried next run or judged above: a person reads them in the report, and a run is red only for what needs a decision
+TRIAL_REFRESH_LIMIT = 5                                                                      # one trial failing is an outside hiccup; this many means the registry path is not working
+errors = [str(e) for e in status.get("errors") or []]
+for e in errors:
+    if "coverage gap" in e or not any(k in e for k in NOT_RED):      # a look-back exceeded, a source or a whole step failed: records may have been missed, so this is a red run, not a footnote
+        problems.append(e[:300])
+    else:
+        warnings.append(e[:300])
+if sum("trial refresh" in e for e in errors) >= TRIAL_REFRESH_LIMIT:
+    problems.append(f"{sum('trial refresh' in e for e in errors)} tracked trials could not be refreshed.")
 if awaiting >= BACKLOG_LIMIT:
     problems.append(f"{awaiting} item(s) are awaiting evaluation (limit {BACKLOG_LIMIT}).")
 elif awaiting:

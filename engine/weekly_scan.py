@@ -140,6 +140,7 @@ def scan_ctgov():
 # ---------- Watched feeds (FDA, NIH/NIDCD, journals, regulators…) ----------
 RSS1, ATOM, DC, CONTENT = "{http://purl.org/rss/1.0/}", "{http://www.w3.org/2005/Atom}", "{http://purl.org/dc/elements/1.1/}", "{http://purl.org/rss/1.0/modules/content/}"
 FEED_REPORT = []   # one row per watched feed from the last scan_feeds(): how many entries it offered, how many were kept, or what went wrong
+SCAN_PROBLEMS = {}   # scanner name -> (parts it tried, names of the parts it could not read), from its last run: "nothing found" and "nothing read" are not the same
 
 
 def _feed_text(e, *tags):
@@ -297,6 +298,7 @@ def scan_fda():
          lambda r: (r.get("report_number", ""), f"MAUDE adverse-event report for a tinnitus device (product code {(r.get('device') or [{}])[0].get('device_report_product_code','?')})",
                     "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfmaude/search.cfm")),
     ]
+    failed = []
     for name, url, fmt in endpoints:
         try:
             data = get_json(url)
@@ -304,6 +306,11 @@ def scan_fda():
             if "404" in str(e):  # openFDA returns 404 for zero matches — that's a quiet week, not an error
                 continue
             print(f"WARN: openFDA {name} failed: {e}", file=sys.stderr)
+            failed.append(name)
+            continue
+        if not isinstance(data, dict) or "results" not in data:     # an answer that is not a result set, such as an error body sent with status 200
+            print(f"WARN: openFDA {name} answered without results", file=sys.stderr)
+            failed.append(name)
             continue
         for r in data.get("results", []):
             ident, title, link = fmt(r)
@@ -314,6 +321,7 @@ def scan_fda():
                 "summary": f"Authoritative FDA database record ({name}). Needs evaluation; regulatory wording must be exact (cleared ≠ approved ≠ De Novo authorized).",
                 "treatment": "", "proposal": "", "why": "",
             })
+    SCAN_PROBLEMS["scan_fda"] = (len(endpoints), failed)
     return items
 
 # ---------- Company-wire intelligence (Google News RSS; NEVER treated as evidence) ----------
@@ -326,7 +334,7 @@ def scan_news_intel():
     from email.utils import parsedate_to_datetime
     cfg = load(ROOT / "engine" / "sources.json", {})
     cutoff = date.today() - timedelta(days=DAYS)
-    items = []
+    items, failed = [], []
     for q in cfg.get("newsIntel", []):
         url = "https://news.google.com/rss/search?q=" + urllib.parse.quote(q["query"]) + "&hl=en-US&gl=US&ceid=US:en"
         try:
@@ -335,6 +343,7 @@ def scan_news_intel():
                 root = ET.fromstring(r.read())
         except Exception as e:
             print(f"WARN: news-intel '{q['name']}' failed: {e}", file=sys.stderr)
+            failed.append(q["name"])
             continue
         for e in root.findall(".//item")[:10]:
             title = (e.findtext("title") or "").strip()
@@ -355,6 +364,7 @@ def scan_news_intel():
                 "summary": "Company/news-wire intelligence item. NOT evidence — publishable only as a labeled company-reported development after verification.",
                 "treatment": "", "proposal": "", "why": "",
             })
+    SCAN_PROBLEMS["scan_news_intel"] = (len(cfg.get("newsIntel", [])), failed)
     return items
 
 # ---------- Guideline page watcher (content-hash diff; no fragile scraping) ----------
@@ -366,7 +376,7 @@ def scan_pages():
     cfg = load(ROOT / "engine" / "sources.json", {})
     state_p = ROOT / "engine" / "page-hashes.json"
     state = load(state_p, {})
-    items = []
+    items, failed = [], []
     for pg in cfg.get("pages", []):
         try:
             req = urllib.request.Request(pg["url"], headers=UA)
@@ -378,6 +388,7 @@ def scan_pages():
             h = hashlib.sha256(text).hexdigest()
         except Exception as e:
             print(f"WARN: page watch '{pg['name']}' failed: {e}", file=sys.stderr)
+            failed.append(pg["name"])
             continue
         prev = state.get(pg["url"])
         state[pg["url"]] = h
@@ -391,6 +402,7 @@ def scan_pages():
                 "treatment": "", "proposal": "", "why": "",
             })
     state_p.write_text(json.dumps(state, indent=1), encoding="utf-8")
+    SCAN_PROBLEMS["scan_pages"] = (len(cfg.get("pages", [])), failed)
     return items
 
 

@@ -72,6 +72,24 @@ def next_scheduled(now):
     raise RuntimeError("no scheduled date found")
 
 
+TRIAL_STATUS = {  # registry enum -> our display wording: only these can appear publicly
+    "RECRUITING": "Recruiting", "ACTIVE_NOT_RECRUITING": "Active, not recruiting",
+    "NOT_YET_RECRUITING": "Not yet recruiting", "COMPLETED": "Completed",
+    "ENROLLING_BY_INVITATION": "Enrolling by invitation", "TERMINATED": "Terminated",
+    "WITHDRAWN": "Withdrawn", "SUSPENDED": "Suspended", "UNKNOWN": "Unknown status",
+}
+
+
+def status_key(text):
+    return re.sub(r"\W+", "", (text or "").lower())
+
+
+def current_status(text):
+    """The status a stored line states: the longest known one in it, since "Recruiting" is inside "Active, not recruiting" and "Not yet recruiting"."""
+    key = status_key(text)
+    return max((k for k in map(status_key, TRIAL_STATUS.values()) if k in key), key=len, default=None)
+
+
 class Cycle:
     def __init__(self, root, simulate=False, skip_eval=False, days=7, staged=None):
         self.root, self.simulate, self.skip_eval, self.days = Path(root), simulate, skip_eval, days
@@ -133,6 +151,12 @@ class Cycle:
                                        "may have been missed (coverage gap: check the source by hand)")
         return max(base, want), None
 
+    def sources_text(self):
+        """For the public report: a source that could not be read is never listed as checked."""
+        read = [s["name"] for s in self.status["sources"] if s.get("checked", True)]
+        unread = [s["name"] for s in self.status["sources"] if not s.get("checked", True)]
+        return "Sources checked: " + ", ".join(read) + "." + (" Could not be fully read: " + ", ".join(unread) + "." if unread else "")
+
     def scan(self, fixtures=None):
         queue = self.load("data/review-queue/queue.json", {"items": []})
         known = set(self.load("engine/known_ids.json", []))
@@ -165,13 +189,18 @@ class Cycle:
                     bad = [r["name"] for r in src["feeds"] if r["error"]]
                     if bad:
                         src["error"] = f"{len(bad)} of {len(src['feeds'])} watched feeds failed: {', '.join(bad)}"
+                        src["checked"] = False
                         self.status["errors"].append(("coverage gap: every watched feed failed" if len(bad) == len(src["feeds"]) else f"source '{name}' incomplete") + f": {', '.join(bad)}")
+                parts, failed = weekly_scan.SCAN_PROBLEMS.pop(getattr(fn, "__name__", ""), (0, [])) if use_state else (0, [])
+                if failed:           # the scanner kept going past what it could not read, so this source found "nothing" only in part
+                    src["error"], src["checked"] = f"{len(failed)} of {parts} parts could not be read: {', '.join(failed)}", False
+                    self.status["errors"].append(f"source '{name}' " + ("failed" if len(failed) == parts else "incomplete") + f": {', '.join(failed)}")
                 self.status["examined"] += len(items)
                 new += [it for it in items if it["id"] not in known and it["id"] not in existing]
                 if key:
                     state[key] = date.today().isoformat()          # only a source that answered completely advances its own clock
             except Exception as e:
-                src["error"] = str(e)[:200]
+                src["error"], src["checked"] = str(e)[:200], False
                 self.status["errors"].append(f"source '{name}' failed: {e}")
             finally:
                 weekly_scan.DAYS = base_days
@@ -209,20 +238,14 @@ class Cycle:
                         headers={"User-Agent": "TinnitusEvidence-weekly/1.0"})
                     with urllib.request.urlopen(req, timeout=45) as r:
                         new_status = json.loads(r.read())["protocolSection"]["statusModule"]["overallStatus"]
-                    allowed = {  # registry enum -> our display wording: only these can appear publicly
-                        "RECRUITING": "Recruiting", "ACTIVE_NOT_RECRUITING": "Active, not recruiting",
-                        "NOT_YET_RECRUITING": "Not yet recruiting", "COMPLETED": "Completed",
-                        "ENROLLING_BY_INVITATION": "Enrolling by invitation", "TERMINATED": "Terminated",
-                        "WITHDRAWN": "Withdrawn", "SUSPENDED": "Suspended", "UNKNOWN": "Unknown status",
-                    }
+                    allowed = TRIAL_STATUS
                     if new_status not in allowed:             # never published as it stands; the value itself is not repeated in the status file
                         self.status["errors"].append(f"trial refresh {tr['nctId']}: registry status outside the allowed list, not published")
                         continue
                     new_status = allowed[new_status]
                 if not new_status:
                     continue
-                cur_key = re.sub(r"\W+", "", (tr["status"] or "").lower())
-                if re.sub(r"\W+", "", new_status.lower()) not in cur_key:
+                if status_key(new_status) != current_status(tr["status"]):
                     old = tr["status"]
                     tr["status"] = f"{new_status} (verified at ClinicalTrials.gov {date.today().isoformat()})"
                     changed.append((tr, old, new_status))
@@ -791,7 +814,7 @@ class Cycle:
                 notice_why = ("The scan collected new items from the sources below, but they have not been read and assessed yet. This is not a finding that nothing important was published. "
                               "The evidence assessment shown on this site is unchanged until the items are reviewed.") + paused_txt
             notice = {"kind": "news", "treatment": "", "importance": "Not yet assessed", "title": notice_title, "whyMatters": notice_why,
-                      "summary": "Sources checked: " + ", ".join(s["name"] for s in self.status["sources"]) + f". Items awaiting evaluation: {awaiting}.",
+                      "summary": self.sources_text() + f" Items awaiting evaluation: {awaiting}.",
                       "url": "", "detail": {"changesAssessment": "Not assessed yet — the current evidence assessment is unchanged."}}
             publish.insert(0, notice)
         staged_new = (self.status.get("staged") or {}).get("new", 0)
@@ -801,13 +824,13 @@ class Cycle:
                                "whyMatters": ("Automated evaluation of new research is running in a review phase: an editor checks its results before anything is published. "
                                               "The scan collected and evaluated the items it found, but none of them has been published yet. This is not a finding that nothing important was published. "
                                               "The evidence assessment shown on this site is unchanged until the items are reviewed."),
-                               "summary": "Sources checked: " + ", ".join(x["name"] for x in self.status["sources"]) + f". Items awaiting editorial review: {staged_new}.",
+                               "summary": self.sources_text() + f" Items awaiting editorial review: {staged_new}.",
                                "url": "", "detail": {"changesAssessment": "Not assessed yet — the current evidence assessment is unchanged."}})
         if not publish and not existing_rep:  # honest quiet week — never bump dates to fake freshness
             publish = [{"kind": "news", "treatment": "", "importance": "Does Not Change Current Evidence",
                         "title": "No evidence-changing tinnitus research identified in this scan",
                         "whyMatters": "Some scans find nothing new. The sources below were checked; nothing met the bar for a meaningful update, and we would rather say so than manufacture a story." + (f" {self.status.get('paused')} item(s) are intentionally paused for owner review and were not evaluated." if self.status.get("paused") else ""),
-                        "summary": "Sources checked: " + ", ".join(s["name"] for s in self.status["sources"]) + ".",
+                        "summary": self.sources_text(),
                         "url": "", "detail": {"changesAssessment": "No."}}]
         if existing_rep:  # idempotent same-day rerun: merge items, keep the report's own title/headline
             titles = {i["title"] for i in publish}

@@ -56,10 +56,22 @@ class TestDisclosureEdits(unittest.TestCase):
             self.assertEqual([r for r in now_idx if r["date"] in {b["date"] for b in base_idx}], base_idx, "existing index entries are unchanged; the index only gains newer reports")
             changed.remove("data/weekly/index.json")
         import release_allowlist                                            # Release A (Acoustic CR): undoing exactly its listed edits must give BASE's record file
-        for f in release_allowlist.FILES:
+        # the fields a scheduled run may write itself: the news list, integrity notices and registry status. The rating lock guards the rest at run time
+        RUN_WRITES = {"data/treatments.json": ("latest",), "data/studies.json": ("integrityNotice",), "data/trials.json": ("status",)}
+
+        def without_run_fields(f, data):
+            rows = data if isinstance(data, list) else data.get({"data/treatments.json": "treatments", "data/studies.json": "studies"}.get(f), [])
+            for r in rows:
+                for k in RUN_WRITES[f]:
+                    r.pop(k, None)
+            return data
+        for f in list(RUN_WRITES):
             if f in changed:
                 base = json.loads(subprocess.run(["git", "show", f"{BASE}:{f}"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout)
-                self.assertEqual(release_allowlist.undo(f, json.loads(read(f))), base, f)
+                now = json.loads(read(f))
+                if f in release_allowlist.FILES:
+                    now = release_allowlist.undo(f, now)
+                self.assertEqual(without_run_fields(f, now), without_run_fields(f, base), f)
                 changed.remove(f)
         self.assertEqual(sorted(changed), sorted({c["file"] for c in log["corrections"]}))
         for f in changed:
