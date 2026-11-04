@@ -90,6 +90,9 @@ def current_status(text):
     return max((k for k in map(status_key, TRIAL_STATUS.values()) if k in key), key=len, default=None)
 
 
+HALTED_STATUSES = {"Terminated", "Suspended", "Withdrawn"}
+
+
 class Cycle:
     def __init__(self, root, simulate=False, skip_eval=False, days=7, staged=None):
         self.root, self.simulate, self.skip_eval, self.days = Path(root), simulate, skip_eval, days
@@ -257,16 +260,35 @@ class Cycle:
         if changed:
             self.status["trialStatusUpdates"] = len(changed)
             self.stage("data/trials.json", trials)
-        return [{
-            "kind": "trial", "treatment": tr.get("treatment", ""),
-            "title": f"Trial status change: {tr['nctId']} is now '{new}'",
-            "importance": "Does Not Change Current Evidence",
-            "whyMatters": f"The registry entry for this trial moved from '{old}' to '{new}'. Status changes are verified directly against ClinicalTrials.gov.",
-            "summary": f"{tr['title']} — sponsor {tr['sponsor']}. Status verified at the registry on {date.today().isoformat()}.",
-            "url": f"https://clinicaltrials.gov/study/{tr['nctId']}",
-            "detail": {"identifier": tr["nctId"], "source": "ClinicalTrials.gov (authoritative registry)",
-                       "changesAssessment": "No — trial status only."},
-        } for tr, old, new in changed]
+        holds = topic_holds.load_holds(self.root / "engine" / "topic_holds.json")
+        on_hold = self.trials_under_hold()
+        items = []
+        for tr, old, new in changed:
+            held = tr["nctId"] in on_hold or topic_holds.match_item({"id": "", "title": tr.get("title"), "source": tr.get("sponsor"), "summary": tr.get("treatment")}, holds)
+            if held and new not in HALTED_STATUSES:      # the trial's own page and the trials list still carry the registry fact; no automated item promotes it
+                self.status["trialStatusItemsWithheld"] = self.status.get("trialStatusItemsWithheld", 0) + 1
+                self.log(step="trial-status-item", identifier=tr["nctId"], reason="no update item: an intentional hold is active", published=False, held=True)
+                continue
+            if held:                                     # a halted trial can reflect a safety or integrity problem: it is reported, names no product, and goes to the owner
+                self.status["holdTrialHaltedNeedsOwner"] = self.status.get("holdTrialHaltedNeedsOwner", 0) + 1
+                print("::warning title=Halted trial under a hold::A trial linked to an active hold has a halted status. The owner should review it.")
+            items.append({
+                "kind": "trial", "treatment": "" if held else tr.get("treatment", ""),
+                "title": f"Trial status change: {tr['nctId']} is now '{new}'",
+                "importance": "Does Not Change Current Evidence",
+                "whyMatters": f"The registry entry for this trial moved from '{old}' to '{new}'. Status changes are verified directly against ClinicalTrials.gov.",
+                "summary": f"A tracked clinical trial. Status verified at the registry on {date.today().isoformat()}." if held else f"{tr['title']} — sponsor {tr['sponsor']}. Status verified at the registry on {date.today().isoformat()}.",
+                "url": f"https://clinicaltrials.gov/study/{tr['nctId']}",
+                "detail": {"identifier": tr["nctId"], "source": "ClinicalTrials.gov (authoritative registry)",
+                           "changesAssessment": "No — trial status only."},
+            })
+        return items
+
+    def trials_under_hold(self):
+        """Trial numbers the owner has paused, or whose queued record carries a hold mark found in its record text."""
+        paused = (self.load("engine/paused_ids.json", {}) or {}).get("ids", [])
+        marked = [i.get("id", "") for i in self.load("data/review-queue/queue.json", {"items": []}).get("items", []) if i.get("topicHold")]
+        return {i.split("-")[1] for i in [*paused, *marked] if i.startswith("ctgov-")}
 
     def retraction_check(self, held):
         """Monthly retraction/erratum/expression-of-concern back-check over every CITED

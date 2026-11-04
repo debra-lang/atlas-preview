@@ -244,7 +244,7 @@ def run_once(i, run):
         "totalApiCalls": sum(CALLS.values()) - sum(before_calls.values()),
         "queue": [x["id"] for x in J("data/review-queue/queue.json")["items"]],
         "marks": {x["id"]: x["topicHold"] for x in J("data/review-queue/queue.json")["items"] if x.get("topicHold")},
-        "reportItems": [{"title": x.get("title"), "identifier": (x.get("detail") or {}).get("identifier"), "why": x.get("whyMatters"), "importance": x.get("importance"), "detail": x.get("detail"), "reviewNote": x.get("reviewNote")} for x in rep["items"]],
+        "reportItems": [{"title": x.get("title"), "summary": x.get("summary"), "identifier": (x.get("detail") or {}).get("identifier"), "why": x.get("whyMatters"), "importance": x.get("importance"), "detail": x.get("detail"), "reviewNote": x.get("reviewNote")} for x in rep["items"]],
         "held": [h["item"]["id"] for h in held["items"]], "heldReasons": {h["item"]["id"]: h["reason"] for h in held["items"]},
         "archived": [a["item"]["id"] for a in J("data/review-queue/archive.json", {"items": []})["items"]],
         "staged": {e["id"]: {"route": e["proposedRoute"], "hash": e["evalHash"], "reason": e["reason"], "preview": e.get("weeklyPreview"), "itemDate": (e.get("item") or {}).get("date")} for e in staged["items"]},

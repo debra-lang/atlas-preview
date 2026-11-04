@@ -1,5 +1,5 @@
-"""Automatic registry status updates stay on for tracked trials, including trials linked to a topic hold (owner decision, 1 Nov 2026). They may state only the registry's status:
-they must not release a held record, bring in anything a sponsor wrote, or change a rating or an evidence conclusion. The REAL weekly cycle runs in a temp sandbox (run_scenario.py).
+"""Automatic registry status updates stay on for tracked trials (owner decision, 1 Nov 2026), and may state only the registry's status: they must not release a held record, bring in anything a sponsor wrote, or change a rating or an evidence conclusion.
+Changed by the owner's Option B decision (November 2026): while an intentional hold is active, a routine status change on a linked trial adds no automated item. See test_trial_status_on_hold.py. The REAL weekly cycle runs in a temp sandbox (run_scenario.py).
 Run:  python -m unittest discover -s engine/tests -v"""
 import json, re, sys, unittest
 from pathlib import Path
@@ -8,7 +8,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import *   # noqa: E402,F401
 
 NCT = "NCT99000901"
-TRIAL = {"nctId": NCT, "title": "EEG biomarker study with the Lenire device", "sponsor": "University of Minnesota", "status": "Active, not recruiting", "treatment": "lenire", "n": 40, "phase": "NA", "country": "USA", "completionEst": "2027", "watch": False, "whyItMatters": "Tracked."}
+TRIAL = {"nctId": NCT, "title": "EEG biomarker study with a sound device", "sponsor": "University of Minnesota", "status": "Active, not recruiting", "treatment": "cbt", "n": 40, "phase": "NA", "country": "USA", "completionEst": "2027", "watch": False, "whyItMatters": "Tracked."}
 PROMO = "Breakthrough cure: Lenire eliminates tinnitus in every patient"
 AUTO = {"listings": True, "updateHistory": True}
 SETTINGS = {"AI off (production)": {"enabled": False, "mode": "staged", "limitPerRun": 10},
@@ -77,7 +77,7 @@ class StatusLine(unittest.TestCase):
     def test_the_news_line_on_the_treatment_is_the_status_line_only(self):
         for name, runs in self.runs.items():
             with self.subTest(setting=name):
-                new = [l for l in runs[1]["latest"]["lenire"] if NCT in (l.get("text") or "")]
+                new = [l for l in runs[1]["latest"]["cbt"] if NCT in (l.get("text") or "")]
                 self.assertEqual([l["text"] for l in new], [f"Trial status change: {NCT} is now 'Completed'"])
 
 
@@ -91,7 +91,7 @@ class RegistryValues(unittest.TestCase):
             with self.subTest(value=value):
                 self.assertEqual([x for x in run["reportItems"] if NCT in json.dumps(x)], [])
                 self.assertEqual(run["trials"][0]["status"], TRIAL["status"])
-                self.assertEqual([l for l in run["latest"]["lenire"] if NCT in json.dumps(l)], [])
+                self.assertEqual([l for l in run["latest"]["cbt"] if NCT in json.dumps(l)], [])
                 self.assertTrue(any("outside the allowed list" in e for e in run["status"]["errors"]))           # reported, and the run carries on
                 self.assertNotIn(value, json.dumps(run["status"]["errors"]))                                     # the value itself goes nowhere public
 
