@@ -139,7 +139,7 @@ class NumericEntities(Base):
         for bad in ("&#;", "&#x;", "&#abc;", "&#-1;", "&#0;", "&#1114112;", "&#xD800;", "&#xFFFFFFFF;", "&#", "&", "&;", "&nosuch;", "&#12345678;", "&#99999999;"):
             with self.subTest(bad):
                 self.assertIsNone(self.found(bad))
-                self.assertEqual(self.found(bad + " Lenire"), "lenire-neuromod")
+                self.assertEqual(self.found(bad + " Le&#110;ire"), "lenire-neuromod")     # only the decoded text shows this name, so the text as written cannot answer for it
 
     def test_in_nested_record_fields_through_the_real_fetch(self):
         huge = "&#" + "9" * 5000 + ";"
@@ -191,7 +191,8 @@ class EveryField(Base):
                 self.assertEqual(self.check(s), "lenire-neuromod")
                 self.assertEqual(self.only_the_full_record_finds_it(s), "lenire-neuromod")
 
-    def test_a_very_deep_record_is_still_read(self):
+    def test_the_text_reader_itself_has_no_depth_limit(self):
+        """A direct call, at a depth no real answer reaches: the JSON reader gives up first. test_hold_cycle.py covers what does arrive."""
         d = "\nLenire"
         for _ in range(5000):
             d = [d]
@@ -240,9 +241,15 @@ class NoBroaderThanIntended(Base):
     def test_a_long_comparison_does_not_hide_a_name_as_if_it_were_a_tag(self):
         self.assertEqual(topic_holds.match_item({"id": "x"}, self.holds, extra_text="x<y " + "word " * 30 + "L\u00e9nire z>w"), "lenire-neuromod")
 
+    def test_a_sign_after_a_name_only_the_plain_form_shows_does_not_glue_onto_it(self):
+        """Compatibility forms would turn the sign into letters or a digit. An encoded name has no text as written to fall back on."""
+        for sign in ("\u2122", "\u00ae", "\u2120", "\u00b9"):
+            with self.subTest(sign):
+                self.assertEqual(topic_holds.match_item({"id": "x"}, self.holds, extra_text="Le&#110;ire" + sign), "lenire-neuromod")
+
     def test_known_limits_are_pinned_so_a_change_is_seen(self):
         """Over-holds: withheld, the safe direction. Misses: the same on production. Each is reported to the owner."""
-        for text in ("a tent-\nA shelter", "Neuro</p><p>mod", "tent\u2013A"):
+        for text in ("a tent-\nA shelter", "Neuro</p><p>mod", "tent\u2013A", "a tent\u2013a thing", "tent-\u00c5", "Neuro<a b>mod", "neuromod_score"):
             with self.subTest(over_hold=text):
                 self.assertEqual(topic_holds.match_item({"id": "x"}, self.holds, extra_text=text), "lenire-neuromod")
         for text in ("<L\u00e9nire>", "%20Lenire", "L\u0435nire"):
@@ -250,8 +257,7 @@ class NoBroaderThanIntended(Base):
                 self.assertIsNone(topic_holds.match_item({"id": "x"}, self.holds, extra_text=text))
 
     def test_a_name_only_the_text_as_written_shows_is_still_found(self):
-        """The plain form sits beside the text as written, never instead of it: the trade mark sign turns into the letters TM there, which would hide the name if it stood alone."""
-        self.assertEqual(topic_holds.match_item({"id": "x"}, self.holds, extra_text="Lenire\u2122"), "lenire-neuromod")
+        """The plain form sits beside the text as written, never instead of it: it reads a backslash and n as a line break, which would cut this name if it stood alone."""
         self.assertEqual(topic_holds.match_item({"id": "x"}, self.holds, extra_text="\\neuromod"), "lenire-neuromod")
 
 

@@ -118,7 +118,19 @@ class ThroughTheRealCycle(Base):
         self.cycle()
         self.assertEqual(self.listed(), {B})
 
-    def test_an_answer_too_deep_to_read_lists_nothing(self):
+    def test_a_name_nested_as_deep_as_a_real_answer_can_arrive_is_held(self):
+        deep = "x\nLenire"
+        for _ in range(500):
+            deep = [deep]
+        self.put(trial(A))
+        self.answers = {A: {**study(), "extra": deep}}
+        rc, out = self.cycle()
+        self.assertEqual(rc, 0, out[-400:])
+        self.assertNotIn(A, self.listed())
+        self.assertEqual(self.mark(trial(A)), "lenire-neuromod")
+
+    def test_an_answer_too_deep_for_the_json_reader_lists_nothing(self):
+        """The JSON reader stops here, before the hold check. This guards existing handling; it cannot show that the hold check works."""
         self.put(trial(A))
         self.answers = {A: b'{"x": ' + b"[" * 200000 + b"1" + b"]" * 200000 + b"}"}
         rc, out = self.cycle()
@@ -176,6 +188,7 @@ class AFaultInTheCheckNeverReadsAsClean(Base):
                 topic_holds.match_item({"id": "x", "title": "Anything"}, topic_holds.load_holds(ENGINE / "topic_holds.json"))
 
     def test_a_fault_on_the_record_lists_nothing(self):
+        """Existing handling of a fault, guarded so that no change weakens it. It cannot show that the hold check works."""
         self.put(trial(A))
         self.answers = {A: study()}
         real = topic_holds.match_item
