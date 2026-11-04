@@ -49,4 +49,4 @@ Each command writes one entry to `data/review-queue/decisions.json` (replacing a
 Master switch (`enabled` must be exactly `true`); per-run limit; paused ids; topic holds; benchmark gate (the stored benchmark report must have passed **on the current evaluator prompt**, via `promptHash`); no change to treatment scores, tiers, rankings, loudness/distress ratings, safety assessments or study records by any engine path; correction/retraction notices are never published as research and never silently discarded (cited -> held privately and counted; uncited -> archived as context; unresolved -> held for a manual check).
 
 ## Releasing a topic hold
-Edit `engine/topic_holds.json` (remove the entry) in a reviewed commit. Matching is whole-word (`neuromod` matches the company, not "neuromodulation").
+Edit `engine/topic_holds.json` (remove the entry) in a reviewed commit. If that leaves no holds, also add `"emptyOnPurpose": true`, or the next run stops (see `engine/README.md`). Matching is whole-word (`neuromod` matches the company, not "neuromodulation").

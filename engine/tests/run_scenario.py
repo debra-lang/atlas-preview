@@ -14,7 +14,7 @@ from pathlib import Path
 
 REPO, SPEC, OUT = Path(sys.argv[1]), json.load(open(sys.argv[2], encoding="utf-8")), sys.argv[3]
 tmp = Path(tempfile.mkdtemp(prefix="te-p2-"))
-shutil.copytree(REPO / "data", tmp / "data")
+shutil.copytree(REPO / "data", tmp / "data", ignore=shutil.ignore_patterns("*.enc"))   # a scenario has no key; a test that needs the undecrypted case writes its own .enc
 shutil.copytree(REPO / "engine", tmp / "engine", ignore=shutil.ignore_patterns("tests", "__pycache__"))
 (tmp / "data" / "trials.json").write_text(json.dumps(SPEC.get("trials", [])), encoding="utf-8")   # no registry status refresh (network) unless a scenario names tracked trials and their registry answers
 (tmp / "engine" / "retraction-state.json").write_text(json.dumps({"lastRun": date.today().isoformat()}), encoding="utf-8")
@@ -44,15 +44,27 @@ for _p1 in ("data/listings.json", "data/update-history.json"):            # ... 
     (tmp / _p1).unlink(missing_ok=True)
 if "automation" in SPEC:
     W("engine/automation_settings.json", SPEC["automation"])      # Phase 1 switches (listings, updateHistory); absent = file absent = everything off
-if "paused" in SPEC:
-    W("engine/paused_ids.json", {"ids": SPEC["paused"]})
-else:
-    W("engine/paused_ids.json", {"ids": []})
+    if SPEC["automation"].get("listings") is True:                 # a switch that is on needs its file; a run does not rebuild it from nothing
+        W("data/listings.json", {"version": 1, "count": 0, "items": []})
+        _q = J("data/review-queue/queue.json")                     # the copied queue's marks refer to the real listings, not this scenario's empty ones
+        for _i in _q["items"]:
+            _i.pop("listed", None)
+        W("data/review-queue/queue.json", _q)
+        _st = J("data/engine-status.json", {}); _st.pop("listings", None); W("data/engine-status.json", _st)   # the copied status counts the real listings, not this scenario's
+    if SPEC["automation"].get("updateHistory") is True:
+        W("data/update-history.json", {"version": 1, "entries": []})
+def _opt(key, value):        # the flag says "empty on purpose", so it goes only on an empty list
+    return {key: value, **({} if value else {"emptyOnPurpose": True})}
+
+
+W("engine/paused_ids.json", _opt("ids", SPEC.get("paused", [])))
 if "topicHolds" in SPEC:
-    W("engine/topic_holds.json", {"holds": SPEC["topicHolds"]})
+    W("engine/topic_holds.json", _opt("holds", SPEC["topicHolds"]))
 if "queue" in SPEC:
     q = J("data/review-queue/queue.json")
     q["items"] = SPEC["queue"]
+    if not SPEC["queue"]:           # the copied status file describes the real queue, not this scenario's
+        q["emptyOnPurpose"] = True
     W("data/review-queue/queue.json", q)
     W("engine/known_ids.json", sorted(set(J("engine/known_ids.json", [])) | {i["id"] for i in SPEC["queue"]}))
 if SPEC.get("extraStudies"):
@@ -60,6 +72,7 @@ if SPEC.get("extraStudies"):
     lst = s["studies"] if isinstance(s, dict) else s
     lst.extend(SPEC["extraStudies"])
     W("data/studies.json", s)
+W("data/review-queue/held.json", {"items": []})        # the real store is encrypted and stays out of the copy; a working repository always has one or the other
 if SPEC.get("staged") is not None:
     W("data/review-queue/staged.json", SPEC["staged"])
 
@@ -185,7 +198,7 @@ PUBLIC = ["data/review-queue/queue.json", "data/review-queue/archive.json", "dat
 
 def run_once(i, run):
     if "paused" in run:
-        W("engine/paused_ids.json", {"ids": run["paused"]})
+        W("engine/paused_ids.json", _opt("ids", run["paused"]))
     if run.get("decisions"):   # "@HASH:<id>" = the hash of the staged evaluation as it is now; "@STALE" = a hash that cannot match
         cur = {e["id"]: e["evalHash"] for e in J("data/review-queue/staged.json", {"items": []})["items"]}
         for d in run["decisions"]["decisions"]:
@@ -253,7 +266,7 @@ for i, run in enumerate(SPEC.get("runs", [{}])):
     if "registry" in run:
         SPEC["registry"] = run["registry"]
     if "topicHolds" in run:
-        W("engine/topic_holds.json", {"holds": run["topicHolds"]})
+        W("engine/topic_holds.json", _opt("holds", run["topicHolds"]))
     R["runs"].append(run_once(i, run))
 R["prompts"] = PROMPTS
 R["promptHash"] = evaluate_queue.prompt_hash()

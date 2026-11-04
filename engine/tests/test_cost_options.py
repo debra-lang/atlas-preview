@@ -107,7 +107,7 @@ class Sandbox:
         shutil.copytree(REPO / "data", self.tmp / "data")
         shutil.copytree(ENGINE, self.tmp / "engine", ignore=shutil.ignore_patterns("tests", "__pycache__"))
         (self.tmp / "engine" / "eval_settings.json").write_text(json.dumps(settings), encoding="utf-8")
-        (self.tmp / "engine" / "paused_ids.json").write_text(json.dumps({"ids": []}), encoding="utf-8")
+        (self.tmp / "engine" / "paused_ids.json").write_text(json.dumps({"ids": [], "emptyOnPurpose": True}), encoding="utf-8")
         q = json.loads((self.tmp / "data/review-queue/queue.json").read_text(encoding="utf-8"))
         q["items"] = [common.pubmed_item(900000 + i, title=f"A routine tinnitus trial {i}") for i in range(n_items)]
         (self.tmp / "data/review-queue/queue.json").write_text(json.dumps(q), encoding="utf-8")

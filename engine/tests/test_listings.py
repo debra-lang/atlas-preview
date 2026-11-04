@@ -210,6 +210,8 @@ class Containment(unittest.TestCase):
         try:
             (root / "engine").mkdir(); (root / "data").mkdir()
             (root / "engine" / "automation_settings.json").write_text(json.dumps({"listings": True}), encoding="utf-8")
+            (root / "engine" / "paused_ids.json").write_text(json.dumps({"ids": [], "emptyOnPurpose": True}), encoding="utf-8")
+            (root / "engine" / "topic_holds.json").write_text(json.dumps({"holds": [], "emptyOnPurpose": True}), encoding="utf-8")
             c = weekly_cycle.Cycle(root)
             queue = {"items": [pm(70)]}
             before = json.dumps(queue)

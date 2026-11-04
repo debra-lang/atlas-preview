@@ -29,6 +29,8 @@ then commit data/review-queue/decisions.json; the next cycle applies it (Actions
 import argparse, hashlib, json, os, subprocess, sys
 from datetime import datetime
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import state_files   # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 STAGED_REL = "data/review-queue/staged.json"
@@ -172,7 +174,7 @@ def release_context(root):
     """Settings and tracked treatment ids for the restricted release path, read from the repository."""
     root = Path(root)
     try:
-        settings = json.loads((root / "engine" / "eval_settings.json").read_text(encoding="utf-8"))
+        settings = state_files.read(root / "engine" / "eval_settings.json")
     except Exception:
         settings = {}
     try:

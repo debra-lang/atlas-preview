@@ -20,7 +20,7 @@ from pathlib import Path
 
 ENGINE = Path(__file__).resolve().parent
 sys.path.insert(0, str(ENGINE))
-import escalation, notices   # noqa: E402
+import escalation, notices, state_files   # noqa: E402
 
 RULES_PATH = ENGINE / "triage_rules.json"
 _RULES = {}
@@ -28,7 +28,7 @@ _RULES = {}
 
 def rules():
     if not _RULES:
-        d = json.loads(RULES_PATH.read_text(encoding="utf-8"))
+        d = state_files.read(RULES_PATH)
         d["_aliases"] = {k: re.compile(v, re.I) for k, v in d["aliases"].items()}
         _RULES.update(d)
     return _RULES

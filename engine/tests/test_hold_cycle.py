@@ -141,7 +141,7 @@ class ThroughTheRealCycle(Base):
 class TheOwnerLiftsTheHold(Base):
     def test_the_mark_goes_and_the_record_is_listed(self):
         self.put({**trial(A), "topicHold": "lenire-neuromod"})
-        self.W("engine/topic_holds.json", {"holds": []})
+        self.W("engine/topic_holds.json", {"holds": [], "emptyOnPurpose": True})
         self.answers = {A: study(A, detail="x\nLenire")}
         rc, out = self.cycle()
         self.assertEqual(rc, 0, out[-400:])
@@ -173,6 +173,7 @@ class OversizedEntities(Base):
             with self.subTest(name):
                 self.put(it, trial(B))
                 self.W("data/listings.json", {"version": 1, "count": 0, "items": []})
+                (self.root / "data/engine-status.json").unlink(missing_ok=True)     # a fresh start: preflight would rightly refuse emptied listings after a run that left some
                 self.answers = {A: study(A), B: study(B)}
                 rc, out = self.cycle()
                 self.assertEqual(rc, 0, out[-400:])

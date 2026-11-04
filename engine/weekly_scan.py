@@ -13,6 +13,8 @@ No dependencies beyond the standard library.
 import json, re, sys, time, urllib.parse, urllib.request
 from datetime import date, timedelta
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import state_files   # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 KNOWN = ROOT / "engine" / "known_ids.json"
@@ -30,10 +32,7 @@ def get_json(url):
         return json.loads(r.read().decode("utf-8"))
 
 def load(path, default):
-    try:
-        return json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
-        return default
+    return state_files.read(path, default)   # absent: the default; damaged: stops, so a scan never silently covers less or forgets what it has seen
 
 # ---------- PubMed (E-utilities) ----------
 def scan_pubmed():

@@ -27,7 +27,7 @@ if state == "disabled":
     except ValueError:
         days = None
     warnings.append(f"AI evaluation is SWITCHED OFF (engine/eval_settings.json, since {since or 'unknown'}); {awaiting} item(s) are waiting. Scanning continues.")
-    if days is not None and days > MAX_DISABLED_DAYS and status.get("listings") is None:   # with automatic listings running, "AI off" is a deliberate steady state, not something forgotten
+    if days is not None and days > MAX_DISABLED_DAYS and (status.get("listings") is None or status["listings"].get("failed")):   # with automatic listings running, "AI off" is a deliberate steady state, not something forgotten
         problems.append(f"AI evaluation has been switched off for {days} days (limit {MAX_DISABLED_DAYS}); re-enable it or extend the limit deliberately.")
     awaiting = 0   # backlog is expected while disabled
 elif state in ("failed", "blocked-gate"):
@@ -52,6 +52,10 @@ if bud.get("fraction") is not None:
         problems.append(f"The monthly AI budget is used up: ${bud.get('spentUSD')} of ${bud.get('monthlyUSD')} estimated. Evaluation stays paused until next month or the budget is raised in eval_settings.json.")
     elif bud["fraction"] >= 0.6:
         warnings.append(f"{round(bud['fraction'] * 100)} % of the monthly AI budget is used (${bud.get('spentUSD')} of ${bud.get('monthlyUSD')}).")
+if status.get("missingSettings"):     # OFF is the safe reading and the scan is saved, but a deleted settings file is not a state to reach quietly: nothing else would ever say so, and the too-long-off safety net loses its date
+    problems.append(f"Settings file(s) missing, so their switches are OFF: {', '.join(status['missingSettings'])}. Restore them in a reviewed commit.")
+if status.get("listingsFailed"):      # the scan was saved, and the records are retried next run: a red run, because new listings are not reaching the site
+    problems.append("The listing step failed, so this run's new records were not listed; they stay queued and are retried next run. See the errors in data/engine-status.json.")
 for s in status.get("sources") or []:      # one failing source is a warning, not a red run: outside sites fail for a day. The watcher follows up if it persists
     if s.get("error"):
         warnings.append(f"Source '{s.get('name')}': {str(s['error'])[:160]}")

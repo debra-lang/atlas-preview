@@ -3,24 +3,22 @@
 
 engine/paused_ids.json pauses named items. A topic hold pauses a TOPIC, so new items about it that the weekly scan finds later are
 held too (the Lenire news watch runs every week). A held item is treated exactly like a paused id: never sent to the AI, never published,
-never lost; it stays in the queue until the hold is released by editing engine/topic_holds.json.
+never lost; it stays in the queue until the hold is released by editing engine/topic_holds.json. A damaged hold file stops the run: it never switches the hold off (engine/state_files.py).
 
 Matching is deliberately precise: whole-word regular expressions on the item's title/source/summary (and, before any API call, on the
 fetched record text). "Neuromod" matches the company; it does NOT match "neuromodulation", so unrelated neuromodulation research is not held.
 """
-import json, re
+import re, sys
 from pathlib import Path
 import html, unicodedata
 
 ENGINE = Path(__file__).resolve().parent
+sys.path.insert(0, str(ENGINE))
+import state_files   # noqa: E402
 
 
 def load_holds(path=None):
-    try:
-        data = json.loads((Path(path) if path else ENGINE / "topic_holds.json").read_text(encoding="utf-8"))
-        return [h for h in data.get("holds", []) if h.get("id")]
-    except Exception:
-        return []
+    return state_files.checked(Path(path) if path else ENGINE / "topic_holds.json", state_files._holds)["holds"]
 
 
 def _compiled(h):

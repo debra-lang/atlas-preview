@@ -148,3 +148,16 @@ pipeline in a throw-away clone, and scored against pre-registered thresholds: UN
 
 ## One-time 24-record pilot tools (local, owner side)
 `engine/pilot_tool.py` (draw, blind checklist, reconciliation) and `engine/pilot_score.py` (scoring against the pre-registered rule). They are used from the pilot package (see autonomy-design/pilot-24); they use no key and publish nothing. Tests: `engine/tests/test_pilot.py`.
+
+## Damaged protection and state files stop the run
+
+`engine/state_files.py` runs first in every cycle. If a protection or state file is missing (when required), unreadable, not valid UTF-8 JSON, or wrongly structured, the run stops before it scans, calls anything or writes anything, and the GitHub run goes red naming each file. Nothing is published, nothing leaves the queue, and the commit and publish steps do not run. The evaluation health step still runs: what it shows is the previous run's status, and the run summary says so.
+
+**To recover:** repair the named file in a reviewed commit, then run the workflow again. The run continues as if the stopped one had not happened.
+
+- An empty pause or hold list needs `"emptyOnPurpose": true`, and so does an empty archive, and an empty queue or listings file when the last run left records in it. The flag on a list that is not empty stops the run, so it cannot stay armed. Removing one entry is not detected here.
+- A paused id must be one the scan has seen. To pause something not yet scanned, use a topic hold with an `idPrefixes` entry.
+- A hold pattern that cannot match stops the run (a control or invisible character, or a literal backslash). A pattern edited to a different word cannot be detected.
+- A byte-order mark is accepted only on the hand-edited files (`paused_ids`, `topic_holds`, `eval_settings`, `automation_settings`, `sources`, `triage_rules`). On any other file it stops the run, because that file's other readers cannot read one.
+- To force the retraction back-check, set `lastRun` in `engine/retraction-state.json` to an old date; an empty value stops the run. To re-baseline the page watcher, set `engine/page-hashes.json` to `{}`; deleting it stops the run. Turning `listings` or `updateHistory` on for the first time needs its file to exist.
+- `engine/eval_settings.json` and `engine/automation_settings.json` still mean OFF when absent or when a value is not exactly `true`. An absent file turns the run red after the scan is saved. If present but damaged, they stop the run. The comment inside `eval_settings.json` that says a malformed file means OFF predates this and is out of date.

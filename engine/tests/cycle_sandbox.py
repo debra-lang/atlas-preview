@@ -102,3 +102,14 @@ class Sandbox(unittest.TestCase):
             check_retractions.due, weekly_cycle.ENGINE, sys.argv = due, eng, argv
             weekly_cycle.evaluate_queue.fetch_context, triage.fetch_xml = fetch, enrich
         return rc, out.getvalue() + err.getvalue()
+
+    def assertStopsWholeAndNamesIt(self, rel, why="", reason=None):
+        before = snapshot(self.root)
+        rc, out = self.run_main()
+        self.assertEqual(rc, 1, f"{rel} {why}: the run should have stopped. {out[-300:]}")
+        self.assertIn("nothing was scanned", out)
+        self.assertIn(rel, out)
+        if reason:                # a run that stops for some other rule would prove nothing about this one
+            self.assertIn(reason, out, f"{rel} {why}: stopped, but not for this reason")
+        self.assertEqual(self.scans, 0, f"{rel} {why}: a scan ran")
+        self.assertEqual(snapshot(self.root), before, f"{rel} {why}: a file changed")

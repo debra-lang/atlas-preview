@@ -11,7 +11,8 @@ from pathlib import Path
 REPO, MODE, OUT = Path(sys.argv[1]), sys.argv[2], sys.argv[3]
 MODE2 = sys.argv[4] if len(sys.argv) > 4 else None
 tmp = Path(tempfile.mkdtemp(prefix="te-backlog-sim-"))
-shutil.copytree(REPO / "data", tmp / "data")
+shutil.copytree(REPO / "data", tmp / "data", ignore=shutil.ignore_patterns("*.enc"))   # the simulation has no key
+(tmp / "data" / "review-queue" / "held.json").write_text('{"items": []}', encoding="utf-8")
 shutil.copytree(REPO / "engine", tmp / "engine", ignore=shutil.ignore_patterns("tests", "__pycache__"))
 if os.environ.get("SIM_QUEUE"):                                            # a fixed queue file in place of the live one (deterministic failure-mode tests)
     shutil.copyfile(os.environ["SIM_QUEUE"], tmp / "data" / "review-queue" / "queue.json")
@@ -102,7 +103,7 @@ def J(rel, default=None):
 # scenarios run with evaluation ENABLED unless SIM_SETTINGS=repo (use the repository's own eval_settings.json / paused_ids.json untouched)
 if os.environ.get("SIM_SETTINGS") != "repo":
     (tmp / "engine" / "eval_settings.json").write_text(json.dumps({"enabled": True, "mode": os.environ.get("SIM_MODE_PUBLISH", "publish"), "limitPerRun": int(os.environ.get("SIM_LIMIT", "60"))}), encoding="utf-8")
-    (tmp / "engine" / "paused_ids.json").write_text(json.dumps({"ids": []}), encoding="utf-8")
+    (tmp / "engine" / "paused_ids.json").write_text(json.dumps({"ids": [], "emptyOnPurpose": True}), encoding="utf-8")
 if os.environ.get("SIM_PAUSE"):
     (tmp / "engine" / "paused_ids.json").write_text(json.dumps({"ids": os.environ["SIM_PAUSE"].split(",")}), encoding="utf-8")
 initial = [i["id"] for i in J("data/review-queue/queue.json")["items"]]

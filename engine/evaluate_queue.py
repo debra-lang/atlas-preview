@@ -16,7 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import escalation, grounding, language_screen, notices, registry_record, topic_holds, triage   # noqa: E402  (deterministic helpers; none of them calls the network or the AI)
+import escalation, grounding, language_screen, notices, registry_record, state_files, topic_holds, triage   # noqa: E402  (deterministic helpers; none of them calls the network or the AI)
 import fda_record
 QUEUE = ROOT / "data" / "review-queue" / "queue.json"
 UA = {"User-Agent": "TinnitusAtlas-evaluator/1.0"}
@@ -154,7 +154,7 @@ FAILURE_NOTE = {"truncated": "The AI answer was cut off at the output-token limi
 def load_budget():
     """Monthly evaluation budget in USD from eval_settings.json -> budget.monthlyUSD. Anything missing, non-numeric, boolean, zero or negative falls back to the default: the cap cannot be disabled by a typo."""
     try:
-        s = json.loads((ROOT / "engine" / "eval_settings.json").read_text(encoding="utf-8"))
+        s = state_files.read(ROOT / "engine" / "eval_settings.json")
         v = s.get("budget", {}).get("monthlyUSD")
     except Exception:
         v = None
@@ -209,9 +209,9 @@ BATCH_STATE = "engine/batch-state.json"   # public-safe: batch id, item ids, rec
 
 
 def load_flags():
-    """Fail-closed: a cost option is on only when its setting is the JSON value true. A missing or malformed file means both off."""
+    """Fail-closed: a cost option is on only when its setting is the JSON value true. A missing file means both off; on the scheduled path a damaged one has already stopped the run."""
     try:
-        s = json.loads((ROOT / "engine" / "eval_settings.json").read_text(encoding="utf-8"))
+        s = state_files.read(ROOT / "engine" / "eval_settings.json")
     except Exception:
         s = {}
     s = s if isinstance(s, dict) else {}
@@ -252,10 +252,7 @@ def usage_cost(model, usage, batch=False):
 
 def load_paused():
     """Ids listed in engine/paused_ids.json: items the owner wants kept out of automated evaluation and publication."""
-    try:
-        return set(json.loads((ROOT / "engine" / "paused_ids.json").read_text(encoding="utf-8")).get("ids", []))
-    except Exception:
-        return set()
+    return state_files.paused_ids(ROOT)
 
 
 def classify_error(e):
@@ -406,7 +403,7 @@ def _finish_item(it, text, context, meta, item_meta, treatments, known_words, ex
     if kind is None:
         try:
             start, end = text.index("{"), text.rindex("}") + 1
-            ev = json.loads(text[start:end])
+            ev = json.loads(text[start:end], parse_constant=state_files.bad_constant, parse_float=state_files.finite_float)   # NaN or Infinity in an answer makes it unusable, and it is held for a person: it never reaches a stored record
         except (ValueError, json.JSONDecodeError) as e:
             kind = "unparseable"
             print(f"  could not parse evaluation JSON ({type(e).__name__}); storing raw text for admin.")
@@ -529,7 +526,7 @@ def batch_collect(client, queue, treatments, known_words):
         path.unlink()
     except OSError:
         pass
-    QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
+    QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")
     LAST_RUN["batch"] = LAST_RUN["batchCollected"] = {"state": "collected", "id": batch_id, "evaluated": done, "counts": counts, "discardedPromptChanged": bool(stale)}
     print(f"Batch {batch_id} collected: {done} evaluated, other outcomes {counts}.")
     return done, "collected"
@@ -574,10 +571,7 @@ def main(limit=None):
     known_words = [w for t in treatments for w in (t["id"].replace("-", " ") + " " + t["name"]).replace("(", " ").replace(")", " ").split()] + \
                   [w for s in studies for w in (s["id"].replace("-", " ") + " " + s["title"]).split()]
 
-    try:
-        published = set(json.loads((ROOT / "engine" / "published_ids.json").read_text(encoding="utf-8")))
-    except Exception:
-        published = set()
+    published = set(state_files.checked(ROOT / "engine" / "published_ids.json", state_files._strings))
 
     def already_published(it):
         return any(k and k in published for k in (re.sub(r"\W+", "", (it.get(x) or "").lower())[:90] for x in ("url", "title")))
@@ -595,7 +589,7 @@ def main(limit=None):
             LAST_RUN["screened"] += 1
             print(f"Notice ({info['kind']}, {info['resolution']}): {it['id']} — not sent to the AI.", flush=True)
     if LAST_RUN["screened"]:
-        QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
+        QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")
 
     flags = load_flags()
     caching = flags["promptCaching"]
@@ -612,7 +606,7 @@ def main(limit=None):
 
     # Deterministic triage by source metadata (engine/triage.py): both parts are OFF unless eval_settings.json says exactly true. Nothing is deleted: a catalogued record is archived with its reason.
     try:
-        _s = json.loads((ROOT / "engine" / "eval_settings.json").read_text(encoding="utf-8"))
+        _s = state_files.read(ROOT / "engine" / "eval_settings.json")
     except Exception:
         _s = {}
     tri = triage.load_settings(_s)
@@ -636,7 +630,7 @@ def main(limit=None):
                 it["triageShadow"] = True                      # shadow mode: nothing changes for this record; it is evaluated normally and counted
         pend = [it for it in pend if not it.get("catalogued")]
         if cands:
-            QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
+            QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")
     if tri["order"]:
         pend = first + [it for it in triage.order(pend) if it not in first]
     # An item whose paid attempts keep ending in API errors is given up (stored as an unusable evaluation: listed without AI, counted, never retried automatically).
@@ -644,7 +638,7 @@ def main(limit=None):
         _give_up(it)
     if any(i.get("evaluation") for i in pend):
         pend = [i for i in pend if not i.get("evaluation")]
-        QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
+        QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")
     todo = pend[:LIMIT]
     if not todo:
         print("Nothing to evaluate — queue items all have evaluations (or queue is empty).")
@@ -685,14 +679,14 @@ def main(limit=None):
             it["topicHold"] = hold_id
             LAST_RUN["screened"] += 1
             print(f"  topic hold '{hold_id}' matched the record — not sent to the AI, stays queued.", flush=True)
-            QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
+            QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")
             return None
         info = notices.analyse(it, context, cited)
         if info:
             it["notice"] = info
             LAST_RUN["screened"] += 1
             print(f"  notice ({info['kind']}, {info['resolution']}) — not sent to the AI.", flush=True)
-            QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
+            QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")
             return None
         if meta.get("completeness") == "UNAVAILABLE" and it["id"].startswith(("pubmed-", "ctgov-")):
             # a PubMed/registry item whose record could not be fetched must not be evaluated from its headline: no paid call, it stays queued for the next run
@@ -706,7 +700,7 @@ def main(limit=None):
                 it["languageHold"] = {"state": scr["state"], "articleLanguage": scr["articleLanguage"], "reason": scr["reason"]}
                 LAST_RUN["screened"] += 1
                 print(f"  language screen ({scr['state']}) - not sent to the AI, held for a person.", flush=True)
-                QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
+                QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")
                 return None
         if meta.get("itemDate"):
             it["date"] = meta["itemDate"]     # an FDA item's date is the decision date in the FDA record, never the day the scan found it
@@ -762,7 +756,7 @@ def main(limit=None):
             return done, msg
         state_path = ROOT / BATCH_STATE
         state_path.write_text(json.dumps({"version": 1, "batchId": batch.id, "model": MODEL, "promptHash": prompt_hash(), "promptCaching": caching,
-                                          "submittedAt": time.strftime("%Y-%m-%dT%H:%M:%S"), "items": entries}, indent=1, ensure_ascii=False), encoding="utf-8")
+                                          "submittedAt": time.strftime("%Y-%m-%dT%H:%M:%S"), "items": entries}, indent=1, ensure_ascii=False, allow_nan=False), encoding="utf-8")
         LAST_RUN["submitted"] = len(reqs)
         LAST_RUN["batch"] = {"state": "submitted", "id": batch.id, "requests": len(reqs)}
         print(f"Batch {batch.id} submitted with {len(reqs)} item(s); results are collected by a later run.")
@@ -781,7 +775,7 @@ def main(limit=None):
             break
         LAST_RUN["attempted"] += 1
         it["evalAttempts"] = (it.get("evalAttempts") or 0) + 1
-        QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")   # the attempt is on record even if this process dies mid-call
+        QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")   # the attempt is on record even if this process dies mid-call
         try:
             response = client.messages.create(
                 model=MODEL,
@@ -791,7 +785,7 @@ def main(limit=None):
             )
         except anthropic.RateLimitError:
             it["evalAttempts"] -= 1          # a rate limit is not the item's fault
-            QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
+            QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")
             LAST_RUN["failed"] += 1
             LAST_RUN["errorClasses"]["rate_limit"] = LAST_RUN["errorClasses"].get("rate_limit", 0) + 1
             print("  rate-limited; stopping — re-run later."); break
@@ -802,15 +796,15 @@ def main(limit=None):
             print(f"  API error {e.status_code} ({cls}){': ' + str(e.message)[:200] if cls == 'other' else ''}; skipping.")   # message shown only for unclassified errors
             if cls == "rate_limit":          # a 429 that did not arrive as RateLimitError: same handling, stop the run
                 it["evalAttempts"] -= 1
-                QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
+                QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")
                 print("  rate-limited; stopping — re-run later."); break
             if cls in FATAL_CLASSES:
                 it["evalAttempts"] -= 1      # a key, billing or permission problem is not the item's fault
-                QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
+                QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")
                 LAST_RUN["fatal"] = cls
                 print(f"  {cls} errors cannot succeed on retry — stopping; remaining items stay queued.", file=sys.stderr)
                 break
-            QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")
+            QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")
             continue
         except Exception as e:
             # never let an SDK/client error kill the whole cycle — items simply stay queued
@@ -826,7 +820,7 @@ def main(limit=None):
                      stop_reason=getattr(response, "stop_reason", None), output_tokens=getattr(getattr(response, "usage", None), "output_tokens", None))
         done += 1
         LAST_RUN["succeeded"] += 1
-        QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False), encoding="utf-8")  # save after each item
+        QUEUE.write_text(json.dumps(queue, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")  # save after each item
 
     print(f"Done ({done} evaluated, {LAST_RUN['failed']} failed of {LAST_RUN['attempted']} attempted).")
     reason = None

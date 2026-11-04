@@ -24,7 +24,7 @@ Usage:
   python engine/weekly_cycle.py --simulate      # full end-to-end test in a sandbox copy
   python engine/weekly_cycle.py --skip-eval     # scan + deterministic steps only
 """
-import json, re, shutil, sys, tempfile, urllib.request, urllib.parse
+import json, os, re, shutil, sys, tempfile, urllib.request, urllib.parse
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
@@ -32,7 +32,7 @@ ENGINE = Path(__file__).resolve().parent
 sys.path.insert(0, str(ENGINE))
 import weekly_scan  # noqa: E402  (scan_pubmed / scan_ctgov / scan_feeds)
 import evaluate_queue  # noqa: E402
-import grounding, notices, staged_review, topic_holds, triage, listings  # noqa: E402  (deterministic helpers: no network, no AI)
+import grounding, notices, staged_review, state_files, topic_holds, triage, listings  # noqa: E402  (deterministic helpers: no network, no AI)
 
 SCHEDULE_TEXT = "The 1st and 15th of every month, scheduled for 06:00 America/Los_Angeles (timezone-aware — stays 6 AM Pacific through PST/PDT); GitHub often starts scheduled runs hours late, so a run may begin any time that day, via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled"
 TRUSTED_DOMAINS = (
@@ -107,11 +107,8 @@ class Cycle:
 
     # ---------- io ----------
     def load(self, rel, default):
-        p = self.root / rel
-        try:
-            return json.loads(p.read_text(encoding="utf-8"))
-        except Exception:
-            return default
+        """An absent file gives `default` (preflight has already stopped the run if that file is required). A damaged file raises: it is never read as empty."""
+        return state_files.read(self.root / rel, default)
 
     def stage(self, rel, obj):
         self.staged[rel] = obj
@@ -121,12 +118,12 @@ class Cycle:
             p = self.root / rel
             p.parent.mkdir(parents=True, exist_ok=True)
             tmp = p.with_suffix(p.suffix + ".tmp")
-            tmp.write_text(json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8")
+            tmp.write_text(json.dumps(obj, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")   # refuses NaN and Infinity: not JSON, and engine/state_files.py refuses them on reading
             tmp.replace(p)  # atomic on same volume
         if self.audit:
             with open(self.root / "engine" / "audit-log.jsonl", "a", encoding="utf-8") as f:
                 for e in self.audit:
-                    f.write(json.dumps(e, ensure_ascii=False) + "\n")
+                    f.write(json.dumps(e, ensure_ascii=False, allow_nan=False) + "\n")
         self.staged, self.audit = {}, []  # committed — never write the same entries twice
 
     def log(self, **kw):
@@ -159,6 +156,7 @@ class Cycle:
 
     def scan(self, fixtures=None):
         queue = self.load("data/review-queue/queue.json", {"items": []})
+        queue.pop("emptyOnPurpose", None)   # it answered one preflight; it must not switch that check off for good
         known = set(self.load("engine/known_ids.json", []))
         existing = {it["id"] for it in queue["items"]}
         new = []
@@ -199,6 +197,8 @@ class Cycle:
                 new += [it for it in items if it["id"] not in known and it["id"] not in existing]
                 if key:
                     state[key] = date.today().isoformat()          # only a source that answered completely advances its own clock
+            except state_files.DamagedFile:
+                raise
             except Exception as e:
                 src["error"], src["checked"] = str(e)[:200], False
                 self.status["errors"].append(f"source '{name}' failed: {e}")
@@ -209,9 +209,9 @@ class Cycle:
         seen, dedup = set(), []
         for it in new:
             k = re.sub(r"\W+", "", it["title"].lower())[:80]
-            if k and k in seen:
+            if (k and k in seen) or it["id"] in seen:     # the queue must not gain the same id twice: the next run would refuse it
                 continue
-            seen.add(k)
+            seen.update((k, it["id"]))
             dedup.append(it)
         self.status["newItems"] = len(dedup)
         queue["items"] = dedup + queue["items"]
@@ -278,9 +278,9 @@ class Cycle:
         import check_retractions as cr
         if self.simulate or not cr.due(self.root / "engine" / "retraction-state.json"):
             return
+        data = self.load("data/studies.json", [])
+        slist = data["studies"] if isinstance(data, dict) else data
         try:
-            data = self.load("data/studies.json", [])
-            slist = data["studies"] if isinstance(data, dict) else data
             findings = cr.run(slist, self.root / "engine" / "retraction-state.json")
         except Exception as e:
             self.status["errors"].append(f"retraction check failed: {e}")
@@ -338,7 +338,7 @@ class Cycle:
         self.listing_counts = None
         if not self.auto["listings"]:
             return
-        paused = set(self.load("engine/paused_ids.json", {"ids": []}).get("ids", [])) - set(self.auto["includePaused"])   # listed as bibliographic facts only; still paused for everything else
+        paused = state_files.paused_ids(self.root) - set(self.auto["includePaused"])   # listed as bibliographic facts only; still paused for everything else
         holds = topic_holds.load_holds(self.root / "engine" / "topic_holds.json")
 
         def held_by_record(it, text):
@@ -348,14 +348,20 @@ class Cycle:
             else:
                 it.pop("topicHold", None)
             return bool(hold)
+        current = self.load(listings.LISTINGS_REL, {"items": []})   # outside the try: damaged listings stop the run, they are never rebuilt from nothing
         try:
             new, counts = listings.process(
-                queue["items"], self.load(listings.LISTINGS_REL, {"items": []}), today=date.today().isoformat(),
+                queue["items"], current, today=date.today().isoformat(),
                 fetch_context=evaluate_queue.fetch_context, record_meta=lambda i: evaluate_queue.RECORD_META.pop(i, None),
                 excluded=lambda it: it["id"] in paused or bool(topic_holds.match_item(it, holds)), enrich=triage.enrich,
                 held_by_record=held_by_record)
-        except Exception as e:   # a listing problem must never stop the cycle: the queue is untouched on failure
+        except state_files.DamagedFile:
+            raise
+        except Exception as e:   # a listing problem does not stop the scan from being saved, but the run goes red and does not count as a success; the records are retried next run
+            self.status["listingsFailed"] = True
+            self.status["listings"] = {"total": len(current.get("items", [])), "failed": True}   # still says how many exist, so the next run can tell if they vanish
             self.status["errors"].append(f"listings step failed: {type(e).__name__}: {str(e)[:120]}")
+            print(f"::error title=Listing step failed::{type(e).__name__}: the records stay queued and are retried next run")
             return
         self.listing_counts = counts
         self.status["listings"] = {**counts, "total": new["count"]}
@@ -367,15 +373,7 @@ class Cycle:
 
     # ---------- verification gates (deterministic) ----------
     def published_register(self):
-        reg = self.load("engine/published_ids.json", None)
-        if reg is None:  # build once from the existing archive
-            reg = []
-            for rep in self.load("data/weekly/index.json", {"reports": []})["reports"]:
-                for it in self.load(f"data/weekly/{rep['file']}", {"items": []})["items"]:
-                    for key in (it.get("url"), it.get("title")):
-                        if key:
-                            reg.append(re.sub(r"\W+", "", key.lower())[:90])
-        return set(reg)
+        return set(state_files.checked(self.root / "engine" / "published_ids.json", state_files._strings))
 
     def verified(self, ev):
         """Publication gate. The model's own factuallyVerified / confidence are SELF-ASSESSMENTS: they are necessary but NEVER sufficient.
@@ -600,6 +598,7 @@ class Cycle:
             if str(reason).startswith("catalogued"):
                 self.status.setdefault("triage", {})["catalogued"] = self.status.setdefault("triage", {}).get("catalogued", 0) + 1
             archive = self.staged.get("data/review-queue/archive.json") or self.load("data/review-queue/archive.json", {"items": []})
+            archive.pop("emptyOnPurpose", None)   # about to hold an entry: the flag has done its job
             entry = {"archivedAt": datetime.now().isoformat(timespec="seconds"), "reason": reason,
                      "relevanceCategory": ev.get("relevanceCategory"),
                      "item": {k: item.get(k) for k in ("id", "kind", "title", "source", "date", "url")}}
@@ -648,7 +647,13 @@ class Cycle:
 
     # ---------- main ----------
     def run(self, fixtures=None, trial_fixture=None):
+        state_files.preflight(self.root, scan_files=fixtures is None)   # BEFORE any scan, network or paid call, and before anything is written: a damaged protection or state file stops the run whole
         self.load_staged()   # fail BEFORE any scan or paid API call if staged.json.enc exists but was not decrypted (staged items must never be lost)
+        if fixtures is None:
+            for rel in ("engine/eval_settings.json", "engine/automation_settings.json"):   # absent means OFF, which is safe, but it is not a state to reach silently
+                if not (self.root / rel).exists():
+                    self.status["errors"].append(f"{rel} is missing: its switches are treated as OFF")
+                    self.status.setdefault("missingSettings", []).append(rel)   # engine/check_evaluation_health.py turns this red, after the scan has been saved
         queue = self.scan(fixtures=fixtures)
         # The review queue is engine working state (not public site data): commit it to disk NOW
         # so newly scanned items can never be lost, and so the evaluator (which reads the disk
@@ -660,7 +665,7 @@ class Cycle:
 
         evaluation = {"state": "not-run"}   # recorded in engine-status.json so a failed evaluation can never look like a successful one
         # MASTER SWITCH (fail-closed): the scheduled cycle sends items to the AI evaluator ONLY when engine/eval_settings.json says "enabled": true.
-        # A missing, unreadable or malformed file means OFF. Scanning, trial-status refresh, retraction checks and queue preservation all continue.
+        # A missing file means OFF, and scanning, trial-status refresh, retraction checks and queue preservation all continue, and the run ends red. A file that is present but damaged has already stopped the run (engine/state_files.py).
         _settings = self.load("engine/eval_settings.json", None)
         eval_enabled = isinstance(_settings, dict) and _settings.get("enabled") is True
         # STAGED MODE (fail-closed): evaluated items are written to a private, encrypted review store and NOTHING from them is published until the owner
@@ -672,7 +677,7 @@ class Cycle:
         else:
             staged_mode = not (isinstance(_settings, dict) and _settings.get("mode") == "publish")
         if not self.skip_eval and fixtures is None and not eval_enabled:
-            evaluation = {"state": "disabled", "reason": "automated evaluation is switched off in engine/eval_settings.json (it runs only when \"enabled\" is true)",
+            evaluation = {"state": "disabled", "reason": ("engine/eval_settings.json is missing, which means off" if _settings is None else "automated evaluation is switched off in engine/eval_settings.json (it runs only when \"enabled\" is true)"),
                           "disabledSince": (_settings or {}).get("disabledSince") if isinstance(_settings, dict) else None}
         if not self.skip_eval and fixtures is None and eval_enabled:
             # LAUNCH GATE (research-integrity requirement): no AI-evaluated research may publish
@@ -736,7 +741,7 @@ class Cycle:
         publish, remaining = list(trial_items), []
         def remember(it):  # an item published (or held under evaluation) in THIS run must also block later duplicates in the same run
             register.update(re.sub(r"\W+", "", (it.get(k) or "").lower())[:90] for k in ("url", "title") if it.get(k))
-        self.paused_ids = set(self.load("engine/paused_ids.json", {"ids": []}).get("ids", []))
+        self.paused_ids = state_files.paused_ids(self.root)
         self.topic_hold_list = topic_holds.load_holds(self.root / "engine" / "topic_holds.json")
         by_id = {it["id"]: it for it in queue["items"]}
         self.superseded = {old for old, new in evaluate_queue.superseded_map(queue["items"]).items()
@@ -884,7 +889,7 @@ def write_status(root, status):
     ev, pev = status.get("evaluation"), (prev.get("evaluation") or {})
     if isinstance(ev, dict) and "lastEvaluationSuccess" not in ev and pev.get("lastEvaluationSuccess"):
         ev["lastEvaluationSuccess"] = pev["lastEvaluationSuccess"]  # evaluation freshness is tracked separately from scan freshness
-    p.write_text(json.dumps(status, indent=2, ensure_ascii=False), encoding="utf-8")
+    p.write_text(json.dumps(status, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")
 
 
 def main():
@@ -892,9 +897,9 @@ def main():
     root = ENGINE.parent
     if simulate:
         sandbox = Path(tempfile.mkdtemp(prefix="te-sim-"))
-        shutil.copytree(root / "data", sandbox / "data")
+        shutil.copytree(root / "data", sandbox / "data", ignore=shutil.ignore_patterns("*.enc"))   # the simulation has no key: the private stores stay out of its sandbox
         (sandbox / "engine").mkdir()
-        for f in ("known_ids.json", "published_ids.json"):
+        for f in ("known_ids.json", "published_ids.json", "paused_ids.json", "topic_holds.json"):
             if (root / "engine" / f).exists():
                 shutil.copy(root / "engine" / f, sandbox / "engine" / f)
         root = sandbox
@@ -907,7 +912,8 @@ def main():
             fixtures, trial_fixture = sim_fixtures.SCANNERS, sim_fixtures.TRIAL_FIXTURE
         status = c.run(fixtures=fixtures, trial_fixture=trial_fixture)
         c.commit()
-        status["lastSuccess"] = status["lastAttempt"]  # only a fully committed cycle counts as success
+        if not status.get("listingsFailed"):           # a run whose listing step failed saved the scan but is not a success: it never claims freshness
+            status["lastSuccess"] = status["lastAttempt"]  # only a fully committed cycle counts as success
         ev = status.get("evaluation") or {}
         if ev.get("state") in ("ok", "idle") and not ev.get("awaitingEvaluation"):
             ev["lastEvaluationSuccess"] = status["lastAttempt"]  # evaluation genuinely worked and nothing is waiting
@@ -918,6 +924,14 @@ def main():
         print(json.dumps({k: v for k, v in status.items() if k != "sources"}, indent=1))
         print("sources:", [(s["name"], s["count"], s["error"]) for s in status["sources"]])
         print("CYCLE OK")
+    except state_files.DamagedFile as e:   # the status file is not written either: repair the file and run again, and the run continues as if this one had not happened
+        print(f"::error title=Research cycle stopped: a protection or state file is damaged::{e}")
+        print(f"CYCLE STOPPED (the workflow commits nothing after a failed step): {e}", file=sys.stderr)
+        summary = os.environ.get("GITHUB_STEP_SUMMARY")
+        if summary:                        # the health step always runs after this and reads the status file, which still describes the PREVIOUS run
+            with open(summary, "a", encoding="utf-8") as f:
+                f.write(f"### Research cycle stopped\n\n{e}\n\nAny evaluation health shown below is from the previous run.\n")
+        sys.exit(1)
     except Exception as e:
         c.status["errors"].append(f"FATAL: {e}")
         write_status(root, c.status)  # record failure; staged writes are discarded — no partial publish

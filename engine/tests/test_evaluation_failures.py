@@ -143,10 +143,11 @@ class DeployedConfiguration(unittest.TestCase):
             self.assertNotIn("nothing met the bar", json.dumps(run["firstReportItem"]).lower())
 
     def test_missing_or_malformed_settings_fail_closed(self):
-        for content in (None, "{not json", json.dumps({"enabled": "true"}), json.dumps({"limitPerRun": 60})):
+        for content in (None, json.dumps({"enabled": "true"}), json.dumps({"limitPerRun": 60})):   # a settings file that is present but damaged stops the run: test_fail_closed.py
             sandbox = Path(tempfile.mkdtemp())
             import shutil
-            shutil.copytree(REPO / "data", sandbox / "data"); shutil.copytree(ENGINE, sandbox / "engine")
+            shutil.copytree(REPO / "data", sandbox / "data", ignore=shutil.ignore_patterns("*.enc")); shutil.copytree(ENGINE, sandbox / "engine")
+            (sandbox / "data" / "review-queue" / "held.json").write_text('{"items": []}', encoding="utf-8")
             target = sandbox / "engine" / "eval_settings.json"
             if content is None:
                 target.unlink()

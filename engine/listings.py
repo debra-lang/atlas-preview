@@ -232,7 +232,7 @@ def process(items, existing, *, today, fetch_context, record_meta, excluded=lamb
 
 def history_entry(today, status, counts, listings_total, cost_usd):
     ev = status.get("evaluation") or {}
-    return {"date": today, "scanned": status.get("examined", 0), "newItems": status.get("newItems", 0), "listed": counts.get("listed", 0), "listingsUpdated": counts.get("updated", 0),
+    return {**({"listingStep": "failed"} if status.get("listingsFailed") else {}), "date": today, "scanned": status.get("examined", 0), "newItems": status.get("newItems", 0), "listed": counts.get("listed", 0), "listingsUpdated": counts.get("updated", 0),
             "screenedOut": counts.get("screenedOut", 0), "waitingForVerification": counts.get("deferred", 0) + counts.get("waiting", 0), "unverifiable": counts.get("unverifiable", 0),
             "failedVerification": counts.get("failedVerification", 0), "retractionNoticesFound": status.get("retractionFindings"), "trialStatusUpdates": status.get("trialStatusUpdates", 0),
             "listingsTotal": listings_total, "aiEvaluation": ev.get("state", "not-run"), "aiAttempted": ev.get("attempted", 0), "aiUnusable": ev.get("parseErrors", 0),
