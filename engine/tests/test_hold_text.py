@@ -1,6 +1,6 @@
 """A hold reads the record's real text. The registry answer used to be checked as a JSON dump, where a line break is the two characters backslash and n, so a held name after a line break or a tab, past the compact text, read "nLenire", was not found, and the record could be listed publicly.
 These go through the real fetch (only the network answer is stubbed) and the real hold check, with the real hold file; test_hold_cycle.py runs the whole cycle. Run:  python -m unittest discover -s engine/tests -v"""
-import json, sys, unittest
+import html, json, sys, unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -58,7 +58,7 @@ class LineBreaksAndEscapes(Base):
     def test_escapes_stored_in_the_text_itself_are_read_through(self):
         for name, tail in (("a written-out line break", "\\nLenire"), ("a written-out tab", "\\tLenire"), ("a written-out unicode escape", "\\u00a0Lenire"), ("an entity quote", "\\&#39;Lenire\\&#39;"),
                            ("an entity space", "&nbsp;Lenire"), ("an entity hyphen inside", " Le&shy;nire"), ("markup", "<b>Lenire</b>"), ("underscores for emphasis", "_Lenire_"), ("a written-out form feed", " \\fLenire"), ("a written-out vertical tab", " \\vLenire"), ("a written-out backspace", " \\bLenire"), ("markup inside the name", " Le<b>nire</b>"), ("a break after an accented name", " L\u00e9nire<br>device"), ("a footnote in markup after an accented name", " L&eacute;nire<sup>2</sup>"), ("a split name before a break", " Neuro\u200bmod<br>Devices"), ("a tag with no meaning inside the name", " Le<wbr>nire"), ("a superscript tag inside the name", " Le<sup>n</sup>ire"), ("a highlight inside the name", " Le<mark>nire</mark>"), ("a long tag inside the name", ' Le<span class="a-rather-long-class-name-that-goes-on-for-a-while">nire</span>'), ("a tag inside the trial name", "\nTENT-<wbr>A1"),
-                           ("a hyphen at the end of a line", "\nTENT-\nA1"), ("a no-break hyphen at the end of a line", "\nTENT\u2011\nA1"), ("an en dash at the end of a line", "\nTENT\u2013\r\nB"), ("an encoded hyphen at the end of a line", "\nTENT&#8209;\nA"), ("an invisible character after the hyphen", "\nTENT-\u200b\nA"), ("a windows line end after a hyphen", "\nTENT-\r\nB"), ("a minus sign at the end of a line", "\nTENT\u2212\nA1"), ("a hyphen bullet at the end of a line", "\nTENT\u2043\nA1"), ("a small hyphen at the end of a line", "\nTENT\ufe63\nA1"), ("a full-width hyphen at the end of a line", "\nTENT\uff0d\nA1"), ("a figure dash at the end of a line", "\nTENT\u2012\nA1"), ("a control character inside", " Le\x01nire"), ("an entity encoded twice", " &amp;#76;enire"),
+                           ("a hyphen at the end of a line", "\nTENT-\nA1"), ("a no-break hyphen at the end of a line", "\nTENT\u2011\nA1"), ("an en dash at the end of a line", "\nTENT\u2013\r\nB"), ("an encoded hyphen at the end of a line", "\nTENT&#8209;\nA"), ("an invisible character after the hyphen", "\nTENT-\u200b\nA"), ("a windows line end after a hyphen", "\nTENT-\r\nB"), ("an indented line after a hyphen", "\nTENT-\n   A1"), ("a minus sign at the end of a line", "\nTENT\u2212\nA1"), ("a hyphen bullet at the end of a line", "\nTENT\u2043\nA1"), ("a small hyphen at the end of a line", "\nTENT\ufe63\nA1"), ("a full-width hyphen at the end of a line", "\nTENT\uff0d\nA1"), ("a figure dash at the end of a line", "\nTENT\u2012\nA1"), ("a control character inside", " Le\x01nire"), ("an entity encoded twice", " &amp;#76;enire"),
                            ("a written-out soft hyphen inside", " Le\\u00adnire"), ("a written-out zero-width space inside", " Le\\u200bnire"), ("a written-out letter", " \\u004cenire")):
             with self.subTest(name):
                 self.assertEqual(self.check(self.with_description(tail)), "lenire-neuromod")
@@ -107,9 +107,33 @@ class NumericEntities(Base):
                 self.assertEqual(self.found(text), "lenire-neuromod")
 
     def test_ordinary_entities_still_read(self):
-        for name, text in (("a letter", "&#76;enire"), ("seven digits, the most a real character has", "&#0000076;enire"), ("hex letter", "&#x4C;enire"), ("named accent", "L&eacute;nire"), ("twice encoded", "&amp;#76;enire")):
+        for name, text in (("a letter", "&#76;enire"), ("padded to seven digits", "&#0000076;enire"), ("padded to eight digits", "&#00000076;enire"), ("padded far past the digit limit", "&#" + "0" * 5000 + "76;enire"), ("padded and twice encoded", "&amp;#00000076;enire"), ("a padded soft hyphen inside", "Le&#00000173;nire"), ("a padded hyphen in the trial name", "TENT&#00000045;A1"), ("hex letter", "&#x4C;enire"), ("named accent", "L&eacute;nire"), ("twice encoded", "&amp;#76;enire")):
             with self.subTest(name):
                 self.assertEqual(self.found(text), "lenire-neuromod")
+
+    def test_padding_changes_nothing_about_what_a_reference_reads_as(self):
+        for code in (1, 9, 10, 32, 45, 76, 173, 8209, 65279, 1114111):
+            with self.subTest(code):
+                plain = topic_holds._plain(f"x&#{code};y")
+                for zeros in (1, 7, 12, 5000):
+                    self.assertEqual(topic_holds._plain("x&#" + "0" * zeros + f"{code};y"), plain)
+
+    def test_a_name_that_itself_needs_decoding_is_still_read_beside_an_oversized_one(self):
+        """So the correction cannot be replaced by catching the error and leaving the text undecoded."""
+        huge = "&#" + "9" * 5000 + ";"
+        for name, text in (("an accent entity", huge + " L&eacute;nire"), ("a letter entity", huge + " &#76;enire"), ("a soft hyphen entity", huge + " Le&shy;nire")):
+            with self.subTest(name):
+                self.assertEqual(self.found(text), "lenire-neuromod")
+
+    def test_what_replaces_one_keeps_the_words_apart(self):
+        """In both directions: a name directly after one is still a whole word, and the digits' neighbours do not join into a name."""
+        self.assertEqual(self.found("x&#99999999;L\u00e9nire"), "lenire-neuromod")
+        self.assertIsNone(self.found("Le&#99999999;nire"))
+
+    def test_the_longest_real_reference_reads_as_python_reads_it(self):
+        for code in ("1114111", "9999999", "1000000"):
+            with self.subTest(code):
+                self.assertEqual(topic_holds._unescape(f"x&#{code};y"), html.unescape(f"x&#{code};y"))
 
     def test_malformed_entities_neither_raise_nor_hide_a_name(self):
         for bad in ("&#;", "&#x;", "&#abc;", "&#-1;", "&#0;", "&#1114112;", "&#xD800;", "&#xFFFFFFFF;", "&#", "&", "&;", "&nosuch;", "&#12345678;", "&#99999999;"):
@@ -206,6 +230,12 @@ class NoBroaderThanIntended(Base):
 
     def test_id_prefix_holds_still_work(self):
         self.assertEqual(topic_holds.match_item({"id": "newsintel-neuromod-lenire-abc", "title": "Unrelated"}, self.holds), "lenire-neuromod")
+
+    def test_the_limit_on_how_long_a_tag_can_be(self):
+        at = "Le<b " + "x" * 76 + ">nire"       # 80 characters after the tag's first letter
+        over = "Le<b " + "x" * 90 + ">nire"
+        self.assertEqual(topic_holds.match_item({"id": "x"}, self.holds, extra_text=at), "lenire-neuromod")
+        self.assertIsNone(topic_holds.match_item({"id": "x"}, self.holds, extra_text=over))
 
     def test_a_long_comparison_does_not_hide_a_name_as_if_it_were_a_tag(self):
         self.assertEqual(topic_holds.match_item({"id": "x"}, self.holds, extra_text="x<y " + "word " * 30 + "L\u00e9nire z>w"), "lenire-neuromod")

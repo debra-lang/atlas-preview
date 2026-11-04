@@ -62,8 +62,9 @@ _PLAIN = _Plain()
 
 
 def _unescape(text):
-    """A decimal entity past the last Unicode character, which has 7 digits, is no character. Its digits are taken out first: past 4300 of them, reading it as a number raises an error."""
-    return html.unescape(re.sub(r"&#[0-9]{8,};?", " ", text))
+    """A decimal entity past the last Unicode character, which has 7 digits, is no character. It is taken out first: past 4300 digits, reading one as a number raises an error. Leading zeros do not count, so they go too, and a padded reference reads as what it is."""
+    t = re.sub(r"&#0*[1-9][0-9]{7,};?", " ", text)
+    return html.unescape(re.sub(r"&#0+(?=[0-9])", "&#", t))
 
 
 def _plain(text, markup=""):

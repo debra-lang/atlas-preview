@@ -126,6 +126,17 @@ class ThroughTheRealCycle(Base):
         self.assertNotIn(A, self.listed())
 
 
+class TheOwnerLiftsTheHold(Base):
+    def test_the_mark_goes_and_the_record_is_listed(self):
+        self.put({**trial(A), "topicHold": "lenire-neuromod"})
+        self.W("engine/topic_holds.json", {"holds": []})
+        self.answers = {A: study(A, detail="x\nLenire")}
+        rc, out = self.cycle()
+        self.assertEqual(rc, 0, out[-400:])
+        self.assertIsNone(self.mark(trial(A)))
+        self.assertIn(A, self.listed())
+
+
 class OversizedEntities(Base):
     def test_in_a_record_it_stops_nothing_and_hides_nothing(self):
         self.put(trial(A), trial(B))
@@ -154,6 +165,7 @@ class OversizedEntities(Base):
                 rc, out = self.cycle()
                 self.assertEqual(rc, 0, out[-400:])
                 self.assertIn(B, self.listed())
+                self.assertNotIn("listings step failed", json.dumps(self.J("data/engine-status.json")))
 
 
 class AFaultInTheCheckNeverReadsAsClean(Base):
