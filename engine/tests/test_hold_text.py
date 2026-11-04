@@ -88,7 +88,7 @@ class NumericEntities(Base):
         return topic_holds.match_item({"id": "x"}, self.holds, extra_text=text)
 
     def test_oversized_entities_do_not_raise(self):
-        for name, text in (("just past the limit", "&#" + "9" * 4301 + ";"), ("far past it", "&#" + "9" * 100000 + ";"), ("no semicolon", "&#" + "9" * 5000), ("all zeros", "&#" + "0" * 5000 + ";"), ("twice encoded", "&amp;#" + "9" * 5000 + ";"), ("three times encoded", "&amp;amp;#" + "9" * 5000 + ";"), ("two together", "&#" + "9" * 5000 + ";&#" + "8" * 5000 + ";"), ("hex", "&#x" + "9" * 5000 + ";"), ("in the middle of a word", "wo&#" + "9" * 5000 + ";rd")):
+        for name, text in (("just past the limit", "&#" + "9" * 4301 + ";"), ("far past it", "&#" + "9" * 100000 + ";"), ("no semicolon", "&#" + "9" * 5000), ("all zeros", "&#" + "0" * 5000 + ";"), ("twice encoded", "&amp;#" + "9" * 5000 + ";"), ("three times encoded", "&amp;amp;#" + "9" * 5000 + ";"), ("two together", "&#" + "9" * 5000 + ";&#" + "8" * 5000 + ";"), ("padded and oversized", "&#000" + "9" * 5000 + ";"), ("padded, oversized and twice encoded", "&amp;#000" + "9" * 5000 + ";"), ("hex", "&#x" + "9" * 5000 + ";"), ("in the middle of a word", "wo&#" + "9" * 5000 + ";rd")):
             with self.subTest(name):
                 self.assertIsNone(self.found(text))
 
