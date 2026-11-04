@@ -332,6 +332,18 @@ class Cycle:
         if flagged:
             self.stage("data/studies.json", data)
 
+    def settle_marks(self, queue):
+        """The one place a hold mark goes. Once a record carries a mark, nothing a source says removes it: only the owner lifting the whole hold, or the owner's release of this exact queue entry and this hold (engine/hold_releases.json).
+        The record is still checked before it can list: after a lift against every hold in force, after a release against every other hold, and either way against its source. Counts go in the public status file, never the records."""
+        active = {h["id"] for h in topic_holds.load_holds(self.root / "engine" / "topic_holds.json")}
+        releases = state_files.hold_releases(self.root)
+        for it in queue["items"]:
+            mark = it.get("topicHold")
+            if mark and (mark not in active or (it["id"], mark) in releases):
+                del it["topicHold"]
+                self.status["holdMarksCleared"] = self.status.get("holdMarksCleared", 0) + 1
+                self.log(step="hold-mark", identifier=it["id"], reason="the owner released this record" if mark in active else "the owner lifted the hold", published=False, held=False)
+
     # ---------- Phase 1: automatic listings and update history (no AI; both OFF unless engine/automation_settings.json says exactly true) ----------
     def phase1(self, queue):
         self.auto = listings.load_settings(self.load("engine/automation_settings.json", None))
@@ -340,25 +352,28 @@ class Cycle:
             return
         paused = state_files.paused_ids(self.root) - set(self.auto["includePaused"])   # listed as bibliographic facts only; still paused for everything else
         holds = topic_holds.load_holds(self.root / "engine" / "topic_holds.json")
+        releases = state_files.hold_releases(self.root)
 
         def held_by_record(it, text):
-            hold = topic_holds.match_item(it, holds, extra_text=text + "\n" + evaluate_queue.RECORD_FULL.pop(it["id"], ""))
-            if hold:                       # remembered on the item, as the evaluator does, so the route sees a hold that the title does not show; cleared when the hold is lifted
+            hold = topic_holds.match_item(it, holds, extra_text=text + "\n" + evaluate_queue.RECORD_FULL.pop(it["id"], ""), releases=releases)
+            if hold:                       # remembered on the item, as the evaluator does, so the route sees a hold that the title does not show; only the owner can clear it (settle_marks)
                 it["topicHold"] = hold
-            else:
-                it.pop("topicHold", None)
             return bool(hold)
+
+        def mark_for_newer(older, newer):
+            mark = older.get("topicHold") or topic_holds.match_item(older, holds, releases=releases)
+            return None if (newer["id"], mark) in releases else mark
         current = self.load(listings.LISTINGS_REL, {"items": []})   # outside the try: damaged listings stop the run, they are never rebuilt from nothing
 
-        def excluded(it):
-            return it["id"] in paused or bool(topic_holds.match_item(it, holds))
+        def excluded(it):      # a mark that is still here is one only the owner can clear: the record is not fetched, because nothing it says could change that
+            return it["id"] in paused or bool(it.get("topicHold")) or bool(topic_holds.match_item(it, holds, releases=releases))
         work = copy.deepcopy(queue["items"])   # the step marks a copy: its marks reach the queue only if the whole step succeeds, so nothing is marked listed without its listing
         already = {i["id"] for i in queue["items"] if isinstance(i.get("listed"), dict) and i["listed"].get("outcome") == "listed"}
         try:
             new, counts = listings.process(
                 work, current, today=date.today().isoformat(),
                 fetch_context=evaluate_queue.fetch_context, record_meta=lambda i: evaluate_queue.RECORD_META.pop(i, None),
-                excluded=excluded, enrich=triage.enrich, held_by_record=held_by_record)
+                excluded=excluded, enrich=triage.enrich, held_by_record=held_by_record, mark_for_newer=mark_for_newer)
             listings.check_result(work, current, new, already=already, excluded=excluded, before=queue["items"])
         except state_files.DamagedFile:
             raise
@@ -405,7 +420,7 @@ class Cycle:
         keys = [re.sub(r"\W+", "", (item.get(k) or "").lower())[:90] for k in ("url", "title")]
         if item.get("id") in getattr(self, "paused_ids", ()):
             return "paused", "paused by the owner (engine/paused_ids.json): not evaluated, not published, not lost"
-        hold_id = item.get("topicHold") or topic_holds.match_item(item, getattr(self, "topic_hold_list", None))
+        hold_id = item.get("topicHold") or topic_holds.match_item(item, getattr(self, "topic_hold_list", None), releases=getattr(self, "hold_release_list", ()))
         if hold_id:
             return "paused", f"topic hold '{hold_id}' (engine/topic_holds.json): not evaluated, not published, not lost"
         if any(k and k in register for k in keys):   # after the owner's holds: a status update registers its trial's URL, which must not drop a held record of that trial
@@ -555,7 +570,7 @@ class Cycle:
         for d in todo:
             e = next((x for x in staged["items"] if x["id"] == d.get("id")), None)
             blocked = None
-            if e and (e["item"]["id"] in self.paused_ids or topic_holds.match_item(e["item"], self.topic_hold_list)):
+            if e and (e["item"]["id"] in self.paused_ids or topic_holds.match_item(e["item"], self.topic_hold_list, releases=self.hold_release_list)):
                 blocked = "the item is paused or topic-held: release the pause first"
             if d.get("decision") == "release" and e and released[0] >= source_release.max_per_run(rel_settings):
                 out["blocked"] += 1          # over the per-run limit: the decision is kept for the next run, not dropped
@@ -667,6 +682,7 @@ class Cycle:
                     self.status["errors"].append(f"{rel} is missing: its switches are treated as OFF")
                     self.status.setdefault("missingSettings", []).append(rel)   # engine/check_evaluation_health.py turns this red, after the scan has been saved
         queue = self.scan(fixtures=fixtures)
+        self.settle_marks(queue)
         # The review queue is engine working state (not public site data): commit it to disk NOW
         # so newly scanned items can never be lost, and so the evaluator (which reads the disk
         # file) sees them. Public data stays staged-only until the end.
@@ -755,6 +771,7 @@ class Cycle:
             register.update(re.sub(r"\W+", "", (it.get(k) or "").lower())[:90] for k in ("url", "title") if it.get(k))
         self.paused_ids = state_files.paused_ids(self.root)
         self.topic_hold_list = topic_holds.load_holds(self.root / "engine" / "topic_holds.json")
+        self.hold_release_list = state_files.hold_releases(self.root)
         by_id = {it["id"]: it for it in queue["items"]}
         self.superseded = {old for old, new in evaluate_queue.superseded_map(queue["items"]).items()
                            if by_id[new].get("evaluation") or by_id[new].get("notice") or by_id[new].get("topicHold")}   # preserved until its newer sibling is processed
@@ -786,8 +803,11 @@ class Cycle:
                      published=r.startswith("publish"), held=r in ("hold", "publish-under-eval", "awaiting-eval"))
             self._effect(r, reason, item, ev, held, publish, remaining, remember)
         queue["items"] = remaining
+        self.status["holdMarksAwaitingOwner"] = sum(1 for i in remaining if i.get("topicHold"))      # silence keeps a record held, so the count is always reported
+        if self.status["holdMarksAwaitingOwner"]:
+            print(f"::warning title=Hold marks await the owner::{self.status['holdMarksAwaitingOwner']} queued record(s) carry a hold mark that only the owner can clear: lift the hold, release the record, or leave it held")
         # an older update of a registry record whose newer update is paused or held is preserved, but it cannot be evaluated until its sibling is: not a backlog
-        waiting_on_sibling = set(evaluate_queue.superseded_map(remaining))
+        waiting_on_sibling = {i for i in evaluate_queue.superseded_map(remaining) if i not in {x["id"] for x in remaining if x.get("topicHold")}}     # a marked entry is already counted as paused
         self.status["evaluation"]["awaitingEvaluation"] = len(remaining) - self.status.get("paused", 0) - len(waiting_on_sibling)
         self.status["evaluation"]["paused"] = self.status.get("paused", 0)
         self.stage("data/review-queue/queue.json", queue)
@@ -911,7 +931,7 @@ def main():
         sandbox = Path(tempfile.mkdtemp(prefix="te-sim-"))
         shutil.copytree(root / "data", sandbox / "data", ignore=shutil.ignore_patterns("*.enc"))   # the simulation has no key: the private stores stay out of its sandbox
         (sandbox / "engine").mkdir()
-        for f in ("known_ids.json", "published_ids.json", "paused_ids.json", "topic_holds.json"):
+        for f in ("known_ids.json", "published_ids.json", "paused_ids.json", "topic_holds.json", "hold_releases.json"):
             if (root / "engine" / f).exists():
                 shutil.copy(root / "engine" / f, sandbox / "engine" / f)
         root = sandbox

@@ -10,6 +10,7 @@ NaN, Infinity and numbers too large to hold are refused on reading, and the engi
 Deliberate exceptions, each one the safe direction:
   * Absent OPTIONAL files start empty: they do not exist until first needed (the plaintext held and staged stores also need their .enc file to be absent).
   * An absent engine/eval_settings.json or engine/automation_settings.json means OFF, and a value other than exactly true means OFF, as the project has always defined them. A settings file that is present but damaged stops the run.
+  * An absent engine/hold_releases.json means no releases, which keeps every hold in place. A release file that is present but damaged stops the run.
 
 Shape checks only. A valid file with the wrong CONTENT (an id removed, a pattern edited) passes here, apart from the checks below; removing a protection on purpose is the hold-release safeguard's job.
   * An empty pause, hold, archive or listings file needs "emptyOnPurpose": true, and the flag on a file that is not empty stops the run: it can never stay armed to excuse a later accidental deletion.
@@ -173,6 +174,31 @@ def _holds(d):
     return None
 
 
+RELEASE_KEYS = {"recordId", "holdId", "decidedOn", "reason"}
+MAX_RELEASE_REASON = 200
+
+
+def _releases(d):   # the owner's own decisions: an entry that cannot be read as one stops the run, it never reads as a release of something else
+    p = _obj(d) or _top_keys(d, {"comment", "note", "releases"}) or ("needs a 'releases' list" if "releases" not in d else _dicts(d["releases"], "releases"))
+    if p:
+        return p
+    seen = set()
+    for r in d["releases"]:
+        if set(r) != RELEASE_KEYS:
+            return f"every release needs exactly {', '.join(sorted(RELEASE_KEYS))}"
+        p = _clean_strings([r["recordId"], r["holdId"], r["reason"]], "a release's record id, hold id and reason")
+        if p:
+            return p
+        if not _is_past_date(r["decidedOn"]):
+            return "a release needs a 'decidedOn' date that is not in the future"
+        if len(r["reason"]) > MAX_RELEASE_REASON:
+            return f"a release's reason is limited to {MAX_RELEASE_REASON} characters"
+        if (r["recordId"], r["holdId"]) in seen:
+            return "the same release appears more than once"
+        seen.add((r["recordId"], r["holdId"]))
+    return None
+
+
 def _strings(d):   # written by the cycle, not by hand: a published title made only of symbols registers as an empty key, so the entries are not held to the hand-edited files' rules
     if not isinstance(d, list) or not all(isinstance(x, str) for x in d):
         return "must be a list of text"
@@ -299,10 +325,10 @@ REQUIRED_FOR_SCAN = {"engine/scan-state.json": _scan_state, "engine/sources.json
 # May be absent until first needed. If present, must be sound.
 OPTIONAL = {"data/review-queue/held.json": _items(), "data/review-queue/staged.json": _items("id"), "data/review-queue/decisions.json": _decisions,
             "engine/batch-state.json": _batch, "engine/usage-ledger.json": _ledger, "engine/triage-evidence.json": _obj, "engine/benchmark-report.json": _obj,
-            "engine/eval_settings.json": _obj, "engine/automation_settings.json": _obj, "data/engine-status.json": _obj}
+            "engine/eval_settings.json": _obj, "engine/automation_settings.json": _obj, "data/engine-status.json": _obj, "engine/hold_releases.json": _releases}
 LISTINGS, HISTORY = "data/listings.json", "data/update-history.json"
 # The files people edit by hand, whose every reader accepts a byte-order mark. Anywhere else a mark stops the run with a clear reason: those files have other readers (the page build, the budget and retraction checks) that cannot read one, and a late failure or a silent default there is worse.
-MARK_ALLOWED = {"engine/paused_ids.json", "engine/topic_holds.json", "engine/eval_settings.json", "engine/automation_settings.json", "engine/sources.json", "engine/triage_rules.json"}
+MARK_ALLOWED = {"engine/paused_ids.json", "engine/topic_holds.json", "engine/eval_settings.json", "engine/automation_settings.json", "engine/sources.json", "engine/triage_rules.json", "engine/hold_releases.json"}
 
 
 def checked(path, shape):
@@ -316,6 +342,12 @@ def checked(path, shape):
 
 def paused_ids(root):
     return set(checked(Path(root) / "engine" / "paused_ids.json", _paused)["ids"])
+
+
+def hold_releases(root):
+    """{(record id, hold id)}: the owner's per-record releases. Each covers that exact queue entry and that hold only. Absent: none."""
+    p = Path(root) / "engine" / "hold_releases.json"
+    return {(r["recordId"], r["holdId"]) for r in checked(p, _releases)["releases"]} if p.exists() else set()
 
 
 def preflight(root, scan_files=True, today=None):

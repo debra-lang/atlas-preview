@@ -194,10 +194,10 @@ class AFaultInTheCheckNeverReadsAsClean(Base):
         self.answers = {A: study()}
         real = topic_holds.match_item
 
-        def fault(it, holds=None, extra_text=""):
+        def fault(it, holds=None, extra_text="", releases=()):
             if extra_text:
                 raise RuntimeError("injected")
-            return real(it, holds, extra_text)
+            return real(it, holds, extra_text, releases)
         with mock.patch.object(topic_holds, "match_item", fault):
             rc, out = self.cycle()
         self.assertNotIn(A, self.listed())

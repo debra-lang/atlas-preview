@@ -566,6 +566,7 @@ def main(limit=None):
 
     paused = load_paused()   # owner-paused items are never sent to the API (they stay queued, untouched)
     holds = topic_holds.load_holds()   # owner topic holds (e.g. Lenire/Neuromod): same treatment as paused ids
+    releases = state_files.hold_releases(ROOT)   # the owner's per-record releases: a record released from a hold is evaluated like any other
     superseded = superseded_ids(queue.get("items", []))   # older updates of a registry record that has a newer queue entry: not evaluated again
     cited = notices.cited_index(studies)
     known_words = [w for t in treatments for w in (t["id"].replace("-", " ") + " " + t["name"]).replace("(", " ").replace(")", " ").split()] + \
@@ -578,7 +579,7 @@ def main(limit=None):
 
     def pending(it):
         return not (it.get("evaluation") or it.get("notice") or it.get("topicHold") or it.get("languageHold") or it.get("catalogued") or it.get("id") in paused or it.get("id") in superseded
-                    or already_published(it) or topic_holds.match_item(it, holds))
+                    or already_published(it) or topic_holds.match_item(it, holds, releases=releases))
 
     # Phase A (free, no AI): correction / retraction notices are classified, never evaluated and never published as research
     for it in [i for i in queue.get("items", []) if pending(i) and notices.looks_like_notice(i)]:
@@ -673,8 +674,8 @@ def main(limit=None):
         """The free screens that run BEFORE any paid call, then the prompt. None = the item is not sent (screened out, or its record is unavailable; it stays queued)."""
         context = fetch_context(it)
         meta = RECORD_META.pop(it["id"], None) or registry_record.parse_header(context) or {"completeness": "UNKNOWN"}
-        # free screens on the fetched record BEFORE any paid call: a topic hold that only the abstract reveals, or a notice that the title does not reveal
-        hold_id = topic_holds.match_item(it, holds, extra_text=context)
+        # free screens on the fetched record BEFORE any paid call: a topic hold that only the abstract or the complete record reveals, or a notice that the title does not reveal. The check reads the whole record, as the listing step does: the compact text leaves out fields a name can sit in
+        hold_id = topic_holds.match_item(it, holds, extra_text=context + "\n" + RECORD_FULL.pop(it["id"], ""), releases=releases)
         if hold_id:
             it["topicHold"] = hold_id
             LAST_RUN["screened"] += 1

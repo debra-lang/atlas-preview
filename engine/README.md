@@ -162,3 +162,20 @@ pipeline in a throw-away clone, and scored against pre-registered thresholds: UN
 - A record marked `listed` must have its listing. To remove a listing by hand, also change the record's mark, or the next run stops and says so. To list a record again, clear its `listed` mark. To empty the listings on purpose, clear the marks too, or the two files disagree and the run stops.
 - To force the retraction back-check, set `lastRun` in `engine/retraction-state.json` to an old date; an empty value stops the run. To re-baseline the page watcher, set `engine/page-hashes.json` to `{}`; deleting it stops the run. Turning `listings` or `updateHistory` on for the first time needs its file to exist.
 - `engine/eval_settings.json` and `engine/automation_settings.json` still mean OFF when absent or when a value is not exactly `true`. An absent file turns the run red after the scan is saved. If present but damaged, they stop the run. The comment inside `eval_settings.json` that says a malformed file means OFF predates this and is out of date.
+
+## Hold marks and per-record releases
+
+A record found to name a topic hold carries a mark (`topicHold`) in the queue. **Nothing a source says removes it:** not a later answer without the name, not a failed fetch, not a corrected record. The record is not fetched again while marked. A newer queue entry of the same trial takes the mark on, and each entry keeps its own mark until it is itself released: the count below counts entries.
+
+Only the owner clears a mark, in one of two ways:
+
+1. **Lift the whole hold** (`engine/topic_holds.json`). Marks of that hold clear on the next run. The record is still checked before it can list: against every hold in force, and against its source.
+2. **Release one record:** an entry in `engine/hold_releases.json`, which covers that exact queue entry and that hold. A later registry update arrives as a new entry and is checked again. The record is still checked against every other hold, and against its source. A pause is separate: a release does not touch it.
+
+```json
+{"releases": [{"recordId": "ctgov-NCT00000000-2026-01-01", "holdId": "lenire-neuromod", "decidedOn": "2026-11-20", "reason": "A tent-A shelter: not the trial."}]}
+```
+
+All four fields are required, and the reason is at most 200 characters. The file is hand-edited in a reviewed commit, validated by preflight, and absent means no releases. A damaged file stops the run. Leave an entry in place after its record has listed: it is what stops the same text holding that entry again.
+
+`data/engine-status.json` carries counts only: `holdMarksAwaitingOwner` on every run, and `holdMarksCleared` when any cleared. The marked records are the items with `topicHold` in `data/review-queue/queue.json`.

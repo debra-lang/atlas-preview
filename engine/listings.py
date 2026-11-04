@@ -131,7 +131,7 @@ def entry_for(item, tier, checks, meta, today):
     return e
 
 
-def process(items, existing, *, today, fetch_context, record_meta, excluded=lambda it: False, enrich=None, held_by_record=lambda it, text: False):
+def process(items, existing, *, today, fetch_context, record_meta, excluded=lambda it: False, enrich=None, held_by_record=lambda it, text: False, mark_for_newer=lambda older, newer: None):
     """Lists what can be listed. `items` = queue items (mutated: an outcome is recorded on each one processed), `existing` = the current listings.json object.
     Returns (new listings object, counts). fetch_context(item) -> record text; record_meta(item_id) -> its metadata (both from evaluate_queue)."""
     counts = Counter()
@@ -147,6 +147,9 @@ def process(items, existing, *, today, fetch_context, record_meta, excluded=lamb
         k = key_of(it)
         if k.startswith("NCT") and newest[k] is not it:
             it["listed"] = {"on": today, "outcome": "superseded", "by": newest[k]["id"]}
+            mark = mark_for_newer(it, newest[k])
+            if mark and not newest[k].get("topicHold"):     # the mark belongs to the record, not to one queue entry: a newer entry starts from what is known about it, even if only the older entry's own title showed it
+                newest[k]["topicHold"] = mark
             counts["superseded"] += 1
             todo.remove(it)
     held = [it for it in todo if excluded(it)]
@@ -231,7 +234,7 @@ def process(items, existing, *, today, fetch_context, record_meta, excluded=lamb
 
 
 def check_result(items, existing, new, *, already, excluded, before):
-    """Checks the finished step before anything is saved, however it was reached. Raises if a record marked listed has no listing, an earlier listing has gone, the count is wrong, a paused or held record was listed by this run, or the queue no longer holds the same records.
+    """Checks the finished step before anything is saved, however it was reached. Raises if a record marked listed has no listing, an earlier listing has gone, the count is wrong, a paused or held record was listed by this run, the queue no longer holds the same records, or a hold mark changed: this step never removes one, the owner does (Cycle.settle_marks).
     `already`: ids marked listed before this step. Pausing or holding a record after it was listed is allowed, including earlier the same day: an existing listing is reported by policy, never treated as this step's error. `before`: the queue as the step received it."""
     if Counter(i.get("id") for i in items) != Counter(i.get("id") for i in before):
         raise ValueError("the step changed which records are in the queue")
@@ -240,6 +243,8 @@ def check_result(items, existing, new, *, already, excluded, before):
         old = was[it.get("id")]
         if any(it.get(k) != old.get(k) for k in ("kind", "title", "url")):
             raise ValueError(f"{it.get('id')} no longer reads as the same record")
+        if old.get("topicHold") and it.get("topicHold") != old["topicHold"]:
+            raise ValueError(f"{it.get('id')} lost its hold mark")
     keys = {e["key"] for e in new["items"]}
     if len(keys) != len(new["items"]) or new.get("count") != len(new["items"]):
         raise ValueError("the new listings repeat a key or miscount their entries")

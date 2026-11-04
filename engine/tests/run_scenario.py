@@ -72,6 +72,8 @@ if SPEC.get("extraStudies"):
     lst = s["studies"] if isinstance(s, dict) else s
     lst.extend(SPEC["extraStudies"])
     W("data/studies.json", s)
+if SPEC.get("holdReleases") is not None:
+    W("engine/hold_releases.json", SPEC["holdReleases"])
 W("data/review-queue/held.json", {"items": []})        # the real store is encrypted and stays out of the copy; a working repository always has one or the other
 if SPEC.get("staged") is not None:
     W("data/review-queue/staged.json", SPEC["staged"])
@@ -241,6 +243,7 @@ def run_once(i, run):
         "apiCalls": {k: v - before_calls.get(k, 0) for k, v in CALLS.items() if v - before_calls.get(k, 0)},
         "totalApiCalls": sum(CALLS.values()) - sum(before_calls.values()),
         "queue": [x["id"] for x in J("data/review-queue/queue.json")["items"]],
+        "marks": {x["id"]: x["topicHold"] for x in J("data/review-queue/queue.json")["items"] if x.get("topicHold")},
         "reportItems": [{"title": x.get("title"), "identifier": (x.get("detail") or {}).get("identifier"), "why": x.get("whyMatters"), "importance": x.get("importance"), "detail": x.get("detail"), "reviewNote": x.get("reviewNote")} for x in rep["items"]],
         "held": [h["item"]["id"] for h in held["items"]], "heldReasons": {h["item"]["id"]: h["reason"] for h in held["items"]},
         "archived": [a["item"]["id"] for a in J("data/review-queue/archive.json", {"items": []})["items"]],

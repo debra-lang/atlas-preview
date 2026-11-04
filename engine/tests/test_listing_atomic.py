@@ -253,6 +253,23 @@ class DuringProcessing(Base):
         self.assertEqual({i["id"]: i for i in self.J(QUEUE)["items"]}[NEW[0]["id"]].get("topicHold"), "lenire-neuromod")
         self.assertEqual(self.marks(), {}, "only the hold mark is kept")
 
+    def test_a_result_that_drops_a_hold_mark_is_rejected_and_the_mark_stays(self):
+        W(self.root, QUEUE, {"items": [ITEM, LENIRE, {**NEW[0], "topicHold": "lenire-neuromod"}]})
+        W(self.root, KNOWN, [ITEM["id"], LENIRE["id"], NEW[0]["id"]])
+        real = listings.process
+
+        def process(items, existing, **k):
+            new, counts = real(items, existing, **k)
+            next(i for i in items if i["id"] == NEW[0]["id"]).pop("topicHold")
+            return new, counts
+        listings.process = process
+        self.addCleanup(setattr, listings, "process", real)
+        rc, out = self.run_main()
+        listings.process = real
+        self.assertEqual(rc, 0, out[-300:])
+        self.assertTrue(self.J(STATUS).get("listingsFailed"))
+        self.assertEqual({i["id"]: i for i in self.J(QUEUE)["items"]}[NEW[0]["id"]].get("topicHold"), "lenire-neuromod")
+
     def test_emptied_listings_are_still_caught_after_a_failed_step(self):
         real = listings.verify
         listings.verify = lambda *a, **k: (_ for _ in ()).throw(RuntimeError("boom"))
