@@ -461,6 +461,13 @@ class TheEvaluatorPath(unittest.TestCase):
         self.assertEqual(run["marks"], {})
         self.assertIn(ONE["id"], run["staged"])
 
+    def test_a_record_whose_title_shows_the_hold_is_chosen_for_the_evaluator_once_released(self):
+        it = {**ONE, "title": "A plain tinnitus trial in a tent-A shelter"}
+        for name, releases, calls in (("released", {"releases": [release(ONE["id"])]}, {ONE["id"]: 1}), ("the control, not released", None, {})):
+            with self.subTest(name):
+                run = run_scenario({"queue": [it], "records": {ONE["id"]: REC}, "settings": AI["AI on, staged"], "paused": [], "holdReleases": releases, "runs": [{}]})["runs"][0]
+                self.assertEqual(run["apiCalls"], calls)
+
     def test_a_release_for_another_hold_does_not_let_it_through(self):
         run = run_scenario({"queue": [ONE], "records": {ONE["id"]: REC}, "fullRecords": {ONE["id"]: REC + "\nLocation: a Lenire clinic"}, "settings": AI["AI on, staged"], "paused": [], "holdReleases": {"releases": [release(ONE["id"], "other-topic")]}, "runs": [{}]})["runs"][0]
         self.assertEqual(run["apiCalls"], {})

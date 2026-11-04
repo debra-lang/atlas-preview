@@ -20,7 +20,7 @@ repo's GitHub Secrets (`ANTHROPIC_API_KEY`) — never in code, never client-side
    study type, population, N, control, endpoints, within/between-group, loudness vs distress vs
    other outcomes, safety observations, funding, importance classification, routine/major class,
    factual-verification verdict (the model's own self-assessment, not an independent check). The rules instruct the model to write "Not reported" rather than guess; statements the source does not make can still occur and are screened for by grounding checks.
-4. **Deterministic gates** (`route()`) — published-register duplicate check, PMID/NCT or
+4. **Deterministic gates** (`route()`) — Level 3 safety trigger, published-register duplicate check (never by link alone for a registry record), PMID/NCT or
    trusted-domain source check, confidence check, routine-vs-major routing.
    Two different questions are kept apart: (1) is the report faithful to the record (numbers, terms, names, identifier: `grounding.source_checks`), and (2) does the
    record itself contain verifiable study specifics (`grounding.evidence_adequacy`, judged from the record text by code, never from the model's answer). A primary study
