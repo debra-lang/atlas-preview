@@ -35,7 +35,10 @@ def _load_enc(path, iters, keyenv="STATE_KEY"):
     p = subprocess.run(c, capture_output=True)
     if p.returncode != 0:
         raise RuntimeError(f"{path.name} cannot be decrypted (wrong STATE_KEY?)")
-    return json.loads(p.stdout.decode("utf-8"))
+    try:
+        return json.loads(p.stdout.decode("utf-8"))
+    except ValueError:          # what a wrong key returns when it passes the padding check (about once in 256 tries): the same answer as when it does not
+        raise RuntimeError(f"{path.name} cannot be decrypted (wrong STATE_KEY?)") from None
 
 
 def _read(root, rel, default):

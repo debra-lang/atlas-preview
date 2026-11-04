@@ -112,6 +112,8 @@ def rehearse(root, backup_dir, apply):
             die(f"{name}: cannot be decrypted with OLD_STATE_KEY (wrong key, or a different iteration count). Nothing was changed.")
         try:
             plains[name] = (plain,) + canon(plain)
+        except (UnicodeDecodeError, json.JSONDecodeError):     # what a wrong key returns when it passes the padding check (about once in 256 tries): the same answer as when it does not
+            die(f"{name}: cannot be decrypted with OLD_STATE_KEY (wrong key, a different iteration count, or a damaged file). Nothing was changed.")
         except Exception as e:
             die(f"{name}: decrypted but {e}. Nothing was changed.")
     backup_dir = Path(backup_dir)
@@ -156,9 +158,12 @@ def verify(root, manifest_path):
         if not path.exists():
             print(f"MISSING {name}"); ok = False; continue
         plain = decrypt(path, FILES[name], "NEW_STATE_KEY")
+        try:
+            h, n = canon(plain) if plain is not None else (None, None)
+        except Exception:
+            plain = None
         if plain is None:
             print(f"FAIL {name}: does not decrypt with NEW_STATE_KEY"); ok = False; continue
-        h, n = canon(plain)
         good = (h, n) == (info["plainJsonSha256"], info["items"])
         print(("OK   " if good else "FAIL ") + f"{name}: {n} item(s), content hash {'matches' if good else 'DIFFERS from'} the manifest")
         ok = ok and good
@@ -173,7 +178,11 @@ def rollback(root, backup_dir):
         if sha(b) != info["oldCiphertextSha256"]:
             die(f"{name}: backup file does not match its recorded hash. Nothing was restored.")
         plain = decrypt(b, FILES[name], "OLD_STATE_KEY")
-        if plain is None or canon(plain) != (info["plainJsonSha256"], info["items"]):
+        try:
+            same = plain is not None and canon(plain) == (info["plainJsonSha256"], info["items"])
+        except Exception:
+            same = False
+        if not same:
             die(f"{name}: backup does not decrypt with OLD_STATE_KEY to the recorded content. Nothing was restored.")
     for name, info in m["files"].items():
         dest = Path(root) / REL / name

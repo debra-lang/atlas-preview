@@ -142,10 +142,7 @@ class DigestCli(unittest.TestCase):
             plain.unlink()
             out = self.root / "d.html"
             wd.main(["--out", str(out), "--root", str(self.root), "--json"])
-            self.assertEqual(json.loads(out.with_suffix(".json").read_text(encoding="utf-8"))["needsYou"], 1)
-            os.environ["STATE_KEY"] = "wrong-key-wrong-key-wrong-key-00"
-            with self.assertRaises(RuntimeError):
-                wd.main(["--out", str(out), "--root", str(self.root)])
+            self.assertEqual(json.loads(out.with_suffix(".json").read_text(encoding="utf-8"))["needsYou"], 1)      # a wrong key: test_wrong_key.py, with both outcomes pinned
         finally:
             os.environ.pop("STATE_KEY", None)
 

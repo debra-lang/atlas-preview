@@ -353,10 +353,7 @@ class EncryptionAndCliTests(unittest.TestCase):
         self.assertEqual(staged_review.load_staged(self.root)["items"][0]["id"], A["id"])
         import subprocess                                                                 # the exact command the workflow runs
         p = subprocess.run(["openssl", "enc", "-d", "-aes-256-cbc", "-pbkdf2", "-iter", "600000", "-in", str(enc), "-pass", "env:STATE_KEY"], capture_output=True)
-        self.assertEqual(p.returncode, 0); self.assertIn(b"SECRETMARK", p.stdout)
-        os.environ["STATE_KEY"] = "wrong"
-        with self.assertRaises(RuntimeError):
-            staged_review.load_staged(self.root)
+        self.assertEqual(p.returncode, 0); self.assertIn(b"SECRETMARK", p.stdout)      # a wrong key: test_wrong_key.py, with both outcomes pinned
 
     def test_cli_export_and_decide(self):
         out = self.root / "review.md"

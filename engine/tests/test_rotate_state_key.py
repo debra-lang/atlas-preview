@@ -71,12 +71,6 @@ class RotationRehearsal(unittest.TestCase):
         self.assertEqual(rc, 0, out)
         self.assertEqual({n: p.read_bytes() for n, p in self.files.items()}, self.before)
 
-    def test_a_wrong_old_key_stops_everything_before_any_write(self):
-        rc, out = run_cli(["apply", "--backup-dir", str(self.backup), "--root", str(self.root)], old="not-the-old-key-at-all-0000000000")
-        self.assertNotEqual(rc, 0); self.assertIn("cannot be decrypted with OLD_STATE_KEY", out)
-        self.assertEqual({n: p.read_bytes() for n, p in self.files.items()}, self.before)
-        self.assertFalse(self.backup.exists())
-
     def test_bad_inputs_are_refused(self):
         for old, new, msg in ((OLD, OLD, "identical"), (OLD, "short", "weak"), (OLD, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "weak"), (None, NEW, "set OLD_STATE_KEY")):
             rc, out = run_cli(["plan", "--backup-dir", str(self.backup), "--root", str(self.root)], old=old, new=new)

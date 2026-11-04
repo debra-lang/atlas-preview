@@ -1,0 +1,16 @@
+{
+ "comment": "Fixed ciphertext for the wrong-key tests. Throwaway keys and plaintext. A wrong key passes OpenSSL's padding check about once in 256 tries and returns garbage, so both outcomes are pinned here and no test depends on chance. Built by a one-off script; OpenSSL's enc format is stable, and the tests check each case still behaves as labelled.",
+ "rightKey": "fixture-right-key-not-a-secret-0123",
+ "wrongKey": "fixture-wrong-key-not-a-secret-4567",
+ "plaintextMark": "FIXTURE-MARK",
+ "cases": {
+  "default": {
+   "wrongKeyFailsPadding": "U2FsdGVkX18OTReT+EfjJD2JCH9U9TqJPTUmJVGvS0fm/gXK3Quf0GHiqTWaglbB40eUBpFg9GvgFXw7YwuyF7MPU4Snx8+V49+TOK2H3ao=",
+   "wrongKeyGivesGarbage": "U2FsdGVkX1+4/dtpiQKM1NdmIlBUe8iehcb0tCXvdXsyZrmKgRmlS0JooQTt00JTkkBZWTaNLsEIs4EZoXxn0CNZBE+0Cjxqh1sk+Qtsg4w="
+  },
+  "600000": {
+   "wrongKeyFailsPadding": "U2FsdGVkX1904kYEQJW57iXbMhsnmKsojalUrK7mFH/xphLCCAGMn1/kERZ319CmRFkEn2rZJImXGex2XZPMAwA2acnYZfRquYNOOabGHec=",
+   "wrongKeyGivesGarbage": "U2FsdGVkX1+i1PfgfCQGtANbnn1KUR14HI6S9rFeb19uXPIy8vPBOUw+WEr/FvcJLUNkygCtVRsqVS0E0Z4vFABLFoDt53iPeddu2KYeEQ8="
+  }
+ }
+}

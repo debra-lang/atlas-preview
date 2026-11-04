@@ -159,7 +159,11 @@ def load_staged(root=ROOT, key_env="STATE_KEY"):
     if plain.exists():
         return json.loads(plain.read_text(encoding="utf-8"))
     if enc.exists():
-        return json.loads(decrypt_bytes(enc, key_env).decode("utf-8"))
+        plain = decrypt_bytes(enc, key_env)
+        try:
+            return json.loads(plain.decode("utf-8"))
+        except ValueError:      # what a wrong key returns when it passes the padding check (about once in 256 tries): the same answer as when it does not
+            raise RuntimeError("could not decrypt (wrong STATE_KEY?): the result is not a review store") from None
     return {"items": []}
 
 
