@@ -1549,3 +1549,7 @@ body[data-page="treatments"] .tfilter-n{background:var(--grad-brand-aa,var(--gra
   .oe-jump{margin-bottom:8px;padding:5px 12px;font-size:.84rem}
 }
 @media print{.oe-tog,.oe-swap,.oe-jump{display:none}}
+/* Claims landing: opening words of the intro in red (owner request) */
+:root{--cl-intro-lead:#ff6b6b}
+:root[data-theme="light"]{--cl-intro-lead:#c62828}
+.cl-intro-lead{color:var(--cl-intro-lead)}

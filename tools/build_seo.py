@@ -769,7 +769,7 @@ if CL:
     vdefs = "".join(f"<li>{vchip(v['name'])} {v['meaning']}</li>" for v in CL["verdicts"])
     land = f"""
 <p class="lead">{E(CL['landing']['lead'])}</p>
-<p>{E(CL['landing']['intro'])}</p>
+<p><span class="cl-intro-lead">{E(CL['landing']['intro'].split(':', 1)[0])}:</span>{E(CL['landing']['intro'].split(':', 1)[1])}</p>
 <aside class="cl-disclaimer" role="note" aria-label="About these articles"><p><strong>{E(CL['meta']['landingDisclosure'].split(':', 1)[0])}:</strong>{E(CL['meta']['landingDisclosure'].split(':', 1)[1])}</p></aside>
 <p class="cl-meta small muted">{('First published ' + _long_date(CL['meta']['published']) + ' · ') if CL['meta'].get('published') else ''}Evidence through {_long_date(CL['meta']['evidenceThrough'])} · Last reviewed {_long_date(CL['meta']['lastReviewed'])}</p>
 <div class="grid grid-2 cl-grid">{cards}</div>

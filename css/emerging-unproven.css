@@ -535,3 +535,7 @@ h5.thead{margin:14px 0 4px;font-size:.95rem;font-family:var(--font-display)}
 
 /* Desktop width, Option B: same frame and paragraph cap as the site's wide pages, from 1440px only */
 @media(min-width:1440px){.wrap{max-width:min(1260px,calc(100vw - 160px))}.wrap p{max-width:66ch}}
+/* Opening words of the intro in soft green (owner request) */
+:host{--intro-lead:#8ee0b4}
+:host([data-theme="light"]){--intro-lead:#1f7a52}
+.intro-lead{color:var(--intro-lead)}
