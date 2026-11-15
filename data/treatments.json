@@ -463,6 +463,11 @@
     ],
     "latest": [
       {
+        "date": "2026-11-15",
+        "text": "Trial status change: NCT06623123 is now 'Unknown status'",
+        "url": "https://clinicaltrials.gov/study/NCT06623123"
+      },
+      {
         "date": "2026-09-26",
         "text": "Norwegian uncontrolled study: internet-delivered TRT plus CBT linked to modest tinnitus distress improvement over six months",
         "url": "https://pubmed.ncbi.nlm.nih.gov/42787411/"

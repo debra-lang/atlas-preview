@@ -1,8 +1,486 @@
 {
   "version": 1,
-  "updated": "2026-11-01",
-  "count": 56,
+  "updated": "2026-11-15",
+  "count": 78,
   "items": [
+    {
+      "key": "PMID 43034687",
+      "kind": "study",
+      "title": "Audiological Outcomes, Tinnitus, Quality of Life, and Tumor Size After Stereotactic Radiosurgery for Vestibular Schwannoma: A Prospective Study.",
+      "source": "Cureus",
+      "date": "2026 Oct 15",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43034687/",
+      "tier": 2,
+      "articleTypes": [
+        "Journal Article"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 43020593",
+      "kind": "study",
+      "title": "Otological manifestations of disseminated metastatic breast cancer presenting with facial nerve palsy, tinnitus and otalgia.",
+      "source": "BMJ case reports",
+      "date": "2026 Nov 12",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43020593/",
+      "tier": 2,
+      "articleTypes": [
+        "Journal Article"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 43018965",
+      "kind": "study",
+      "title": "The Tinnitus Integrated Digital Ecosystem Model for Digital Tinnitus Rehabilitation: A Clinical Framework.",
+      "source": "American journal of audiology",
+      "date": "2026 Nov 12",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43018965/",
+      "tier": 2,
+      "articleTypes": [
+        "Journal Article"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 43018463",
+      "kind": "study",
+      "title": "Distinct Response Dynamics to Personalized Sound Therapy in Chronic Tinnitus: Sustained Clinical Benefits and a Critical Treatment Window.",
+      "source": "Ear and hearing",
+      "date": "2026 Nov 12",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43018463/",
+      "tier": 2,
+      "articleTypes": [
+        "Journal Article"
+      ],
+      "treatments": [
+        "sound-therapy"
+      ],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 43014443",
+      "kind": "study",
+      "title": "Bimodal versus unimodal high-definition Transcranial random noise stimulation of auditory cortex for tinnitus: A double-blind, sham-controlled crossover trial.",
+      "source": "Brain stimulation",
+      "date": "2026 Nov 11",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43014443/",
+      "tier": 2,
+      "articleTypes": [
+        "Journal Article"
+      ],
+      "treatments": [
+        "tdcs"
+      ],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 43014072",
+      "kind": "study",
+      "title": "Sleep disturbance and anxiety in female garment workers with tinnitus: An ENT outpatient study.",
+      "source": "American journal of otolaryngology",
+      "date": "2026 Nov 9",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43014072/",
+      "tier": 2,
+      "articleTypes": [
+        "Journal Article"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 43008457",
+      "kind": "study",
+      "title": "Post-trauma acoustic environment and tinnitus susceptibility: Evidence for acoustic enrichment as a treatment strategy.",
+      "source": "Hearing research",
+      "date": "2026 Nov 4",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43008457/",
+      "tier": 2,
+      "articleTypes": [
+        "Journal Article"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 43006214",
+      "kind": "study",
+      "title": "Restoring the future: Integrating hope theory into the assessment and management of tinnitus distress.",
+      "source": "Journal of health psychology",
+      "date": "2026 Nov 10",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43006214/",
+      "tier": 2,
+      "articleTypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 43005821",
+      "kind": "study",
+      "title": "Aberrant internal carotid artery as a pulsatile mass in the posterior pharyngeal wall: a case report.",
+      "source": "International journal of surgery case reports",
+      "date": "2026 Sep 24",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43005821/",
+      "tier": 3,
+      "articleTypes": [
+        "Case Reports",
+        "Journal Article"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 43005404",
+      "kind": "study",
+      "title": "Is routine serum TSH testing useful in the evaluation of primary subjective tinnitus? A case-control study.",
+      "source": "Frontiers in neurology",
+      "date": "2026 Oct 26",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43005404/",
+      "tier": 2,
+      "articleTypes": [
+        "Journal Article"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 42993801",
+      "kind": "study",
+      "title": "Neuromodulatory effects of audio-proprio-phonatory reinforcement training on subjective tinnitus, a HD-EEG study protocol.",
+      "source": "PloS one",
+      "date": "2026 Nov 6",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42993801/",
+      "tier": 2,
+      "articleTypes": [
+        "Clinical Trial Protocol",
+        "Journal Article"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 42993024",
+      "kind": "study",
+      "title": "Hearing Loss, Not Tinnitus, Predicts Cognitive Performance in Hispanic/Latino Adults.",
+      "source": "American journal of audiology",
+      "date": "2026 Nov 6",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42993024/",
+      "tier": 2,
+      "articleTypes": [
+        "Journal Article"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 42979911",
+      "kind": "study",
+      "title": "[Orofacial pain and somatosensory tinnitus: a biomechanical traction approach].",
+      "source": "Nederlands tijdschrift voor tandheelkunde",
+      "date": "2026 Nov 3",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42979911/",
+      "tier": 2,
+      "articleTypes": [
+        "English Abstract",
+        "Journal Article"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 42976031",
+      "kind": "study",
+      "title": "Integrated Otologic and Functional Hearing Profiles in an Academic Adult Population: Hidden-Risk Subgroups, Tinnitus, and Speech in Noise Vulnerability.",
+      "source": "Noise & health",
+      "date": "2026 Oct 31",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42976031/",
+      "tier": 2,
+      "articleTypes": [
+        "Journal Article"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 42976027",
+      "kind": "study",
+      "title": "Occupational Health Outcomes Among Staff Working in Low-, Medium-, and High-Noise Zones of the Central Sterile Supply Department and Operating Room.",
+      "source": "Noise & health",
+      "date": "2026 Oct 31",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42976027/",
+      "tier": 2,
+      "articleTypes": [
+        "Journal Article",
+        "Observational Study"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 42976020",
+      "kind": "study",
+      "title": "Correlation Analysis between the Severity of Tinnitus and Headache and Environmental Noise Exposure Levels in Patients with Chronic Rhinosinusitis.",
+      "source": "Noise & health",
+      "date": "2026 Oct 31",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42976020/",
+      "tier": 2,
+      "articleTypes": [
+        "Journal Article"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 42976014",
+      "kind": "study",
+      "title": "Effects of Earbuds and Headphones on Hearing and Vestibular Outcomes in Adolescents and Young Adults: A Systematic Review and Evidence Synthesis.",
+      "source": "Noise & health",
+      "date": "2026 Oct 31",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42976014/",
+      "tier": 2,
+      "articleTypes": [
+        "Journal Article",
+        "Systematic Review"
+      ],
+      "treatments": [],
+      "highImpact": true,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 42973638",
+      "kind": "study",
+      "title": "Editorial: Tinnitus in relation to auditory processing: unravelling complex relationships.",
+      "source": "Frontiers in neuroscience",
+      "date": "2026 Oct 19",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42973638/",
+      "tier": 2,
+      "articleTypes": [
+        "Editorial"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "PMID 42973397",
+      "kind": "study",
+      "title": "Eustachian Tube Dysfunction and Tinnitus: A Rapid Review of the Potential Complementary Role of Acoustic Immittance.",
+      "source": "The journal of international advanced otology",
+      "date": "2026 Oct 23",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42973397/",
+      "tier": 2,
+      "articleTypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      }
+    },
+    {
+      "key": "NCT07915453",
+      "kind": "trial",
+      "title": "Multimodal MRI Assessment of Brain Fluid Circulation in Idiopathic Intracranial Hypertension",
+      "source": "Beijing Tiantan Hospital",
+      "date": "2026-11-10",
+      "url": "https://clinicaltrials.gov/study/NCT07915453",
+      "tier": 3,
+      "articleTypes": [
+        "Registry record"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      },
+      "status": "NOT_YET_RECRUITING"
+    },
+    {
+      "key": "NCT07777549",
+      "kind": "trial",
+      "title": "A Study of the Safety and Efficacy of TRTL-913 in Healthy Volunteers (Part A) and in Adults With Tinnitus (Part B)",
+      "source": "Tortugas Neuroscience, Inc.",
+      "date": "2026-11-04",
+      "url": "https://clinicaltrials.gov/study/NCT07777549",
+      "tier": 2,
+      "articleTypes": [
+        "Registry record"
+      ],
+      "treatments": [
+        "trtl-913"
+      ],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      },
+      "status": "RECRUITING"
+    },
+    {
+      "key": "NCT04172766",
+      "kind": "trial",
+      "title": "Apple Hearing Study",
+      "source": "Apple Inc.",
+      "date": "2026-11-02",
+      "url": "https://clinicaltrials.gov/study/NCT04172766",
+      "tier": 2,
+      "articleTypes": [
+        "Registry record"
+      ],
+      "treatments": [],
+      "highImpact": false,
+      "listedOn": "2026-11-15",
+      "verification": {
+        "identifierMatchesRecord": true,
+        "titleMatchesRecord": true,
+        "notANotice": true,
+        "checkedOn": "2026-11-15"
+      },
+      "status": "TERMINATED"
+    },
     {
       "key": "PMID 42956687",
       "kind": "study",
@@ -821,7 +1299,7 @@
       "kind": "trial",
       "title": "Mi2000 TICI Follow-up",
       "source": "MED-EL Elektromedizinische Geräte GmbH",
-      "date": "2026-10-28",
+      "date": "2026-11-12",
       "url": "https://clinicaltrials.gov/study/NCT07902414",
       "tier": 3,
       "articleTypes": [
@@ -834,16 +1312,16 @@
         "identifierMatchesRecord": true,
         "titleMatchesRecord": true,
         "notANotice": true,
-        "checkedOn": "2026-11-01"
+        "checkedOn": "2026-11-15"
       },
-      "status": "NOT_YET_RECRUITING"
+      "status": "RECRUITING"
     },
     {
       "key": "NCT07897318",
       "kind": "trial",
       "title": "Mi2000 TICI - Post-market Implantation Study",
       "source": "MED-EL Elektromedizinische Geräte GmbH",
-      "date": "2026-10-27",
+      "date": "2026-11-12",
       "url": "https://clinicaltrials.gov/study/NCT07897318",
       "tier": 3,
       "articleTypes": [
@@ -856,9 +1334,9 @@
         "identifierMatchesRecord": true,
         "titleMatchesRecord": true,
         "notANotice": true,
-        "checkedOn": "2026-11-01"
+        "checkedOn": "2026-11-15"
       },
-      "status": "NOT_YET_RECRUITING"
+      "status": "RECRUITING"
     },
     {
       "key": "NCT07895004",
@@ -887,7 +1365,7 @@
       "kind": "trial",
       "title": "Effect of a Totally Implantable Cochlear Implant on Tinnitus Severity in Adults With Preoperative Tinnitus",
       "source": "Cochlear",
-      "date": "2026-10-26",
+      "date": "2026-11-10",
       "url": "https://clinicaltrials.gov/study/NCT07893860",
       "tier": 2,
       "articleTypes": [
@@ -902,7 +1380,7 @@
         "identifierMatchesRecord": true,
         "titleMatchesRecord": true,
         "notANotice": true,
-        "checkedOn": "2026-11-01"
+        "checkedOn": "2026-11-15"
       },
       "status": "NOT_YET_RECRUITING"
     },
@@ -978,8 +1456,8 @@
       "key": "NCT07877701",
       "kind": "trial",
       "title": "Acute Nicotine Gum and Auditory Brain Responses in Adults With Chronic Tinnitus",
-      "source": "Xianhui Wang",
-      "date": "2026-10-21",
+      "source": "San Diego State University",
+      "date": "2026-11-06",
       "url": "https://clinicaltrials.gov/study/NCT07877701",
       "tier": 2,
       "articleTypes": [
@@ -992,7 +1470,7 @@
         "identifierMatchesRecord": true,
         "titleMatchesRecord": true,
         "notANotice": true,
-        "checkedOn": "2026-11-01"
+        "checkedOn": "2026-11-15"
       },
       "status": "NOT_YET_RECRUITING"
     },
@@ -1179,7 +1657,7 @@
       "kind": "trial",
       "title": "Lemborexant vs Clonidine vs Sedatives to Treat Insomnia in Chronic Pain Patients",
       "source": "Salem Anaesthesia Pain Clinic",
-      "date": "2026-10-28",
+      "date": "2026-11-02",
       "url": "https://clinicaltrials.gov/study/NCT05618002",
       "tier": 2,
       "articleTypes": [
@@ -1192,9 +1670,9 @@
         "identifierMatchesRecord": true,
         "titleMatchesRecord": true,
         "notANotice": true,
-        "checkedOn": "2026-11-01"
+        "checkedOn": "2026-11-15"
       },
-      "status": "ACTIVE_NOT_RECRUITING"
+      "status": "RECRUITING"
     },
     {
       "key": "NCT05245318",

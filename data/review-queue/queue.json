@@ -1,6 +1,1476 @@
 {
-  "lastScan": "2026-11-01",
+  "lastScan": "2026-11-15",
   "items": [
+    {
+      "id": "pubmed-43034687",
+      "kind": "study",
+      "title": "Audiological Outcomes, Tinnitus, Quality of Life, and Tumor Size After Stereotactic Radiosurgery for Vestibular Schwannoma: A Prospective Study.",
+      "source": "Cureus",
+      "date": "2026 Oct 15",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43034687/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 6,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 43034687"
+      }
+    },
+    {
+      "id": "pubmed-43031718",
+      "kind": "study",
+      "title": "Head and neck symptoms during prolonged simulated weightlessness.",
+      "source": "Frontiers in physiology",
+      "date": "2026 Oct 30",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43031718/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 1,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [
+          "adverse events"
+        ],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 1, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-43025907",
+      "kind": "study",
+      "title": "Clinical and Venographic Distinctions Between Extrinsic and Intrinsic Dural Venous Sinus Stenosis: Implications for Venous Stenting.",
+      "source": "AJNR. American journal of neuroradiology",
+      "date": "2026 Nov 13",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43025907/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 1,
+        "tinMesh": false,
+        "tracked": [
+          "sswr",
+          "venous-stenting"
+        ],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 1, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-43020593",
+      "kind": "study",
+      "title": "Otological manifestations of disseminated metastatic breast cancer presenting with facial nerve palsy, tinnitus and otalgia.",
+      "source": "BMJ case reports",
+      "date": "2026 Nov 12",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43020593/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 0,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": false
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 43020593"
+      }
+    },
+    {
+      "id": "pubmed-43018965",
+      "kind": "study",
+      "title": "The Tinnitus Integrated Digital Ecosystem Model for Digital Tinnitus Rehabilitation: A Clinical Framework.",
+      "source": "American journal of audiology",
+      "date": "2026 Nov 12",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43018965/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 6,
+        "tinMesh": false,
+        "tracked": [
+          "cbt",
+          "digital-cbt",
+          "mbct"
+        ],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 43018965"
+      }
+    },
+    {
+      "id": "pubmed-43018463",
+      "kind": "study",
+      "title": "Distinct Response Dynamics to Personalized Sound Therapy in Chronic Tinnitus: Sustained Clinical Benefits and a Critical Treatment Window.",
+      "source": "Ear and hearing",
+      "date": "2026 Nov 12",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43018463/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 9,
+        "tinMesh": false,
+        "tracked": [
+          "cbt-i",
+          "lenire",
+          "sound-therapy"
+        ],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 43018463"
+      }
+    },
+    {
+      "id": "pubmed-43018247",
+      "kind": "study",
+      "title": "Reconsidering the Management of Middle Ear Myoclonus: A Case Series Presentation and Systematic Review of Surgical Outcomes Following Lysis of the Tensor Tympani and Stapedial Tendons.",
+      "source": "Otology & neurotology : official publication of the American Otological Society, American Neurotology Society [and] European Academy of Otology and Neurotology",
+      "date": "2026 Nov 11",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43018247/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 0,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 0, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-43014443",
+      "kind": "study",
+      "title": "Bimodal versus unimodal high-definition Transcranial random noise stimulation of auditory cortex for tinnitus: A double-blind, sham-controlled crossover trial.",
+      "source": "Brain stimulation",
+      "date": "2026 Nov 11",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43014443/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 3,
+        "tinMesh": false,
+        "tracked": [
+          "shore-bimodal",
+          "sound-therapy",
+          "tdcs"
+        ],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 43014443"
+      }
+    },
+    {
+      "id": "pubmed-43014404",
+      "kind": "study",
+      "title": "Bezold Abscess: A Case Report.",
+      "source": "Clinical practice and cases in emergency medicine",
+      "date": "2026 Nov",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43014404/",
+      "pubtypes": [
+        "Case Reports",
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 2,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 2, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-43014072",
+      "kind": "study",
+      "title": "Sleep disturbance and anxiety in female garment workers with tinnitus: An ENT outpatient study.",
+      "source": "American journal of otolaryngology",
+      "date": "2026 Nov 9",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43014072/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 5,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 43014072"
+      }
+    },
+    {
+      "id": "pubmed-43013507",
+      "kind": "study",
+      "title": "Endolymphatic duct blockage versus intratympanic gentamicin for refractory Ménière's disease.",
+      "source": "Acta oto-laryngologica",
+      "date": "2026 Nov 11",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43013507/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 2,
+        "tinMesh": false,
+        "tracked": [
+          "intratympanic"
+        ],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 2, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-43010816",
+      "kind": "study",
+      "title": "[Clinical characteristics and comprehensive management strategies for vestibular migraine and recurrent vertigo of childhood].",
+      "source": "Zhonghua er bi yan hou tou jing wai ke za zhi = Chinese journal of otorhinolaryngology head and neck surgery",
+      "date": "2026 Oct 7",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43010816/",
+      "pubtypes": [
+        "English Abstract",
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 1,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 1, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-43008911",
+      "kind": "study",
+      "title": "Transcriptional dynamics of glutamate excitotoxicity in the mammalian cochlea.",
+      "source": "Brain research",
+      "date": "2026 Nov 10",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43008911/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 1,
+        "tinMesh": false,
+        "tracked": [
+          "regenerative"
+        ],
+        "safety": [],
+        "safetyWeak": [
+          "injury"
+        ],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 1, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-43008526",
+      "kind": "study",
+      "title": "Combining transcranial electrical and magnetic stimulation: a scoping review of neurophysiological and clinical studies.",
+      "source": "Clinical neurophysiology : official journal of the International Federation of Clinical Neurophysiology",
+      "date": "2026 Oct 14",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43008526/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 1,
+        "tinMesh": false,
+        "tracked": [
+          "rtms",
+          "tdcs"
+        ],
+        "safety": [],
+        "safetyWeak": [
+          "stroke"
+        ],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 1, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-43008457",
+      "kind": "study",
+      "title": "Post-trauma acoustic environment and tinnitus susceptibility: Evidence for acoustic enrichment as a treatment strategy.",
+      "source": "Hearing research",
+      "date": "2026 Nov 4",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43008457/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 9,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [
+          "injury"
+        ],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 43008457"
+      }
+    },
+    {
+      "id": "pubmed-43006214",
+      "kind": "study",
+      "title": "Restoring the future: Integrating hope theory into the assessment and management of tinnitus distress.",
+      "source": "Journal of health psychology",
+      "date": "2026 Nov 10",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43006214/",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 7,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 43006214"
+      }
+    },
+    {
+      "id": "pubmed-43005821",
+      "kind": "study",
+      "title": "Aberrant internal carotid artery as a pulsatile mass in the posterior pharyngeal wall: a case report.",
+      "source": "International journal of surgery case reports",
+      "date": "2026 Sep 24",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43005821/",
+      "pubtypes": [
+        "Case Reports",
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 3,
+        "tinMesh": false,
+        "tracked": [
+          "somatic-physio",
+          "sswr",
+          "venous-stenting"
+        ],
+        "safety": [],
+        "safetyWeak": [
+          "fatal",
+          "injury"
+        ],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 43005821"
+      }
+    },
+    {
+      "id": "pubmed-43005404",
+      "kind": "study",
+      "title": "Is routine serum TSH testing useful in the evaluation of primary subjective tinnitus? A case-control study.",
+      "source": "Frontiers in neurology",
+      "date": "2026 Oct 26",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43005404/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 16,
+        "tinMesh": true,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 43005404"
+      }
+    },
+    {
+      "id": "pubmed-43000552",
+      "kind": "study",
+      "title": "Evaluation of the HALP score and CALLY index in patients with sudden sensorineural hearing loss.",
+      "source": "European archives of oto-rhino-laryngology : official journal of the European Federation of Oto-Rhino-Laryngological Societies (EUFOS) : affiliated with the German Society for Oto-Rhino-Laryngology - Head and Neck Surgery",
+      "date": "2026 Nov 8",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43000552/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 1,
+        "tinMesh": false,
+        "tracked": [
+          "intratympanic"
+        ],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 1, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-42996158",
+      "kind": "study",
+      "title": "Development and temporal validation of an explainable machine-learning model for identifying anxiety symptoms in adults with sudden sensorineural hearing loss.",
+      "source": "Frontiers in public health",
+      "date": "2026 Oct 23",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42996158/",
+      "pubtypes": [
+        "Journal Article",
+        "Validation Study"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 1,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [
+          "hospitalized"
+        ],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 1, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-42993801",
+      "kind": "study",
+      "title": "Neuromodulatory effects of audio-proprio-phonatory reinforcement training on subjective tinnitus, a HD-EEG study protocol.",
+      "source": "PloS one",
+      "date": "2026 Nov 6",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42993801/",
+      "pubtypes": [
+        "Clinical Trial Protocol",
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 9,
+        "tinMesh": true,
+        "tracked": [
+          "hearing-aids",
+          "lenire",
+          "somatic-physio",
+          "sound-therapy"
+        ],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 42993801"
+      }
+    },
+    {
+      "id": "pubmed-42993024",
+      "kind": "study",
+      "title": "Hearing Loss, Not Tinnitus, Predicts Cognitive Performance in Hispanic/Latino Adults.",
+      "source": "American journal of audiology",
+      "date": "2026 Nov 6",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42993024/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 8,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 42993024"
+      }
+    },
+    {
+      "id": "pubmed-42992588",
+      "kind": "study",
+      "title": "Early Post-Market Surveillance of Bimodal Neuromodulation for Tinnitus.",
+      "source": "Otolaryngology--head and neck surgery : official journal of American Academy of Otolaryngology-Head and Neck Surgery",
+      "date": "2026 Nov 6",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42992588/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 6,
+        "tinMesh": false,
+        "tracked": [
+          "lenire",
+          "shore-bimodal"
+        ],
+        "safety": [
+          "suicide"
+        ],
+        "safetyWeak": [
+          "death"
+        ],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "topicHold": "lenire-neuromod"
+    },
+    {
+      "id": "pubmed-42985769",
+      "kind": "study",
+      "title": "Efficacy of endoscopic single-session corticosteroid delivery via round window membrane for severe to complete sudden deafness salvage: a prospective cohort study.",
+      "source": "Acta oto-laryngologica",
+      "date": "2026 Nov 5",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42985769/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 2,
+        "tinMesh": false,
+        "tracked": [
+          "off-label-drugs"
+        ],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 2, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-42983479",
+      "kind": "study",
+      "title": "Atypical otosyphilis presenting as chronic suppurative otitis media with isolated conductive hearing loss.",
+      "source": "Journal of medical case reports",
+      "date": "2026 Aug 8",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42983479/",
+      "pubtypes": [
+        "Journal Article",
+        "Case Reports"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 1,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 1, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-42983344",
+      "kind": "study",
+      "title": "Diagnostic experience of tuberculosis otitis media, a rare recognized extrapulmonary tuberculosis.",
+      "source": "BMC infectious diseases",
+      "date": "2026 Aug 8",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42983344/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 1,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 1, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-42982521",
+      "kind": "study",
+      "title": "Study protocol of the SuDHO study: hyperbaric oxygen treatment added to standard care for acute idiopathic sudden sensorineural hearing loss - a multicentre randomised controlled trial.",
+      "source": "BMJ open",
+      "date": "2026 Nov 4",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42982521/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 1,
+        "tinMesh": false,
+        "tracked": [
+          "hbot"
+        ],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 1, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-42981592",
+      "kind": "study",
+      "title": "Prevalence of Depression and Anxiety Symptoms and Associated Factors Among Adults Attending Otolaryngology Clinics in Saudi Arabia.",
+      "source": "International journal of psychiatry in medicine",
+      "date": "2026 Nov 4",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42981592/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 1,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 1, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-42979911",
+      "kind": "study",
+      "title": "[Orofacial pain and somatosensory tinnitus: a biomechanical traction approach].",
+      "source": "Nederlands tijdschrift voor tandheelkunde",
+      "date": "2026 Nov 3",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42979911/",
+      "pubtypes": [
+        "English Abstract",
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 6,
+        "tinMesh": true,
+        "tracked": [
+          "lenire",
+          "somatic-physio",
+          "tavns"
+        ],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 42979911"
+      }
+    },
+    {
+      "id": "pubmed-42979115",
+      "kind": "study",
+      "title": "Bridging mechanistic evidence and clinical perspectives: traditional Chinese medicine in Menière's disease.",
+      "source": "Frontiers in neurology",
+      "date": "2026 Oct 20",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42979115/",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 1,
+        "tinMesh": false,
+        "tracked": [
+          "acupuncture"
+        ],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 1, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-42978578",
+      "kind": "study",
+      "title": "Case Report: Bilateral vestibulopathy associated with leptomeningeal metastasis.",
+      "source": "Frontiers in oncology",
+      "date": "2026 Oct 20",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42978578/",
+      "pubtypes": [
+        "Case Reports",
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 1,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [
+          "died"
+        ],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 1, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-42976031",
+      "kind": "study",
+      "title": "Integrated Otologic and Functional Hearing Profiles in an Academic Adult Population: Hidden-Risk Subgroups, Tinnitus, and Speech in Noise Vulnerability.",
+      "source": "Noise & health",
+      "date": "2026 Oct 31",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42976031/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 6,
+        "tinMesh": true,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 42976031"
+      }
+    },
+    {
+      "id": "pubmed-42976027",
+      "kind": "study",
+      "title": "Occupational Health Outcomes Among Staff Working in Low-, Medium-, and High-Noise Zones of the Central Sterile Supply Department and Operating Room.",
+      "source": "Noise & health",
+      "date": "2026 Oct 31",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42976027/",
+      "pubtypes": [
+        "Journal Article",
+        "Observational Study"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 3,
+        "tinMesh": true,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 42976027"
+      }
+    },
+    {
+      "id": "pubmed-42976020",
+      "kind": "study",
+      "title": "Correlation Analysis between the Severity of Tinnitus and Headache and Environmental Noise Exposure Levels in Patients with Chronic Rhinosinusitis.",
+      "source": "Noise & health",
+      "date": "2026 Oct 31",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42976020/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 6,
+        "tinMesh": true,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 42976020"
+      }
+    },
+    {
+      "id": "pubmed-42976014",
+      "kind": "study",
+      "title": "Effects of Earbuds and Headphones on Hearing and Vestibular Outcomes in Adolescents and Young Adults: A Systematic Review and Evidence Synthesis.",
+      "source": "Noise & health",
+      "date": "2026 Oct 31",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42976014/",
+      "pubtypes": [
+        "Journal Article",
+        "Systematic Review"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 1,
+        "tinMesh": true,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 42976014"
+      }
+    },
+    {
+      "id": "pubmed-42973638",
+      "kind": "study",
+      "title": "Editorial: Tinnitus in relation to auditory processing: unravelling complex relationships.",
+      "source": "Frontiers in neuroscience",
+      "date": "2026 Oct 19",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42973638/",
+      "pubtypes": [
+        "Editorial"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 0,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": false
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 42973638"
+      }
+    },
+    {
+      "id": "pubmed-42973397",
+      "kind": "study",
+      "title": "Eustachian Tube Dysfunction and Tinnitus: A Rapid Review of the Potential Complementary Role of Acoustic Immittance.",
+      "source": "The journal of international advanced otology",
+      "date": "2026 Oct 23",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42973397/",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 7,
+        "tinMesh": true,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "PMID 42973397"
+      }
+    },
+    {
+      "id": "pubmed-42970718",
+      "kind": "study",
+      "title": "Developing a core outcome set for Meniere's disease trials, the COSMED study: results from two separate, two-round Delphi surveys on outcome domains and outcomes.",
+      "source": "Journal of vestibular research : equilibrium & orientation",
+      "date": "2026 Nov 2",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42970718/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 2,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 2, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-42969307",
+      "kind": "study",
+      "title": "Patient-reported experience with intratympanic corticosteroid injections in sudden hearing loss: a single-centre prospective study.",
+      "source": "Acta oto-laryngologica",
+      "date": "2026 Nov 2",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42969307/",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 2,
+        "tinMesh": false,
+        "tracked": [
+          "intratympanic"
+        ],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 2, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "pubmed-42967653",
+      "kind": "study",
+      "title": "[Association of aural symptom burden with anxiety and depression in patients with sudden sensorineural hearing loss].",
+      "source": "Zhonghua yi xue za zhi",
+      "date": "2026 Nov 3",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42967653/",
+      "pubtypes": [
+        "English Abstract",
+        "Journal Article"
+      ],
+      "summary": "New PubMed item — needs evaluation (design, N, outcomes, COI, loudness vs distress).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "triage": {
+        "tinAbs": 1,
+        "tinMesh": false,
+        "tracked": [],
+        "safety": [],
+        "safetyWeak": [],
+        "animalOnly": false,
+        "hasAbstract": true
+      },
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention (abstract mentions: 1, not a MeSH heading, not in the title)"
+      }
+    },
+    {
+      "id": "ctgov-NCT07877701-2026-11-06",
+      "kind": "trial",
+      "title": "Acute Nicotine Gum and Auditory Brain Responses in Adults With Chronic Tinnitus",
+      "source": "San Diego State University",
+      "date": "2026-11-06",
+      "url": "https://clinicaltrials.gov/study/NCT07877701",
+      "summary": "Trial update — status: NOT_YET_RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "NCT07877701"
+      }
+    },
+    {
+      "id": "ctgov-NCT07893860-2026-11-10",
+      "kind": "trial",
+      "title": "Effect of a Totally Implantable Cochlear Implant on Tinnitus Severity in Adults With Preoperative Tinnitus",
+      "source": "Cochlear",
+      "date": "2026-11-10",
+      "url": "https://clinicaltrials.gov/study/NCT07893860",
+      "summary": "Trial update — status: NOT_YET_RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "NCT07893860"
+      }
+    },
+    {
+      "id": "ctgov-NCT04172766-2026-11-02",
+      "kind": "trial",
+      "title": "Apple Hearing Study",
+      "source": "Apple Inc.",
+      "date": "2026-11-02",
+      "url": "https://clinicaltrials.gov/study/NCT04172766",
+      "summary": "Trial update — status: TERMINATED. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "NCT04172766"
+      }
+    },
+    {
+      "id": "ctgov-NCT05618002-2026-11-02",
+      "kind": "trial",
+      "title": "Lemborexant vs Clonidine vs Sedatives to Treat Insomnia in Chronic Pain Patients",
+      "source": "Salem Anaesthesia Pain Clinic",
+      "date": "2026-11-02",
+      "url": "https://clinicaltrials.gov/study/NCT05618002",
+      "summary": "Trial update — status: RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "NCT05618002"
+      }
+    },
+    {
+      "id": "ctgov-NCT05172011-2026-11-12",
+      "kind": "trial",
+      "title": "Understanding the Long-term Impact of COVID on Children and Families",
+      "source": "NYU Langone Health",
+      "date": "2026-11-12",
+      "url": "https://clinicaltrials.gov/study/NCT05172011",
+      "summary": "Trial update — status: ACTIVE_NOT_RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention in the registry record (0 mention(s), not in the title, conditions, keywords or a primary outcome)"
+      }
+    },
+    {
+      "id": "ctgov-NCT07897318-2026-11-12",
+      "kind": "trial",
+      "title": "Mi2000 TICI - Post-market Implantation Study",
+      "source": "MED-EL Elektromedizinische Geräte GmbH",
+      "date": "2026-11-12",
+      "url": "https://clinicaltrials.gov/study/NCT07897318",
+      "summary": "Trial update — status: RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "NCT07897318"
+      }
+    },
+    {
+      "id": "ctgov-NCT06249919-2026-11-02",
+      "kind": "trial",
+      "title": "A Phase 1b/2a, Study Evaluating the Safety, PK/PD and Efficacy of NS101 in Healthy Volunteers and SSNHL Patients",
+      "source": "Neuracle Science Co., LTD.",
+      "date": "2026-11-02",
+      "url": "https://clinicaltrials.gov/study/NCT06249919",
+      "summary": "Trial update — status: COMPLETED. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention in the registry record (2 mention(s), not in the title, conditions, keywords or a primary outcome)"
+      }
+    },
+    {
+      "id": "ctgov-NCT07526285-2026-11-13",
+      "kind": "trial",
+      "title": "Personalized Repetitive Transcranial Magnetic Stimulation (PrTMS) for Treatment of Post-Traumatic Stress Disorder (PTSD)",
+      "source": "Massachusetts General Hospital",
+      "date": "2026-11-13",
+      "url": "https://clinicaltrials.gov/study/NCT07526285",
+      "summary": "Trial update — status: NOT_YET_RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention in the registry record (4 mention(s), not in the title, conditions, keywords or a primary outcome)"
+      }
+    },
+    {
+      "id": "ctgov-NCT07915453-2026-11-10",
+      "kind": "trial",
+      "title": "Multimodal MRI Assessment of Brain Fluid Circulation in Idiopathic Intracranial Hypertension",
+      "source": "Beijing Tiantan Hospital",
+      "date": "2026-11-10",
+      "url": "https://clinicaltrials.gov/study/NCT07915453",
+      "summary": "Trial update — status: NOT_YET_RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "NCT07915453"
+      }
+    },
+    {
+      "id": "ctgov-NCT07224711-2026-11-02",
+      "kind": "trial",
+      "title": "The Impact of Perioperative Lidocaine Infusions on Enhanced Recovery After Non-Cardiac Surgery",
+      "source": "Vanderbilt University Medical Center",
+      "date": "2026-11-02",
+      "url": "https://clinicaltrials.gov/study/NCT07224711",
+      "summary": "Trial update — status: RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention in the registry record (2 mention(s), not in the title, conditions, keywords or a primary outcome)"
+      }
+    },
+    {
+      "id": "ctgov-NCT07658521-2026-11-02",
+      "kind": "trial",
+      "title": "Combined SPSP and TTP Blocks for Postoperative Analgesia Post-CABG",
+      "source": "Ain Shams University",
+      "date": "2026-11-02",
+      "url": "https://clinicaltrials.gov/study/NCT07658521",
+      "summary": "Trial update — status: COMPLETED. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention in the registry record (1 mention(s), not in the title, conditions, keywords or a primary outcome)"
+      }
+    },
+    {
+      "id": "ctgov-NCT07936825-2026-11-13",
+      "kind": "trial",
+      "title": "Intravenous LIGNOcaine for the POstoperative Sore Throat",
+      "source": "University of Malaya",
+      "date": "2026-11-13",
+      "url": "https://clinicaltrials.gov/study/NCT07936825",
+      "summary": "Trial update — status: NOT_YET_RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "screened-out",
+        "reason": "tinnitus is a passing mention in the registry record (1 mention(s), not in the title, conditions, keywords or a primary outcome)"
+      }
+    },
+    {
+      "id": "ctgov-NCT07902414-2026-11-12",
+      "kind": "trial",
+      "title": "Mi2000 TICI Follow-up",
+      "source": "MED-EL Elektromedizinische Geräte GmbH",
+      "date": "2026-11-12",
+      "url": "https://clinicaltrials.gov/study/NCT07902414",
+      "summary": "Trial update — status: RECRUITING. Check what changed (status, results, dates).",
+      "treatment": "",
+      "proposal": "",
+      "why": "",
+      "listed": {
+        "on": "2026-11-15",
+        "outcome": "listed",
+        "key": "NCT07902414"
+      }
+    },
+    {
+      "id": "pagewatch-aao-hnsf-clinical-practice-guideline-tinnitus-2026-11-15",
+      "kind": "news",
+      "title": "Guideline page changed: AAO-HNSF Clinical Practice Guideline: Tinnitus",
+      "source": "Page watcher (content hash)",
+      "date": "2026-11-15",
+      "url": "https://www.entnet.org/quality-practice/quality-products/clinical-practice-guidelines/tinnitus/",
+      "summary": "The watched guideline page's content changed since the last scan. Review what changed — a guideline update is a potentially major evidence event.",
+      "treatment": "",
+      "proposal": "",
+      "why": ""
+    },
     {
       "id": "pubmed-42964830",
       "kind": "study",

@@ -1,19 +1,19 @@
 {
   "schedule": "The 1st and 15th of every month, scheduled for 06:00 America/Los_Angeles (timezone-aware — stays 6 AM Pacific through PST/PDT); GitHub often starts scheduled runs hours late, so a run may begin any time that day, via GitHub Actions (.github/workflows/weekly.yml); local Task Scheduler task disabled",
-  "nextScheduled": "2026-11-15 06:00 America/Los_Angeles",
-  "lastAttempt": "2026-11-01T18:44:42",
+  "nextScheduled": "2026-12-01 06:00 America/Los_Angeles",
+  "lastAttempt": "2026-11-15T19:33:06",
   "sources": [
     {
       "name": "PubMed (title/abstract + MeSH)",
       "checked": true,
-      "count": 59,
+      "count": 61,
       "error": null,
       "lookbackDays": 20
     },
     {
       "name": "ClinicalTrials.gov (condition + full-text)",
       "checked": true,
-      "count": 26,
+      "count": 20,
       "error": null,
       "lookbackDays": 20
     },
@@ -32,7 +32,7 @@
     {
       "name": "News-wire intelligence (labeled, never evidence)",
       "checked": true,
-      "count": 4,
+      "count": 0,
       "error": null
     },
     {
@@ -42,22 +42,22 @@
       "error": null
     }
   ],
-  "examined": 90,
-  "newItems": 49,
+  "examined": 82,
+  "newItems": 55,
   "published": 0,
-  "rejectedDuplicates": 0,
+  "rejectedDuplicates": 1,
   "rejectedIrrelevant": 0,
   "held": 0,
   "publishedUnderEvaluation": 0,
-  "heldAwaitingEvaluation": 120,
-  "trialStatusUpdates": 0,
+  "heldAwaitingEvaluation": 173,
+  "trialStatusUpdates": 1,
   "errors": [],
   "listings": {
-    "superseded": 4,
-    "notice": 1,
-    "screenedOut": 59,
-    "listed": 56,
-    "total": 56
+    "listed": 22,
+    "screenedOut": 26,
+    "ownerHeld": 1,
+    "updated": 5,
+    "total": 78
   },
   "evaluation": {
     "state": "disabled",
@@ -69,15 +69,13 @@
       "spentUSD": 0.0,
       "fraction": 0.0
     },
-    "awaitingEvaluation": 116,
-    "paused": 7
+    "awaitingEvaluation": 162,
+    "paused": 8
   },
-  "retractionFindings": 3,
-  "retractionErrata": 3,
-  "paused": 7,
+  "paused": 8,
   "staged": {
     "pending": 0,
     "new": 0
   },
-  "lastSuccess": "2026-11-01T18:44:42"
+  "lastSuccess": "2026-11-15T19:33:06"
 }

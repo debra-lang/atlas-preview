@@ -2,6 +2,24 @@
   "version": 1,
   "entries": [
     {
+      "date": "2026-11-15",
+      "scanned": 82,
+      "newItems": 55,
+      "listed": 22,
+      "listingsUpdated": 5,
+      "screenedOut": 26,
+      "waitingForVerification": 0,
+      "unverifiable": 0,
+      "failedVerification": 0,
+      "retractionNoticesFound": null,
+      "trialStatusUpdates": 1,
+      "listingsTotal": 78,
+      "aiEvaluation": "disabled",
+      "aiAttempted": 0,
+      "aiUnusable": 0,
+      "estimatedCostUSD": 0.0
+    },
+    {
       "date": "2026-11-01",
       "scanned": 90,
       "newItems": 49,

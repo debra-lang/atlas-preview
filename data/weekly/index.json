@@ -1,6 +1,11 @@
 {
   "reports": [
     {
+      "date": "2026-11-15",
+      "file": "2026-11-15.json",
+      "title": "Automated research scan — 2 update(s)"
+    },
+    {
       "date": "2026-11-01",
       "file": "2026-11-01.json",
       "title": "Automated research scan — 1 update(s)"
