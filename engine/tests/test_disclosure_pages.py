@@ -67,6 +67,8 @@ class TestDisclosureEdits(unittest.TestCase):
             now_t, now_s, _ = approved_changes.revert(json.loads(read("data/treatments.json")), json.loads(read("data/studies.json")), json.loads(read("data/rankings.json")))
             import release_allowlist
             now_t, now_s = release_allowlist.undo("data/treatments.json", now_t), release_allowlist.undo("data/studies.json", now_s)   # Release A
+            import scheduled_changes
+            now_t = scheduled_changes.undo_news(now_t, show("data/treatments.json"))   # news entries the scheduled update adds at the front; nothing else
             for t in now_t:
                 for k in ("loudness", "distress"):
                     if t[k].pop("notMeasured", None) is not None: self.assertEqual(t[k]["level"], "none", t["id"])
@@ -74,6 +76,12 @@ class TestDisclosureEdits(unittest.TestCase):
             self.assertEqual(now_s, show("data/studies.json"), "studies.json differs from the published file only by the approved held-review study records")
             for f in ("data/treatments.json", "data/studies.json"):
                 if f in changed: changed.remove(f)
+        if "data/trials.json" in changed:
+            # the scheduled update rewrites a trial's registry status (allowed display wordings only); any other trial change still fails
+            import scheduled_changes
+            base_trials = json.loads(subprocess.run(["git", "show", f"{BASE}:data/trials.json"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout)
+            self.assertTrue(scheduled_changes.only_status_changed(json.loads(read("data/trials.json")), base_trials), "trials.json differs from the published file only in registry status")
+            changed.remove("data/trials.json")
         self.assertEqual(sorted(changed), sorted({c["file"] for c in log["corrections"]}))
         for f in changed:
             base = json.loads(subprocess.run(["git", "show", f"{BASE}:{f}"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout)

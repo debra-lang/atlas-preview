@@ -224,11 +224,12 @@ class TopicHoldCycleTests(unittest.TestCase):
                           "runs": [{}]})["runs"][0]
         lenire = [i["id"] for i in real_queue() if i.get("kind") == "news" and re.search(r"\blenire\b|\bneuromod\b", i["title"], re.I)]   # every Lenire/Neuromod news item in the live queue, from any feed
         self.assertGreaterEqual(len(lenire), 3)
-        for i in lenire + json.loads((ENGINE / "paused_ids.json").read_text(encoding="utf-8"))["ids"]:
+        marked = [i["id"] for i in real_queue() if i.get("topicHold")]                    # items a hold caught from their record text, e.g. a Lenire study whose title names neither word
+        for i in lenire + marked + json.loads((ENGINE / "paused_ids.json").read_text(encoding="utf-8"))["ids"]:
             self.assertNotIn(i, a["apiCalls"]); self.assertIn(i, a["queue"]); self.assertNotIn(i, a["staged"])
         self.assertNotIn("pubmed-42821511", a["apiCalls"])                                # the erratum never reaches the AI
         paused_ids = json.loads((ENGINE / "paused_ids.json").read_text(encoding="utf-8"))["ids"]
-        self.assertEqual(a["status"]["evaluation"]["paused"], len(set(paused_ids) | set(lenire)))   # the paused guideline records + every Lenire/Neuromod item (one paused id IS a Lenire item)
+        self.assertEqual(a["status"]["evaluation"]["paused"], len(set(paused_ids) | set(lenire) | set(marked)))   # the paused guideline records + every Lenire/Neuromod item + every hold-marked item (one paused id IS a Lenire item)
         self.assertEqual(a["leaks"], [])
         self.assertTrue(a["ratingsUnchanged"] and a["studiesUnchanged"])
 
